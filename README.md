@@ -24,6 +24,16 @@ Rosavim is a Neovim distribution built for developers who want a complete, fast,
 
 Built on top of **Lazy.nvim**, Rosavim loads **90+ plugins** intelligently, keeping startup fast and the experience smooth.
 
+## Documentation
+
+For detailed guides and complete references, check the [docs/manual](docs/manual/) directory:
+
+- **[Keybindings](docs/manual/keybinds.md)** — Complete keybinding reference with usage examples
+- **[Plugins](docs/manual/plugins.md)** — Full plugin catalog with descriptions
+- **[Languages](docs/manual/languages.md)** — Language support details and configuration
+- **[Debugging](docs/manual/debugging.md)** — Debug setup and usage per language
+- **[Customization](docs/manual/customization.md)** — Themes, appearance, and how to extend Rosavim
+
 ## Languages & Frameworks
 
 Rosavim ships with full support (LSP, formatting, linting, testing, and debugging) for the most popular development stacks:
@@ -99,6 +109,12 @@ Rosavim ships with full support (LSP, formatting, linting, testing, and debuggin
 
 > These are just the built-in tools. Rosavim's plugin system is modular — you can easily add, remove, or swap plugins to match your workflow.
 
+## Installation
+
+Rosavim is part of the [**.dotfiles**](https://github.com/pedrorcruzz/.dotfiles) repository. To install it, follow the instructions in the root of the dotfiles repo — it will take care of symlinking Rosavim to `~/.config/nvim` along with the rest of the environment.
+
+> On the first launch, **Lazy.nvim** will automatically install all plugins and **Mason** will install the configured LSP servers, formatters, linters, and debug adapters.
+
 ## Requirements
 
 | Dependency | Version |
@@ -166,16 +182,6 @@ Rosavim ships with full support (LSP, formatting, linting, testing, and debuggin
 | `kj` | Exit Insert Mode |
 
 > Press `<leader>` to open **which-key** and explore all available shortcuts.
-
-## Documentation
-
-For detailed guides and complete references, check the [docs/manual](docs/manual/) directory:
-
-- **[Keybindings](docs/manual/keybinds.md)** — Complete keybinding reference with usage examples
-- **[Plugins](docs/manual/plugins.md)** — Full plugin catalog with descriptions
-- **[Languages](docs/manual/languages.md)** — Language support details and configuration
-- **[Debugging](docs/manual/debugging.md)** — Debug setup and usage per language
-- **[Customization](docs/manual/customization.md)** — Themes, appearance, and how to extend Rosavim
 
 ---
 
