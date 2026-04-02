@@ -15,6 +15,7 @@ vim.opt.rtp:prepend(lazypath)
 
 do
   local original = vim.treesitter.get_node_text
+  ---@diagnostic disable-next-line: duplicate-set-field
   vim.treesitter.get_node_text = function(node, source, opts)
     local ok, result = pcall(original, node, source, opts)
     if ok then
