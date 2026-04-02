@@ -13,6 +13,20 @@ if not vim.uv.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- nvim-treesitter is archived and its query_predicates crash on Neovim 0.12
+-- (nil node:range() in get_node_text during markdown injection parsing).
+-- We patch get_node_text to handle this gracefully before plugins load.
+do
+  local original = vim.treesitter.get_node_text
+  vim.treesitter.get_node_text = function(node, source, opts)
+    local ok, result = pcall(original, node, source, opts)
+    if ok then
+      return result
+    end
+    return ''
+  end
+end
+
 require('lazy').setup({
 
   { import = 'rosavim.plugins.env.lsp' },
