@@ -88,7 +88,7 @@ return {
       { '<leader>3', group = 'Focus Down', icon = '󰛀' },
       { '<leader>4', group = 'Focus Up', icon = '󰛃' },
 
-      { '<leader>R', group = 'Rosavim', icon = '' },
+      { '<leader>R', group = 'Rosavim', icon = '' },
     }
   end,
 

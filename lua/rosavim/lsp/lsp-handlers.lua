@@ -29,7 +29,7 @@ vim.diagnostic.config {
     text = {
       [severity.ERROR] = ' ',
       [severity.WARN] = ' ',
-      [severity.HINT] = ' ',
+      [severity.HINT] = '󱠇 ',
       [severity.INFO] = ' ',
     },
   },
