@@ -40,7 +40,9 @@ return {
       vim.schedule(function()
         local ok, util = pcall(require, 'lazyvim.util')
         if ok then
-          util.info = function(...) end
+          pcall(function()
+            rawset(util, 'info', function(...) end)
+          end)
         end
       end)
     end,
