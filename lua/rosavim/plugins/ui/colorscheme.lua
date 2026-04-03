@@ -25,6 +25,7 @@ vim.keymap.set('n', '<leader>lqt', function()
 end, { desc = 'Toggle Dark/Light' })
 
 vim.keymap.set('n', '<leader>lqs', function()
+  ---@diagnostic disable-next-line: undefined-global
   Snacks.picker.colorschemes()
 end, { desc = 'Search Colorscheme' })
 
