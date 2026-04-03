@@ -13,6 +13,7 @@ return {
         '~/Developer/Projects/Udemy/*',
         '~/Developer/Projects/algorithm-practice*',
         '~/Developer/Business/Seven/*',
+        '~/Developer/Business/Precifica-ai/*',
         '~/Developer/Business/Guru/*',
         '~/Developer/Business/Freelas/*',
         '~/Developer/Cesmac/*',

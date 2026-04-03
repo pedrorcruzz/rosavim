@@ -27,6 +27,7 @@ vim.diagnostic.config {
   virtual_text = { current_line = true },
   signs = {
     text = {
+      -- teste
       [severity.ERROR] = ' ',
       [severity.WARN] = ' ',
       [severity.HINT] = ' ',
