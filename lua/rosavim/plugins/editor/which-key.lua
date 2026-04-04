@@ -54,23 +54,8 @@ return {
 
       { '<leader>lj', group = 'Spell', icon = '󰓆 ' },
 
-      -- Languagens tools
-      { '<leader>k', group = 'Languages Tools', icon = ' ' },
-      { '<leader>kp', group = 'PHP Tools', icon = ' ' },
-      { '<leader>kg', group = 'GO Tools', icon = ' ' },
-      { '<leader>kj', group = 'Javascript Tools', icon = ' ' },
-      { '<leader>ks', group = 'Spring Tools', icon = ' ' },
-
-      { '<leader>kjc', group = 'Codi', icon = ' ' },
-      { '<leader>kgd', group = 'Debug', icon = ' ' },
-      { '<leader>kgt', group = 'Test', icon = '󰙨 ' },
-
-      { '<leader>kl', group = 'Laravel Tools', icon = ' ' },
-      { '<leader>klc', group = 'Composer', icon = ' ' },
-      { '<leader>kln', group = 'Sail', icon = ' ' },
-      { '<leader>kld', group = 'Diagrams', icon = ' ' },
-      { '<leader>klx', group = 'Cache', icon = '󰃨 ' },
-      { '<leader>klh', group = 'IDE Helper', icon = ' ' },
+      -- Rosakit
+      { '<leader>k', group = 'Rosakit', icon = ' ' },
 
       { '<leader>c', group = 'Window', icon = '󰶛' },
       { '<leader>t', group = 'Tabs', icon = '󱦞' },
