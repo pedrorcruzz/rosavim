@@ -7,14 +7,14 @@ return {
     require('which-key').setup {
       preset = 'modern', --classic, modern, helix
       win = {
-        border = 'shadow', -- none, single, double, shadow
+        border = 'single', -- none, single, double, shadow
         -- width = 60,
       },
     }
 
     -- Document existing key chains
     require('which-key').add {
-      { '<leader>', group = ' 󰠥 ROSAVIM' }, --󰧵
+      { '<leader>', group = ' 󰧱 ROSAVIM' }, --󰧵
       { '<leader>e', group = 'File Explorer', icon = '' },
       -- { "<leader>'", group = 'Wrap', icon = '󰭷' },
       { '<leader>ft', group = 'Todo Comments', icon = ' ' },
@@ -55,7 +55,7 @@ return {
       { '<leader>lj', group = 'Spell', icon = '󰓆 ' },
 
       -- Rosakit
-      { '<leader>k', group = 'Rosakit', icon = ' ' },
+      { '<leader>k', group = 'Rosakit', icon = ' ' },
 
       { '<leader>c', group = 'Window', icon = '󰶛' },
       { '<leader>t', group = 'Tabs', icon = '󱦞' },
@@ -72,7 +72,7 @@ return {
       { '<leader>3', group = 'Focus Down', icon = '󰛀' },
       { '<leader>4', group = 'Focus Up', icon = '󰛃' },
 
-      { '<leader>R', group = 'Rosavim', icon = '' },
+      { '<leader>R', group = 'Rosavim', icon = '󰧱' },
     }
   end,
 

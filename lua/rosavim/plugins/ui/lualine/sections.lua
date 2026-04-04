@@ -6,7 +6,7 @@ function M.build(sep)
       {
         'mode',
         fmt = function(mode)
-          return '󰅶 ' .. mode
+          return '󰧱 ' .. mode
         end,
         separator = sep.mode,
         -- separator = { left = '', right = '' },
