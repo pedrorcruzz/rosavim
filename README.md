@@ -30,6 +30,7 @@ Built on top of **Lazy.nvim**, Rosavim loads **79+ plugins** intelligently, keep
 
 For detailed guides and complete references, check the [docs/manual](docs/manual/) directory:
 
+- **[Installation](docs/manual/installation.md)** — Complete installation guide with troubleshooting
 - **[Keybindings](docs/manual/keybinds.md)** — Complete keybinding reference with usage examples
 - **[Plugins](docs/manual/plugins.md)** — Full plugin catalog with descriptions
 - **[Languages](docs/manual/languages.md)** — Language support details and configuration
@@ -119,9 +120,20 @@ Rosavim ships with full support (LSP, formatting, linting, testing, and debuggin
 
 ## Installation
 
-Rosavim is part of the [**.dotfiles**](https://github.com/pedrorcruzz/.dotfiles) repository. To install it, follow the instructions in the root of the dotfiles repo — it will take care of symlinking Rosavim to `~/.config/nvim` along with the rest of the environment.
+```bash
+# Back up your current config (if any)
+mv ~/.config/nvim ~/.config/nvim.bak
 
-> On the first launch, **Lazy.nvim** will automatically install all plugins and **Mason** will install the configured LSP servers, formatters, linters, and debug adapters.
+# Clone Rosavim
+git clone https://github.com/pedrorcruzz/rosavim.git ~/.config/nvim
+
+# Launch Neovim — plugins install automatically
+nvim
+```
+
+On the first launch, **Lazy.nvim** will install all plugins and **Mason** will set up LSP servers, formatters, linters, and debug adapters.
+
+> For a complete step-by-step guide (backup, dependencies, troubleshooting), see the **[Installation Manual](docs/manual/installation.md)**.
 
 ## Requirements
 

@@ -30,6 +30,7 @@ Construída sobre o **Lazy.nvim**, Rosavim carrega mais de **79+ plugins** de fo
 
 Para guias detalhados e referências completas, confira o diretório [docs/manual](docs/manual/):
 
+- **[Instalação](docs/manual/installation.pt-br.md)** — Guia completo de instalação com troubleshooting
 - **[Atalhos](docs/manual/keybinds.pt-br.md)** — Referência completa de atalhos com exemplos de uso
 - **[Plugins](docs/manual/plugins.pt-br.md)** — Catálogo completo de plugins com descrições
 - **[Linguagens](docs/manual/languages.pt-br.md)** — Detalhes de suporte a linguagens e configuração
@@ -119,9 +120,20 @@ Rosavim oferece suporte completo (LSP, formatação, linting, testes e debug) pa
 
 ## Instalação
 
-Rosavim faz parte do repositório [**.dotfiles**](https://github.com/pedrorcruzz/.dotfiles). Para instalá-lo, siga as instruções na raiz do repositório de dotfiles — ele cuidará de fazer o symlink do Rosavim para `~/.config/nvim` junto com o restante do ambiente.
+```bash
+# Faça backup da sua config atual (se houver)
+mv ~/.config/nvim ~/.config/nvim.bak
 
-> Na primeira execução, o **Lazy.nvim** instalará automaticamente todos os plugins e o **Mason** instalará os LSP servers, formatters, linters e adaptadores de debug configurados.
+# Clone o Rosavim
+git clone https://github.com/pedrorcruzz/rosavim.git ~/.config/nvim
+
+# Abra o Neovim — os plugins instalam automaticamente
+nvim
+```
+
+Na primeira execução, o **Lazy.nvim** instalará todos os plugins e o **Mason** configurará os LSP servers, formatters, linters e adaptadores de debug.
+
+> Para um guia completo passo a passo (backup, dependências, troubleshooting), veja o **[Manual de Instalação](docs/manual/installation.pt-br.md)**.
 
 ## Requisitos
 
