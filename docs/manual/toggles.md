@@ -21,7 +21,7 @@ All toggle states are stored in a single cache file at `~/.cache/nvim/rosavim-to
 | `<leader>li` | Indent Guide | Off |
 | `<leader>lk` | Dimming | Off |
 | `<leader>lw` | Word Wrap | Off |
-| `<leader>lqa` | Lualine Theme (Auto/Default) | Default |
+| `<leader>lql` | Lualine Theme (Auto/Default) | Default |
 
 > **Zen Mode** (`<leader>lz`) is intentionally **not** persisted, it resets on each session.
 

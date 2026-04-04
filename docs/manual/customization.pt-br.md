@@ -95,7 +95,7 @@ Rosavim usa **lualine.nvim** com uma configuração customizada mostrando:
 Alterne entre o tema default customizado e o tema `auto` do Lualine (que segue seu colorscheme):
 
 ```
-<leader>lqa → Alternar entre tema Default e Auto
+<leader>lql → Alternar entre tema Default e Auto
 ```
 
 Esta configuração é persistida entre sessões pelo sistema de toggles.
