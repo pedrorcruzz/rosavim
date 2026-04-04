@@ -23,6 +23,12 @@ Todos os estados de toggle são armazenados em um único arquivo de cache em `~/
 | `<leader>lw` | Quebra de Linha | Desativado |
 | `<leader>lql` | Tema do Lualine (Auto/Default) | Default |
 
+### IA (`<leader>ai`)
+
+| Atalho | Toggle | Padrão |
+|:-------|:-------|:-------|
+| `<leader>aii` | Copilot | Desativado |
+
 > **Modo Zen** (`<leader>lz`) intencionalmente **não é** persistido, ele reseta a cada sessão.
 
 ---

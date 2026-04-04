@@ -1,16 +1,14 @@
-local copilot_autotoggle = false
-
 return {
   { -- Copilot
     'zbirenbaum/copilot.lua',
     lazy = true,
-    event = copilot_autotoggle and 'InsertEnter' or nil,
+    event = 'InsertEnter',
     cmd = 'Copilot',
     cond = vim.fn.executable 'node' == 1,
     opts = {
       suggestion = {
         enabled = true,
-        auto_trigger = copilot_autotoggle,
+        auto_trigger = true,
         keymap = {
           accept = '<Tab>',
           next = '<C-l>',
@@ -25,12 +23,31 @@ return {
         ghost_text = false,
       },
     },
+    config = function(_, opts)
+      require('copilot').setup(opts)
+      local toggles = require 'rosavim.config.toggles'
+      if not toggles.get 'copilot' then
+        vim.cmd 'Copilot disable'
+      end
+    end,
     keys = {
-      { '<leader>ia', '<cmd>Copilot auth<cr>', desc = 'Copilot: Auth' },
-      { '<leader>ie', '<cmd>Copilot enable<cr>', desc = 'Copilot: Enable' },
-      { '<leader>id', '<cmd>Copilot disable<cr>', desc = 'Copilot: Disable' },
-      { '<leader>ii', '<cmd>Copilot toggle<cr>', desc = 'Copilot: Toggle' },
-      { '<leader>ip', '<cmd>Copilot panel<cr>', desc = 'Copilot: Panel' },
+      { '<leader>ai', '', desc = '+copilot' },
+      { '<leader>aia', '<cmd>Copilot auth<cr>', desc = 'Copilot: Auth' },
+      {
+        '<leader>aii',
+        function()
+          local toggles = require 'rosavim.config.toggles'
+          local enabled = toggles.toggle 'copilot'
+          if enabled then
+            vim.cmd 'Copilot enable'
+          else
+            vim.cmd 'Copilot disable'
+          end
+          vim.notify('Copilot: ' .. (enabled and 'enabled' or 'disabled'))
+        end,
+        desc = 'Copilot: Toggle',
+      },
+      { '<leader>aip', '<cmd>Copilot panel<cr>', desc = 'Copilot: Panel' },
     },
   },
 

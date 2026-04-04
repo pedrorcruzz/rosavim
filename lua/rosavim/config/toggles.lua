@@ -24,6 +24,7 @@ local defaults = {
   snacks_explorer_focus = false,
   lsp_ref_highlights = true,
   dbout_no_folding = true,
+  copilot = false,
 }
 
 M._state = nil

@@ -270,11 +270,9 @@
 | i | `<C-l>` | Próxima sugestão | `Ctrl+l` para ir para a próxima sugestão do Copilot |
 | i | `<C-h>` | Sugestão anterior | `Ctrl+h` para ir para a sugestão anterior do Copilot |
 | i | `<C-d>` | Dispensar sugestão | `Ctrl+d` para dispensar a sugestão atual do Copilot |
-| n | `<leader>ia` | Auth | `Space i a` para autenticar com o GitHub Copilot |
-| n | `<leader>ie` | Ativar | `Space i e` para ativar o Copilot |
-| n | `<leader>id` | Desativar | `Space i d` para desativar o Copilot |
-| n | `<leader>ii` | Alternar | `Space i i` para alternar Copilot on/off |
-| n | `<leader>ip` | Painel | `Space i p` para abrir o painel de sugestões do Copilot |
+| n | `<leader>aia` | Auth | `Space a i a` para autenticar com o GitHub Copilot |
+| n | `<leader>aii` | Alternar | `Space a i i` para alternar Copilot on/off (persistido) |
+| n | `<leader>aip` | Painel | `Space a i p` para abrir o painel de sugestões do Copilot |
 
 ### Sidekick
 

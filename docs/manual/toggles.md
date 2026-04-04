@@ -23,6 +23,12 @@ All toggle states are stored in a single cache file at `~/.cache/nvim/rosavim-to
 | `<leader>lw` | Word Wrap | Off |
 | `<leader>lql` | Lualine Theme (Auto/Default) | Default |
 
+### AI (`<leader>ai`)
+
+| Shortcut | Toggle | Default |
+|:---------|:-------|:--------|
+| `<leader>aii` | Copilot | Off |
+
 > **Zen Mode** (`<leader>lz`) is intentionally **not** persisted, it resets on each session.
 
 ---

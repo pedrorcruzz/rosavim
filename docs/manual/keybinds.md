@@ -270,11 +270,9 @@
 | i | `<C-l>` | Next suggestion | `Ctrl+l` to cycle to the next Copilot suggestion |
 | i | `<C-h>` | Previous suggestion | `Ctrl+h` to cycle to the previous Copilot suggestion |
 | i | `<C-d>` | Dismiss suggestion | `Ctrl+d` to dismiss the current Copilot suggestion |
-| n | `<leader>ia` | Auth | `Space i a` to authenticate with GitHub Copilot |
-| n | `<leader>ie` | Enable | `Space i e` to enable Copilot |
-| n | `<leader>id` | Disable | `Space i d` to disable Copilot |
-| n | `<leader>ii` | Toggle | `Space i i` to toggle Copilot on/off |
-| n | `<leader>ip` | Panel | `Space i p` to open the Copilot suggestions panel |
+| n | `<leader>aia` | Auth | `Space a i a` to authenticate with GitHub Copilot |
+| n | `<leader>aii` | Toggle | `Space a i i` to toggle Copilot on/off (persisted) |
+| n | `<leader>aip` | Panel | `Space a i p` to open the Copilot suggestions panel |
 
 ### Sidekick
 
