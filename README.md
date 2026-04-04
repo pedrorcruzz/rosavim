@@ -24,7 +24,7 @@
 |:---:|:---:|
 | ![Screenshot 1](assets/screenshots/ex.png) | ![Screenshot 2](assets/screenshots/ex2.png) |
 | ![Screenshot 3](assets/screenshots/ex3.png) | ![Screenshot 4](assets/screenshots/ex4-v2.png) |
-| ![Screenshot 5](assets/screenshots/ex5.png) | ![Screenshot 6](assets/screenshots/ex6.png) |
+| ![Screenshot 5](assets/screenshots/ex5-v2.png) | ![Screenshot 6](assets/screenshots/ex6-v2.png) |
 
 </div>
 
