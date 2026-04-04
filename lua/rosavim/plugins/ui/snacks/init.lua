@@ -101,7 +101,8 @@ return {
         return {
           align = 'center',
           text = {
-            { '⚡ ' .. rosavim.name .. ' loaded ', hl = 'footer' },
+            -- ⚡
+            { '󰧱 ' .. rosavim.name .. ' loaded ', hl = 'footer' },
             { stats.loaded .. '/' .. stats.count, hl = 'special' },
             { ' plugins in ', hl = 'footer' },
             { ms .. 'ms', hl = 'special' },
