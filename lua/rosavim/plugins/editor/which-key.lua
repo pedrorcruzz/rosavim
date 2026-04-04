@@ -53,6 +53,11 @@ return {
       { '<leader>le', group = 'GrugFar', icon = '󰛔' },
 
       { '<leader>lj', group = 'Spell', icon = '󰓆 ' },
+      { '<leader>la', group = 'Autocmd Toggles', icon = '󰒓' },
+      { '<leader>las', group = 'Snacks', icon = '󰡰' },
+      { '<leader>lae', group = 'Editor', icon = '' },
+      { '<leader>lal', group = 'LSP', icon = '' },
+      { '<leader>lad', group = 'DBUI', icon = '󰆼' },
 
       -- Rosakit
       { '<leader>k', group = 'Rosakit', icon = ' ' },
@@ -126,6 +131,86 @@ return {
         vim.cmd 'set spelllang=en'
       end,
       desc = 'Set Spell En Us',
+    },
+
+    -- Autocmd Toggles: Snacks (<leader>las)
+    {
+      '<leader>lase',
+      function()
+        local toggles = require 'rosavim.config.toggles'
+        local new_val = toggles.toggle 'snacks_explorer'
+        vim.notify('Snacks Explorer (startup): ' .. (new_val and 'On' or 'Off'), vim.log.levels.INFO)
+      end,
+      desc = 'Open Explorer on Rosavim startup',
+    },
+    {
+      '<leader>lasf',
+      function()
+        local toggles = require 'rosavim.config.toggles'
+        local new_val = toggles.toggle 'snacks_explorer_focus'
+        vim.notify('Snacks Explorer Focus: ' .. (new_val and 'On' or 'Off'), vim.log.levels.INFO)
+      end,
+      desc = 'Focus Explorer on open (or stay on buffer)',
+    },
+
+    -- Autocmd Toggles: Editor (<leader>lae)
+    {
+      '<leader>laec',
+      function()
+        local toggles = require 'rosavim.config.toggles'
+        local new_val = toggles.toggle 'lastpos'
+        vim.notify('Last Cursor Position: ' .. (new_val and 'On' or 'Off'), vim.log.levels.INFO)
+      end,
+      desc = 'Restore cursor to last position',
+    },
+    {
+      '<leader>laed',
+      function()
+        local toggles = require 'rosavim.config.toggles'
+        local new_val = toggles.toggle 'dotenv_syntax'
+        vim.notify('Dotenv Syntax: ' .. (new_val and 'On' or 'Off'), vim.log.levels.INFO)
+      end,
+      desc = 'Syntax highlight for .env files',
+    },
+    {
+      '<leader>laeo',
+      function()
+        local toggles = require 'rosavim.config.toggles'
+        local new_val = toggles.toggle 'no_auto_comment'
+        vim.notify('No Auto Comment: ' .. (new_val and 'On' or 'Off'), vim.log.levels.INFO)
+      end,
+      desc = 'Block auto comment continuation on new lines',
+    },
+    {
+      '<leader>laes',
+      function()
+        local toggles = require 'rosavim.config.toggles'
+        local new_val = toggles.toggle 'autosave_focuslost'
+        vim.notify('Autosave (FocusLost): ' .. (new_val and 'On' or 'Off'), vim.log.levels.INFO)
+      end,
+      desc = 'Auto save on focus lost / buffer leave',
+    },
+
+    -- Autocmd Toggles: LSP (<leader>lal)
+    {
+      '<leader>lalh',
+      function()
+        local toggles = require 'rosavim.config.toggles'
+        local new_val = toggles.toggle 'lsp_ref_highlights'
+        vim.notify('LSP Reference Highlights: ' .. (new_val and 'On' or 'Off'), vim.log.levels.INFO)
+      end,
+      desc = 'Bold white highlight on LSP references',
+    },
+
+    -- Autocmd Toggles: DBUI (<leader>lad)
+    {
+      '<leader>ladf',
+      function()
+        local toggles = require 'rosavim.config.toggles'
+        local new_val = toggles.toggle 'dbout_no_folding'
+        vim.notify('DBUI No Folding: ' .. (new_val and 'On' or 'Off'), vim.log.levels.INFO)
+      end,
+      desc = 'Auto expand folds in DBUI output',
     },
 
     --Lazy

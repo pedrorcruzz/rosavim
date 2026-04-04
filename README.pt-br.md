@@ -72,6 +72,7 @@ Rosavim oferece suporte completo (LSP, formatação, linting, testes e debug) pa
 - **Treesitter** para syntax highlighting preciso, text objects e contexto de código
 - **Format on Save** automático com conform.nvim
 - **Auto Save** ao perder foco da janela
+- **Toggles Persistentes** — todas as configurações de UI e autocmd são salvas entre sessões com toggle em runtime
 
 ### Navegação & Busca
 

@@ -15,35 +15,37 @@ vim.api.nvim_create_autocmd('VimEnter', {
   end,
 })
 
+local toggles = require 'rosavim.config.toggles'
+
 --last cursor position
-local restore_last_pos = false
-if restore_last_pos then
-  local grp = vim.api.nvim_create_augroup('LastCursorPos', { clear = true })
+local grp_lastpos = vim.api.nvim_create_augroup('LastCursorPos', { clear = true })
 
-  vim.api.nvim_create_autocmd('BufReadPost', {
-    group = grp,
-    callback = function(event)
-      local buf = event.buf
-      local exclude = { 'gitcommit', 'gitrebase' }
+vim.api.nvim_create_autocmd('BufReadPost', {
+  group = grp_lastpos,
+  callback = function(event)
+    if not toggles.get 'lastpos' then
+      return
+    end
 
-      if vim.tbl_contains(exclude, vim.bo[buf].filetype) or vim.b[buf].last_cursor_restored then
-        return
-      end
+    local buf = event.buf
+    local exclude = { 'gitcommit', 'gitrebase' }
 
-      vim.b[buf].last_cursor_restored = true
+    if vim.tbl_contains(exclude, vim.bo[buf].filetype) or vim.b[buf].last_cursor_restored then
+      return
+    end
 
-      local mark = vim.api.nvim_buf_get_mark(buf, '"')
-      local line_count = vim.api.nvim_buf_line_count(buf)
+    vim.b[buf].last_cursor_restored = true
 
-      if mark[1] > 0 and mark[1] <= line_count then
-        pcall(vim.api.nvim_win_set_cursor, 0, mark)
-      end
-    end,
-  })
-end
+    local mark = vim.api.nvim_buf_get_mark(buf, '"')
+    local line_count = vim.api.nvim_buf_line_count(buf)
+
+    if mark[1] > 0 and mark[1] <= line_count then
+      pcall(vim.api.nvim_win_set_cursor, 0, mark)
+    end
+  end,
+})
 
 -- Initialize spell checking on buffer read
-local toggles = require 'rosavim.config.toggles'
 local spell_group = vim.api.nvim_create_augroup('SpellByDefault', { clear = true })
 
 vim.api.nvim_create_autocmd({ 'BufEnter', 'FileType' }, {
@@ -68,47 +70,41 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 -- Syntax highlighting for dotenv files
-local enable_dotenv_syntax = true
+local dotenv_ft = vim.api.nvim_create_augroup('dotenv_ft', { clear = true })
 
-if enable_dotenv_syntax then
-  local dotenv_ft = vim.api.nvim_create_augroup('dotenv_ft', { clear = true })
-
-  vim.api.nvim_create_autocmd('BufRead', {
-    group = dotenv_ft,
-    pattern = { '.env*', '.env' },
-    callback = function()
+vim.api.nvim_create_autocmd('BufRead', {
+  group = dotenv_ft,
+  pattern = { '.env*', '.env' },
+  callback = function()
+    if toggles.get 'dotenv_syntax' then
       vim.bo.filetype = 'dosini'
-    end,
-  })
-end
+    end
+  end,
+})
 
 -- Disable auto comment continuation on new lines
-local disable_auto_comment_continuation = true
+local no_auto_comment = vim.api.nvim_create_augroup('no_auto_comment', { clear = true })
 
-if disable_auto_comment_continuation then
-  local no_auto_comment = vim.api.nvim_create_augroup('no_auto_comment', { clear = true })
-
-  vim.api.nvim_create_autocmd('FileType', {
-    group = no_auto_comment,
-    callback = function()
+vim.api.nvim_create_autocmd('FileType', {
+  group = no_auto_comment,
+  callback = function()
+    if toggles.get 'no_auto_comment' then
       vim.opt_local.formatoptions:remove { 'c', 'r', 'o' }
-    end,
-  })
-end
+    end
+  end,
+})
 
---Auto Save
-local enable_autosave = true
+--Auto Save (FocusLost/BufLeave)
+local autosave_group = vim.api.nvim_create_augroup('kickstart-autosave', { clear = true })
 
-if enable_autosave then
-  local group = vim.api.nvim_create_augroup('kickstart-autosave', { clear = true })
-
-  vim.api.nvim_create_autocmd({ 'FocusLost', 'BufLeave' }, {
-    group = group,
-    callback = function()
+vim.api.nvim_create_autocmd({ 'FocusLost', 'BufLeave' }, {
+  group = autosave_group,
+  callback = function()
+    if toggles.get 'autosave_focuslost' then
       vim.cmd 'silent! update'
-    end,
-  })
-end
+    end
+  end,
+})
 
 -- ToggleTerm
 function _G.set_terminal_keymaps()
@@ -128,137 +124,113 @@ vim.api.nvim_create_autocmd('TermOpen', {
 })
 
 -- Snacks Explorer
-local SNACKS_START_WITH_EXPLORER = false
-local SNACKS_FOCUS_EXPLORER = false
+local function is_opened_with_dot()
+  if vim.fn.argc() == 1 then
+    local arg = vim.fn.argv(0)
+    local arg_path = vim.fn.fnamemodify(arg, ':p'):gsub('/$', '')
+    local cwd = vim.fn.getcwd():gsub('/$', '')
+    return arg == '.' or arg_path == cwd
+  end
+  return false
+end
 
-if SNACKS_START_WITH_EXPLORER then
-  local function is_opened_with_dot()
+local opened_with_dot = is_opened_with_dot()
+
+local function focus_buffer_after_snacks(bufnr)
+  local attempts = 0
+  local function try_focus()
+    if vim.api.nvim_buf_is_valid(bufnr) then
+      local current_buf = vim.api.nvim_get_current_buf()
+      if current_buf ~= bufnr then
+        vim.api.nvim_set_current_buf(bufnr)
+      end
+    end
+    attempts = attempts + 1
+    if attempts < 10 then
+      vim.defer_fn(try_focus, 15)
+    end
+  end
+  try_focus()
+end
+
+vim.api.nvim_create_autocmd('VimEnter', {
+  callback = function()
+    if not toggles.get 'snacks_explorer' then
+      return
+    end
+
+    if opened_with_dot then
+      return
+    end
+
     if vim.fn.argc() == 1 then
       local arg = vim.fn.argv(0)
-      local arg_path = vim.fn.fnamemodify(arg, ':p'):gsub('/$', '')
-      local cwd = vim.fn.getcwd():gsub('/$', '')
-      return arg == '.' or arg_path == cwd
-    end
-    return false
-  end
-
-  local opened_with_dot = is_opened_with_dot()
-
-  local function focus_buffer_after_snacks(bufnr)
-    local attempts = 0
-    local function try_focus()
-      if vim.api.nvim_buf_is_valid(bufnr) then
-        local current_buf = vim.api.nvim_get_current_buf()
-        if current_buf ~= bufnr then
-          vim.api.nvim_set_current_buf(bufnr)
-        end
-      end
-      attempts = attempts + 1
-      if attempts < 10 then
-        vim.defer_fn(try_focus, 15)
-      end
-    end
-    try_focus()
-  end
-
-  vim.api.nvim_create_autocmd('VimEnter', {
-    callback = function()
-      if opened_with_dot then
-        return
-      end
-
-      if vim.fn.argc() == 1 then
-        local arg = vim.fn.argv(0)
-        if vim.fn.isdirectory(arg) == 1 then
-          local ok, snacks = pcall(require, 'snacks')
-          if ok and snacks and snacks.explorer then
-            local bufnr = vim.api.nvim_get_current_buf()
-            snacks.explorer()
-            if not SNACKS_FOCUS_EXPLORER then
-              focus_buffer_after_snacks(bufnr)
-            end
+      if vim.fn.isdirectory(arg) == 1 then
+        local ok, snacks = pcall(require, 'snacks')
+        if ok and snacks and snacks.explorer then
+          local bufnr = vim.api.nvim_get_current_buf()
+          snacks.explorer()
+          if not toggles.get 'snacks_explorer_focus' then
+            focus_buffer_after_snacks(bufnr)
           end
         end
       end
-    end,
-  })
+    end
+  end,
+})
 
-  vim.api.nvim_create_autocmd('BufReadPost', {
-    once = true,
-    callback = function(args)
-      if opened_with_dot then
-        return
+vim.api.nvim_create_autocmd('BufReadPost', {
+  once = true,
+  callback = function(args)
+    if not toggles.get 'snacks_explorer' then
+      return
+    end
+
+    if opened_with_dot then
+      return
+    end
+
+    local bufname = vim.api.nvim_buf_get_name(args.buf)
+    local path = args.file or ''
+
+    if bufname == '' or bufname:match 'snacks_picker_input' or bufname:match 'NvimTree_' or bufname:match '^%[.*%]$' or path:match '/nvim/' then
+      return
+    end
+
+    local ok, snacks = pcall(require, 'snacks')
+    if ok and snacks and snacks.explorer then
+      local bufnr = args.buf
+      snacks.explorer()
+      if not toggles.get 'snacks_explorer_focus' then
+        focus_buffer_after_snacks(bufnr)
       end
-
-      local bufname = vim.api.nvim_buf_get_name(args.buf)
-      local path = args.file or ''
-
-      if bufname == '' or bufname:match 'snacks_picker_input' or bufname:match 'NvimTree_' or bufname:match '^%[.*%]$' or path:match '/nvim/' then
-        return
-      end
-
-      local ok, snacks = pcall(require, 'snacks')
-      if ok and snacks and snacks.explorer then
-        local bufnr = args.buf
-        snacks.explorer()
-        if not SNACKS_FOCUS_EXPLORER then
-          focus_buffer_after_snacks(bufnr)
-        end
-      end
-    end,
-  })
-end
-
--- Relative Number
-local enable_relative_number_toggle = false
-
-if enable_relative_number_toggle then
-  vim.api.nvim_create_augroup('RelativeNumberToggle', { clear = true })
-
-  vim.api.nvim_create_autocmd({ 'InsertLeave', 'BufEnter', 'FocusGained' }, {
-    group = 'RelativeNumberToggle',
-    callback = function()
-      if vim.o.number then
-        vim.wo.relativenumber = true
-      end
-    end,
-  })
-
-  vim.api.nvim_create_autocmd({ 'InsertEnter', 'BufLeave', 'FocusLost' }, {
-    group = 'RelativeNumberToggle',
-    callback = function()
-      vim.wo.relativenumber = false
-    end,
-  })
-end
+    end
+  end,
+})
 
 -- Highlight LSP references
-local enable_custom_reference_highlights = true
+local my_highlights = vim.api.nvim_create_augroup('MyHighlights', { clear = true })
 
-if enable_custom_reference_highlights then
-  local my_highlights = vim.api.nvim_create_augroup('MyHighlights', { clear = true })
-
-  vim.api.nvim_create_autocmd('ColorScheme', {
-    group = my_highlights,
-    pattern = '*',
-    callback = function()
+vim.api.nvim_create_autocmd('ColorScheme', {
+  group = my_highlights,
+  pattern = '*',
+  callback = function()
+    if toggles.get 'lsp_ref_highlights' then
       local highlight_style = { bold = true, bg = 'none', fg = '#FFFFFF' }
 
       vim.api.nvim_set_hl(0, 'LspReferenceRead', highlight_style)
       vim.api.nvim_set_hl(0, 'LspReferenceWrite', highlight_style)
       vim.api.nvim_set_hl(0, 'LspReferenceText', highlight_style)
-    end,
-  })
-end
+    end
+  end,
+})
 
 -- DBUI NO FOLDING
-local enable_dbout_no_folding = true
-
-if enable_dbout_no_folding then
-  vim.api.nvim_create_autocmd('FileType', {
-    pattern = 'dbout',
-    callback = function()
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'dbout',
+  callback = function()
+    if toggles.get 'dbout_no_folding' then
       vim.cmd 'normal! zR'
-    end,
-  })
-end
+    end
+  end,
+})

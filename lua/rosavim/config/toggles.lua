@@ -15,6 +15,15 @@ local defaults = {
   indent = false,
   dim = false,
   wrap = false,
+  -- Autocmd toggles
+  lastpos = false,
+  dotenv_syntax = true,
+  no_auto_comment = true,
+  autosave_focuslost = true,
+  snacks_explorer = false,
+  snacks_explorer_focus = false,
+  lsp_ref_highlights = true,
+  dbout_no_folding = true,
 }
 
 M._state = nil

@@ -1,6 +1,6 @@
 # Toggle Persistence
 
-Rosavim remembers the state of your UI toggles across sessions. When you toggle a feature on or off, it stays that way the next time you open Neovim.
+Rosavim remembers the state of your UI toggles across sessions. When you toggle a feature on or off, it stays that way the next time you open Rosavim.
 
 All toggle states are stored in a single cache file at `~/.cache/nvim/rosavim-toggles`.
 
@@ -27,9 +27,43 @@ All toggle states are stored in a single cache file at `~/.cache/nvim/rosavim-to
 
 ---
 
+## Autocmd Toggles
+
+Autocmd-based features are also persisted and can be toggled at runtime via `<leader>la`.
+
+### Snacks (`<leader>las`)
+
+| Shortcut | Toggle | Default |
+|:---------|:-------|:--------|
+| `<leader>lase` | Open Explorer on Rosavim startup | Off |
+| `<leader>lasf` | Focus Explorer on open (or stay on buffer) | Off |
+
+### Editor (`<leader>lae`)
+
+| Shortcut | Toggle | Default |
+|:---------|:-------|:--------|
+| `<leader>laec` | Restore cursor to last position | Off |
+| `<leader>laed` | Syntax highlight for .env files | On |
+| `<leader>laeo` | Block auto comment continuation on new lines | On |
+| `<leader>laes` | Auto save on focus lost / buffer leave | On |
+
+### LSP (`<leader>lal`)
+
+| Shortcut | Toggle | Default |
+|:---------|:-------|:--------|
+| `<leader>lalh` | Bold white highlight on LSP references | On |
+
+### DBUI (`<leader>lad`)
+
+| Shortcut | Toggle | Default |
+|:---------|:-------|:--------|
+| `<leader>ladf` | Auto expand folds in DBUI output | On |
+
+---
+
 ## How It Works
 
-The persistence module lives at `lua/rosavim/config/toggles.lua`. It reads and writes a JSON file to Neovim's cache directory. Each toggle is saved immediately when changed, and restored automatically on startup.
+The persistence module lives at `lua/rosavim/config/toggles.lua`. It reads and writes a JSON file to Rosavim's cache directory. Each toggle is saved immediately when changed, and restored automatically on startup.
 
 ---
 

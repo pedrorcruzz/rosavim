@@ -1,6 +1,6 @@
 # Persistência de Toggles
 
-Rosavim lembra o estado dos seus toggles de interface entre sessões. Quando você ativa ou desativa uma funcionalidade, ela permanece assim na próxima vez que abrir o Neovim.
+Rosavim lembra o estado dos seus toggles de interface entre sessões. Quando você ativa ou desativa uma funcionalidade, ela permanece assim na próxima vez que abrir o Rosavim.
 
 Todos os estados de toggle são armazenados em um único arquivo de cache em `~/.cache/nvim/rosavim-toggles`.
 
@@ -27,9 +27,43 @@ Todos os estados de toggle são armazenados em um único arquivo de cache em `~/
 
 ---
 
+## Toggles de Autocmd
+
+Funcionalidades baseadas em autocmd também são persistidas e podem ser alternadas em runtime via `<leader>la`.
+
+### Snacks (`<leader>las`)
+
+| Atalho | Toggle | Padrão |
+|:-------|:-------|:-------|
+| `<leader>lase` | Abrir Explorer ao iniciar o Rosavim | Desativado |
+| `<leader>lasf` | Focar no Explorer ao abrir (ou ficar no buffer) | Desativado |
+
+### Editor (`<leader>lae`)
+
+| Atalho | Toggle | Padrão |
+|:-------|:-------|:-------|
+| `<leader>laec` | Restaurar cursor na última posição | Desativado |
+| `<leader>laed` | Syntax highlight para arquivos .env | Ativado |
+| `<leader>laeo` | Bloquear continuação automática de comentário | Ativado |
+| `<leader>laes` | Salvar automático ao sair do foco/buffer | Ativado |
+
+### LSP (`<leader>lal`)
+
+| Atalho | Toggle | Padrão |
+|:-------|:-------|:-------|
+| `<leader>lalh` | Highlight bold branco nas referências LSP | Ativado |
+
+### DBUI (`<leader>lad`)
+
+| Atalho | Toggle | Padrão |
+|:-------|:-------|:-------|
+| `<leader>ladf` | Expandir folds automático no resultado DBUI | Ativado |
+
+---
+
 ## Como Funciona
 
-O módulo de persistência fica em `lua/rosavim/config/toggles.lua`. Ele lê e escreve um arquivo JSON no diretório de cache do Neovim. Cada toggle é salvo imediatamente ao ser alterado e restaurado automaticamente na inicialização.
+O módulo de persistência fica em `lua/rosavim/config/toggles.lua`. Ele lê e escreve um arquivo JSON no diretório de cache do Rosavim. Cada toggle é salvo imediatamente ao ser alterado e restaurado automaticamente na inicialização.
 
 ---
 
