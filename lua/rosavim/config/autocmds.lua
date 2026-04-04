@@ -124,18 +124,6 @@ vim.api.nvim_create_autocmd('TermOpen', {
 })
 
 -- Snacks Explorer
-local function is_opened_with_dot()
-  if vim.fn.argc() == 1 then
-    local arg = vim.fn.argv(0)
-    local arg_path = vim.fn.fnamemodify(arg, ':p'):gsub('/$', '')
-    local cwd = vim.fn.getcwd():gsub('/$', '')
-    return arg == '.' or arg_path == cwd
-  end
-  return false
-end
-
-local opened_with_dot = is_opened_with_dot()
-
 local function focus_buffer_after_snacks(bufnr)
   local attempts = 0
   local function try_focus()
@@ -153,32 +141,35 @@ local function focus_buffer_after_snacks(bufnr)
   try_focus()
 end
 
+local function open_snacks_explorer()
+  local ok, snacks = pcall(require, 'snacks')
+  if not ok or not snacks or not snacks.explorer then
+    return
+  end
+
+  local bufnr = vim.api.nvim_get_current_buf()
+  snacks.explorer()
+  if not toggles.get 'snacks_explorer_focus' then
+    focus_buffer_after_snacks(bufnr)
+  end
+end
+
 vim.api.nvim_create_autocmd('VimEnter', {
   callback = function()
     if not toggles.get 'snacks_explorer' then
       return
     end
 
-    if opened_with_dot then
+    -- Skip when dashboard is shown (no args)
+    if vim.fn.argc() == 0 then
       return
     end
 
-    if vim.fn.argc() == 1 then
-      local arg = vim.fn.argv(0)
-      if vim.fn.isdirectory(arg) == 1 then
-        local ok, snacks = pcall(require, 'snacks')
-        if ok and snacks and snacks.explorer then
-          local bufnr = vim.api.nvim_get_current_buf()
-          snacks.explorer()
-          if not toggles.get 'snacks_explorer_focus' then
-            focus_buffer_after_snacks(bufnr)
-          end
-        end
-      end
-    end
+    open_snacks_explorer()
   end,
 })
 
+-- Open explorer when navigating away from dashboard to a file
 vim.api.nvim_create_autocmd('BufReadPost', {
   once = true,
   callback = function(args)
@@ -186,25 +177,12 @@ vim.api.nvim_create_autocmd('BufReadPost', {
       return
     end
 
-    if opened_with_dot then
-      return
-    end
-
     local bufname = vim.api.nvim_buf_get_name(args.buf)
-    local path = args.file or ''
-
-    if bufname == '' or bufname:match 'snacks_picker_input' or bufname:match 'NvimTree_' or bufname:match '^%[.*%]$' or path:match '/nvim/' then
+    if bufname == '' or bufname:match 'snacks_picker_input' or bufname:match 'NvimTree_' or bufname:match '^%[.*%]$' then
       return
     end
 
-    local ok, snacks = pcall(require, 'snacks')
-    if ok and snacks and snacks.explorer then
-      local bufnr = args.buf
-      snacks.explorer()
-      if not toggles.get 'snacks_explorer_focus' then
-        focus_buffer_after_snacks(bufnr)
-      end
-    end
+    open_snacks_explorer()
   end,
 })
 
