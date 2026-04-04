@@ -141,7 +141,14 @@ local function focus_buffer_after_snacks(bufnr)
   try_focus()
 end
 
+local explorer_auto_opened = false
+
 local function open_snacks_explorer()
+  if explorer_auto_opened then
+    return
+  end
+  explorer_auto_opened = true
+
   local ok, snacks = pcall(require, 'snacks')
   if not ok or not snacks or not snacks.explorer then
     return
