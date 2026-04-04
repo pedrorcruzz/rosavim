@@ -187,7 +187,7 @@
 
 | Modo | Tecla | Ação | Exemplo |
 |:----:|:------|:-----|:--------|
-| n | `<leader>nn` | Rodar teste mais próximo | `Space n n` com cursor dentro de uma função de teste para rodar apenas aquele teste |
+| n | `<leader>nn` | Menu Rosatest | `Space n n` com cursor dentro de uma função de teste para rodar apenas aquele teste |
 | n | `<leader>nf` | Rodar testes do arquivo | `Space n f` para rodar todos os testes do arquivo atual |
 | n | `<leader>nl` | Rodar último teste | `Space n l` para re-executar o último teste executado |
 | n | `<leader>ns` | Parar testes | `Space n s` para parar testes em execução |
@@ -297,10 +297,13 @@
 
 | Modo | Tecla | Ação | Exemplo |
 |:----:|:------|:-----|:--------|
-| n | `<leader>xa` | Novo arquivo (diretório atual) | `Space x a` para criar um arquivo no mesmo diretório do arquivo atual |
-| n | `<leader>xe` | Novo arquivo (qualquer lugar) | `Space x e` para criar um arquivo em qualquer caminho |
-| n | `<leader>xx` | Novo arquivo (raiz do projeto) | `Space x x` para criar um arquivo relativo à raiz do projeto |
+| n | `<leader>xx` | Menu Rosafile | `Space x x` para abrir o popup de operações com arquivos |
+| n | `<leader>xa` | Criar arquivo aqui | `Space x a` para criar um arquivo no diretório atual |
 | n | `<leader>xd` | Deletar arquivo | `Space x d` para deletar o arquivo atual |
+| n | `<leader>xn` | Renomear arquivo | `Space x n` para renomear o arquivo atual |
+| n | `<leader>xc` | Duplicar arquivo | `Space x c` para duplicar o arquivo atual |
+| n | `<leader>xi` | Info do arquivo | `Space x i` para ver informações do arquivo atual |
+| n | `<leader>xr` | Criar da raiz | `Space x r` para criar um arquivo a partir da raiz do projeto |
 
 ---
 

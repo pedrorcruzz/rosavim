@@ -24,7 +24,7 @@ Rosavim provides a complete development environment for many languages out of th
 | **LSP** | [vtsls](https://github.com/yioneko/vtsls) — TypeScript/JavaScript language server |
 | **Formatter** | Biome (primary), Prettier (fallback) |
 | **Linter** | Biome, eslint_d |
-| **Tests** | Jest (via neotest-jest), Vitest (via neotest-vitest) |
+| **Tests** | Jest, Vitest (via Rosatest) |
 | **Features** | Auto-close/rename JSX tags, Emmet support, Tailwind CSS intellisense |
 
 **File types:** `.js`, `.jsx`, `.ts`, `.tsx`, `.mjs`, `.cjs`
@@ -42,7 +42,7 @@ Rosavim provides a complete development environment for many languages out of th
 | **LSP** | [gopls](https://pkg.go.dev/golang.org/x/tools/gopls) — official Go language server |
 | **Formatter** | goimports (organizes imports + formats) |
 | **Linter** | golangci-lint |
-| **Tests** | gotestsum (via neotest-golang) |
+| **Tests** | gotestsum (via Rosatest) |
 | **Debug** | Delve (via nvim-dap-go) |
 
 **File types:** `.go`, `go.mod`, `go.work`, `go.sum`
@@ -65,7 +65,7 @@ Rosavim provides a complete development environment for many languages out of th
 | **LSP** | [Pyright](https://github.com/microsoft/pyright) — fast type checker and language server |
 | **Formatter** | autopep8 |
 | **Linter** | Mypy (type checking), Pylint (code analysis) |
-| **Tests** | pytest (via neotest-python) |
+| **Tests** | pytest (via Rosatest) |
 | **Debug** | debugpy (via nvim-dap-python) |
 
 **File types:** `.py`, `.pyi`
@@ -89,7 +89,7 @@ Rosavim provides a complete development environment for many languages out of th
 | **LSP** | [JDTLS](https://github.com/eclipse-jdtls/eclipse.jdt.ls) (Eclipse JDT Language Server) via nvim-jdtls |
 | **Formatter** | google-java-format |
 | **Linter** | Checkstyle |
-| **Tests** | Gradle (via neotest-java) |
+| **Tests** | Gradle (via Rosatest) |
 | **Debug** | Remote attach via DAP |
 
 **File types:** `.java`
@@ -111,7 +111,7 @@ Rosavim provides a complete development environment for many languages out of th
 | **LSP** | [Intelephense](https://intelephense.com/) — premium PHP language server |
 | **Formatter** | php-cs-fixer |
 | **Linter** | phpcs |
-| **Tests** | Pest (via neotest-pest) |
+| **Tests** | Pest (via Rosatest) |
 | **Debug** | Xdebug |
 
 **File types:** `.php`, `.blade.php`

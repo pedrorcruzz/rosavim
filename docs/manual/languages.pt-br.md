@@ -24,7 +24,7 @@ Rosavim fornece um ambiente de desenvolvimento completo para muitas linguagens p
 | **LSP** | [vtsls](https://github.com/yioneko/vtsls) — Language server para TypeScript/JavaScript |
 | **Formatter** | Biome (primário), Prettier (fallback) |
 | **Linter** | Biome, eslint_d |
-| **Testes** | Jest (via neotest-jest), Vitest (via neotest-vitest) |
+| **Testes** | Jest, Vitest (via Rosatest) |
 | **Recursos** | Auto-fechar/renomear tags JSX, suporte Emmet, intellisense Tailwind CSS |
 
 **Tipos de arquivo:** `.js`, `.jsx`, `.ts`, `.tsx`, `.mjs`, `.cjs`
@@ -42,7 +42,7 @@ Rosavim fornece um ambiente de desenvolvimento completo para muitas linguagens p
 | **LSP** | [gopls](https://pkg.go.dev/golang.org/x/tools/gopls) — Language server oficial do Go |
 | **Formatter** | goimports (organiza imports + formata) |
 | **Linter** | golangci-lint |
-| **Testes** | gotestsum (via neotest-golang) |
+| **Testes** | gotestsum (via Rosatest) |
 | **Debug** | Delve (via nvim-dap-go) |
 
 **Tipos de arquivo:** `.go`, `go.mod`, `go.work`, `go.sum`
@@ -65,7 +65,7 @@ Rosavim fornece um ambiente de desenvolvimento completo para muitas linguagens p
 | **LSP** | [Pyright](https://github.com/microsoft/pyright) — Type checker e language server rápido |
 | **Formatter** | autopep8 |
 | **Linter** | Mypy (verificação de tipos), Pylint (análise de código) |
-| **Testes** | pytest (via neotest-python) |
+| **Testes** | pytest (via Rosatest) |
 | **Debug** | debugpy (via nvim-dap-python) |
 
 **Tipos de arquivo:** `.py`, `.pyi`
@@ -89,7 +89,7 @@ Rosavim fornece um ambiente de desenvolvimento completo para muitas linguagens p
 | **LSP** | [JDTLS](https://github.com/eclipse-jdtls/eclipse.jdt.ls) (Eclipse JDT Language Server) via nvim-jdtls |
 | **Formatter** | google-java-format |
 | **Linter** | Checkstyle |
-| **Testes** | Gradle (via neotest-java) |
+| **Testes** | Gradle (via Rosatest) |
 | **Debug** | Remote attach via DAP |
 
 **Tipos de arquivo:** `.java`
@@ -111,7 +111,7 @@ Rosavim fornece um ambiente de desenvolvimento completo para muitas linguagens p
 | **LSP** | [Intelephense](https://intelephense.com/) — Language server PHP premium |
 | **Formatter** | php-cs-fixer |
 | **Linter** | phpcs |
-| **Testes** | Pest (via neotest-pest) |
+| **Testes** | Pest (via Rosatest) |
 | **Debug** | Xdebug |
 
 **Tipos de arquivo:** `.php`, `.blade.php`

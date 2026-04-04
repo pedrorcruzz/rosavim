@@ -40,7 +40,7 @@ return {
     files = {
       enabled = true,
       dir = ' ',
-      dir_open = ' ',
+      dir_open = '󰝰 ',
       file = ' ',
       test_dir = ' ',
     },

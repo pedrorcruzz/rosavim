@@ -82,8 +82,7 @@ Rosavim oferece suporte completo (LSP, formatação, linting, testes e debug) pa
 ### Debug & Testes
 
 - **DAP** (Debug Adapter Protocol) com UI visual, breakpoints e inspeção de variáveis inline
-- **Neotest** como framework unificado de testes — rode, assista e inspecione testes sem sair do editor
-- Adaptadores dedicados para Go, Python, JavaScript, Java e PHP
+- **Rosatest** — test runner nativo do Rosavim com popup de resultados, roda testes nearest/file/all e picker de arquivos de teste. Suporte para Go, Jest, Vitest, Pytest, Pest, PHPUnit e Java
 
 ### IA
 
@@ -99,6 +98,10 @@ Rosavim oferece suporte completo (LSP, formatação, linting, testes e debug) pa
 - **Lualine** com statusline informativa (modo, git, LSP, Copilot)
 - **Dropbar** com breadcrumbs de navegação
 - **Noice.nvim** para mensagens e command line modernos
+
+### Gerenciamento de Arquivos
+
+- **Rosafile** — menu nativo de operações com arquivos (`<leader>x`). Crie, renomeie, duplique, delete arquivos e veja informações — tudo via popup
 
 ### Ferramentas Extras
 
@@ -152,10 +155,13 @@ Rosavim faz parte do repositório [**.dotfiles**](https://github.com/pedrorcruzz
 │       ├── env/                      # LSP, Mason, Treesitter, DAP, Lint, Format
 │       ├── ai/                       # Copilot, Sidekick
 │       ├── ui/                       # Temas, statusline, dashboard
-│       ├── editor/                   # Terminal, file management, navegação
+│       ├── editor/                   # Terminal, navegação, Rosafile
 │       ├── coding/                   # Surround, multi-cursor, refactoring
 │       ├── language/                 # Suporte específico (Laravel, Java, etc.)
-│       └── test/                     # Neotest e adaptadores
+│       └── test/                     # Rosatest
+│   └── rosa_plugins/
+│       ├── rosatest/                 # Test runner nativo (Go, Jest, Vitest, Pytest, Pest, Java)
+│       └── rosafile/                 # Operações de arquivos (criar, renomear, duplicar, deletar)
 ├── lsp/                              # Configurações individuais de LSP
 └── assets/                           # Logo e recursos visuais
 ```
@@ -172,8 +178,9 @@ Rosavim faz parte do repositório [**.dotfiles**](https://github.com/pedrorcruzz
 | `<leader><space>` | Buscar Arquivos |
 | `<leader>sg` | Grep ao Vivo |
 | `<leader>lf` | Formatar Arquivo |
-| `<leader>nn` | Rodar Teste Mais Próximo |
+| `<leader>nn` | Menu Rosatest |
 | `<leader>nf` | Rodar Testes do Arquivo |
+| `<leader>xx` | Menu Rosafile |
 | `<leader>ds` | Iniciar/Continuar Debug |
 | `<leader>db` | Toggle Breakpoint |
 | `<leader>gt` | Git Blame da Linha |

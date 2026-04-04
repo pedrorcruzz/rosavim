@@ -29,7 +29,6 @@ Rosavim ships with **90+ plugins**, all managed by [Lazy.nvim](https://github.co
 | [lazy.nvim](https://github.com/folke/lazy.nvim) | Plugin manager — handles installation, updates, and lazy-loading |
 | [plenary.nvim](https://github.com/nvim-lua/plenary.nvim) | Lua utility library used by many plugins |
 | [nui.nvim](https://github.com/MunifTanjim/nui.nvim) | UI component library for plugin developers |
-| [nvim-nio](https://github.com/nvim-neotest/nvim-nio) | Async I/O library for Neovim |
 | [FixCursorHold.nvim](https://github.com/antoinemadec/FixCursorHold.nvim) | Fixes CursorHold performance issues |
 
 ---
@@ -90,13 +89,8 @@ Rosavim ships with **90+ plugins**, all managed by [Lazy.nvim](https://github.co
 
 | Plugin | Description |
 |:-------|:------------|
-| [neotest](https://github.com/nvim-neotest/neotest) | Unified test runner framework |
-| [neotest-golang](https://github.com/fredrikaverpil/neotest-golang) | Go test adapter |
-| [neotest-jest](https://github.com/nvim-neotest/neotest-jest) | Jest test adapter |
-| [neotest-vitest](https://github.com/marilari88/neotest-vitest) | Vitest test adapter |
-| [neotest-python](https://github.com/nvim-neotest/neotest-python) | Python (pytest) test adapter |
-| [neotest-pest](https://github.com/V13Axel/neotest-pest) | PHP Pest test adapter |
-| [neotest-java](https://github.com/rcasia/neotest-java) | Java test adapter |
+| Rosatest | Built-in test runner with popup UI (Go, Jest, Vitest, Pytest, Pest, PHPUnit, Java) |
+| Rosafile | Built-in file operations menu (create, rename, duplicate, delete, info) |
 
 ---
 

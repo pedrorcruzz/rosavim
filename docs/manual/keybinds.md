@@ -187,7 +187,7 @@
 
 | Mode | Key | Action | Example |
 |:----:|:----|:-------|:--------|
-| n | `<leader>nn` | Run nearest test | `Space n n` with cursor inside a test function to run just that test |
+| n | `<leader>nn` | Rosatest menu | `Space n n` with cursor inside a test function to run just that test |
 | n | `<leader>nf` | Run file tests | `Space n f` to run all tests in the current file |
 | n | `<leader>nl` | Run last test | `Space n l` to re-run the last executed test |
 | n | `<leader>ns` | Stop tests | `Space n s` to stop currently running tests |
@@ -297,10 +297,13 @@
 
 | Mode | Key | Action | Example |
 |:----:|:----|:-------|:--------|
-| n | `<leader>xa` | New file (current dir) | `Space x a` to create a file in the same directory as the current file |
-| n | `<leader>xe` | New file (anywhere) | `Space x e` to create a file at any path |
-| n | `<leader>xx` | New file (project root) | `Space x x` to create a file relative to the project root |
+| n | `<leader>xx` | Rosafile menu | `Space x x` to open the file operations popup |
+| n | `<leader>xa` | Create file here | `Space x a` to create a file in the current directory |
 | n | `<leader>xd` | Delete file | `Space x d` to delete the current file |
+| n | `<leader>xn` | Rename file | `Space x n` to rename the current file |
+| n | `<leader>xc` | Duplicate file | `Space x c` to duplicate the current file |
+| n | `<leader>xi` | File info | `Space x i` to show current file information |
+| n | `<leader>xr` | Create from root | `Space x r` to create a file from project root |
 
 ---
 

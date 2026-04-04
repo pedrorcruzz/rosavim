@@ -29,7 +29,6 @@ Rosavim vem com **90+ plugins**, todos gerenciados pelo [Lazy.nvim](https://gith
 | [lazy.nvim](https://github.com/folke/lazy.nvim) | Gerenciador de plugins — cuida da instalação, atualizações e lazy-loading |
 | [plenary.nvim](https://github.com/nvim-lua/plenary.nvim) | Biblioteca utilitária Lua usada por muitos plugins |
 | [nui.nvim](https://github.com/MunifTanjim/nui.nvim) | Biblioteca de componentes de UI para desenvolvedores de plugins |
-| [nvim-nio](https://github.com/nvim-neotest/nvim-nio) | Biblioteca de I/O assíncrono para Neovim |
 | [FixCursorHold.nvim](https://github.com/antoinemadec/FixCursorHold.nvim) | Corrige problemas de performance do CursorHold |
 
 ---
@@ -90,13 +89,8 @@ Rosavim vem com **90+ plugins**, todos gerenciados pelo [Lazy.nvim](https://gith
 
 | Plugin | Descrição |
 |:-------|:----------|
-| [neotest](https://github.com/nvim-neotest/neotest) | Framework unificado de execução de testes |
-| [neotest-golang](https://github.com/fredrikaverpil/neotest-golang) | Adaptador de testes Go |
-| [neotest-jest](https://github.com/nvim-neotest/neotest-jest) | Adaptador de testes Jest |
-| [neotest-vitest](https://github.com/marilari88/neotest-vitest) | Adaptador de testes Vitest |
-| [neotest-python](https://github.com/nvim-neotest/neotest-python) | Adaptador de testes Python (pytest) |
-| [neotest-pest](https://github.com/V13Axel/neotest-pest) | Adaptador de testes PHP Pest |
-| [neotest-java](https://github.com/rcasia/neotest-java) | Adaptador de testes Java |
+| Rosatest | Test runner nativo com popup UI (Go, Jest, Vitest, Pytest, Pest, PHPUnit, Java) |
+| Rosafile | Menu nativo de operações com arquivos (criar, renomear, duplicar, deletar, info) |
 
 ---
 

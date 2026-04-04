@@ -23,13 +23,12 @@ return {
       { '<leader>j', group = 'Windows', icon = '' },
       { '<leader>v', group = 'DBUI', icon = '' },
       { '<leader>b', group = 'BufferLine', icon = '' },
-      { '<leader>x', group = 'File Tools', icon = '' },
+      { '<leader>x', group = 'Rosafile', icon = '' },
 
-      { '<leader>n', group = 'Neotest', icon = '󰙨' },
-      { '<leader>ng', group = 'Go Test', icon = '' },
+      { '<leader>n', group = 'Rosatest', icon = '󰙨' },
 
       { '<leader>y', group = 'Yazi', icon = '' },
-      { '<leader>;', group = 'Home', icon = '' },
+      { '<leader>;', group = 'Dashboard', icon = '󰕮' },
       { '<leader>w', group = 'Save', icon = '' },
       { '<leader>W', group = 'Save Without Formatter', icon = '' },
       { '<leader>J', group = 'Previous Buffer', icon = '󰙣' },
@@ -210,135 +209,5 @@ return {
       desc = 'Resize Down 2/3',
     },
     { '<leader>cr', '<cmd>resize | vertical resize | wincmd =<cr>', desc = 'Reset Window Sizes' },
-
-    -- Delete and Create Files
-    {
-      '<leader>xa',
-      function()
-        local new_file_path = vim.fn.input('Create New File: ', vim.fn.expand '%:p:h' .. '/', 'file')
-        if new_file_path ~= '' then
-          local dir = vim.fn.fnamemodify(new_file_path, ':p:h')
-          vim.fn.mkdir(dir, 'p')
-          if vim.fn.filereadable(new_file_path) == 0 then
-            vim.fn.writefile({}, new_file_path)
-          end
-          vim.cmd('edit ' .. new_file_path)
-        end
-      end,
-      desc = 'New File: Create in Current Directory',
-    },
-
-    {
-      '<leader>xe',
-      function()
-        local new_file_path = vim.fn.input('Enter File Path: ', '', 'file')
-        if new_file_path ~= '' then
-          local dir = vim.fn.fnamemodify(new_file_path, ':p:h')
-          vim.fn.mkdir(dir, 'p')
-          if vim.fn.filereadable(new_file_path) == 0 then
-            vim.fn.writefile({}, new_file_path)
-          end
-          vim.cmd('edit ' .. new_file_path)
-        end
-      end,
-      desc = 'New File: Create Anywhere',
-    },
-
-    {
-      '<leader>xx',
-      function()
-        local project_root = vim.fn.getcwd() .. '/'
-        local new_file_path = vim.fn.input('Create File at Project Root: ', project_root, 'file')
-        if new_file_path ~= '' then
-          local dir = vim.fn.fnamemodify(new_file_path, ':p:h')
-          vim.fn.mkdir(dir, 'p')
-          if vim.fn.filereadable(new_file_path) == 0 then
-            vim.fn.writefile({}, new_file_path)
-          end
-          vim.cmd('edit ' .. new_file_path)
-        end
-      end,
-      desc = 'New File: Create from Project Root',
-    },
-
-    {
-      '<leader>xd',
-      function()
-        local refresh_snacks_explorer = true
-
-        local file_name = vim.api.nvim_buf_get_name(0)
-        if file_name == '' then
-          vim.notify('No file to delete', vim.log.levels.WARN)
-          return
-        end
-
-        if vim.fn.confirm('Are you sure you want to delete this file?', '&Yes\n&No', 2) == 1 then
-          local dir = vim.fs.dirname(file_name)
-          local current_bufnr = vim.api.nvim_get_current_buf()
-          local current_win = vim.api.nvim_get_current_win()
-
-          -- Get all windows and their buffers
-          local buffers_in_windows = {}
-          for _, win in ipairs(vim.api.nvim_list_wins()) do
-            buffers_in_windows[vim.api.nvim_win_get_buf(win)] = true
-          end
-
-          -- Check if there are multiple windows (splits)
-
-          -- Get alternative buffer (previous buffer)
-          local alt_bufnr = vim.fn.bufnr '#'
-          local alt_buf_is_valid = alt_bufnr > 0 and vim.api.nvim_buf_is_valid(alt_bufnr) and vim.bo[alt_bufnr].buflisted and alt_bufnr ~= current_bufnr
-
-          -- Check if alternative buffer is already open in another window
-          local alt_buf_in_other_window = alt_buf_is_valid and buffers_in_windows[alt_bufnr] and current_win ~= vim.fn.bufwinid(alt_bufnr)
-
-          -- If we have multiple windows and the previous buffer is already in another split,
-          -- just close the current window (which closes the split)
-          if alt_buf_in_other_window then
-            -- Close the window (split), then close the buffer
-            vim.api.nvim_win_close(current_win, true)
-            vim.cmd('bdelete! ' .. current_bufnr)
-          else
-            -- Otherwise, navigate to previous buffer if available
-            local buffers = vim.tbl_filter(function(b)
-              return vim.api.nvim_buf_is_valid(b) and vim.bo[b].buflisted and b ~= current_bufnr
-            end, vim.api.nvim_list_bufs())
-
-            if #buffers > 0 then
-              vim.cmd 'bprevious'
-            end
-
-            -- Close the buffer of the file being deleted
-            vim.cmd('bdelete! ' .. current_bufnr)
-          end
-
-          -- Delete the file
-          local ok, err = pcall(vim.fn.delete, file_name)
-          if not ok then
-            vim.notify('Failed to delete file: ' .. (err or 'unknown error'), vim.log.levels.ERROR)
-            return
-          end
-
-          -- Refresh snacks explorer if enabled and available
-          if refresh_snacks_explorer then
-            vim.defer_fn(function()
-              local snacks_ok, snacks = pcall(require, 'snacks')
-              if snacks_ok and snacks then
-                -- Try to refresh the tree using Tree:refresh
-                local tree_ok, tree_module = pcall(function()
-                  return require 'snacks.tree'
-                end)
-                if tree_ok and tree_module and type(tree_module.refresh) == 'function' then
-                  tree_module.refresh(dir)
-                end
-              end
-            end, 50)
-          end
-
-          vim.notify('File deleted: ' .. vim.fn.fnamemodify(file_name, ':t'), vim.log.levels.INFO)
-        end
-      end,
-      desc = 'Delete File',
-    },
   },
 }
