@@ -52,11 +52,7 @@ vim.g.have_nerd_font = true
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
--- Make line numbers default
-vim.opt.number = true
--- You can also add relative line numbers, to help with jumping.
---  Experiment for yourself to see if you like it!
-vim.opt.relativenumber = true
+-- Line numbers are set via toggles persistence (end of file)
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -74,7 +70,7 @@ vim.opt.clipboard = 'unnamedplus'
 vim.opt.breakindent = true
 
 -- Enable line wrap
--- vim.opt.wrap = true
+-- Wrap is set via toggles persistence (end of file)
 -- Set the line wrap to be at 100 characters
 vim.opt.textwidth = 100
 vim.opt.formatoptions:append 't'
@@ -119,4 +115,9 @@ vim.opt.scrolloff = 10
 -- Status line
 vim.o.laststatus = 3 -- or 3,  if u want global bar even hidden or 0 if u want to disable it
 
-vim.opt.spell = false
+local toggles = require 'rosavim.config.toggles'
+vim.opt.spell = toggles.get 'spell'
+vim.opt.spelllang = toggles.get 'spelllang'
+vim.opt.wrap = toggles.get 'wrap'
+vim.opt.relativenumber = toggles.get 'relativenumber'
+vim.opt.number = toggles.get 'linenumber'

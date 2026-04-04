@@ -92,17 +92,25 @@ return {
   {
     'nvim-treesitter/nvim-treesitter-context',
     cmd = 'TSContextToggle',
+    event = require('rosavim.config.toggles').get 'tscontext' and { 'BufReadPost', 'BufNewFile' } or nil,
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
     config = function()
+      local toggles = require 'rosavim.config.toggles'
       local context = require 'treesitter-context'
 
       context.setup {
-        enable = false,
+        enable = toggles.get 'tscontext',
         max_lines = 0,
       }
 
       vim.api.nvim_create_user_command('TSContextToggle', function()
+        local new_val = toggles.toggle 'tscontext'
         context.toggle()
+        if new_val then
+          vim.notify('TSContext: On', vim.log.levels.INFO)
+        else
+          vim.notify('TSContext: Off', vim.log.levels.INFO)
+        end
       end, { desc = 'Toggle Treesitter Context' })
     end,
   },

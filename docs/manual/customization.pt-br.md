@@ -68,6 +68,8 @@ Quando ativado, Rosavim remove a cor de fundo dos grupos Normal, NormalFloat e o
 
 Esta configuração também é salva em cache entre sessões.
 
+> Rosavim também persiste toggles de interface (statusline, indentação, spell, etc.) entre sessões. Veja o guia de **[Toggles](toggles.pt-br.md)** para detalhes.
+
 ---
 
 ## Statusline

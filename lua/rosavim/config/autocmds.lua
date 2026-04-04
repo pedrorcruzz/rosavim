@@ -43,14 +43,14 @@ if restore_last_pos then
 end
 
 -- Initialize spell checking on buffer read
-local spell_enabled_on_start = false
+local toggles = require 'rosavim.config.toggles'
 local spell_group = vim.api.nvim_create_augroup('SpellByDefault', { clear = true })
 
 vim.api.nvim_create_autocmd({ 'BufEnter', 'FileType' }, {
   group = spell_group,
   pattern = { 'markdown', '*.md', 'text' },
   callback = function()
-    vim.opt_local.spell = spell_enabled_on_start
+    vim.opt_local.spell = toggles.get 'spell'
   end,
 })
 

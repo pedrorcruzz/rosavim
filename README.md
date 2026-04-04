@@ -18,8 +18,6 @@
 
 [What is Rosavim?](#what-is-rosavim) · [Documentation](#documentation) · [Languages](#languages--frameworks) · [Features](#features) · [Installation](#installation) · [Requirements](#requirements) · [Project Structure](#project-structure) · [Key Shortcuts](#key-shortcuts)
 
-## Screenshots
-
 | | |
 |:---:|:---:|
 | ![Screenshot 1](assets/screenshots/ex.png) | ![Screenshot 2](assets/screenshots/ex2.png) |
@@ -44,6 +42,7 @@ For detailed guides and complete references, check the [docs/manual](docs/manual
 - **[Languages](docs/manual/languages.md)** — Language support details and configuration
 - **[Debugging](docs/manual/debugging.md)** — Debug setup and usage per language
 - **[Customization](docs/manual/customization.md)** — Themes, appearance, and how to extend Rosavim
+- **[Toggles](docs/manual/toggles.md)** — Persistent UI toggles across sessions
 
 ## Languages & Frameworks
 

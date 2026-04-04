@@ -68,6 +68,8 @@ When enabled, Rosavim removes the background color from the Normal, NormalFloat,
 
 This setting is also cached across sessions.
 
+> Rosavim also persists UI toggles (statusline, indent, spell, etc.) across sessions. See the **[Toggles](toggles.md)** guide for details.
+
 ---
 
 ## Statusline

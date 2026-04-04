@@ -90,8 +90,10 @@ return {
     {
       '<leader>ljj',
       function()
-        vim.o.spell = not vim.o.spell
-        if vim.o.spell then
+        local toggles = require 'rosavim.config.toggles'
+        local new_val = toggles.toggle 'spell'
+        vim.o.spell = new_val
+        if new_val then
           vim.notify('Spellcheck: On', vim.log.levels.INFO)
         else
           vim.notify('Spellcheck: Off', vim.log.levels.INFO)
@@ -99,7 +101,15 @@ return {
       end,
       desc = 'Toggle Spell',
     },
-    { '<leader>ljp', '<cmd>set spelllang=pt<cr>', desc = 'Set Spell Pt Br' },
+    {
+      '<leader>ljp',
+      function()
+        local toggles = require 'rosavim.config.toggles'
+        toggles.set('spelllang', 'pt')
+        vim.cmd 'set spelllang=pt'
+      end,
+      desc = 'Set Spell Pt Br',
+    },
     {
       '<leader>ljl',
       function()
@@ -107,7 +117,15 @@ return {
       end,
       desc = 'Spell Suggestions',
     },
-    { '<leader>lje', '<cmd>set spelllang=en<cr>', desc = 'Set Spell En Us' },
+    {
+      '<leader>lje',
+      function()
+        local toggles = require 'rosavim.config.toggles'
+        toggles.set('spelllang', 'en')
+        vim.cmd 'set spelllang=en'
+      end,
+      desc = 'Set Spell En Us',
+    },
 
     --Lazy
     { '<leader>Ll', '<cmd>Lazy<cr>', desc = 'Lazy' },

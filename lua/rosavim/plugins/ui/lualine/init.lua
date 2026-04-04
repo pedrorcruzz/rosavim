@@ -1,7 +1,8 @@
 local theme = require 'rosavim.plugins.ui.lualine.theme'
 local sections = require 'rosavim.plugins.ui.lualine.sections'
+local toggles = require 'rosavim.config.toggles'
 
-local lualine_visible = true
+local lualine_visible = toggles.get 'lualine'
 local use_custom_theme = true
 
 local sep = {
@@ -27,7 +28,7 @@ function ToggleLualine()
   if not package.loaded['lualine'] then
     lualine.setup(lualine_config)
   end
-  lualine_visible = not lualine_visible
+  lualine_visible = toggles.toggle 'lualine'
   lualine.hide { unhide = lualine_visible }
 end
 

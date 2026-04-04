@@ -1,7 +1,9 @@
-local dropbar_enabled = false
+local toggles = require 'rosavim.config.toggles'
+local dropbar_enabled = toggles.get 'dropbar'
 
 return {
   'Bekaboo/dropbar.nvim',
+  event = dropbar_enabled and { 'BufReadPost', 'BufNewFile' } or nil,
   config = function()
     require('dropbar').setup {
       bar = {
@@ -27,7 +29,7 @@ return {
     {
       '<leader>lb',
       function()
-        dropbar_enabled = not dropbar_enabled
+        dropbar_enabled = toggles.toggle 'dropbar'
         for _, win in ipairs(vim.api.nvim_list_wins()) do
           if not dropbar_enabled then
             vim.api.nvim_set_option_value('winbar', '', { scope = 'local', win = win })

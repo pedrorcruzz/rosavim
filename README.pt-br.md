@@ -18,8 +18,6 @@
 
 [O que é Rosavim?](#o-que-é-rosavim) · [Documentação](#documentação) · [Linguagens](#linguagens--frameworks) · [Funcionalidades](#funcionalidades) · [Instalação](#instalação) · [Requisitos](#requisitos) · [Estrutura do Projeto](#estrutura-do-projeto) · [Atalhos Principais](#atalhos-principais)
 
-## Capturas de Tela
-
 | | |
 |:---:|:---:|
 | ![Screenshot 1](assets/screenshots/ex.png) | ![Screenshot 2](assets/screenshots/ex2.png) |
@@ -44,6 +42,7 @@ Para guias detalhados e referências completas, confira o diretório [docs/manua
 - **[Linguagens](docs/manual/languages.pt-br.md)** — Detalhes de suporte a linguagens e configuração
 - **[Debugging](docs/manual/debugging.pt-br.md)** — Configuração e uso de debug por linguagem
 - **[Customização](docs/manual/customization.pt-br.md)** — Temas, aparência e como estender o Rosavim
+- **[Toggles](docs/manual/toggles.pt-br.md)** — Persistência de toggles de interface entre sessões
 
 ## Linguagens & Frameworks
 
