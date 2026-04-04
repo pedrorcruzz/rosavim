@@ -89,9 +89,13 @@ function M.actions_popup()
   end
 
   -- Current file context
+  local max_path = 38
   local current_file = vim.api.nvim_buf_get_name(0)
   if current_file ~= '' then
     local rel = vim.fn.fnamemodify(current_file, ':~:.')
+    if #rel > max_path then
+      rel = '…' .. rel:sub(-(max_path - 1))
+    end
     add(pad .. rel, 'RosafilePath')
   else
     add(pad .. '(no file)', 'RosafileDim')
