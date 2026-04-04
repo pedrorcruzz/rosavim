@@ -22,7 +22,7 @@ Todos os estados de toggle são armazenados em um único arquivo de cache em `~/
 | `<leader>lk` | Dimming | Desativado |
 | `<leader>lw` | Quebra de Linha | Desativado |
 
-> **Modo Zen** (`<leader>lz`) intencionalmente **não é** persistido — ele reseta a cada sessão.
+> **Modo Zen** (`<leader>lz`) intencionalmente **não é** persistido, ele reseta a cada sessão.
 
 ---
 

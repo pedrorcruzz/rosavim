@@ -4,7 +4,7 @@
 
 # Rosavim
 
-**A modern, productive Neovim distribution — ready for the real world.**
+**A modern, productive Neovim distribution ready for the real world.**
 
 [![Neovim](https://img.shields.io/badge/Neovim-0.12%2B-57A143?style=for-the-badge&logo=neovim&logoColor=57A143&labelColor=1a1a2e)](https://neovim.io)
 [![Lua](https://img.shields.io/badge/Lua-2C2D72?style=for-the-badge&logo=lua&logoColor=white)](https://www.lua.org)
@@ -12,7 +12,7 @@
 
 ---
 
-*Turn your terminal into a full-featured IDE — no hassle.*
+*Turn your terminal into a full-featured IDE, no hassle.*
 
 🇺🇸 **[English](#what-is-rosavim)** | 🇧🇷 **[Portuguese](README.pt-br.md)**
 
@@ -28,7 +28,7 @@
 
 ## What is Rosavim?
 
-Rosavim is a Neovim distribution built for developers who want a complete, fast, and beautiful development environment — without spending hours configuring from scratch. With first-class support for the most popular languages and frameworks, just clone and start coding.
+Rosavim is a Neovim distribution built for developers who want a complete, fast, and beautiful development environment without spending hours configuring from scratch. With first-class support for the most popular languages and frameworks, just clone and start coding.
 
 Built on top of **Lazy.nvim**, Rosavim loads **79+ plugins** intelligently, keeping startup fast and the experience smooth.
 

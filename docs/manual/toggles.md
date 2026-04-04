@@ -22,7 +22,7 @@ All toggle states are stored in a single cache file at `~/.cache/nvim/rosavim-to
 | `<leader>lk` | Dimming | Off |
 | `<leader>lw` | Word Wrap | Off |
 
-> **Zen Mode** (`<leader>lz`) is intentionally **not** persisted — it resets on each session.
+> **Zen Mode** (`<leader>lz`) is intentionally **not** persisted, it resets on each session.
 
 ---
 

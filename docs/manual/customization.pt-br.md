@@ -38,7 +38,7 @@ Rosavim vem com 7 colorschemes:
 <leader>lqs → Abre o seletor de colorschemes com preview ao vivo
 ```
 
-**Sua seleção é persistida automaticamente** — Rosavim salva sua escolha em cache e a restaura na próxima inicialização.
+**Sua seleção é persistida automaticamente.** Rosavim salva sua escolha em cache e a restaura na próxima inicialização.
 
 ---
 
@@ -50,7 +50,7 @@ Alterne entre fundos escuro e claro:
 <leader>lqt → Alternar modo dark/light
 ```
 
-O modo de fundo é salvo em cache — sua preferência é lembrada entre sessões.
+O modo de fundo é salvo em cache, sua preferência é lembrada entre sessões.
 
 A maioria dos colorschemes incluídos suporta variantes dark e light. A alternância muda a configuração `vim.o.background`, e o colorscheme ativo se adapta.
 

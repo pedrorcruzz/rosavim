@@ -12,7 +12,7 @@
 
 ---
 
-*Transforme seu terminal em uma IDE completa — sem complicações.*
+*Transforme seu terminal em uma IDE completa, sem complicações.*
 
 🇺🇸 **[English](README.md)** | 🇧🇷 **[Português](#o-que-é-rosavim)**
 
@@ -28,7 +28,7 @@
 
 ## O que é Rosavim?
 
-Rosavim é uma distribuição do Neovim pensada para desenvolvedores que querem um ambiente de desenvolvimento completo, rápido e bonito — sem precisar gastar horas configurando do zero. Com suporte de primeira classe para as principais linguagens e frameworks do mercado, basta clonar e começar a codar.
+Rosavim é uma distribuição do Neovim pensada para desenvolvedores que querem um ambiente de desenvolvimento completo, rápido e bonito sem precisar gastar horas configurando do zero. Com suporte de primeira classe para as principais linguagens e frameworks do mercado, basta clonar e começar a codar.
 
 Construída sobre o **Lazy.nvim**, Rosavim carrega mais de **79+ plugins** de forma inteligente, mantendo o startup rápido e a experiência fluida.
 

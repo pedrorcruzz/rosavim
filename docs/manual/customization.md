@@ -38,7 +38,7 @@ Rosavim ships with 7 colorschemes:
 <leader>lqs → Opens the colorscheme picker with live preview
 ```
 
-**Your selection is persisted automatically** — Rosavim caches your choice and restores it on next launch.
+**Your selection is persisted automatically.** Rosavim caches your choice and restores it on next launch.
 
 ---
 
@@ -50,7 +50,7 @@ Toggle between dark and light backgrounds:
 <leader>lqt → Toggle dark/light mode
 ```
 
-The background mode is cached — your preference is remembered across sessions.
+The background mode is cached, your preference is remembered across sessions.
 
 Most included colorschemes support both dark and light variants. The toggle switches the `vim.o.background` setting, and the active colorscheme adapts accordingly.
 
