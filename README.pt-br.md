@@ -24,7 +24,7 @@
 
 Rosavim é uma distribuição do Neovim pensada para desenvolvedores que querem um ambiente de desenvolvimento completo, rápido e bonito — sem precisar gastar horas configurando do zero. Com suporte de primeira classe para as principais linguagens e frameworks do mercado, basta clonar e começar a codar.
 
-Construída sobre o **Lazy.nvim**, Rosavim carrega mais de **90 plugins** de forma inteligente, mantendo o startup rápido e a experiência fluida.
+Construída sobre o **Lazy.nvim**, Rosavim carrega mais de **79+ plugins** de forma inteligente, mantendo o startup rápido e a experiência fluida.
 
 ## Documentação
 
@@ -103,11 +103,14 @@ Rosavim oferece suporte completo (LSP, formatação, linting, testes e debug) pa
 
 - **Rosafile** — menu nativo de operações com arquivos (`<leader>x`). Crie, renomeie, duplique, delete arquivos e veja informações — tudo via popup
 
+### Ferramentas de Linguagem
+
+- **Rosakit** — Navegador de projeto com detecção de stack. Detecta automaticamente o stack (React, Next.js, Vue, Angular, Svelte, Nest.js, Express, Go, Django, FastAPI, Laravel, Spring) e mostra seções relevantes (components, controllers, models, routes, etc.) + ferramentas LSP. Suporta monorepos
+
 ### Ferramentas Extras
 
 - **Database Client** (vim-dadbod) com UI para queries SQL
 - **Obsidian** integração para notas e second brain
-- **Laravel Tools** com 15+ comandos dedicados (Artisan, Sail, Routes, etc.)
 - **Discord Presence** para mostrar o que você está editando
 - **CodeSnap** para screenshots bonitos do código
 - **ToggleTerm** para terminais flutuantes e splits
@@ -158,10 +161,11 @@ Rosavim faz parte do repositório [**.dotfiles**](https://github.com/pedrorcruzz
 │       ├── editor/                   # Terminal, navegação, Rosafile
 │       ├── coding/                   # Surround, multi-cursor, refactoring
 │       ├── language/                 # Suporte específico (Laravel, Java, etc.)
-│       └── test/                     # Rosatest
+│       └── test/                     # Rosatest, Rosakit
 │   └── rosa_plugins/
 │       ├── rosatest/                 # Test runner nativo (Go, Jest, Vitest, Pytest, Pest, Java)
-│       └── rosafile/                 # Operações de arquivos (criar, renomear, duplicar, deletar)
+│       ├── rosafile/                 # Operações de arquivos (criar, renomear, duplicar, deletar)
+│       └── rosakit/                  # Navegador de projeto com detecção de stack
 ├── lsp/                              # Configurações individuais de LSP
 └── assets/                           # Logo e recursos visuais
 ```
@@ -181,6 +185,7 @@ Rosavim faz parte do repositório [**.dotfiles**](https://github.com/pedrorcruzz
 | `<leader>nn` | Menu Rosatest |
 | `<leader>nf` | Rodar Testes do Arquivo |
 | `<leader>xx` | Menu Rosafile |
+| `<leader>kk` | Menu Rosakit |
 | `<leader>ds` | Iniciar/Continuar Debug |
 | `<leader>db` | Toggle Breakpoint |
 | `<leader>gt` | Git Blame da Linha |

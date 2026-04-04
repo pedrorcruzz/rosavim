@@ -1,6 +1,6 @@
 # Catálogo de Plugins
 
-Rosavim vem com **90+ plugins**, todos gerenciados pelo [Lazy.nvim](https://github.com/folke/lazy.nvim) com carregamento inteligente para startup rápido.
+Rosavim vem com **79+ plugins**, todos gerenciados pelo [Lazy.nvim](https://github.com/folke/lazy.nvim) com carregamento inteligente para startup rápido.
 
 ## Índice
 
@@ -126,7 +126,6 @@ Rosavim vem com **90+ plugins**, todos gerenciados pelo [Lazy.nvim](https://gith
 
 | Plugin | Descrição |
 |:-------|:----------|
-| [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) | Framework de busca fuzzy |
 | [flash.nvim](https://github.com/folke/flash.nvim) | Navegue pelo código com labels de busca — substitui movimentos f/F/t/T |
 | [grapple.nvim](https://github.com/cbochs/grapple.nvim) | Favorite/marque arquivos para acesso instantâneo |
 | [goto-preview.nvim](https://github.com/rmagatti/goto-preview.nvim) | Preview de definições LSP em janelas flutuantes |
@@ -176,7 +175,7 @@ Rosavim vem com **90+ plugins**, todos gerenciados pelo [Lazy.nvim](https://gith
 
 | Plugin | Descrição |
 |:-------|:----------|
-| [laravel.nvim](https://github.com/adalessa/laravel.nvim) | Ferramentas do framework Laravel — Artisan, Routes, Sail, Composer, IDE Helper |
+| Rosakit | Navegador de projeto nativo com detecção de stack e ferramentas LSP |
 | [vim-blade](https://github.com/jwalton512/vim-blade) | Syntax highlighting para templates Blade |
 | [nvim-jdtls](https://github.com/mfussenegger/nvim-jdtls) | Suporte estendido a Java LSP (Eclipse JDT.LS) |
 | [venv-selector.nvim](https://github.com/linux-cultivator/venv-selector.nvim) | Seletor de ambiente virtual Python |

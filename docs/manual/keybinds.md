@@ -460,40 +460,12 @@
 
 ---
 
-## Laravel
+## Rosakit (Language Tools)
 
 | Mode | Key | Action | Example |
 |:----:|:----|:-------|:--------|
-| n | `<leader>kla` | Artisan | `Space k l a` to run any Artisan command |
-| n | `<leader>kls` | Status | `Space k l s` to see Laravel application status |
-| n | `<leader>klr` | Routes | `Space k l r` to browse all registered routes |
-| n | `<leader>klg` | Make | `Space k l g` to generate a new class (model, controller, etc.) |
-| n | `<leader>kle` | Goto controller | `Space k l e` to jump to the related controller |
-| n | `<leader>klm` | Goto model | `Space k l m` to jump to the related model |
-| n | `<leader>klv` | Goto view | `Space k l v` to jump to the related Blade view |
-| n | `<leader>kll` | Goto definition | `Space k l l` to jump to the Laravel definition under cursor |
-| n | `<leader>klds` | Show DB schema | `Space k l d s` to display the database schema |
-| n | `<leader>klde` | Export DB schema | `Space k l d e` to export the database schema |
-| n | `<leader>klda` | Architecture | `Space k l d a` to display the app architecture |
-| n | `<leader>klcc` | Composer | `Space k l c c` to run a Composer command |
-| n | `<leader>klci` | Composer install | `Space k l c i` to run `composer install` |
-| n | `<leader>klcu` | Composer update | `Space k l c u` to run `composer update` |
-| n | `<leader>klcr` | Composer require | `Space k l c r` to require a new package |
-| n | `<leader>klcd` | Composer deps | `Space k l c d` to view Composer dependencies |
-| n | `<leader>klcx` | Composer remove | `Space k l c x` to remove a package |
-| n | `<leader>klxc` | Clear cache | `Space k l x c` to clear all Laravel caches |
-| n | `<leader>klhg` | Generate IDE Helper | `Space k l h g` to generate IDE Helper files |
-| n | `<leader>klhi` | Install IDE Helper | `Space k l h i` to install the IDE Helper package |
-| n | `<leader>klhc` | Check IDE Helper | `Space k l h c` to check IDE Helper status |
-| n | `<leader>klhr` | Clean IDE Helper | `Space k l h r` to remove generated IDE Helper files |
-| n | `<leader>klhu` | Remove IDE Helper | `Space k l h u` to fully remove IDE Helper |
-| n | `<leader>klnn` | Sail command | `Space k l n n` to run a Sail command |
-| n | `<leader>klnu` | Sail up | `Space k l n u` to start Sail containers |
-| n | `<leader>klnd` | Sail down | `Space k l n d` to stop Sail containers |
-| n | `<leader>klnr` | Sail restart | `Space k l n r` to restart Sail containers |
-| n | `<leader>klnt` | Sail test | `Space k l n t` to run tests through Sail |
-| n | `<leader>klns` | Sail share | `Space k l n s` to share the app via tunnel |
-| n | `<leader>klno` | Sail shell | `Space k l n o` to open a shell in the container |
+| n | `<leader>kk` | Rosakit menu | `Space k k` to open the language tools popup |
+| n | `<leader>ka` | LSP Actions | `Space k a` to open LSP code actions |
 
 ---
 

@@ -24,7 +24,7 @@
 
 Rosavim is a Neovim distribution built for developers who want a complete, fast, and beautiful development environment — without spending hours configuring from scratch. With first-class support for the most popular languages and frameworks, just clone and start coding.
 
-Built on top of **Lazy.nvim**, Rosavim loads **90+ plugins** intelligently, keeping startup fast and the experience smooth.
+Built on top of **Lazy.nvim**, Rosavim loads **79+ plugins** intelligently, keeping startup fast and the experience smooth.
 
 ## Documentation
 
@@ -103,11 +103,14 @@ Rosavim ships with full support (LSP, formatting, linting, testing, and debuggin
 
 - **Rosafile** — Rosavim's built-in file operations menu (`<leader>x`). Create, rename, duplicate, delete files, and view file info — all from a clean popup UI
 
+### Language Tools
+
+- **Rosakit** — Language-aware project navigator. Detects your stack automatically (React, Next.js, Vue, Angular, Svelte, Nest.js, Express, Go, Django, FastAPI, Laravel, Spring) and shows relevant project sections (components, controllers, models, routes, etc.) plus LSP tools. Supports monorepos with multiple stacks
+
 ### Extra Tools
 
 - **Database Client** (vim-dadbod) with UI for SQL queries
 - **Obsidian** integration for notes and second brain
-- **Laravel Tools** with 15+ dedicated commands (Artisan, Sail, Routes, etc.)
 - **Discord Presence** to show what you're editing
 - **CodeSnap** for beautiful code screenshots
 - **ToggleTerm** for floating and split terminals
@@ -158,10 +161,11 @@ Rosavim is part of the [**.dotfiles**](https://github.com/pedrorcruzz/.dotfiles)
 │       ├── editor/                   # Terminal, navigation, Rosafile
 │       ├── coding/                   # Surround, multi-cursor, refactoring
 │       ├── language/                 # Language-specific (Laravel, Java, etc.)
-│       └── test/                     # Rosatest
+│       └── test/                     # Rosatest, Rosakit
 │   └── rosa_plugins/
 │       ├── rosatest/                 # Built-in test runner (Go, Jest, Vitest, Pytest, Pest, Java)
-│       └── rosafile/                 # Built-in file operations (create, rename, duplicate, delete)
+│       ├── rosafile/                 # Built-in file operations (create, rename, duplicate, delete)
+│       └── rosakit/                  # Language-aware project navigator
 ├── lsp/                              # Individual LSP configurations
 └── assets/                           # Logo and visual resources
 ```
@@ -180,6 +184,7 @@ Rosavim is part of the [**.dotfiles**](https://github.com/pedrorcruzz/.dotfiles)
 | `<leader>lf` | Format File |
 | `<leader>nn` | Rosatest Menu |
 | `<leader>nf` | Run File Tests |
+| `<leader>kk` | Rosakit Menu |
 | `<leader>xx` | Rosafile Menu |
 | `<leader>ds` | Start/Continue Debug |
 | `<leader>db` | Toggle Breakpoint |

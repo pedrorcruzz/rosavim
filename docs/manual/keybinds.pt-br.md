@@ -26,7 +26,7 @@
 - [Banco de Dados (Dadbod)](#banco-de-dados-dadbod)
 - [Buscar & Substituir (GrugFar)](#buscar--substituir-grugfar)
 - [Obsidian (Notas)](#obsidian-notas)
-- [Laravel](#laravel)
+- [Rosakit](#rosakit)
 - [Ortografia](#ortografia)
 - [Lazy (Gerenciador de Plugins)](#lazy-gerenciador-de-plugins)
 - [Diversos](#diversos)
@@ -460,40 +460,12 @@
 
 ---
 
-## Laravel
+## Rosakit
 
 | Modo | Tecla | Ação | Exemplo |
 |:----:|:------|:-----|:--------|
-| n | `<leader>kla` | Artisan | `Space k l a` para executar qualquer comando Artisan |
-| n | `<leader>kls` | Status | `Space k l s` para ver o status da aplicação Laravel |
-| n | `<leader>klr` | Routes | `Space k l r` para navegar todas as rotas registradas |
-| n | `<leader>klg` | Make | `Space k l g` para gerar uma nova classe (model, controller, etc.) |
-| n | `<leader>kle` | Ir para controller | `Space k l e` para ir ao controller relacionado |
-| n | `<leader>klm` | Ir para model | `Space k l m` para ir ao model relacionado |
-| n | `<leader>klv` | Ir para view | `Space k l v` para ir à view Blade relacionada |
-| n | `<leader>kll` | Ir para definição | `Space k l l` para ir à definição Laravel sob o cursor |
-| n | `<leader>klds` | Mostrar schema do BD | `Space k l d s` para exibir o schema do banco de dados |
-| n | `<leader>klde` | Exportar schema do BD | `Space k l d e` para exportar o schema do banco de dados |
-| n | `<leader>klda` | Arquitetura | `Space k l d a` para exibir a arquitetura da aplicação |
-| n | `<leader>klcc` | Composer | `Space k l c c` para executar um comando Composer |
-| n | `<leader>klci` | Composer install | `Space k l c i` para executar `composer install` |
-| n | `<leader>klcu` | Composer update | `Space k l c u` para executar `composer update` |
-| n | `<leader>klcr` | Composer require | `Space k l c r` para instalar um novo pacote |
-| n | `<leader>klcd` | Dependências Composer | `Space k l c d` para ver as dependências do Composer |
-| n | `<leader>klcx` | Composer remove | `Space k l c x` para remover um pacote |
-| n | `<leader>klxc` | Limpar cache | `Space k l x c` para limpar todos os caches do Laravel |
-| n | `<leader>klhg` | Gerar IDE Helper | `Space k l h g` para gerar arquivos do IDE Helper |
-| n | `<leader>klhi` | Instalar IDE Helper | `Space k l h i` para instalar o pacote IDE Helper |
-| n | `<leader>klhc` | Verificar IDE Helper | `Space k l h c` para verificar o status do IDE Helper |
-| n | `<leader>klhr` | Limpar IDE Helper | `Space k l h r` para remover arquivos gerados do IDE Helper |
-| n | `<leader>klhu` | Remover IDE Helper | `Space k l h u` para remover completamente o IDE Helper |
-| n | `<leader>klnn` | Comando Sail | `Space k l n n` para executar um comando Sail |
-| n | `<leader>klnu` | Sail up | `Space k l n u` para iniciar os containers Sail |
-| n | `<leader>klnd` | Sail down | `Space k l n d` para parar os containers Sail |
-| n | `<leader>klnr` | Sail restart | `Space k l n r` para reiniciar os containers Sail |
-| n | `<leader>klnt` | Sail test | `Space k l n t` para executar testes via Sail |
-| n | `<leader>klns` | Sail share | `Space k l n s` para compartilhar o app via túnel |
-| n | `<leader>klno` | Sail shell | `Space k l n o` para abrir um shell no container |
+| n | `<leader>kk` | Menu Rosakit | `Space k k` para abrir o popup de ferramentas da linguagem |
+| n | `<leader>ka` | LSP Actions | `Space k a` para abrir code actions do LSP |
 
 ---
 
