@@ -3,7 +3,7 @@ local sections = require 'rosavim.plugins.ui.lualine.sections'
 local toggles = require 'rosavim.config.toggles'
 
 local lualine_visible = toggles.get 'lualine'
-local use_custom_theme = true
+local use_custom_theme = toggles.get 'lualine_theme'
 
 local sep = {
   section = { left = '', right = '' },
@@ -33,6 +33,19 @@ function ToggleLualine()
 end
 
 vim.keymap.set('n', '<leader>ll', ToggleLualine, { desc = 'Toggle Lualine' })
+
+function ToggleLualineTheme()
+  local lualine = require 'lualine'
+  use_custom_theme = toggles.toggle 'lualine_theme'
+  lualine_config.options.theme = use_custom_theme and theme.create() or 'auto'
+  lualine.setup(lualine_config)
+  lualine.hide { unhide = lualine_visible }
+  if use_custom_theme then
+    vim.notify('Lualine Theme: Default', vim.log.levels.INFO)
+  else
+    vim.notify('Lualine Theme: Auto', vim.log.levels.INFO)
+  end
+end
 
 return {
   'nvim-lualine/lualine.nvim',

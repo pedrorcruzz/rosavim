@@ -4,6 +4,7 @@ local cache_file = vim.fn.stdpath 'cache' .. '/rosavim-toggles'
 
 local defaults = {
   lualine = true,
+  lualine_theme = true,
   dropbar = false,
   autosave = false,
   tscontext = false,

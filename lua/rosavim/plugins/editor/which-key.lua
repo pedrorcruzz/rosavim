@@ -84,6 +84,7 @@ return {
     { '<leader>h', '<cmd>nohlsearch<cr>', desc = 'No Highlight' },
     { '<leader>q', '<cmd>confirm q<cr>', desc = 'Exit' },
     { '<leader>lt', '<cmd>TSContextToggle<cr>', desc = 'TSCOntext: Toggle' },
+    { '<leader>lqa', ToggleLualineTheme, desc = 'Toggle Lualine Theme (Auto/Default)' },
     { '<leader>fp', '<cmd>NeovimProjectDiscover<cr>', desc = 'Discover Projects' },
 
     --Spell

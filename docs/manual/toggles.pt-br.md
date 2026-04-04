@@ -21,6 +21,7 @@ Todos os estados de toggle são armazenados em um único arquivo de cache em `~/
 | `<leader>li` | Guia de Indentação | Desativado |
 | `<leader>lk` | Dimming | Desativado |
 | `<leader>lw` | Quebra de Linha | Desativado |
+| `<leader>lqa` | Tema do Lualine (Auto/Default) | Default |
 
 > **Modo Zen** (`<leader>lz`) intencionalmente **não é** persistido, ele reseta a cada sessão.
 

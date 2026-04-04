@@ -90,6 +90,16 @@ Rosavim uses **lualine.nvim** with a custom configuration showing:
 <leader>ll → Show/hide the statusline
 ```
 
+### Toggle Lualine Theme
+
+Switch between the custom default theme and Lualine's `auto` theme (which follows your colorscheme):
+
+```
+<leader>lqa → Toggle between Default and Auto theme
+```
+
+This setting is persisted across sessions via the toggles system.
+
 ### Customizing
 
 Edit `lua/rosavim/plugins/ui/lualine/init.lua` to modify sections, separators, or add your own components.
