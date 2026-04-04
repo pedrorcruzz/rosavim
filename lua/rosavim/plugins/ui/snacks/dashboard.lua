@@ -9,6 +9,7 @@ local header = {
   ]],
 }
 
+-- Change this to your Obsidian vault path
 local obsidian_action = function()
   Snacks.picker.smart { cwd = vim.fn.expand '~/Developer/second-brain/' }
 end

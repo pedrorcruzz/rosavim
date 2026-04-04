@@ -193,7 +193,7 @@ if SNACKS_START_WITH_EXPLORER then
       local bufname = vim.api.nvim_buf_get_name(args.buf)
       local path = args.file or ''
 
-      if bufname == '' or bufname:match 'snacks_picker_input' or bufname:match 'NvimTree_' or bufname:match '^%[.*%]$' or path:match '/nvim%.phrosa/' then
+      if bufname == '' or bufname:match 'snacks_picker_input' or bufname:match 'NvimTree_' or bufname:match '^%[.*%]$' or path:match '/nvim/' then
         return
       end
 

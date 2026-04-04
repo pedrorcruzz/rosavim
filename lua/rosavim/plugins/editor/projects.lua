@@ -6,7 +6,8 @@ return {
     -- lazy = false, -- removido para otimizar o ms
     -- priority = 100, -- removido para otimizar o ms
     opts = {
-      projects = { -- define project roots
+      -- Change these to your own project directories
+      projects = {
         '~/Developer/Projects/Garage/*',
         '~/Developer/Projects/Personal/*',
         '~/Developer/Projects/Sandbox/*',

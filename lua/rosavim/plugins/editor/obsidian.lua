@@ -1,3 +1,6 @@
+-- Change this to your Obsidian vault path
+local vault_path = '~/Developer/second-brain'
+
 return {
   'obsidian-nvim/obsidian.nvim',
   version = '*',
@@ -11,7 +14,7 @@ return {
       '<leader>jj',
       function()
         Snacks.picker.smart {
-          cwd = vim.fn.expand '~/Developer/second-brain',
+          cwd = vim.fn.expand(vault_path),
         }
       end,
       desc = 'Search notes (Second Brain)',
@@ -45,11 +48,11 @@ return {
       workspaces = {
         {
           name = 'personal',
-          path = '~/Developer/second-brain',
+          path = vault_path,
         },
         {
           name = 'work',
-          path = '~/Developer/second-brain',
+          path = vault_path,
           overrides = {
             notes_subdir = 'Home/Anotacoes/NotasRealocar',
           },
