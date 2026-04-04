@@ -11,14 +11,14 @@ return {
       ['docker-compose.prod.yaml'] = { glyph = '󰡨', hl = 'MiniIconsGreen' },
       ['Dockerfile'] = { glyph = '󰡨', hl = 'MiniIconsAzure' },
 
-      ['go.mod'] = { glyph = '', hl = 'MiniIconsPurple' },
+      ['go.mod'] = { glyph = '', hl = 'MiniIconsRed' },
       ['go.sum'] = { glyph = '', hl = 'MiniIconsPurple' },
       ['Makefile'] = { glyph = '', hl = 'MiniIconsRed' },
       ['README.md'] = { glyph = '', hl = 'MiniIconsCyan' },
       ['package.json'] = { glyph = '', hl = 'MiniIconsGreen' },
       ['package-lock.json'] = { glyph = '', hl = 'MiniIconsGreen' },
       ['.gitignore'] = { glyph = '', hl = 'MiniIconsRed' },
-      ['LICENSE'] = { glyph = '', hl = 'MiniIconsGrey' },
+      ['LICENSE'] = { glyph = '', hl = 'RosatestFileIcon' },
       ['.env.example'] = { glyph = '', hl = 'MiniIconsGreen' },
       ['.env.example.docker'] = { glyph = '', hl = 'MiniIconsGreen' },
       ['.env.example.docker-prod'] = { glyph = '', hl = 'MiniIconsGreen' },
@@ -87,6 +87,7 @@ return {
   config = function(_, opts)
     local mini_icons = require 'mini.icons'
     mini_icons.setup(opts)
+    vim.api.nvim_set_hl(0, 'RosatestFileIcon', { fg = '#cdd6f4' })
 
     local use_theme_directory_color = true
 
@@ -94,7 +95,7 @@ return {
 
     mini_icons.get = function(category, name)
       if category == 'file' and name and (name:find '%.test' or name:find '_test') then
-        return '', 'MiniIconsGrey'
+        return '', 'RosatestFileIcon'
       end
 
       if use_theme_directory_color and category == 'directory' then

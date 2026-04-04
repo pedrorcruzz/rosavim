@@ -20,7 +20,46 @@ return {
     { '<leader>o8', '<cmd>Grapple select index=8<cr>', desc = 'Grapple: Eighth Tag' },
     { '<leader>o9', '<cmd>Grapple select index=9<cr>', desc = 'Grapple: Ninth Tag' },
     { '<leader>o0', '<cmd>Grapple select index=10<cr>', desc = 'Grapple: Tenth Tag' },
-    { '<leader>of', '<cmd>Telescope grapple tags<cr>', desc = 'Grapple: Telescope' },
+    {
+      '<leader>of',
+      function()
+        local grapple = require 'grapple'
+        local tags = grapple.tags()
+        if not tags or #tags == 0 then
+          vim.notify('Grapple: no tags', vim.log.levels.INFO)
+          return
+        end
+
+        local items = {}
+        for i, tag in ipairs(tags) do
+          table.insert(items, {
+            text = string.format('[%d] %s', i, tag.path),
+            file = tag.path,
+            idx = i,
+          })
+        end
+
+        Snacks.picker {
+          title = '󱝩 Grapple Tags',
+          items = items,
+          format = function(item)
+            local idx = tostring(item.idx)
+            local rel = vim.fn.fnamemodify(item.file, ':~:.')
+            return {
+              { idx .. '  ', 'SnacksPickerIdx' },
+              { rel },
+            }
+          end,
+          confirm = function(picker, item)
+            picker:close()
+            if item then
+              vim.cmd('edit ' .. vim.fn.fnameescape(item.file))
+            end
+          end,
+        }
+      end,
+      desc = 'Grapple: Snacks Picker',
+    },
 
     { '<leader>oa', '<cmd>Grapple cycle_tags prev<cr>', desc = 'Grapple: Previous Tag' },
     { '<leader>os', '<cmd>Grapple cycle_tags next<cr>', desc = 'Grapple: Next Tag' },
