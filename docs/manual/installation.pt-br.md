@@ -1,6 +1,6 @@
 # Instalação
 
-**[English](installation.md)** | **[Português](#instalação)**
+🇺🇸 **[English](installation.md)** | 🇧🇷 **[Português](#instalação)**
 
 ---
 

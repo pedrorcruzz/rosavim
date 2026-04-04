@@ -14,7 +14,7 @@
 
 *Turn your terminal into a full-featured IDE — no hassle.*
 
-**[English](#what-is-rosavim)** | **[Portuguese](README.pt-br.md)**
+🇺🇸 **[English](#what-is-rosavim)** | 🇧🇷 **[Portuguese](README.pt-br.md)**
 
 [What is Rosavim?](#what-is-rosavim) · [Documentation](#documentation) · [Languages](#languages--frameworks) · [Features](#features) · [Installation](#installation) · [Requirements](#requirements) · [Project Structure](#project-structure) · [Key Shortcuts](#key-shortcuts)
 
