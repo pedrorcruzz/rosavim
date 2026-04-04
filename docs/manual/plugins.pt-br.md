@@ -198,6 +198,13 @@ Rosavim vem com **79+ plugins**, todos gerenciados pelo [Lazy.nvim](https://gith
 |:-------|:----------|
 | [obsidian.nvim](https://github.com/epwalsh/obsidian.nvim) | Integração com Obsidian vault — notas diárias, templates, backlinks, busca |
 
+> **Configuração necessária:** Edite `plugins/editor/obsidian.lua` e altere o caminho do vault para o seu:
+> ```lua
+> -- Change this to your Obsidian vault path
+> local vault_path = '~/Developer/second-brain'  -- padrão
+> local vault_path = '~/Documents/meu-vault'     -- seu caminho
+> ```
+
 ---
 
 ## Utilitários
@@ -208,6 +215,20 @@ Rosavim vem com **79+ plugins**, todos gerenciados pelo [Lazy.nvim](https://gith
 | [codesnap.nvim](https://github.com/mistricky/codesnap.nvim) | Screenshots bonitos de código |
 | [logger.nvim](https://github.com/Tastyep/structlog.nvim) | Utilitário de debug logging |
 | [neovim-project](https://github.com/coffebar/neovim-project) | Gerenciamento e descoberta de projetos |
+
+> **Configuração necessária:** Edite `plugins/editor/projects.lua` e altere os diretórios para os seus:
+> ```lua
+> -- Change these to your own project directories
+> projects = {
+>   '~/Developer/Projects/Garage/*',    -- exemplo padrão
+>   '~/Developer/Projects/Personal/*',
+> }
+> -- Altere para seus diretórios:
+> projects = {
+>   '~/projetos/*',
+>   '~/trabalho/*',
+> }
+> ```
 | [neovim-session-manager](https://github.com/Shatur/neovim-session-manager) | Persistência de sessão |
 | [persistence.nvim](https://github.com/folke/persistence.nvim) | Restauração de sessão e buffers |
 | [trouble.nvim](https://github.com/folke/trouble.nvim) | Diagnósticos, referências e quickfix list em interface bonita |
