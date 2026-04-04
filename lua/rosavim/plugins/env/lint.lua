@@ -4,8 +4,8 @@ return {
   config = function()
     local lint = require 'lint'
 
-    --- Returns only the linters whose executables are available, or nil if none.
-    --- Each entry is { exe, linter_name } where exe is checked via executable().
+    ---@param candidates string[][]
+    ---@return string[]?
     local function available(candidates)
       local result = {}
       for _, entry in ipairs(candidates) do
