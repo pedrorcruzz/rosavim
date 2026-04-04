@@ -7,17 +7,16 @@ return {
 
       local enable_auto_format_on_focus = false
 
-      local function has_biome()
-        return vim.fn.filereadable(vim.fn.getcwd() .. '/node_modules/.bin/biome') == 1
-      end
+      local biome = vim.fn.filereadable(vim.fn.getcwd() .. '/node_modules/.bin/biome') == 1
+      local js_fmt = biome and { 'biome' } or { 'prettierd', 'prettier' }
 
       conform.setup {
         formatters_by_ft = {
-          javascript = has_biome() and { 'biome' } or { 'prettierd', 'prettier' },
-          typescript = has_biome() and { 'biome' } or { 'prettierd', 'prettier' },
-          javascriptreact = has_biome() and { 'biome' } or { 'prettierd', 'prettier' },
-          typescriptreact = has_biome() and { 'biome' } or { 'prettierd', 'prettier' },
-          json = has_biome() and { 'biome' } or { 'prettierd' },
+          javascript = js_fmt,
+          typescript = js_fmt,
+          javascriptreact = js_fmt,
+          typescriptreact = js_fmt,
+          json = biome and { 'biome' } or { 'prettierd' },
           html = { 'prettierd', 'prettier' },
           css = { 'prettierd', 'prettier' },
           htmldjango = { 'djlint' },
