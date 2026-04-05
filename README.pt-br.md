@@ -81,6 +81,7 @@ Rosavim oferece suporte completo (LSP, formatação, linting, testes e debug) pa
 - **Rosapoon** para marcar e saltar entre arquivos frequentes (seleção visual para deletar, remoção em massa)
 - **Snacks Explorer** como file tree integrado
 - **Yazi** como file manager alternativo no terminal
+- **Rosapreview** para preview de definições LSP, type definitions, implementações e referências em janela flutuante — expanda para vsplit ou substitua a janela atual
 - **GrugFar** para search & replace avançado com ripgrep
 
 ### Git
@@ -187,6 +188,7 @@ Na primeira execução, o **Lazy.nvim** instalará todos os plugins e o **Mason*
 │       ├── rosatest/                 # Test runner nativo (Go, Jest, Vitest, Pytest, Pest, Java)
 │       ├── rosafile/                 # Operações de arquivos (criar, renomear, duplicar, deletar)
 │       ├── rosapick/                 # Seletor visual de janelas
+│       ├── rosapreview/              # Preview LSP em janelas flutuantes
 │       ├── rosasave/                 # Salvamento automático com debounce
 │       ├── rosasweep/                # Varredor automático de buffers inativos
 │       └── rosakit/                  # Navegador de projeto com detecção de stack
@@ -209,6 +211,7 @@ Na primeira execução, o **Lazy.nvim** instalará todos os plugins e o **Mason*
 | `<leader>nn` | Menu Rosatest |
 | `<leader>nf` | Rodar Testes do Arquivo |
 | `<leader>xx` | Menu Rosafile |
+| `gp` | Rosapreview Definição |
 | `<leader>kk` | Menu Rosakit |
 | `<leader>ds` | Iniciar/Continuar Debug |
 | `<leader>db` | Toggle Breakpoint |
