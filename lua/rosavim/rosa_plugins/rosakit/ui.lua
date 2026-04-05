@@ -95,7 +95,7 @@ function M.workspace_popup(workspaces, on_select)
   add ''
 
   local buf, win = create_float {
-    title = ' Rosakit',
+    title = ' Rosakit',
     footer = 'q: close',
     width = 56,
     height = #lines,
@@ -233,7 +233,7 @@ function M.sections_popup(stack, available_sections, on_select, lsp_tools, on_to
   add ''
 
   local buf, win = create_float {
-    title = ' Rosakit  ' .. stack.icon .. stack.name,
+    title = '  Rosakit ' .. stack.icon .. stack.name,
     footer = 'q: close',
     width = 58,
     height = #lines,

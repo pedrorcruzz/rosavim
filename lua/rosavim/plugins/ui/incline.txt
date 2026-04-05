@@ -5,14 +5,14 @@ return {
   dependencies = {
     { 'SmiteshP/nvim-navic', setup = { highlight = true } },
     'echasnovski/mini.icons',
-    'cbochs/grapple.nvim',
+    -- rosapoon (no external dep needed, just require below)
   },
   event = 'VeryLazy',
   config = function()
     local helpers = require 'incline.helpers'
     local navic = require 'nvim-navic'
     local icons = require 'mini.icons'
-    local grapple = require 'grapple'
+    local rosapoon = require 'rosavim.rosa_plugins.rosapoon'
     -- local harpoon = require 'harpoon'
 
     require('incline').setup {
@@ -39,13 +39,13 @@ return {
           ' ',
         }
 
-        local function get_grapple_items()
-          local tags = grapple.tags()
+        local function get_rosapoon_items()
+          local tags = rosapoon.tags()
           local current_file_path = vim.fn.expand '%:p'
           local label = {}
 
           for id, tag in ipairs(tags) do
-            if tag.path == current_file_path then
+            if tag == current_file_path then
               table.insert(label, { tostring(id) .. ' ', guifg = '#FFFFFF', gui = 'bold' })
             else
               table.insert(label, { tostring(id) .. ' ', guifg = '#434852' })
@@ -53,13 +53,13 @@ return {
           end
 
           if #label > 0 then
-            table.insert(label, 1, { '󰛢 ', guifg = '#928374' }) --CA8BFF
+            table.insert(label, 1, { '󰛢 ', guifg = '#928374' })
           end
           return label
         end
 
-        local grapple_items = get_grapple_items()
-        for _, item in ipairs(grapple_items) do
+        local rosapoon_items = get_rosapoon_items()
+        for _, item in ipairs(rosapoon_items) do
           table.insert(res, item)
         end
 

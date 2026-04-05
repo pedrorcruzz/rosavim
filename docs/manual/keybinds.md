@@ -18,7 +18,7 @@
 - [Terminal](#terminal)
 - [AI (Copilot & Sidekick)](#ai-copilot--sidekick)
 - [File Operations](#file-operations)
-- [Grapple (Bookmarks)](#grapple-bookmarks)
+- [Rosapoon (Bookmarks)](#rosapoon-bookmarks)
 - [Flash (Motion)](#flash-motion)
 - [Yank & Paste (Yanky)](#yank--paste-yanky)
 - [UI & Appearance](#ui--appearance)
@@ -305,16 +305,16 @@
 
 ---
 
-## Grapple (Bookmarks)
+## Rosapoon (Bookmarks)
 
 | Mode | Key | Action | Example |
 |:----:|:----|:-------|:--------|
-| n | `<leader>oo` | Toggle tag | `Space o o` to bookmark/unbookmark the current file |
-| n | `<leader>oe` | Tag menu | `Space o e` to see all bookmarked files |
-| n | `<leader>o1`-`o0` | Jump to tag 1-10 | `Space o 1` to instantly jump to your first bookmarked file |
-| n | `<leader>of` | Telescope tags | `Space o f` to fuzzy-search bookmarked files |
-| n | `<leader>oa` | Previous tag | `Space o a` to cycle to the previous bookmark |
-| n | `<leader>os` | Next tag | `Space o s` to cycle to the next bookmark |
+| n | `<leader>oo` | Pin | `Space o o` to pin/unpin the current file |
+| n | `<leader>oe` | Menu | `Space o e` to manage pinned files (jump, delete, reorder) |
+| n | `<leader>o1`-`o0` | Jump 1-10 | `Space o 1` to instantly jump to your first pinned file |
+| n | `<leader>of` | Search | `Space o f` to fuzzy-search pinned files |
+| n | `<leader>oj` | Prev | `Space o j` to cycle to the previous pin |
+| n | `<leader>ok` | Next | `Space o k` to cycle to the next pin |
 
 ---
 

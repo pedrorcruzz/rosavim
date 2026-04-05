@@ -35,7 +35,7 @@ return {
       { '<leader>K', group = 'Next Buffer', icon = '󰙡' },
       { '<leader>h', group = 'No Highlight', icon = '󰸱' },
       { '<leader>ci', group = 'ToggleTerm', icon = ' ' },
-      { '<leader>o', group = 'Grapple', icon = '󱝩' },
+      { '<leader>o', group = 'Rosapoon', icon = '󰛢' },
       { '<leader>k', group = 'Yeet Tmux', icon = ' ' },
       -- { '<leader>o', group = 'Harpoon', icon = '󱝩' },
 
@@ -60,7 +60,7 @@ return {
       { '<leader>lad', group = 'DBUI', icon = '󰆼' },
 
       -- Rosakit
-      { '<leader>k', group = 'Rosakit', icon = ' ' },
+      { '<leader>k', group = 'Rosakit', icon = ' ' },
 
       { '<leader>c', group = 'Window', icon = '󰶛' },
       { '<leader>t', group = 'Tabs', icon = '󱦞' },

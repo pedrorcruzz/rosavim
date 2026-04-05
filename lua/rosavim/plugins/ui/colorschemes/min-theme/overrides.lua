@@ -90,13 +90,6 @@ function M.get(mode, transparent_background)
       ['@keyword.repeat.htmldjango'] = { fg = '#E45649' },
       ['@keyword.operator.htmldjango'] = { fg = '#E45649' },
 
-      GrappleHint = { fg = '#383A42' },
-      GrappleNormal = { fg = '#909090' },
-      GrappleFooter = { fg = '#C0C0C0' },
-      GrappleBold = { fg = '#383A42' },
-      GrappleCurrent = { fg = '#383A42' },
-      GrappleName = { fg = '#1A1A1A' },
-      GrappleTitle = { fg = '#1A1A1A' },
 
       TelescopeBorder = { fg = '#C0C0C0' },
       TelescopePreviewBorder = { fg = '#C0C0C0' },
@@ -282,14 +275,6 @@ function M.get(mode, transparent_background)
     ['@keyword.repeat.htmldjango'] = { fg = '#F67582' },
     ['@keyword.operator.htmldjango'] = { fg = '#F67582' },
 
-    --Grapple
-    GrappleHint = { fg = '#ffffff' },
-    GrappleNormal = { fg = '#606060' },
-    GrappleFooter = { fg = '#4c4c4c' },
-    GrappleBold = { fg = '#abb2bf' },
-    GrappleCurrent = { fg = '#abb2bf' },
-    GrappleName = { fg = '#ffffff' },
-    GrappleTitle = { fg = '#ffffff' },
 
     --Telescope
     TelescopeBorder = { fg = '#ffffff' },

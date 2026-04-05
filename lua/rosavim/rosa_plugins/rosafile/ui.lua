@@ -126,7 +126,7 @@ function M.actions_popup()
   local height = #lines
 
   local buf, win = create_float {
-    title = ' Rosafile',
+    title = ' Rosafile',
     footer = 'q: close',
     width = width,
     height = height,
@@ -317,7 +317,7 @@ function M.info_popup(file)
   end
 
   local buf, win = create_float {
-    title = ' File Info',
+    title = ' File Info',
     footer = 'q: close',
     width = width,
     height = #info_lines,

@@ -78,7 +78,7 @@ Rosavim oferece suporte completo (LSP, formatação, linting, testes e debug) pa
 
 - **Snacks Picker** para fuzzy finding de arquivos, grep, buffers e muito mais
 - **Flash.nvim** para movimentação rápida no código com labels visuais
-- **Grapple** para marcar e saltar entre arquivos frequentes
+- **Rosapoon** para marcar e saltar entre arquivos frequentes
 - **Snacks Explorer** como file tree integrado
 - **Yazi** como file manager alternativo no terminal
 - **GrugFar** para search & replace avançado com ripgrep

@@ -18,7 +18,7 @@
 - [Terminal](#terminal)
 - [IA (Copilot & Sidekick)](#ia-copilot--sidekick)
 - [Operações de Arquivo](#operações-de-arquivo)
-- [Grapple (Favoritos)](#grapple-favoritos)
+- [Rosapoon (Favoritos)](#rosapoon-favoritos)
 - [Flash (Movimentação)](#flash-movimentação)
 - [Copiar & Colar (Yanky)](#copiar--colar-yanky)
 - [UI & Aparência](#ui--aparência)
@@ -305,16 +305,16 @@
 
 ---
 
-## Grapple (Favoritos)
+## Rosapoon (Favoritos)
 
 | Modo | Tecla | Ação | Exemplo |
 |:----:|:------|:-----|:--------|
-| n | `<leader>oo` | Alternar favorito | `Space o o` para favoritar/desfavoritar o arquivo atual |
-| n | `<leader>oe` | Menu de favoritos | `Space o e` para ver todos os arquivos favoritados |
-| n | `<leader>o1`-`o0` | Ir para favorito 1-10 | `Space o 1` para ir instantaneamente ao seu primeiro arquivo favoritado |
-| n | `<leader>of` | Telescope favoritos | `Space o f` para busca fuzzy nos arquivos favoritados |
-| n | `<leader>oa` | Favorito anterior | `Space o a` para ir ao favorito anterior |
-| n | `<leader>os` | Próximo favorito | `Space o s` para ir ao próximo favorito |
+| n | `<leader>oo` | Pin | `Space o o` para fixar/desafixar o arquivo atual |
+| n | `<leader>oe` | Menu | `Space o e` para gerenciar arquivos fixados (navegar, apagar, reordenar) |
+| n | `<leader>o1`-`o0` | Jump 1-10 | `Space o 1` para ir instantaneamente ao seu primeiro arquivo fixado |
+| n | `<leader>of` | Search | `Space o f` para busca fuzzy nos arquivos fixados |
+| n | `<leader>oj` | Prev | `Space o j` para ir ao pin anterior |
+| n | `<leader>ok` | Next | `Space o k` para ir ao próximo pin |
 
 ---
 

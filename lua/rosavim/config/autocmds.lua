@@ -189,6 +189,15 @@ vim.api.nvim_create_autocmd('BufReadPost', {
       return
     end
 
+    -- Change cwd to the file's directory (or its git root) so the explorer opens in the right place
+    local file_dir = vim.fn.fnamemodify(bufname, ':p:h')
+    local git_root = vim.fn.systemlist('git -C ' .. vim.fn.shellescape(file_dir) .. ' rev-parse --show-toplevel')[1]
+    if vim.v.shell_error == 0 and git_root and git_root ~= '' then
+      vim.cmd('cd ' .. vim.fn.fnameescape(git_root))
+    else
+      vim.cmd('cd ' .. vim.fn.fnameescape(file_dir))
+    end
+
     open_snacks_explorer()
   end,
 })
