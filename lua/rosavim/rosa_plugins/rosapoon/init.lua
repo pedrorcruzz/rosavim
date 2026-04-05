@@ -205,13 +205,15 @@ function M.toggle_tags()
     add_hl('RosapoonDim', ln - 1, 0, -1)
 
     -- Help
-    add(pad .. '<CR>  jump    dd  remove    o  tag current')
+    add(pad .. '<CR>  jump    dd  remove    DD  remove all    o  tag current')
     add_hl('RosapoonIdx', ln - 1, #pad, #pad + 4)
-    add_hl('RosapoonHint', ln - 1, #pad + 4, #pad + 12)
-    add_hl('RosapoonDanger', ln - 1, #pad + 12, #pad + 16)
-    add_hl('RosapoonHint', ln - 1, #pad + 16, #pad + 24)
-    add_hl('RosapoonIdx', ln - 1, #pad + 24, #pad + 27)
-    add_hl('RosapoonHint', ln - 1, #pad + 27, -1)
+    add_hl('RosapoonHint', ln - 1, #pad + 4, #pad + 14)
+    add_hl('RosapoonDanger', ln - 1, #pad + 14, #pad + 16)
+    add_hl('RosapoonHint', ln - 1, #pad + 16, #pad + 28)
+    add_hl('RosapoonDanger', ln - 1, #pad + 28, #pad + 30)
+    add_hl('RosapoonHint', ln - 1, #pad + 30, #pad + 46)
+    add_hl('RosapoonIdx', ln - 1, #pad + 46, #pad + 47)
+    add_hl('RosapoonHint', ln - 1, #pad + 47, -1)
     add ''
   end
 
@@ -296,6 +298,38 @@ function M.toggle_tags()
     end
     table.remove(tags, tag_idx)
     set_tags(tags)
+    refresh()
+  end, kopts)
+
+  -- dd in visual mode to remove selected tags
+  vim.keymap.set('v', 'd', function()
+    local start_line = vim.fn.line 'v'
+    local end_line = vim.fn.line '.'
+    if start_line > end_line then
+      start_line, end_line = end_line, start_line
+    end
+
+    local indices = {}
+    for line = start_line, end_line do
+      local tag_idx = tag_line_map[line - 1]
+      if tag_idx then
+        table.insert(indices, tag_idx)
+      end
+    end
+
+    table.sort(indices, function(a, b)
+      return a > b
+    end)
+    for _, idx in ipairs(indices) do
+      table.remove(tags, idx)
+    end
+    set_tags(tags)
+    refresh()
+  end, kopts)
+
+  -- DD to remove all tags
+  vim.keymap.set('n', 'DD', function()
+    set_tags {}
     refresh()
   end, kopts)
 

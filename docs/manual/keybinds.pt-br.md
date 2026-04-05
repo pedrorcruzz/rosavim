@@ -311,6 +311,9 @@
 |:----:|:------|:-----|:--------|
 | n | `<leader>oo` | Pin | `Space o o` para fixar/desafixar o arquivo atual |
 | n | `<leader>oe` | Menu | `Space o e` para gerenciar arquivos fixados (navegar, apagar, reordenar) |
+| n | `dd` (no menu) | Remover pin | No menu do Rosapoon, `dd` em um tag para removê-lo |
+| v | `d` (no menu) | Remover seleção | No menu do Rosapoon, selecione tags em visual mode e `d` para removê-los |
+| n | `DD` (no menu) | Remover todos | No menu do Rosapoon, `DD` para remover todos os tags de uma vez |
 | n | `<leader>o1`-`o0` | Jump 1-10 | `Space o 1` para ir instantaneamente ao seu primeiro arquivo fixado |
 | n | `<leader>of` | Search | `Space o f` para busca fuzzy nos arquivos fixados |
 | n | `<leader>oj` | Prev | `Space o j` para ir ao pin anterior |

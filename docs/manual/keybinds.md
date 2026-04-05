@@ -311,6 +311,9 @@
 |:----:|:----|:-------|:--------|
 | n | `<leader>oo` | Pin | `Space o o` to pin/unpin the current file |
 | n | `<leader>oe` | Menu | `Space o e` to manage pinned files (jump, delete, reorder) |
+| n | `dd` (in menu) | Remove pin | In the Rosapoon menu, `dd` on a tag to remove it |
+| v | `d` (in menu) | Remove selected | In the Rosapoon menu, select tags in visual mode and `d` to remove them |
+| n | `DD` (in menu) | Remove all | In the Rosapoon menu, `DD` to remove all tags at once |
 | n | `<leader>o1`-`o0` | Jump 1-10 | `Space o 1` to instantly jump to your first pinned file |
 | n | `<leader>of` | Search | `Space o f` to fuzzy-search pinned files |
 | n | `<leader>oj` | Prev | `Space o j` to cycle to the previous pin |
