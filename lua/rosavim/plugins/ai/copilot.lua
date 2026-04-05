@@ -33,20 +33,7 @@ return {
     keys = {
       { '<leader>ai', '', desc = '+copilot' },
       { '<leader>aia', '<cmd>Copilot auth<cr>', desc = 'Copilot: Auth' },
-      {
-        '<leader>aii',
-        function()
-          local toggles = require 'rosavim.config.toggles'
-          local enabled = toggles.toggle 'copilot'
-          if enabled then
-            vim.cmd 'Copilot enable'
-          else
-            vim.cmd 'Copilot disable'
-          end
-          vim.notify('Copilot: ' .. (enabled and 'enabled' or 'disabled'))
-        end,
-        desc = 'Copilot: Toggle',
-      },
+      -- Toggle keymap defined in snacks/toggles.lua
       { '<leader>aip', '<cmd>Copilot panel<cr>', desc = 'Copilot: Panel' },
     },
   },

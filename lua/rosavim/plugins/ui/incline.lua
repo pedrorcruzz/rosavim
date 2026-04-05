@@ -66,25 +66,5 @@ return {
       require('incline').disable()
     end
   end,
-  keys = {
-    {
-      '<leader>lc',
-      function()
-        local loaded = package.loaded['incline']
-        if not loaded then
-          require('lazy').load { plugins = { 'incline.nvim' } }
-        end
-
-        local toggles = require 'rosavim.config.toggles'
-        local enabled = toggles.toggle 'incline'
-        if enabled then
-          require('incline').enable()
-        else
-          require('incline').disable()
-        end
-        vim.notify('Incline: ' .. (enabled and 'enabled' or 'disabled'))
-      end,
-      desc = 'Incline: Toggle',
-    },
-  },
+  -- Toggle keymap defined in snacks/toggles.lua
 }

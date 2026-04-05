@@ -33,7 +33,11 @@ function M.toggle_transparent()
     end
   end
 
-  vim.notify('Transparent: ' .. (M._transparent and 'on' or 'off'), vim.log.levels.INFO)
+  local state = M._transparent
+  Snacks.notify(
+    (state and 'Enabled' or 'Disabled') .. ' **Transparent**',
+    { title = 'Transparent', level = state and vim.log.levels.INFO or vim.log.levels.WARN }
+  )
 end
 
 function M.setup()
@@ -73,7 +77,11 @@ function M.toggle()
     end
   end
 
-  vim.notify('Background: ' .. new_mode, vim.log.levels.INFO)
+  local state = new_mode == 'light'
+  Snacks.notify(
+    (state and 'Enabled' or 'Disabled') .. ' **Background Light**',
+    { title = 'Background', level = state and vim.log.levels.INFO or vim.log.levels.WARN }
+  )
 end
 
 return M

@@ -4,6 +4,13 @@ Rosavim remembers the state of your UI toggles across sessions. When you toggle 
 
 All toggle states are stored in a single cache file at `~/.cache/nvim/rosavim-toggles`.
 
+All toggles are powered by `Snacks.toggle`, which provides:
+
+- **Styled notifications** — beautiful Snacks notifier popups when toggling (Enabled/Disabled)
+- **Dynamic which-key icons** — toggles show their current state directly in which-key with color-coded icons (green = enabled, yellow = disabled) and contextual labels ("Enable X" / "Disable X")
+
+Toggle definitions are centralized in `lua/rosavim/plugins/ui/snacks/toggles.lua`.
+
 ---
 
 ## Persisted Toggles
@@ -71,6 +78,8 @@ Autocmd-based features are also persisted and can be toggled at runtime via `<le
 ## How It Works
 
 The persistence module lives at `lua/rosavim/config/toggles.lua`. It reads and writes a JSON file to Rosavim's cache directory. Each toggle is saved immediately when changed, and restored automatically on startup.
+
+All toggle keymaps are registered via `Snacks.toggle():map()` in `lua/rosavim/plugins/ui/snacks/toggles.lua`. This centralizes toggle definitions and enables the dynamic which-key integration automatically.
 
 ---
 

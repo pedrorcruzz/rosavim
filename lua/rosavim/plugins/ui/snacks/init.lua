@@ -122,31 +122,7 @@ return {
         end
         vim.print = _G.dd
 
-        local toggles = require 'rosavim.config.toggles'
-
-        local function persist_toggle(snacks_toggle, key)
-          local orig_toggle = snacks_toggle.toggle
-          snacks_toggle.toggle = function(self)
-            orig_toggle(self)
-            toggles.set(key, self:get())
-          end
-          return snacks_toggle
-        end
-
-        persist_toggle(Snacks.toggle.option('wrap', { name = 'Wrap' }), 'wrap'):map '<leader>lw'
-        persist_toggle(Snacks.toggle.option('relativenumber', { name = 'Relative Number' }), 'relativenumber'):map '<leader>lg'
-        persist_toggle(Snacks.toggle.line_number(), 'linenumber'):map '<leader>ln'
-        Snacks.toggle.zen():map '<leader>lz'
-        persist_toggle(Snacks.toggle.indent(), 'indent'):map '<leader>li'
-        persist_toggle(Snacks.toggle.dim(), 'dim'):map '<leader>lk'
-
-        -- Restore persisted states
-        if toggles.get 'indent' then
-          Snacks.toggle.indent():set(true)
-        end
-        if toggles.get 'dim' then
-          Snacks.toggle.dim():set(true)
-        end
+        require 'rosavim.plugins.ui.snacks.toggles'
       end,
     })
   end,

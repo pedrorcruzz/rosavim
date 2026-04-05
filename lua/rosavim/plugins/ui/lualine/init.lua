@@ -40,11 +40,10 @@ function ToggleLualineTheme()
   lualine_config.options.theme = use_custom_theme and theme.create() or 'auto'
   lualine.setup(lualine_config)
   lualine.hide { unhide = lualine_visible }
-  if use_custom_theme then
-    vim.notify('Lualine Theme: Default', vim.log.levels.INFO)
-  else
-    vim.notify('Lualine Theme: Auto', vim.log.levels.INFO)
-  end
+  Snacks.notify(
+    (use_custom_theme and 'Enabled' or 'Disabled') .. ' **Lualine Custom Theme**',
+    { title = 'Lualine Theme', level = use_custom_theme and vim.log.levels.INFO or vim.log.levels.WARN }
+  )
 end
 
 return {

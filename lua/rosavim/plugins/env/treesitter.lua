@@ -103,15 +103,7 @@ return {
         max_lines = 0,
       }
 
-      vim.api.nvim_create_user_command('TSContextToggle', function()
-        local new_val = toggles.toggle 'tscontext'
-        context.toggle()
-        if new_val then
-          vim.notify('TSContext: On', vim.log.levels.INFO)
-        else
-          vim.notify('TSContext: Off', vim.log.levels.INFO)
-        end
-      end, { desc = 'Toggle Treesitter Context' })
+      -- Toggle keymap defined in snacks/toggles.lua
     end,
   },
 }

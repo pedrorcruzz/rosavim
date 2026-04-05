@@ -4,6 +4,13 @@ Rosavim lembra o estado dos seus toggles de interface entre sessões. Quando voc
 
 Todos os estados de toggle são armazenados em um único arquivo de cache em `~/.cache/nvim/rosavim-toggles`.
 
+Todos os toggles utilizam `Snacks.toggle`, que oferece:
+
+- **Notificações estilizadas** — popups bonitos do Snacks notifier ao alternar (Enabled/Disabled)
+- **Ícones dinâmicos no which-key** — toggles mostram seu estado atual diretamente no which-key com ícones coloridos (verde = ativado, amarelo = desativado) e labels contextuais ("Enable X" / "Disable X")
+
+As definições de toggles são centralizadas em `lua/rosavim/plugins/ui/snacks/toggles.lua`.
+
 ---
 
 ## Toggles Persistidos
@@ -71,6 +78,8 @@ Funcionalidades baseadas em autocmd também são persistidas e podem ser alterna
 ## Como Funciona
 
 O módulo de persistência fica em `lua/rosavim/config/toggles.lua`. Ele lê e escreve um arquivo JSON no diretório de cache do Rosavim. Cada toggle é salvo imediatamente ao ser alterado e restaurado automaticamente na inicialização.
+
+Todos os keymaps de toggle são registrados via `Snacks.toggle():map()` em `lua/rosavim/plugins/ui/snacks/toggles.lua`. Isso centraliza as definições de toggles e habilita a integração dinâmica com o which-key automaticamente.
 
 ---
 
