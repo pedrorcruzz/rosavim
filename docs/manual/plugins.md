@@ -129,7 +129,7 @@ Rosavim ships with **75+ plugins**, all managed by [Lazy.nvim](https://github.co
 |:-------|:------------|
 | [flash.nvim](https://github.com/folke/flash.nvim) | Navigate code with search labels — replaces f/F/t/T motions |
 | Rosapoon (built-in) | Tag/bookmark files for instant access (persisted per git repo) |
-| [goto-preview.nvim](https://github.com/rmagatti/goto-preview.nvim) | Preview LSP definitions in floating windows |
+| Rosapreview (built-in) | Preview LSP definitions in floating windows |
 | [grug-far.nvim](https://github.com/MagicDuck/grug-far.nvim) | Search and replace powered by ripgrep |
 
 ---

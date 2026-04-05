@@ -107,14 +107,14 @@
 | n | `gr` | Referências | Em um nome de função, pressione `gr` para ver todos os usos no projeto |
 | n | `gI` | Ir para implementação | Em um método de interface, pressione `gI` para encontrar suas implementações |
 | n | `gy` | Ir para definição de tipo | Pressione `gy` para ir para a definição de tipo do símbolo |
-| n | `gp` | Preview da definição | Pressione `gp` para ver a definição em uma janela flutuante |
-| n | `gP` | Fechar todos os previews | Pressione `gP` para fechar todas as janelas de preview |
+| n | `gp` | Rosapreview: Definição | Pressione `gp` para ver a definição em uma janela flutuante |
+| n | `gP` | Rosapreview: Fechar Todos | Pressione `gP` para fechar todas as janelas de preview |
 | n | `<leader>lr` | Renomear símbolo | `Space l r` em uma variável, digite o novo nome — renomeia em todo o projeto |
 | n | `<leader>la` | Code action | `Space l a` para ver ações de código disponíveis (imports, correções, refatorações) |
 | n | `<leader>lv` | Renomear arquivo | `Space l v` para renomear o arquivo atual e atualizar todos os imports |
 | n | `<leader>lo` | Alternar outline | `Space l o` para abrir/fechar a barra lateral de outline do código |
-| n | `<leader>Q` | Expandir preview (vsplit) | Abrir a definição do preview em um split vertical |
-| n | `<leader>M` | Expandir preview (substituir) | Abrir a definição do preview substituindo a janela atual |
+| n | `<leader>Q` | Rosapreview: Expandir Vsplit | Abrir a definição do preview em um split vertical |
+| n | `<leader>M` | Rosapreview: Substituir Janela | Abrir a definição do preview substituindo a janela atual |
 
 ---
 

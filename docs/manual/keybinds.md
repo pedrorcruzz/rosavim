@@ -107,14 +107,14 @@
 | n | `gr` | References | On a function name, press `gr` to see all usages across the project |
 | n | `gI` | Go to implementation | On an interface method, press `gI` to find its implementations |
 | n | `gy` | Go to type definition | Press `gy` to jump to the type definition of the symbol |
-| n | `gp` | Preview definition | Press `gp` to see the definition in a floating preview window |
-| n | `gP` | Close all previews | Press `gP` to close all preview windows |
+| n | `gp` | Rosapreview: Definition | Press `gp` to see the definition in a floating preview window |
+| n | `gP` | Rosapreview: Close All | Press `gP` to close all preview windows |
 | n | `<leader>lr` | Rename symbol | `Space l r` on a variable, type the new name — renames across the project |
 | n | `<leader>la` | Code action | `Space l a` to see available code actions (imports, fixes, refactors) |
 | n | `<leader>lv` | Rename file | `Space l v` to rename the current file and update all imports |
 | n | `<leader>lo` | Toggle outline | `Space l o` to open/close a code outline sidebar |
-| n | `<leader>Q` | Expand preview (vsplit) | Open the preview definition in a vertical split |
-| n | `<leader>M` | Expand preview (replace) | Open the preview definition replacing the current window |
+| n | `<leader>Q` | Rosapreview: Expand Vsplit | Open the preview definition in a vertical split |
+| n | `<leader>M` | Rosapreview: Replace Window | Open the preview definition replacing the current window |
 
 ---
 

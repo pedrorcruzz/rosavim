@@ -5,17 +5,19 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
+local toggles = require 'rosavim.config.toggles'
+
 -- Trigger the Snacks picker if Neovim is started with a single directory as an argument
+local opened_with_dir = false
 vim.api.nvim_create_autocmd('VimEnter', {
   callback = function()
     local arg = vim.fn.argv(0)
     if vim.fn.argc() == 1 and vim.fn.isdirectory(arg) == 1 then
+      opened_with_dir = true
       Snacks.picker.smart()
     end
   end,
 })
-
-local toggles = require 'rosavim.config.toggles'
 
 --last cursor position
 local grp_lastpos = vim.api.nvim_create_augroup('LastCursorPos', { clear = true })
@@ -169,6 +171,11 @@ vim.api.nvim_create_autocmd('VimEnter', {
 
     -- Skip when dashboard is shown (no args)
     if vim.fn.argc() == 0 then
+      return
+    end
+
+    -- Skip when opened with a directory (nvim .) — picker handles that
+    if opened_with_dir then
       return
     end
 
