@@ -1,4 +1,40 @@
+local function pick_tabs()
+  local current = vim.fn.tabpagenr()
+  local items = {}
+  for i = 1, vim.fn.tabpagenr('$') do
+    local wins = vim.fn.tabpagebuflist(i)
+    local buf = wins[1]
+    local name = vim.api.nvim_buf_get_name(buf)
+    name = name ~= '' and vim.fn.fnamemodify(name, ':t') or '[No Name]'
+    local prefix = i == current and '%' or ' '
+    items[#items + 1] = {
+      idx = i,
+      text = string.format('%s %d: %s', prefix, i, name),
+      file = vim.api.nvim_buf_get_name(buf),
+      buf = buf,
+    }
+  end
+  Snacks.picker {
+    title = 'Tabs',
+    items = items,
+    format = function(item)
+      return { { item.text } }
+    end,
+    confirm = function(picker, item)
+      picker:close()
+      if item then
+        vim.cmd('tabn ' .. item.idx)
+      end
+    end,
+  }
+end
+
 return {
+  -- Tab Buffers (filtered by current tab)
+  { '<leader>tf', pick_tabs, desc = 'Tab Buffers' },
+  { '<leader>st', pick_tabs, desc = 'Tab Buffers' },
+  { '<leader>fw', pick_tabs, desc = 'Tab Buffers' },
+
   -- Top Pickers & Explorer
   { '<leader>fs', function() Snacks.picker.smart() end, desc = 'Smart Find Files' },
   { '<leader><cr>', function() Snacks.picker.smart() end, desc = 'Smart Find Files' },

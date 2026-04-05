@@ -163,6 +163,9 @@
 | n | `<leader>tc` | Close tab | `Space t c` to close the current tab |
 | n | `<leader>tC` | Close other tabs | `Space t Shift+c` to close all tabs except the current one |
 | n | `<leader>t1`-`t0` | Go to tab N | `Space t 1` through `t 0` to jump to tab 1-10 |
+| n | `<leader>tf` | Pick tab (Snacks) | `Space t f` to open a tab picker and switch tabs |
+| n | `<leader>st` | Pick tab (Snacks) | `Space s t` to open a tab picker and switch tabs |
+| n | `<leader>fw` | Pick tab (Snacks) | `Space f w` to open a tab picker and switch tabs |
 
 ---
 

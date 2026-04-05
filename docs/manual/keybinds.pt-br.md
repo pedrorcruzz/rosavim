@@ -163,6 +163,9 @@
 | n | `<leader>tc` | Fechar aba | `Space t c` para fechar a aba atual |
 | n | `<leader>tC` | Fechar outras abas | `Space t Shift+c` para fechar todas as abas exceto a atual |
 | n | `<leader>t1`-`t0` | Ir para aba N | `Space t 1` até `t 0` para ir para a aba 1-10 |
+| n | `<leader>tf` | Picker de abas (Snacks) | `Space t f` para abrir o picker de abas e trocar entre elas |
+| n | `<leader>st` | Picker de abas (Snacks) | `Space s t` para abrir o picker de abas e trocar entre elas |
+| n | `<leader>fw` | Picker de abas (Snacks) | `Space f w` para abrir o picker de abas e trocar entre elas |
 
 ---
 
