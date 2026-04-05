@@ -8,7 +8,7 @@ return {
       function()
         require('rosavim.rosa_plugins.rosapick').pick()
       end,
-      desc = 'Rosapick: Pick a Window',
+      desc = 'Rosapick',
     },
   },
 }

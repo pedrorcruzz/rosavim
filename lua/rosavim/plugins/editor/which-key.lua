@@ -26,6 +26,7 @@ return {
       { '<leader>x', group = 'Rosafile', icon = '' },
 
       { '<leader>n', group = 'Rosatest', icon = '󰙨' },
+      { '<leader>m', group = 'Rosapick', icon = '' },
 
       { '<leader>y', group = 'Yazi', icon = '' },
       { '<leader>;', group = 'Dashboard', icon = '󰕮' },
@@ -37,7 +38,6 @@ return {
       { '<leader>ci', group = 'ToggleTerm', icon = ' ' },
       { '<leader>o', group = 'Rosapoon', icon = '󰛢' },
       { '<leader>k', group = 'Yeet Tmux', icon = ' ' },
-      -- { '<leader>o', group = 'Harpoon', icon = '󱝩' },
 
       { '<leader>j', group = 'Obsidian', icon = '' },
       { '<leader>vb', group = 'Buffers', icon = '' },
@@ -85,7 +85,6 @@ return {
     { '<leader>R', '<cmd>Rosavim<cr>', desc = 'Rosavim' },
     { '<leader>w', '<cmd>w!<cr>', desc = 'Save' },
     { '<leader>W', '<cmd>noa w<cr>', desc = 'Save Without Formatter' },
-    -- { '<leader>c', '<cmd>close<cr>', desc = 'Close Window' },
     { '<leader>h', '<cmd>nohlsearch<cr>', desc = 'No Highlight' },
     { '<leader>q', '<cmd>confirm q<cr>', desc = 'Exit' },
     { '<leader>lt', '<cmd>TSContextToggle<cr>', desc = 'TSCOntext: Toggle' },
