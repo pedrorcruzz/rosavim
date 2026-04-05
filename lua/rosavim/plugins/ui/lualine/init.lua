@@ -23,28 +23,7 @@ local lualine_config = {
   inactive_sections = sections.inactive_sections,
 }
 
-function ToggleLualine()
-  local lualine = require 'lualine'
-  if not package.loaded['lualine'] then
-    lualine.setup(lualine_config)
-  end
-  lualine_visible = toggles.toggle 'lualine'
-  lualine.hide { unhide = lualine_visible }
-end
-
-vim.keymap.set('n', '<leader>ll', ToggleLualine, { desc = 'Toggle Lualine' })
-
-function ToggleLualineTheme()
-  local lualine = require 'lualine'
-  use_custom_theme = toggles.toggle 'lualine_theme'
-  lualine_config.options.theme = use_custom_theme and theme.create() or 'auto'
-  lualine.setup(lualine_config)
-  lualine.hide { unhide = lualine_visible }
-  Snacks.notify(
-    (use_custom_theme and 'Enabled' or 'Disabled') .. ' **Lualine Custom Theme**',
-    { title = 'Lualine Theme', level = use_custom_theme and vim.log.levels.INFO or vim.log.levels.WARN }
-  )
-end
+-- Lualine and Lualine Theme toggles moved to snacks/toggles.lua
 
 return {
   'nvim-lualine/lualine.nvim',

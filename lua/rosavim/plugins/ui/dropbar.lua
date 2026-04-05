@@ -26,21 +26,6 @@ return {
       mode = 'n',
       desc = 'Pick symbols in winbar',
     },
-    {
-      '<leader>lb',
-      function()
-        dropbar_enabled = toggles.toggle 'dropbar'
-        for _, win in ipairs(vim.api.nvim_list_wins()) do
-          if not dropbar_enabled then
-            vim.api.nvim_set_option_value('winbar', '', { scope = 'local', win = win })
-          else
-            local buf = vim.api.nvim_win_get_buf(win)
-            vim.api.nvim_exec_autocmds('BufWinEnter', { buffer = buf })
-          end
-        end
-      end,
-      mode = 'n',
-      desc = 'Dropbar: Toggle',
-    },
+    -- Dropbar toggle moved to snacks/toggles.lua
   },
 }

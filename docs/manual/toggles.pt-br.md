@@ -9,27 +9,50 @@ Todos os toggles utilizam `Snacks.toggle`, que oferece:
 - **Notificações estilizadas** — popups bonitos do Snacks notifier ao alternar (Enabled/Disabled)
 - **Ícones dinâmicos no which-key** — toggles mostram seu estado atual diretamente no which-key com ícones coloridos (verde = ativado, amarelo = desativado) e labels contextuais ("Enable X" / "Disable X")
 
-As definições de toggles são centralizadas em `lua/rosavim/plugins/ui/snacks/toggles.lua`.
+As definições de toggles são organizadas em arquivos modulares em `lua/rosavim/plugins/ui/snacks/toggles/`:
+
+| Módulo | Toggles |
+|:-------|:--------|
+| `options.lua` | Opções do Vim (wrap, número relativo, número de linha, indentação, dim, ortografia) |
+| `plugins.lua` | Toggles de plugins (Rosasave, Incline, TSContext, Copilot, Dropbar) |
+| `appearance.lua` | Toggles de tema (Dark/Light, Transparência, Lualine, Tema do Lualine) |
+| `autocmds.lua` | Toggles de autocmd (Explorer, Editor, LSP, DBUI) |
+
+O orquestrador em `lua/rosavim/plugins/ui/snacks/toggles.lua` carrega todos os módulos e restaura os estados persistidos.
 
 ---
 
 ## Toggles Persistidos
 
+### Opções (`<leader>l`)
+
 | Atalho | Toggle | Padrão |
 |:-------|:-------|:-------|
-| `<leader>ll` | Statusline (Lualine) | Ativado |
-| `<leader>lb` | Dropbar (breadcrumbs) | Desativado |
-| `<leader>ls` | Auto Save | Desativado |
-| `<leader>lt` | Treesitter Context | Desativado |
-| `<leader>ljj` | Verificação Ortográfica | Desativado |
-| `<leader>ljp` / `<leader>lje` | Idioma Ortográfico (pt/en) | en |
 | `<leader>lg` | Número Relativo | Ativado |
 | `<leader>ln` | Números de Linha | Ativado |
+| `<leader>lw` | Quebra de Linha | Desativado |
 | `<leader>li` | Guia de Indentação | Desativado |
 | `<leader>lk` | Dimming | Desativado |
-| `<leader>lw` | Quebra de Linha | Desativado |
-| `<leader>lql` | Tema do Lualine (Auto/Default) | Default |
+| `<leader>ljj` | Verificação Ortográfica | Desativado |
+| `<leader>ljp` / `<leader>lje` | Idioma Ortográfico (pt/en) | en |
+
+### Aparência (`<leader>lq`)
+
+| Atalho | Toggle | Padrão |
+|:-------|:-------|:-------|
+| `<leader>lqt` | Modo Claro (Dark/Light) | Dark |
+| `<leader>lqe` | Transparência | Desativado |
+| `<leader>lql` | Tema Custom do Lualine (Auto/Default) | Default |
+| `<leader>ll` | Lualine (visibilidade da Statusline) | Ativado |
+
+### Plugins (`<leader>l`)
+
+| Atalho | Toggle | Padrão |
+|:-------|:-------|:-------|
+| `<leader>ls` | Rosasave (Auto Save) | Desativado |
+| `<leader>lt` | TSContext (Treesitter Context) | Desativado |
 | `<leader>lc` | Incline (nome do arquivo flutuante) | Ativado |
+| `<leader>lb` | Dropbar (breadcrumbs) | Desativado |
 
 ### IA (`<leader>ai`)
 
@@ -79,7 +102,9 @@ Funcionalidades baseadas em autocmd também são persistidas e podem ser alterna
 
 O módulo de persistência fica em `lua/rosavim/config/toggles.lua`. Ele lê e escreve um arquivo JSON no diretório de cache do Rosavim. Cada toggle é salvo imediatamente ao ser alterado e restaurado automaticamente na inicialização.
 
-Todos os keymaps de toggle são registrados via `Snacks.toggle():map()` em `lua/rosavim/plugins/ui/snacks/toggles.lua`. Isso centraliza as definições de toggles e habilita a integração dinâmica com o which-key automaticamente.
+Todos os keymaps de toggle são registrados via `Snacks.toggle():map()` nos arquivos modulares em `lua/rosavim/plugins/ui/snacks/toggles/`. Isso centraliza as definições de toggles e habilita a integração dinâmica com o which-key automaticamente.
+
+Todas as notificações do Rosavim usam `Snacks.notify` para uma experiência de notificação consistente e estilizada.
 
 ---
 

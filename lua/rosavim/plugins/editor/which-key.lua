@@ -87,8 +87,7 @@ return {
     { '<leader>W', '<cmd>noa w<cr>', desc = 'Save Without Formatter' },
     { '<leader>h', '<cmd>nohlsearch<cr>', desc = 'No Highlight' },
     { '<leader>q', '<cmd>confirm q<cr>', desc = 'Exit' },
-    -- TSContext toggle moved to snacks/toggles.lua
-    { '<leader>lql', ToggleLualineTheme, desc = 'Toggle Lualine Theme (Auto/Default)' },
+    -- TSContext, Lualine Theme toggles moved to snacks/toggles.lua
     { '<leader>fp', '<cmd>NeovimProjectDiscover<cr>', desc = 'Discover Projects' },
 
     --Spell

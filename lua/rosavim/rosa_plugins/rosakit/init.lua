@@ -105,7 +105,7 @@ local function open_section_picker(root, section)
   local files = collect_files(root, section)
 
   if #files == 0 then
-    vim.notify('Rosakit: no files found in ' .. section.label, vim.log.levels.INFO)
+    Snacks.notify.info('Rosakit: no files found in ' .. section.label)
     return
   end
 
@@ -146,7 +146,7 @@ local function run_lsp_tool(tool)
     -- Vim command
     local ok, err = pcall(vim.cmd, tool.cmd)
     if not ok then
-      vim.notify('Rosakit: ' .. (err or 'command failed'), vim.log.levels.WARN)
+      Snacks.notify.warn('Rosakit: ' .. (err or 'command failed'))
     end
   end
 end
@@ -157,7 +157,7 @@ function M.show_sections(ws)
   local available = get_available_sections(ws.root, ws.stack)
 
   if #available == 0 then
-    vim.notify('Rosakit: no sections found for ' .. ws.stack.name, vim.log.levels.INFO)
+    Snacks.notify.info('Rosakit: no sections found for ' .. ws.stack.name)
     return
   end
 
@@ -179,7 +179,7 @@ function M.open()
   local workspaces = stacks.detect_workspaces(root)
 
   if #workspaces == 0 then
-    vim.notify('Rosakit: no stack detected in ' .. vim.fn.fnamemodify(root, ':t'), vim.log.levels.INFO)
+    Snacks.notify.info('Rosakit: no stack detected in ' .. vim.fn.fnamemodify(root, ':t'))
     return
   end
 

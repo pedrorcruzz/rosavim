@@ -144,7 +144,7 @@ local function lsp_preview(method)
   local bufnr = vim.api.nvim_get_current_buf()
   local clients = vim.lsp.get_clients { bufnr = bufnr }
   if #clients == 0 then
-    vim.notify('Rosapreview: no LSP client attached', vim.log.levels.WARN)
+    Snacks.notify.warn('Rosapreview: no LSP client attached')
     return
   end
   local params = vim.lsp.util.make_position_params(0, clients[1].offset_encoding)
@@ -156,11 +156,11 @@ local function lsp_preview(method)
 
   vim.lsp.buf_request(0, method, params, function(err, result)
     if err then
-      vim.notify('Rosapreview: ' .. (err.message or 'LSP error'), vim.log.levels.ERROR)
+      Snacks.notify.error('Rosapreview: ' .. (err.message or 'LSP error'))
       return
     end
     if not result or (type(result) == 'table' and vim.tbl_isempty(result)) then
-      vim.notify('Rosapreview: no results', vim.log.levels.INFO)
+      Snacks.notify.info('Rosapreview: no results')
       return
     end
 

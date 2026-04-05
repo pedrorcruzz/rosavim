@@ -64,7 +64,7 @@ end
 function M.toggle()
   local file = vim.fn.expand '%:p'
   if file == '' then
-    vim.notify('Rosapoon: no file to tag', vim.log.levels.WARN)
+    Snacks.notify.warn('Rosapoon: no file to tag')
     return
   end
 
@@ -73,14 +73,14 @@ function M.toggle()
     if tag == file then
       table.remove(tags, i)
       set_tags(tags)
-      vim.notify('Rosapoon: untagged', vim.log.levels.INFO)
+      Snacks.notify.info('Rosapoon: untagged')
       return
     end
   end
 
   table.insert(tags, file)
   set_tags(tags)
-  vim.notify('Rosapoon: tagged [' .. #tags .. ']', vim.log.levels.INFO)
+  Snacks.notify.info('Rosapoon: tagged [' .. #tags .. ']')
 end
 
 --- Select a tag by index
@@ -88,7 +88,7 @@ end
 function M.select(index)
   local tags = get_tags()
   if index < 1 or index > #tags then
-    vim.notify('Rosapoon: no tag at index ' .. index, vim.log.levels.INFO)
+    Snacks.notify.info('Rosapoon: no tag at index ' .. index)
     return
   end
   vim.cmd('edit ' .. vim.fn.fnameescape(tags[index]))
@@ -99,7 +99,7 @@ end
 function M.cycle(direction)
   local tags = get_tags()
   if #tags == 0 then
-    vim.notify('Rosapoon: no tags', vim.log.levels.INFO)
+    Snacks.notify.info('Rosapoon: no tags')
     return
   end
 
@@ -341,7 +341,7 @@ function M.toggle_tags()
     -- Check if already tagged
     for _, tag in ipairs(tags) do
       if tag == current_file then
-        vim.notify('Rosapoon: already tagged', vim.log.levels.INFO)
+        Snacks.notify.info('Rosapoon: already tagged')
         return
       end
     end
@@ -355,7 +355,7 @@ end
 function M.picker()
   local tags = get_tags()
   if #tags == 0 then
-    vim.notify('Rosapoon: no tags', vim.log.levels.INFO)
+    Snacks.notify.info('Rosapoon: no tags')
     return
   end
 

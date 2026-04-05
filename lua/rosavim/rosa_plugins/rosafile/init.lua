@@ -36,7 +36,7 @@ end
 function M.rename()
   local current = vim.api.nvim_buf_get_name(0)
   if current == '' then
-    vim.notify('Rosafile: no file to rename', vim.log.levels.WARN)
+    Snacks.notify.warn('Rosafile: no file to rename')
     return
   end
 
@@ -60,7 +60,7 @@ function M.rename()
       -- Move the file on disk
       local ok, err = vim.uv.fs_rename(current, new_path)
       if not ok then
-        vim.notify('Rosafile: failed to rename: ' .. (err or 'unknown'), vim.log.levels.ERROR)
+        Snacks.notify.error('Rosafile: failed to rename: ' .. (err or 'unknown'))
         return
       end
 
@@ -73,7 +73,7 @@ function M.rename()
       vim.cmd 'silent! bwipeout #'
 
       M._refresh_explorer(dir)
-      vim.notify('Renamed to: ' .. new_name, vim.log.levels.INFO)
+      Snacks.notify.info('Renamed to: ' .. new_name)
     end,
   }
 end
@@ -82,7 +82,7 @@ end
 function M.copy()
   local current = vim.api.nvim_buf_get_name(0)
   if current == '' then
-    vim.notify('Rosafile: no file to copy', vim.log.levels.WARN)
+    Snacks.notify.warn('Rosafile: no file to copy')
     return
   end
 
@@ -108,13 +108,13 @@ function M.copy()
 
       local ok = vim.fn.writefile(vim.fn.readfile(current, 'b'), new_path, 'b')
       if ok ~= 0 then
-        vim.notify('Rosafile: failed to copy file', vim.log.levels.ERROR)
+        Snacks.notify.error('Rosafile: failed to copy file')
         return
       end
 
       vim.cmd('edit ' .. vim.fn.fnameescape(new_path))
       M._refresh_explorer(dest_dir)
-      vim.notify('Copied to: ' .. vim.fn.fnamemodify(new_path, ':t'), vim.log.levels.INFO)
+      Snacks.notify.info('Copied to: ' .. vim.fn.fnamemodify(new_path, ':t'))
     end,
   }
 end
@@ -123,7 +123,7 @@ end
 function M.delete()
   local file_name = vim.api.nvim_buf_get_name(0)
   if file_name == '' then
-    vim.notify('Rosafile: no file to delete', vim.log.levels.WARN)
+    Snacks.notify.warn('Rosafile: no file to delete')
     return
   end
 
@@ -172,12 +172,12 @@ function M.delete()
 
       local ok, err = pcall(vim.fn.delete, file_name)
       if not ok then
-        vim.notify('Rosafile: failed to delete: ' .. (err or 'unknown'), vim.log.levels.ERROR)
+        Snacks.notify.error('Rosafile: failed to delete: ' .. (err or 'unknown'))
         return
       end
 
       M._refresh_explorer(dir)
-      vim.notify('Deleted: ' .. short_name, vim.log.levels.INFO)
+      Snacks.notify.info('Deleted: ' .. short_name)
     end,
   }
 end
@@ -191,7 +191,7 @@ end
 function M.info()
   local file = vim.api.nvim_buf_get_name(0)
   if file == '' then
-    vim.notify('Rosafile: no file open', vim.log.levels.WARN)
+    Snacks.notify.warn('Rosafile: no file open')
     return
   end
   ui.info_popup(file)
@@ -212,7 +212,7 @@ function M._create_file(path)
 
   vim.cmd('edit ' .. vim.fn.fnameescape(path))
   M._refresh_explorer(dir)
-  vim.notify('Created: ' .. vim.fn.fnamemodify(path, ':t'), vim.log.levels.INFO)
+  Snacks.notify.info('Created: ' .. vim.fn.fnamemodify(path, ':t'))
 end
 
 --- Internal: refresh snacks explorer

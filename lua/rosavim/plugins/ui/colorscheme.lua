@@ -18,20 +18,12 @@ vim.api.nvim_create_autocmd('ColorScheme', {
   end,
 })
 
-local appearance = require 'rosavim.config.appearance'
-
-vim.keymap.set('n', '<leader>lqt', function()
-  appearance.toggle()
-end, { desc = 'Toggle Dark/Light' })
+-- Dark/Light and Transparent toggles moved to snacks/toggles.lua
 
 vim.keymap.set('n', '<leader>lqs', function()
   ---@diagnostic disable-next-line: undefined-global
   Snacks.picker.colorschemes()
 end, { desc = 'Search Colorscheme' })
-
-vim.keymap.set('n', '<leader>lqe', function()
-  appearance.toggle_transparent()
-end, { desc = 'Toggle Transparent' })
 
 return {
   {

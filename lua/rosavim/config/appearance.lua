@@ -20,25 +20,7 @@ function M.get_transparent()
   return M._transparent
 end
 
-function M.toggle_transparent()
-  M._transparent = not M._transparent
-  vim.fn.writefile({ M._transparent and 'true' or 'false' }, tp_cache)
-
-  if M._reloader then
-    M._reloader()
-  else
-    local name = vim.g.colors_name
-    if name then
-      vim.cmd('colorscheme ' .. name)
-    end
-  end
-
-  local state = M._transparent
-  Snacks.notify(
-    (state and 'Enabled' or 'Disabled') .. ' **Transparent**',
-    { title = 'Transparent', level = state and vim.log.levels.INFO or vim.log.levels.WARN }
-  )
-end
+-- toggle_transparent() removed — handled by snacks/toggles.lua
 
 function M.setup()
   local ok, content = pcall(vim.fn.readfile, bg_cache)
@@ -63,25 +45,6 @@ function M.register_reloader(fn)
   M._reloader = fn
 end
 
-function M.toggle()
-  local new_mode = vim.o.background == 'dark' and 'light' or 'dark'
-  vim.o.background = new_mode
-  vim.fn.writefile({ new_mode }, bg_cache)
-
-  if M._reloader then
-    M._reloader()
-  else
-    local name = vim.g.colors_name
-    if name then
-      vim.cmd('colorscheme ' .. name)
-    end
-  end
-
-  local state = new_mode == 'light'
-  Snacks.notify(
-    (state and 'Enabled' or 'Disabled') .. ' **Background Light**',
-    { title = 'Background', level = state and vim.log.levels.INFO or vim.log.levels.WARN }
-  )
-end
+-- toggle() removed — handled by snacks/toggles.lua
 
 return M

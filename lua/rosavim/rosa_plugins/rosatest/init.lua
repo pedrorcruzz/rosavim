@@ -25,7 +25,7 @@ function M.run(mode, opts)
 
   local runner, runner_name = runners.detect(ft)
   if not runner then
-    vim.notify('Rosatest: no runner detected for this project', vim.log.levels.WARN)
+    Snacks.notify.warn('Rosatest: no runner detected for this project')
     return
   end
 
@@ -39,7 +39,7 @@ function M.run(mode, opts)
   end
 
   if not cmd then
-    vim.notify('Rosatest: failed to generate command', vim.log.levels.WARN)
+    Snacks.notify.warn('Rosatest: failed to generate command')
     return
   end
 
@@ -128,7 +128,7 @@ function M.run_last()
   if M._last_run then
     M._last_run()
   else
-    vim.notify('Rosatest: no tests run yet', vim.log.levels.INFO)
+    Snacks.notify.info('Rosatest: no tests run yet')
   end
 end
 
@@ -138,7 +138,7 @@ function M.stop()
     vim.fn.jobstop(M._job)
     M._job = nil
     ui.close()
-    vim.notify('Rosatest: test cancelled', vim.log.levels.INFO)
+    Snacks.notify.info('Rosatest: test cancelled')
   end
 end
 
@@ -149,7 +149,7 @@ function M.toggle_output()
   elseif ui._state.summary then
     ui.show_results(ui._state.summary, ui._state.runner_name, ui._state.elapsed, M._last_run)
   else
-    vim.notify('Rosatest: no results available', vim.log.levels.INFO)
+    Snacks.notify.info('Rosatest: no results available')
   end
 end
 
@@ -162,7 +162,7 @@ end
 function M.pick_test_files()
   local ok, snacks = pcall(require, 'snacks')
   if not ok then
-    vim.notify('Rosatest: snacks.nvim is required for the picker', vim.log.levels.ERROR)
+    Snacks.notify.error('Rosatest: snacks.nvim is required for the picker')
     return
   end
 
@@ -209,7 +209,7 @@ function M.pick_test_files()
   table.sort(unique)
 
   if #unique == 0 then
-    vim.notify('Rosatest: no test files found', vim.log.levels.INFO)
+    Snacks.notify.info('Rosatest: no test files found')
     return
   end
 

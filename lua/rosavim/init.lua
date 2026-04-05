@@ -7,7 +7,7 @@ M.name = 'Rosavim'
 local function browse_dir(title, dir)
   local files = vim.fn.globpath(dir, '**/*.lua', false, true)
   if #files == 0 then
-    vim.notify('No files found', vim.log.levels.INFO)
+    Snacks.notify.info('No files found')
     return
   end
 
