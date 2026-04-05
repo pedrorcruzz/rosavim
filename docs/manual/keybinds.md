@@ -283,6 +283,7 @@
 |:----:|:----|:-------|:--------|
 | n,t,i,x | `<C-.>` | Focus Sidekick | `Ctrl+.` to focus the Sidekick chat window |
 | n | `<leader>aa` | Toggle CLI | `Space a a` to toggle the Sidekick CLI |
+| x | `<leader>aa` | Ask AI (selection) | Select code, `Space a a` to type a question and send it with file context |
 | n | `<leader>as` | Select CLI | `Space a s` to select which CLI backend to use |
 | n | `<leader>ad` | Detach session | `Space a d` to close the current CLI session |
 | n,x | `<leader>at` | Send this | `Space a t` to send the current context to Sidekick |

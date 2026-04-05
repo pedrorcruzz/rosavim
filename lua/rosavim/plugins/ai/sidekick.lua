@@ -98,6 +98,33 @@ return {
         desc = 'Sidekick Toggle CLI',
       },
       {
+        '<leader>aa',
+        function()
+          -- Capture selection range before leaving visual mode
+          local start_line = vim.fn.line 'v'
+          local end_line = vim.fn.line '.'
+          if start_line > end_line then
+            start_line, end_line = end_line, start_line
+          end
+          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, false, true), 'nx', false)
+
+          Snacks.input({ prompt = '  Ask AI' }, function(input)
+            if not input or input == '' then
+              return
+            end
+            local file = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ':~:.')
+            local ref = '@' .. file .. ':' .. start_line .. '-' .. end_line
+            require('sidekick.cli').send {
+              msg = ref .. ' ' .. input,
+              show = true,
+              focus = true,
+            }
+          end)
+        end,
+        mode = 'x',
+        desc = 'Ask AI (selection + prompt)',
+      },
+      {
         '<leader>as',
         function()
           require('sidekick.cli').select()

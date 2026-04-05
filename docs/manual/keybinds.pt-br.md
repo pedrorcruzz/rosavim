@@ -283,6 +283,7 @@
 |:----:|:------|:-----|:--------|
 | n,t,i,x | `<C-.>` | Focar Sidekick | `Ctrl+.` para focar a janela de chat do Sidekick |
 | n | `<leader>aa` | Alternar CLI | `Space a a` para alternar o CLI do Sidekick |
+| x | `<leader>aa` | Perguntar à IA (seleção) | Selecione código, `Space a a` para digitar uma pergunta e enviar com contexto do arquivo |
 | n | `<leader>as` | Selecionar CLI | `Space a s` para selecionar qual backend de CLI usar |
 | n | `<leader>ad` | Desconectar sessão | `Space a d` para fechar a sessão CLI atual |
 | n,x | `<leader>at` | Enviar contexto | `Space a t` para enviar o contexto atual para o Sidekick |
