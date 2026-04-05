@@ -1,26 +1,21 @@
-local incline_active = true
-
 return {
   'b0o/incline.nvim',
   dependencies = {
     { 'SmiteshP/nvim-navic', setup = { highlight = true } },
     'echasnovski/mini.icons',
-    -- rosapoon (no external dep needed, just require below)
   },
   event = 'VeryLazy',
   config = function()
-    local helpers = require 'incline.helpers'
-    local navic = require 'nvim-navic'
     local icons = require 'mini.icons'
     local rosapoon = require 'rosavim.rosa_plugins.rosapoon'
-    -- local harpoon = require 'harpoon'
+    local toggles = require 'rosavim.config.toggles'
 
     require('incline').setup {
       hide = { cursorline = true },
       window = {
         padding = 0,
-        margin = { horizontal = 0, vertical = 0 },
-        placement = { vertical = 'bottom', horizontal = 'center' }, --bottom, center, right, left, top
+        margin = { horizontal = 0, vertical = 1 },
+        placement = { vertical = 'bottom', horizontal = 'center' },
       },
       render = function(props)
         local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ':t')
@@ -53,7 +48,7 @@ return {
           end
 
           if #label > 0 then
-            table.insert(label, 1, { '󰛢 ', guifg = '#928374' })
+            table.insert(label, 1, { '󰛢 ', guifg = '#d4d4d4' })
           end
           return label
         end
@@ -65,42 +60,9 @@ return {
 
         return res
       end,
-
-      -- local function get_harpoon_items()
-      --        local marks = harpoon:list().items
-      --        local current_file_path = vim.fn.expand '%:p:. '
-      --        local label = {}
-      --
-      --        for id, item in ipairs(marks) do
-      --          if item.value == current_file_path then
-      --            table.insert(label, { id .. ' ', guifg = '#FFFFFF', gui = 'bold' })
-      --          else
-      --            table.insert(label, { id .. ' ', guifg = '#434852' })
-      --          end
-      --        end
-      --
-      --        if #label > 0 then
-      --          table.insert(label, 1, { '󰛢 ', guifg = '#CA8BFF' })
-      --        end
-      --        return label
-      --      end
-      --      local harpoon_items = get_harpoon_items()
-      --      for _, item in ipairs(harpoon_items) do
-      --        table.insert(res, item)
-      --      end
-      --
-      --      -- if ft_icon then
-      --      --    table.insert(res, ' ')
-      --      --    -- table.insert(res, { '', guifg = '#1A1A1A' })
-      --      --    table.insert(res, { ' ', ' ', guibg = '#1A1A1A', guifg = helpers.contrast_color '#1A1A1A' })
-      --      --    table.insert(res, { '', guifg = '#1A1A1A' })
-      --      -- end
-      --
-      --      return res
-      --    end,
     }
 
-    if not incline_active then
+    if not toggles.get 'incline' then
       require('incline').disable()
     end
   end,
@@ -113,13 +75,14 @@ return {
           require('lazy').load { plugins = { 'incline.nvim' } }
         end
 
-        if incline_active then
-          require('incline').disable()
-          incline_active = false
-        else
+        local toggles = require 'rosavim.config.toggles'
+        local enabled = toggles.toggle 'incline'
+        if enabled then
           require('incline').enable()
-          incline_active = true
+        else
+          require('incline').disable()
         end
+        vim.notify('Incline: ' .. (enabled and 'enabled' or 'disabled'))
       end,
       desc = 'Incline: Toggle',
     },

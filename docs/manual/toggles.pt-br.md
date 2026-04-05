@@ -22,6 +22,7 @@ Todos os estados de toggle são armazenados em um único arquivo de cache em `~/
 | `<leader>lk` | Dimming | Desativado |
 | `<leader>lw` | Quebra de Linha | Desativado |
 | `<leader>lql` | Tema do Lualine (Auto/Default) | Default |
+| `<leader>lc` | Incline (nome do arquivo flutuante) | Ativado |
 
 ### IA (`<leader>ai`)
 

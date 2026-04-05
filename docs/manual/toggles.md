@@ -22,6 +22,7 @@ All toggle states are stored in a single cache file at `~/.cache/nvim/rosavim-to
 | `<leader>lk` | Dimming | Off |
 | `<leader>lw` | Word Wrap | Off |
 | `<leader>lql` | Lualine Theme (Auto/Default) | Default |
+| `<leader>lc` | Incline (floating filename) | On |
 
 ### AI (`<leader>ai`)
 

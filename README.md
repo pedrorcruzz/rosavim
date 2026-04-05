@@ -30,7 +30,7 @@
 
 Rosavim is a Neovim distribution built for developers who want a complete, fast, and beautiful development environment without spending hours configuring from scratch. With first-class support for the most popular languages and frameworks, just clone and start coding.
 
-Built on top of **Lazy.nvim**, Rosavim loads **79+ plugins** intelligently, keeping startup fast and the experience smooth.
+Built on top of **Lazy.nvim**, Rosavim loads **75+ plugins** intelligently, keeping startup fast and the experience smooth.
 
 ## Documentation
 
@@ -106,6 +106,7 @@ Rosavim ships with full support (LSP, formatting, linting, testing, and debuggin
 - Custom **dashboard** with quick access to projects and recent files
 - **Lualine** statusline with mode, git, LSP, and Copilot info
 - **Dropbar** breadcrumbs for navigation
+- **Incline** floating filename indicator per window (toggleable)
 - **Noice.nvim** for modern messages and command line
 
 ### File Management
@@ -185,6 +186,9 @@ On the first launch, **Lazy.nvim** will install all plugins and **Mason** will s
 │   └── rosa_plugins/
 │       ├── rosatest/                 # Built-in test runner (Go, Jest, Vitest, Pytest, Pest, Java)
 │       ├── rosafile/                 # Built-in file operations (create, rename, duplicate, delete)
+│       ├── rosapick/                 # Built-in visual window picker
+│       ├── rosasave/                 # Built-in auto-save with debounce
+│       ├── rosasweep/                # Built-in automatic buffer sweeper (closes inactive buffers)
 │       └── rosakit/                  # Language-aware project navigator
 ├── lsp/                              # Individual LSP configurations
 └── assets/                           # Logo and visual resources

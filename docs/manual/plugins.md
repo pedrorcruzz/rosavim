@@ -1,6 +1,6 @@
 # Plugin Catalog
 
-Rosavim ships with **79+ plugins**, all managed by [Lazy.nvim](https://github.com/folke/lazy.nvim) with intelligent lazy-loading for fast startup.
+Rosavim ships with **75+ plugins**, all managed by [Lazy.nvim](https://github.com/folke/lazy.nvim) with intelligent lazy-loading for fast startup.
 
 ## Table of Contents
 
@@ -102,6 +102,7 @@ Rosavim ships with **79+ plugins**, all managed by [Lazy.nvim](https://github.co
 | [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim) | Fast and customizable statusline |
 | [noice.nvim](https://github.com/folke/noice.nvim) | Modern UI for messages, command line, and popups |
 | [dropbar.nvim](https://github.com/Bekaboo/dropbar.nvim) | IDE-like breadcrumb navigation bar |
+| [incline.nvim](https://github.com/b0o/incline.nvim) | Floating filename indicator per window |
 | [which-key.nvim](https://github.com/folke/which-key.nvim) | Displays available keybindings in a popup |
 | [nvim-highlight-colors](https://github.com/brenoprata10/nvim-highlight-colors) | Highlights color codes with their actual color |
 | [mini.icons](https://github.com/echasnovski/mini.icons) | File type icons |
@@ -144,10 +145,10 @@ Rosavim ships with **79+ plugins**, all managed by [Lazy.nvim](https://github.co
 | [yanky.nvim](https://github.com/gbprod/yanky.nvim) | Improved yank and put with history |
 | [todo-comments.nvim](https://github.com/folke/todo-comments.nvim) | Highlight and search TODO, FIXME, HACK, etc. |
 | [outline.nvim](https://github.com/hedyhli/outline.nvim) | Code outline sidebar |
-| [winpick.nvim](https://github.com/gbrlsnchs/winpick.nvim) | Visual window picker |
+| Rosapick (built-in) | Visual window picker with floating labels |
 | [smart-splits.nvim](https://github.com/mrjones2014/smart-splits.nvim) | Smart window navigation and resizing |
-| [auto-save.nvim](https://github.com/okuuva/auto-save.nvim) | Automatic file saving |
-| [nvim-early-retirement](https://github.com/chrisgrieser/nvim-early-retirement) | Automatically close unused buffers |
+| Rosasave (built-in) | Automatic file saving with debounce and toggle persistence |
+| Rosasweep (built-in) | Automatically close inactive buffers after a configurable timeout |
 | [toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim) | Floating and split terminal emulator |
 | [yazi.nvim](https://github.com/mikavilpas/yazi.nvim) | Yazi file manager integration |
 
@@ -230,5 +231,4 @@ Rosavim ships with **79+ plugins**, all managed by [Lazy.nvim](https://github.co
 > }
 > ```
 | [neovim-session-manager](https://github.com/Shatur/neovim-session-manager) | Session persistence |
-| [persistence.nvim](https://github.com/folke/persistence.nvim) | Session and buffer restoration |
 | [trouble.nvim](https://github.com/folke/trouble.nvim) | Pretty diagnostics, references, and quickfix list |

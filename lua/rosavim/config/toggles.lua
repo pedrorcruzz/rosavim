@@ -25,6 +25,7 @@ local defaults = {
   lsp_ref_highlights = true,
   dbout_no_folding = true,
   copilot = false,
+  incline = true,
 }
 
 M._state = nil
