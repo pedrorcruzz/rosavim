@@ -29,7 +29,7 @@
 
 Rosavim é uma distribuição do Neovim pensada para desenvolvedores que querem um ambiente de desenvolvimento completo, rápido e bonito sem precisar gastar horas configurando do zero. Com suporte de primeira classe para as principais linguagens e frameworks do mercado, basta clonar e começar a codar.
 
-Construída sobre o **Lazy.nvim**, Rosavim carrega mais de **75+ plugins** de forma inteligente, mantendo o startup rápido e a experiência fluida.
+Construída sobre o **Lazy.nvim**, Rosavim carrega mais de **70+ plugins** de forma inteligente, mantendo o startup rápido e a experiência fluida.
 
 ## Documentação
 
