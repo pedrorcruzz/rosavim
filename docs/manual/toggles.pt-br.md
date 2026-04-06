@@ -99,7 +99,7 @@ Funcionalidades adicionais são persistidas e podem ser alternadas em runtime vi
 
 | Atalho | Toggle | Padrão |
 |:-------|:-------|:-------|
-| `<leader>lalh` | Highlight bold branco nas referências LSP | Ativado |
+| `<leader>lalh` | Highlights de referência LSP custom/padrão | Ativado |
 
 ### DBUI (`<leader>lad`)
 

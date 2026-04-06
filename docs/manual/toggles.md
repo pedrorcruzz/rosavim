@@ -99,7 +99,7 @@ Additional features are persisted and can be toggled at runtime via `<leader>la`
 
 | Shortcut | Toggle | Default |
 |:---------|:-------|:--------|
-| `<leader>lalh` | Bold white highlight on LSP references | On |
+| `<leader>lalh` | Custom/default LSP reference highlights | On |
 
 ### DBUI (`<leader>lad`)
 

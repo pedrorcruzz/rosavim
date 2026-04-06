@@ -103,7 +103,7 @@ return function()
 
   -- LSP
   Snacks.toggle({
-    name = 'LSP Reference Highlights',
+    name = 'Custom LSP Reference Highlights',
     get = function()
       return toggles.get 'lsp_ref_highlights'
     end,
@@ -115,9 +115,7 @@ return function()
         vim.api.nvim_set_hl(0, 'LspReferenceWrite', hl)
         vim.api.nvim_set_hl(0, 'LspReferenceText', hl)
       else
-        vim.api.nvim_set_hl(0, 'LspReferenceRead', {})
-        vim.api.nvim_set_hl(0, 'LspReferenceWrite', {})
-        vim.api.nvim_set_hl(0, 'LspReferenceText', {})
+        vim.cmd.colorscheme(vim.g.colors_name)
       end
     end,
   }):map '<leader>lalh'
