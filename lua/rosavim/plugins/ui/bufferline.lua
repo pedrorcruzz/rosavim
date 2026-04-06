@@ -1,16 +1,16 @@
-local bufferline_active = true
+local toggles = require 'rosavim.config.toggles'
 
 return {
   'akinsho/bufferline.nvim',
   dependencies = {
-    'nvim-tree/nvim-web-devicons',
+    { 'echasnovski/mini.icons', lazy = true },
     'echasnovski/mini.bufremove',
   },
   lazy = true,
   event = 'VeryLazy',
   opts = {
     options = {
-      show_bufferline = bufferline_active,
+      show_bufferline = toggles.get 'bufferline',
       close_command = function(bufnum)
         require('mini.bufremove').delete(bufnum, false)
       end,
@@ -20,10 +20,10 @@ return {
       diagnostics = 'nvim_lsp',
       diagnostics_indicator = function(_, _, diagnostics)
         local symbols = {
-          error = { icon = '', hl = 'DiagnosticError' },
-          warning = { icon = '', hl = 'DiagnosticWarn' },
-          info = { icon = '', hl = 'DiagnosticInfo' },
-          hint = { icon = '', hl = 'DiagnosticHint' },
+          error = { icon = '', hl = 'DiagnosticError' },
+          warning = { icon = '', hl = 'DiagnosticWarn' },
+          info = { icon = '', hl = 'DiagnosticInfo' },
+          hint = { icon = '', hl = 'DiagnosticHint' },
         }
         local result = {}
         for name, count in pairs(diagnostics) do
@@ -56,55 +56,34 @@ return {
 
   config = function(_, opts)
     require('bufferline').setup(opts)
-    vim.opt.showtabline = bufferline_active and 2 or 0
+    local active = toggles.get 'bufferline'
+    vim.opt.showtabline = active and 2 or 0
 
-    vim.api.nvim_set_hl(0, 'BufferLineErrorSelected', { link = 'BufferLineBufferSelected' })
-    vim.api.nvim_set_hl(0, 'BufferLineWarningSelected', { link = 'BufferLineBufferSelected' })
-    vim.api.nvim_set_hl(0, 'BufferLineInfoSelected', { link = 'BufferLineBufferSelected' })
-    vim.api.nvim_set_hl(0, 'BufferLineHintSelected', { link = 'BufferLineBufferSelected' })
+    -- Fix devicon and remaining highlight backgrounds to match theme
+    local function fix_bufferline_hls()
+      local bl_fill = vim.api.nvim_get_hl(0, { name = 'BufferLineFill' })
+      local bl_sel = vim.api.nvim_get_hl(0, { name = 'BufferLineBufferSelected' })
+      for _, hl_name in ipairs(vim.fn.getcompletion('BufferLine', 'highlight')) do
+        local hl = vim.api.nvim_get_hl(0, { name = hl_name, link = false })
+        local target_bg = hl_name:find 'Selected' and bl_sel.bg or bl_fill.bg
+        if hl.bg ~= target_bg then
+          hl.bg = target_bg
+          vim.api.nvim_set_hl(0, hl_name, hl)
+        end
+      end
+      vim.api.nvim_set_hl(0, 'BufferLineErrorSelected', { link = 'BufferLineBufferSelected' })
+      vim.api.nvim_set_hl(0, 'BufferLineWarningSelected', { link = 'BufferLineBufferSelected' })
+      vim.api.nvim_set_hl(0, 'BufferLineInfoSelected', { link = 'BufferLineBufferSelected' })
+      vim.api.nvim_set_hl(0, 'BufferLineHintSelected', { link = 'BufferLineBufferSelected' })
+    end
+
+    vim.schedule(fix_bufferline_hls)
+    vim.api.nvim_create_autocmd({ 'BufEnter', 'ColorScheme' }, {
+      callback = fix_bufferline_hls,
+    })
   end,
 
   keys = {
-    {
-      '<leader>lj',
-      function()
-        local loaded = package.loaded['bufferline']
-        if not loaded then
-          require('lazy').load { plugins = { 'bufferline.nvim' } }
-        end
-
-        bufferline_active = not bufferline_active
-
-        require('bufferline').setup {
-          options = {
-            show_bufferline = bufferline_active,
-            offsets = {
-              {
-                filetype = 'snacks_picker_list',
-                text = 'Snacks Explorer',
-                highlight = 'Directory',
-                text_align = 'left',
-                separator = true,
-              },
-              {
-                filetype = 'snacks_layout_box',
-                text = 'Snacks Explorer',
-                highlight = 'Directory',
-                text_align = 'left',
-                separator = true,
-              },
-            },
-          },
-        }
-        vim.opt.showtabline = bufferline_active and 2 or 0
-
-        vim.api.nvim_set_hl(0, 'BufferLineErrorSelected', { link = 'BufferLineBufferSelected' })
-        vim.api.nvim_set_hl(0, 'BufferLineWarningSelected', { link = 'BufferLineBufferSelected' })
-        vim.api.nvim_set_hl(0, 'BufferLineInfoSelected', { link = 'BufferLineBufferSelected' })
-        vim.api.nvim_set_hl(0, 'BufferLineHintSelected', { link = 'BufferLineBufferSelected' })
-      end,
-      desc = 'Bufferline: Toggle',
-    },
     { '<leader>bb', '<cmd>BufferLinePick<cr>', desc = 'Pick Buffer' },
     {
       '<leader>bf',
@@ -113,7 +92,6 @@ return {
       end,
       desc = 'Find Buffers',
     },
-
     { '<leader>bp', '<cmd>BufferLinePickClose<cr>', desc = 'Pick Close Buffer' },
     { '<leader>bh', '<cmd>BufferLineCloseLeft<cr>', desc = 'Close Left' },
     { '<leader>bl', '<cmd>BufferLineCloseRight<cr>', desc = 'Close Right' },

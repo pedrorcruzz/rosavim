@@ -8,6 +8,7 @@ if ok then
 	local overrides = require("rosavim.plugins.ui.colorschemes.rosamin.overrides")
 	local mode = appearance.get_mode()
 	local transparent = appearance.get_transparent()
+	local effective_mode = transparent and "dark" or mode
 	local rosamin = require("rosamin")
 	rosamin.setup {
 		transparent = transparent,
@@ -20,7 +21,7 @@ if ok then
 			strings = true,
 			variables = true,
 		},
-		overrides = overrides.get(mode, transparent),
+		overrides = overrides.get(effective_mode, transparent),
 	}
 	rosamin.colorscheme()
 else

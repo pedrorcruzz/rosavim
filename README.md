@@ -106,6 +106,7 @@ Rosavim ships with full support (LSP, formatting, linting, testing, and debuggin
 - **Transparent mode** to blend with your terminal wallpaper
 - Custom **dashboard** with quick access to projects and recent files
 - **Lualine** statusline with mode, git, LSP, and Copilot info
+- **Bufferline** buffer tab bar with diagnostics, pick, and sorting (toggleable)
 - **Dropbar** breadcrumbs for navigation
 - **Incline** floating filename indicator per window (toggleable)
 - **Noice.nvim** for modern messages and command line

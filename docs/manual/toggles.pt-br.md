@@ -14,7 +14,7 @@ As definições de toggles são organizadas em arquivos modulares em `lua/rosavi
 | Módulo | Toggles |
 |:-------|:--------|
 | `options.lua` | Opções do Vim (wrap, número relativo, número de linha, indentação, dim, ortografia) |
-| `plugins.lua` | Toggles de plugins (Rosasave, Incline, TSContext, Copilot, Dropbar, Rosamaximize) |
+| `plugins.lua` | Toggles de plugins (Rosasave, Incline, TSContext, Copilot, Bufferline, Dropbar, Rosamaximize) |
 | `appearance.lua` | Toggles de tema (Dark/Light, Transparência, Lualine, Tema do Lualine) |
 | `autocmds.lua` | Tools toggles (Snacks, IA, Editor, LSP, DBUI) |
 
@@ -31,7 +31,7 @@ O orquestrador em `lua/rosavim/plugins/ui/snacks/toggles.lua` carrega todos os m
 | `<leader>lg` | Número Relativo | Ativado |
 | `<leader>ln` | Números de Linha | Ativado |
 | `<leader>lw` | Quebra de Linha | Desativado |
-| `<leader>li` | Guia de Indentação | Desativado |
+| `<leader>li` | Guia de Indentação | Ativado |
 | `<leader>lk` | Dimming | Desativado |
 | `<leader>ljj` | Verificação Ortográfica | Desativado |
 | `<leader>ljp` / `<leader>lje` | Idioma Ortográfico (pt/en) | en |
@@ -52,6 +52,7 @@ O orquestrador em `lua/rosavim/plugins/ui/snacks/toggles.lua` carrega todos os m
 | `<leader>ls` | Rosasave (Auto Save) | Desativado |
 | `<leader>lt` | TSContext (Treesitter Context) | Desativado |
 | `<leader>lc` | Incline (nome do arquivo flutuante) | Ativado |
+| `<leader>lj` | Bufferline (abas de buffers) | Ativado |
 | `<leader>lb` | Dropbar (breadcrumbs) | Ativado |
 | `<leader>cm` | Rosamaximize (maximizar/restaurar janela) | Desativado |
 

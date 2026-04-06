@@ -106,6 +106,7 @@ Rosavim oferece suporte completo (LSP, formatação, linting, testes e debug) pa
 - **Modo transparente** para integrar com o wallpaper do terminal
 - **Dashboard** customizado com acesso rápido a projetos e arquivos recentes
 - **Lualine** com statusline informativa (modo, git, LSP, Copilot)
+- **Bufferline** barra de abas de buffers com diagnósticos, pick e ordenação (com toggle)
 - **Dropbar** com breadcrumbs de navegação
 - **Incline** indicador flutuante de nome de arquivo por janela (com toggle)
 - **Noice.nvim** para mensagens e command line modernos

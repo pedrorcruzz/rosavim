@@ -168,6 +168,23 @@
 | n | `<leader>st` | Pick tab (Snacks) | `Space s t` to open a tab picker and switch tabs |
 | n | `<leader>fw` | Pick tab (Snacks) | `Space f w` to open a tab picker and switch tabs |
 
+### Bufferline
+
+| Mode | Key | Action | Example |
+|:----:|:----|:-------|:--------|
+| n | `<leader>bb` | Pick buffer | `Space b b` to pick a buffer by letter |
+| n | `<leader>bf` | Find buffers | `Space b f` to search open buffers |
+| n | `<leader>bp` | Pick close buffer | `Space b p` to pick a buffer to close |
+| n | `<leader>bh` | Close left | `Space b h` to close all buffers to the left |
+| n | `<leader>bl` | Close right | `Space b l` to close all buffers to the right |
+| n | `<leader>bC` | Close others | `Space b Shift+c` to close all buffers except the current one |
+| n | `<leader>bj` | Previous buffer | `Space b j` to cycle to the previous buffer |
+| n | `<leader>bk` | Next buffer | `Space b k` to cycle to the next buffer |
+| n | `<leader>bq` | Sort by directory | `Space b q` to sort buffers by directory |
+| n | `<leader>be` | Sort by extension | `Space b e` to sort buffers by file extension |
+| n | `<leader>br` | Sort by relative dir | `Space b r` to sort buffers by relative directory |
+| n | `<leader>lj` | Toggle bufferline | `Space l j` to show/hide the buffer tab bar |
+
 ---
 
 ## Git

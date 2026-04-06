@@ -102,6 +102,7 @@ Rosavim vem com **75+ plugins**, todos gerenciados pelo [Lazy.nvim](https://gith
 | [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim) | Statusline rápida e customizável |
 | [noice.nvim](https://github.com/folke/noice.nvim) | UI moderna para mensagens, linha de comando e popups |
 | [dropbar.nvim](https://github.com/Bekaboo/dropbar.nvim) | Barra de navegação com breadcrumbs estilo IDE |
+| [bufferline.nvim](https://github.com/akinsho/bufferline.nvim) | Barra de abas de buffers com diagnósticos, pick e ordenação |
 | [incline.nvim](https://github.com/b0o/incline.nvim) | Indicador flutuante de nome de arquivo por janela |
 | [which-key.nvim](https://github.com/folke/which-key.nvim) | Exibe atalhos disponíveis em um popup |
 | [nvim-highlight-colors](https://github.com/brenoprata10/nvim-highlight-colors) | Destaca códigos de cores com sua cor real |

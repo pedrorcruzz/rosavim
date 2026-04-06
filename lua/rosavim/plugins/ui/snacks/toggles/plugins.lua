@@ -86,6 +86,47 @@ return function()
     end,
   }):map '<leader>cm'
 
+  -- Bufferline
+  Snacks.toggle({
+    name = 'Bufferline',
+    get = function()
+      return toggles.get 'bufferline'
+    end,
+    set = function(state)
+      toggles.set('bufferline', state)
+      if not package.loaded['bufferline'] then
+        require('lazy').load { plugins = { 'bufferline.nvim' } }
+      end
+      require('bufferline').setup {
+        options = {
+          show_bufferline = state,
+          offsets = {
+            {
+              filetype = 'snacks_picker_list',
+              text = 'Snacks Explorer',
+              highlight = 'Directory',
+              text_align = 'left',
+              separator = true,
+            },
+            {
+              filetype = 'snacks_layout_box',
+              text = '',
+              highlight = 'Directory',
+              text_align = 'left',
+              separator = true,
+            },
+          },
+        },
+      }
+      vim.opt.showtabline = state and 2 or 0
+
+      vim.api.nvim_set_hl(0, 'BufferLineErrorSelected', { link = 'BufferLineBufferSelected' })
+      vim.api.nvim_set_hl(0, 'BufferLineWarningSelected', { link = 'BufferLineBufferSelected' })
+      vim.api.nvim_set_hl(0, 'BufferLineInfoSelected', { link = 'BufferLineBufferSelected' })
+      vim.api.nvim_set_hl(0, 'BufferLineHintSelected', { link = 'BufferLineBufferSelected' })
+    end,
+  }):map '<leader>lj'
+
   -- Dropbar
   Snacks.toggle({
     name = 'Dropbar',

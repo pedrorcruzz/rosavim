@@ -109,6 +109,16 @@ return function()
     end,
     set = function(state)
       toggles.set('lsp_ref_highlights', state)
+      if state then
+        local hl = { bold = true, bg = 'none', fg = '#FFFFFF' }
+        vim.api.nvim_set_hl(0, 'LspReferenceRead', hl)
+        vim.api.nvim_set_hl(0, 'LspReferenceWrite', hl)
+        vim.api.nvim_set_hl(0, 'LspReferenceText', hl)
+      else
+        vim.api.nvim_set_hl(0, 'LspReferenceRead', {})
+        vim.api.nvim_set_hl(0, 'LspReferenceWrite', {})
+        vim.api.nvim_set_hl(0, 'LspReferenceText', {})
+      end
     end,
   }):map '<leader>lalh'
 

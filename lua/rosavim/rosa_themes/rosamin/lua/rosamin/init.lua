@@ -29,16 +29,19 @@ end
 local function set_groups()
 	local colors = require("rosamin.colors")
 	local bg = config.transparent and "NONE" or colors.bg
-	local diff_add = utils.shade(colors.green, 0.5, colors.bg)
-	local diff_delete = utils.shade(colors.red, 0.5, colors.bg)
-	local diff_change = utils.shade(colors.blue, 0.5, colors.bg)
-	local diff_text = utils.shade(colors.yellowDark, 0.5, colors.bg)
+	local is_dark = vim.o.background == "dark" or config.transparent
+	local real_bg = is_dark and "#212121" or "#ffffff"
+	local bl_bg = is_dark and "#1A1A1A" or colors.bgDark
+	local diff_add = utils.shade(colors.green, 0.5, real_bg)
+	local diff_delete = utils.shade(colors.red, 0.5, real_bg)
+	local diff_change = utils.shade(colors.blue, 0.5, real_bg)
+	local diff_text = utils.shade(colors.yellowDark, 0.5, real_bg)
 
 	local groups = {
 		-- base
 		Normal = { fg = colors.fg, bg = bg },
 		LineNr = { fg = colors.fgLineNr },
-		ColorColumn = { bg = utils.shade(colors.blueLight, 0.5, colors.bg) },
+		ColorColumn = { bg = utils.shade(colors.blueLight, 0.5, real_bg) },
 		Conceal = {},
 		Cursor = { fg = colors.bg, bg = colors.fg },
 		lCursor = { link = "Cursor" },
@@ -59,7 +62,7 @@ local function set_groups()
 		SignColumn = { link = "Normal" },
 		Folded = { fg = colors.fg, bg = colors.bgDarker },
 		FoldColumn = { link = "SignColumn" },
-		IncSearch = { bg = utils.mix(colors.blue, colors.bg, math.abs(0.30)), fg = colors.bg },
+		IncSearch = { bg = utils.mix(colors.blue, real_bg, math.abs(0.30)), fg = real_bg },
 		Substitute = { link = "IncSearch" },
 		CursorLineNr = { fg = colors.comment },
 		MatchParen = { fg = colors.red, bg = bg },
@@ -67,13 +70,13 @@ local function set_groups()
 		MsgArea = { link = "Normal" },
 		-- MsgSeparator = {},
 		MoreMsg = { fg = colors.blue },
-		NonText = { fg = utils.shade(colors.bg, 0.30) },
+		NonText = { fg = utils.shade(real_bg, 0.30) },
 		NormalFloat = { bg = colors.bgFloat },
 		NormalNC = { link = "Normal" },
 		Pmenu = { link = "NormalFloat" },
 		PmenuSel = { bg = colors.bgOption },
-		PmenuSbar = { bg = utils.shade(colors.blue, 0.5, colors.bg) },
-		PmenuThumb = { bg = utils.shade(colors.bg, 0.20) },
+		PmenuSbar = { bg = utils.shade(colors.blue, 0.5, real_bg) },
+		PmenuThumb = { bg = utils.shade(real_bg, 0.20) },
 		Question = { fg = colors.blue },
 		QuickFixLine = { fg = colors.blue },
 		SpecialKey = { fg = colors.symbol },
@@ -82,13 +85,13 @@ local function set_groups()
 		TabLine = { bg = colors.bgDark, fg = colors.fgInactive },
 		TabLineFill = { link = "TabLine" },
 		TabLineSel = { bg = colors.bg, fg = colors.fgAlt },
-		Search = { bg = utils.shade(colors.orangeLight, 0.40, colors.bg) },
+		Search = { bg = utils.shade(colors.orangeLight, 0.40, real_bg) },
 		SpellBad = { undercurl = true, sp = colors.red },
 		SpellCap = { undercurl = true, sp = colors.blue },
 		SpellLocal = { undercurl = true, sp = colors.purple },
 		SpellRare = { undercurl = true, sp = colors.orange },
 		Title = { fg = colors.blue },
-		Visual = { bg = utils.shade(colors.blue, 0.40, colors.bg) },
+		Visual = { bg = utils.shade(colors.blue, 0.40, real_bg) },
 		VisualNOS = { link = "Visual" },
 		WarningMsg = { fg = colors.orange },
 		Whitespace = { fg = colors.symbol },
@@ -284,6 +287,47 @@ local function set_groups()
 		["@lsp.type.decorator"] = { link = "@label" },
 		["@lsp.typemod.function.declaration"] = { link = "@function" },
 		["@lsp.typemod.function.readonly"] = { link = "@function" },
+
+		-- bufferline
+		BufferLineBackground = { fg = colors.fgInactive, bg = bl_bg },
+		BufferLineBufferSelected = { fg = colors.fg, bg = bl_bg, bold = true },
+		BufferLineBufferVisible = { fg = colors.fgInactive, bg = bl_bg },
+		BufferLineFill = { bg = bl_bg },
+		BufferLineSeparator = { fg = bl_bg, bg = bl_bg },
+		BufferLineSeparatorSelected = { fg = bl_bg, bg = bl_bg },
+		BufferLineSeparatorVisible = { fg = bl_bg, bg = bl_bg },
+		BufferLineModified = { fg = colors.orange, bg = bl_bg },
+		BufferLineModifiedSelected = { fg = colors.orange, bg = bl_bg },
+		BufferLineModifiedVisible = { fg = colors.orange, bg = bl_bg },
+		BufferLineIndicatorSelected = { fg = colors.blue, bg = bl_bg },
+		BufferLineIndicatorVisible = { fg = bl_bg, bg = bl_bg },
+		BufferLineCloseButton = { fg = colors.fgInactive, bg = bl_bg },
+		BufferLineCloseButtonSelected = { fg = colors.fg, bg = bl_bg },
+		BufferLineCloseButtonVisible = { fg = colors.fgInactive, bg = bl_bg },
+		BufferLineTab = { fg = colors.fgInactive, bg = bl_bg },
+		BufferLineTabSelected = { fg = colors.fg, bg = bl_bg },
+		BufferLineTabSeparator = { fg = bl_bg, bg = bl_bg },
+		BufferLineTabSeparatorSelected = { fg = bl_bg, bg = bl_bg },
+		BufferLineTabClose = { fg = colors.fgInactive, bg = bl_bg },
+		BufferLineDuplicate = { fg = colors.fgInactive, bg = bl_bg },
+		BufferLineDuplicateSelected = { fg = colors.fg, bg = bl_bg },
+		BufferLineDuplicateVisible = { fg = colors.fgInactive, bg = bl_bg },
+		BufferLineTruncMarker = { fg = colors.fgInactive, bg = bl_bg },
+		BufferLineOffset = { fg = colors.fg, bg = bl_bg, bold = true },
+		BufferLineOffsetSeparator = { fg = bl_bg, bg = bl_bg },
+		BufferLinePick = { fg = colors.red, bg = bl_bg, bold = true },
+		BufferLinePickSelected = { fg = colors.red, bg = bl_bg, bold = true },
+		BufferLinePickVisible = { fg = colors.red, bg = bl_bg, bold = true },
+		BufferLineNumbers = { fg = colors.fgInactive, bg = bl_bg },
+		BufferLineNumbersSelected = { fg = colors.fg, bg = bl_bg },
+		BufferLineNumbersVisible = { fg = colors.fgInactive, bg = bl_bg },
+		BufferLineDiagnostic = { fg = colors.fgInactive, bg = bl_bg },
+		BufferLineDiagnosticSelected = { fg = colors.fg, bg = bl_bg },
+		BufferLineDiagnosticVisible = { fg = colors.fgInactive, bg = bl_bg },
+
+		-- incline
+		InclineNormal = { fg = colors.fgAlt, bg = is_dark and "#1F1F1F" or "#FAFAFA" },
+		InclineNormalNC = { fg = colors.fgAlt, bg = is_dark and "#1F1F1F" or "#FAFAFA" },
 	}
 
 	-- integrations

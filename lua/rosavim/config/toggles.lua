@@ -12,7 +12,7 @@ local defaults = {
   spelllang = 'en',
   relativenumber = true,
   linenumber = true,
-  indent = false,
+  indent = true,
   dim = false,
   wrap = false,
   -- Autocmd toggles
@@ -26,6 +26,7 @@ local defaults = {
   dbout_no_folding = true,
   copilot = false,
   incline = true,
+  bufferline = true,
   picker_hidden = false,
   picker_ignored = true,
   explorer_right = false,

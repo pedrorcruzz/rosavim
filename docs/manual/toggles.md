@@ -14,7 +14,7 @@ Toggle definitions are organized in modular files under `lua/rosavim/plugins/ui/
 | Module | Toggles |
 |:-------|:--------|
 | `options.lua` | Vim options (wrap, relative number, line number, indent, dim, spell) |
-| `plugins.lua` | Plugin toggles (Rosasave, Incline, TSContext, Copilot, Dropbar, Rosamaximize) |
+| `plugins.lua` | Plugin toggles (Rosasave, Incline, TSContext, Copilot, Bufferline, Dropbar, Rosamaximize) |
 | `appearance.lua` | Theme toggles (Dark/Light, Transparent, Lualine, Lualine Theme) |
 | `autocmds.lua` | Tools toggles (Snacks, AI, Editor, LSP, DBUI) |
 
@@ -31,7 +31,7 @@ The orchestrator at `lua/rosavim/plugins/ui/snacks/toggles.lua` loads all module
 | `<leader>lg` | Relative Number | On |
 | `<leader>ln` | Line Numbers | On |
 | `<leader>lw` | Word Wrap | Off |
-| `<leader>li` | Indent Guide | Off |
+| `<leader>li` | Indent Guide | On |
 | `<leader>lk` | Dimming | Off |
 | `<leader>ljj` | Spell Check | Off |
 | `<leader>ljp` / `<leader>lje` | Spell Language (pt/en) | en |
@@ -52,6 +52,7 @@ The orchestrator at `lua/rosavim/plugins/ui/snacks/toggles.lua` loads all module
 | `<leader>ls` | Rosasave (Auto Save) | Off |
 | `<leader>lt` | TSContext (Treesitter Context) | Off |
 | `<leader>lc` | Incline (floating filename) | On |
+| `<leader>lj` | Bufferline (buffer tabs) | On |
 | `<leader>lb` | Dropbar (breadcrumbs) | On |
 | `<leader>cm` | Rosamaximize (maximize/restore window) | Off |
 

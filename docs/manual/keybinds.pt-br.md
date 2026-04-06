@@ -168,6 +168,23 @@
 | n | `<leader>st` | Picker de abas (Snacks) | `Space s t` para abrir o picker de abas e trocar entre elas |
 | n | `<leader>fw` | Picker de abas (Snacks) | `Space f w` para abrir o picker de abas e trocar entre elas |
 
+### Bufferline
+
+| Modo | Tecla | Ação | Exemplo |
+|:----:|:------|:-----|:--------|
+| n | `<leader>bb` | Pick buffer | `Space b b` para selecionar um buffer por letra |
+| n | `<leader>bf` | Buscar buffers | `Space b f` para buscar entre buffers abertos |
+| n | `<leader>bp` | Pick fechar buffer | `Space b p` para selecionar um buffer para fechar |
+| n | `<leader>bh` | Fechar à esquerda | `Space b h` para fechar todos os buffers à esquerda |
+| n | `<leader>bl` | Fechar à direita | `Space b l` para fechar todos os buffers à direita |
+| n | `<leader>bC` | Fechar outros | `Space b Shift+c` para fechar todos os buffers exceto o atual |
+| n | `<leader>bj` | Buffer anterior | `Space b j` para ir ao buffer anterior |
+| n | `<leader>bk` | Próximo buffer | `Space b k` para ir ao próximo buffer |
+| n | `<leader>bq` | Ordenar por diretório | `Space b q` para ordenar buffers por diretório |
+| n | `<leader>be` | Ordenar por extensão | `Space b e` para ordenar buffers por extensão |
+| n | `<leader>br` | Ordenar por dir relativo | `Space b r` para ordenar buffers por diretório relativo |
+| n | `<leader>lj` | Toggle bufferline | `Space l j` para mostrar/ocultar a barra de abas |
+
 ---
 
 ## Git

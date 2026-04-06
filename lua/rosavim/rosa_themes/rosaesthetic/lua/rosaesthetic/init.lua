@@ -47,6 +47,7 @@ local function set_groups()
   local utils = require 'rosaesthetic.utils'
   local bg = config.transparent and 'NONE' or colors.bg
   local sidebar = config.transparent and 'NONE' or colors.bgSidebar
+  local bl_bg = (config.transparent or vim.o.background == 'dark') and '#000000' or colors.bgDark
   local real_bg = vim.o.background == 'light' and '#d3d2ce' or '#000000'
   local diff_add = utils.shade(colors.green, 0.5, real_bg)
   local diff_delete = utils.shade(colors.red, 0.5, real_bg)
@@ -59,7 +60,7 @@ local function set_groups()
     Bold = { bold = true },
     Conceal = {},
     Directory = { fg = colors.fg, bold = true },
-    EndOfBuffer = { fg = colors.bg, bg = bg },
+    EndOfBuffer = { fg = config.transparent and '#1C1C1C' or colors.bg, bg = bg },
     Ignore = {},
     Italic = { italic = true },
     ModeMsg = {},
@@ -313,14 +314,41 @@ local function set_groups()
     NoiceCmdlineIconSearch = { fg = colors.magenta },
 
     -- bufferline
-    BufferLineBackground = { fg = colors.fgInactive, bg = colors.bgDark },
-    BufferLineBufferSelected = { fg = colors.fg, bg = colors.bg },
-    BufferLineSeparator = { fg = colors.bg, bg = colors.bgDark },
-    BufferLineSeparatorSelected = { fg = colors.bg, bg = colors.bg },
-    BufferLineFill = { bg = colors.bgDark },
-    BufferLineModified = { fg = colors.gold, bg = colors.bgDark },
-    BufferLineModifiedSelected = { fg = colors.gold, bg = colors.bg },
-    BufferLineIndicatorSelected = { fg = colors.blue, bg = colors.bg },
+    BufferLineBackground = { fg = colors.fgInactive, bg = bl_bg },
+    BufferLineBufferSelected = { fg = colors.fg, bg = bl_bg, bold = true },
+    BufferLineBufferVisible = { fg = colors.fgInactive, bg = bl_bg },
+    BufferLineFill = { bg = bl_bg },
+    BufferLineSeparator = { fg = bl_bg, bg = bl_bg },
+    BufferLineSeparatorSelected = { fg = bl_bg, bg = bl_bg },
+    BufferLineSeparatorVisible = { fg = bl_bg, bg = bl_bg },
+    BufferLineModified = { fg = colors.gold, bg = bl_bg },
+    BufferLineModifiedSelected = { fg = colors.gold, bg = bl_bg },
+    BufferLineModifiedVisible = { fg = colors.gold, bg = bl_bg },
+    BufferLineIndicatorSelected = { fg = bl_bg, bg = bl_bg },
+    BufferLineIndicatorVisible = { fg = bl_bg, bg = bl_bg },
+    BufferLineCloseButton = { fg = colors.fgInactive, bg = bl_bg },
+    BufferLineCloseButtonSelected = { fg = colors.fg, bg = bl_bg },
+    BufferLineCloseButtonVisible = { fg = colors.fgInactive, bg = bl_bg },
+    BufferLineTab = { fg = colors.fgInactive, bg = bl_bg },
+    BufferLineTabSelected = { fg = colors.fg, bg = bl_bg },
+    BufferLineTabSeparator = { fg = bl_bg, bg = bl_bg },
+    BufferLineTabSeparatorSelected = { fg = bl_bg, bg = bl_bg },
+    BufferLineTabClose = { fg = colors.fgInactive, bg = bl_bg },
+    BufferLineDuplicate = { fg = colors.fgInactive, bg = bl_bg },
+    BufferLineDuplicateSelected = { fg = colors.fg, bg = bl_bg },
+    BufferLineDuplicateVisible = { fg = colors.fgInactive, bg = bl_bg },
+    BufferLineTruncMarker = { fg = colors.fgInactive, bg = bl_bg },
+    BufferLineOffset = { fg = colors.fg, bg = sidebar, bold = true },
+    BufferLineOffsetSeparator = { fg = sidebar, bg = sidebar },
+    BufferLinePick = { fg = colors.red, bg = bl_bg, bold = true },
+    BufferLinePickSelected = { fg = colors.red, bg = bl_bg, bold = true },
+    BufferLinePickVisible = { fg = colors.red, bg = bl_bg, bold = true },
+    BufferLineNumbers = { fg = colors.fgInactive, bg = bl_bg },
+    BufferLineNumbersSelected = { fg = colors.fg, bg = bl_bg },
+    BufferLineNumbersVisible = { fg = colors.fgInactive, bg = bl_bg },
+    BufferLineDiagnostic = { fg = colors.fgInactive, bg = bl_bg },
+    BufferLineDiagnosticSelected = { fg = colors.fg, bg = bl_bg },
+    BufferLineDiagnosticVisible = { fg = colors.fgInactive, bg = bl_bg },
 
     -- which-key
     WhichKey = { fg = colors.fg, bg = sidebar },
