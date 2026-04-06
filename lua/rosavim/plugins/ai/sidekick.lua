@@ -62,6 +62,14 @@ return {
     event = 'VeryLazy',
     opts = {
       cli = {
+        tools = {
+          openclaude = {
+            cmd = { 'openclaude' },
+            is_proc = '\\<openclaude\\>',
+            resume = { '--resume' },
+            continue = { '--continue' },
+          },
+        },
         win = {
           split = {
             width = 70,
@@ -182,6 +190,13 @@ return {
           toggle_with_layout { name = 'cursor', focus = true }
         end,
         desc = 'Sidekick Toggle Cursor',
+      },
+      {
+        '<leader>ao',
+        function()
+          toggle_with_layout { name = 'openclaude', focus = true }
+        end,
+        desc = 'Toggle OpenClaude CLI',
       },
     },
   },

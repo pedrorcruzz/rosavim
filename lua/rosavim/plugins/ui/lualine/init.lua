@@ -8,8 +8,8 @@ local use_custom_theme = toggles.get 'lualine_theme'
 local sep = {
   section = { left = '', right = '' },
   component = { left = '', right = '' },
-  mode = { left = '', right = '' },
-  location = { left = '', right = '' },
+  -- mode = { left = '', right = '' },
+  -- location = { left = '', right = '' },
 }
 
 local lualine_config = {
