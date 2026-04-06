@@ -147,6 +147,7 @@
 | n | `<leader>2` | Focar janela direita | `Space 2` para ir para a janela da direita |
 | n | `<leader>3` | Focar janela inferior | `Space 3` para ir para a janela de baixo |
 | n | `<leader>4` | Focar janela superior | `Space 4` para ir para a janela de cima |
+| n | `<leader>cm` | Rosamaximize | `Space c m` para maximizar a janela atual ou restaurar o layout |
 | n | `<leader>m` | Escolher uma janela | `Space m` para escolher visualmente qual janela focar |
 
 ---

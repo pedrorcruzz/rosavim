@@ -3,7 +3,8 @@ local toggles = require 'rosavim.config.toggles'
 return function()
   -- Snacks
   Snacks.toggle({
-    name = 'Snacks Explorer (startup)',
+    name = 'Explorer Startup',
+    wk_desc = { enabled = 'Disable ', disabled = 'Enable ' },
     get = function()
       return toggles.get 'snacks_explorer'
     end,
@@ -13,7 +14,8 @@ return function()
   }):map '<leader>lase'
 
   Snacks.toggle({
-    name = 'Snacks Explorer Focus',
+    name = 'Explorer Focus',
+    wk_desc = { enabled = 'Disable ', disabled = 'Enable ' },
     get = function()
       return toggles.get 'snacks_explorer_focus'
     end,
@@ -21,6 +23,42 @@ return function()
       toggles.set('snacks_explorer_focus', state)
     end,
   }):map '<leader>lasf'
+
+  Snacks.toggle({
+    name = 'Explorer Position',
+    wk_desc = { enabled = 'Left ', disabled = 'Right ' },
+    get = function()
+      return toggles.get 'explorer_right'
+    end,
+    set = function(state)
+      toggles.set('explorer_right', state)
+      local pos = state and 'right' or 'left'
+      Snacks.config.picker.sources.explorer.layout.layout.position = pos
+    end,
+  }):map '<leader>lasr'
+
+  Snacks.toggle({
+    name = 'Picker Hidden Files',
+    get = function()
+      return toggles.get 'picker_hidden'
+    end,
+    set = function(state)
+      toggles.set('picker_hidden', state)
+      Snacks.config.picker.hidden = state
+      Snacks.config.picker.sources.files.hidden = state
+    end,
+  }):map '<leader>lash'
+
+  Snacks.toggle({
+    name = 'Picker Ignored Files',
+    get = function()
+      return toggles.get 'picker_ignored'
+    end,
+    set = function(state)
+      toggles.set('picker_ignored', state)
+      Snacks.config.picker.ignored = state
+    end,
+  }):map '<leader>lasi'
 
   -- Editor
   Snacks.toggle({
@@ -73,6 +111,18 @@ return function()
       toggles.set('lsp_ref_highlights', state)
     end,
   }):map '<leader>lalh'
+
+  -- Sidekick
+  Snacks.toggle({
+    name = 'Sidekick Position',
+    wk_desc = { enabled = 'Left ', disabled = 'Right ' },
+    get = function()
+      return toggles.get 'sidekick_right'
+    end,
+    set = function(state)
+      toggles.set('sidekick_right', state)
+    end,
+  }):map '<leader>laae'
 
   -- DBUI
   Snacks.toggle({

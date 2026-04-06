@@ -14,9 +14,9 @@ As definições de toggles são organizadas em arquivos modulares em `lua/rosavi
 | Módulo | Toggles |
 |:-------|:--------|
 | `options.lua` | Opções do Vim (wrap, número relativo, número de linha, indentação, dim, ortografia) |
-| `plugins.lua` | Toggles de plugins (Rosasave, Incline, TSContext, Copilot, Dropbar) |
+| `plugins.lua` | Toggles de plugins (Rosasave, Incline, TSContext, Copilot, Dropbar, Rosamaximize) |
 | `appearance.lua` | Toggles de tema (Dark/Light, Transparência, Lualine, Tema do Lualine) |
-| `autocmds.lua` | Toggles de autocmd (Explorer, Editor, LSP, DBUI) |
+| `autocmds.lua` | Tools toggles (Snacks, IA, Editor, LSP, DBUI) |
 
 O orquestrador em `lua/rosavim/plugins/ui/snacks/toggles.lua` carrega todos os módulos e restaura os estados persistidos.
 
@@ -53,6 +53,7 @@ O orquestrador em `lua/rosavim/plugins/ui/snacks/toggles.lua` carrega todos os m
 | `<leader>lt` | TSContext (Treesitter Context) | Desativado |
 | `<leader>lc` | Incline (nome do arquivo flutuante) | Ativado |
 | `<leader>lb` | Dropbar (breadcrumbs) | Desativado |
+| `<leader>cm` | Rosamaximize (maximizar/restaurar janela) | Desativado |
 
 ### IA (`<leader>ai`)
 
@@ -64,16 +65,25 @@ O orquestrador em `lua/rosavim/plugins/ui/snacks/toggles.lua` carrega todos os m
 
 ---
 
-## Toggles de Autocmd
+## Tools Toggles
 
-Funcionalidades baseadas em autocmd também são persistidas e podem ser alternadas em runtime via `<leader>la`.
+Funcionalidades adicionais são persistidas e podem ser alternadas em runtime via `<leader>la`.
 
 ### Snacks (`<leader>las`)
 
 | Atalho | Toggle | Padrão |
 |:-------|:-------|:-------|
-| `<leader>lase` | Abrir Explorer ao iniciar o Rosavim | Desativado |
-| `<leader>lasf` | Focar no Explorer ao abrir (ou ficar no buffer) | Desativado |
+| `<leader>lase` | Explorer Startup | Desativado |
+| `<leader>lasf` | Explorer Focus | Desativado |
+| `<leader>lasr` | Explorer Position (Left/Right) | Left |
+| `<leader>lash` | Picker Hidden Files | Desativado |
+| `<leader>lasi` | Picker Ignored Files | Ativado |
+
+### IA (`<leader>laa`)
+
+| Atalho | Toggle | Padrão |
+|:-------|:-------|:-------|
+| `<leader>laae` | Sidekick Position (Left/Right) | Right |
 
 ### Editor (`<leader>lae`)
 

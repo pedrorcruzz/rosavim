@@ -69,6 +69,23 @@ return function()
     end,
   }):map '<leader>aii'
 
+  -- Rosamaximize
+  local rosamaximize = require 'rosavim.rosa_plugins.rosamaximize'
+  Snacks.toggle({
+    name = 'Rosamaximize',
+    notify = false,
+    get = function()
+      return rosamaximize.is_maximized()
+    end,
+    set = function(state)
+      if state then
+        rosamaximize.maximize()
+      else
+        rosamaximize.restore()
+      end
+    end,
+  }):map '<leader>cm'
+
   -- Dropbar
   Snacks.toggle({
     name = 'Dropbar',

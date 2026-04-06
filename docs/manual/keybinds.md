@@ -147,6 +147,7 @@
 | n | `<leader>2` | Focus right window | `Space 2` to jump to the right window |
 | n | `<leader>3` | Focus bottom window | `Space 3` to jump to the bottom window |
 | n | `<leader>4` | Focus top window | `Space 4` to jump to the top window |
+| n | `<leader>cm` | Rosamaximize | `Space c m` to maximize the current window or restore the layout |
 | n | `<leader>m` | Pick a window | `Space m` to visually pick which window to focus |
 
 ---

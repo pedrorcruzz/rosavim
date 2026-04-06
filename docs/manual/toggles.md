@@ -14,9 +14,9 @@ Toggle definitions are organized in modular files under `lua/rosavim/plugins/ui/
 | Module | Toggles |
 |:-------|:--------|
 | `options.lua` | Vim options (wrap, relative number, line number, indent, dim, spell) |
-| `plugins.lua` | Plugin toggles (Rosasave, Incline, TSContext, Copilot, Dropbar) |
+| `plugins.lua` | Plugin toggles (Rosasave, Incline, TSContext, Copilot, Dropbar, Rosamaximize) |
 | `appearance.lua` | Theme toggles (Dark/Light, Transparent, Lualine, Lualine Theme) |
-| `autocmds.lua` | Autocmd toggles (Explorer, Editor, LSP, DBUI) |
+| `autocmds.lua` | Tools toggles (Snacks, AI, Editor, LSP, DBUI) |
 
 The orchestrator at `lua/rosavim/plugins/ui/snacks/toggles.lua` loads all modules and restores persisted states.
 
@@ -53,6 +53,7 @@ The orchestrator at `lua/rosavim/plugins/ui/snacks/toggles.lua` loads all module
 | `<leader>lt` | TSContext (Treesitter Context) | Off |
 | `<leader>lc` | Incline (floating filename) | On |
 | `<leader>lb` | Dropbar (breadcrumbs) | Off |
+| `<leader>cm` | Rosamaximize (maximize/restore window) | Off |
 
 ### AI (`<leader>ai`)
 
@@ -64,16 +65,25 @@ The orchestrator at `lua/rosavim/plugins/ui/snacks/toggles.lua` loads all module
 
 ---
 
-## Autocmd Toggles
+## Tools Toggles
 
-Autocmd-based features are also persisted and can be toggled at runtime via `<leader>la`.
+Additional features are persisted and can be toggled at runtime via `<leader>la`.
 
 ### Snacks (`<leader>las`)
 
 | Shortcut | Toggle | Default |
 |:---------|:-------|:--------|
-| `<leader>lase` | Open Explorer on Rosavim startup | Off |
-| `<leader>lasf` | Focus Explorer on open (or stay on buffer) | Off |
+| `<leader>lase` | Explorer Startup | Off |
+| `<leader>lasf` | Explorer Focus | Off |
+| `<leader>lasr` | Explorer Position (Left/Right) | Left |
+| `<leader>lash` | Picker Hidden Files | Off |
+| `<leader>lasi` | Picker Ignored Files | On |
+
+### AI (`<leader>laa`)
+
+| Shortcut | Toggle | Default |
+|:---------|:-------|:--------|
+| `<leader>laae` | Sidekick Position (Left/Right) | Right |
 
 ### Editor (`<leader>lae`)
 

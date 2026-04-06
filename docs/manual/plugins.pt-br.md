@@ -147,6 +147,7 @@ Rosavim vem com **75+ plugins**, todos gerenciados pelo [Lazy.nvim](https://gith
 | [outline.nvim](https://github.com/hedyhli/outline.nvim) | Barra lateral de outline do código |
 | Rosapick (built-in) | Seletor visual de janelas com labels flutuantes |
 | [smart-splits.nvim](https://github.com/mrjones2014/smart-splits.nvim) | Navegação e redimensionamento inteligente de janelas |
+| Rosamaximize (built-in) | Maximizador de janela — alterna entre maximizar a janela atual e restaurar o layout |
 | Rosasave (built-in) | Salvamento automático de arquivos com debounce e toggle persistido |
 | Rosasweep (built-in) | Fecha automaticamente buffers inativos após timeout configurável |
 | [toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim) | Emulador de terminal flutuante e em split |

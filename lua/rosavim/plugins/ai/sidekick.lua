@@ -1,4 +1,9 @@
+local toggles = require 'rosavim.config.toggles'
 local auto_focus = false
+
+local function get_layout()
+  return toggles.get 'sidekick_right' and 'right' or 'left'
+end
 
 local function toggle_with_layout(toggle_opts)
   local buf = vim.api.nvim_create_buf(false, true)
@@ -47,7 +52,7 @@ local function toggle_with_layout(toggle_opts)
   end
 
   vim.keymap.set('n', 'v', function()
-    apply 'right'
+    apply(get_layout())
   end, { buffer = buf, nowait = true })
   vim.keymap.set('n', 'h', function()
     apply 'bottom'

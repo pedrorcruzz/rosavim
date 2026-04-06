@@ -1,18 +1,20 @@
+local toggles = require 'rosavim.config.toggles'
+
 return {
   enabled = true,
-  hidden = false,
-  ignored = true,
+  hidden = toggles.get 'picker_hidden',
+  ignored = toggles.get 'picker_ignored',
   layout = { preset = 'default', preview = true, border = 'rounded' },
   sources = {
     files = {
-      hidden = false,
+      hidden = toggles.get 'picker_hidden',
       ignored = false,
     },
     explorer = {
       finder = 'explorer',
       diagnostics = true,
       diagnostics_open = false,
-      layout = { layout = { position = 'left', width = 34 }, preview = false },
+      layout = { layout = { position = toggles.get 'explorer_right' and 'right' or 'left', width = 34 }, preview = false },
       focus = 'list',
       auto_close = false,
       git_untracked = true,

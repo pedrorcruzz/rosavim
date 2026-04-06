@@ -26,6 +26,10 @@ local defaults = {
   dbout_no_folding = true,
   copilot = false,
   incline = true,
+  picker_hidden = false,
+  picker_ignored = true,
+  explorer_right = false,
+  sidekick_right = true,
 }
 
 M._state = nil

@@ -53,11 +53,12 @@ return {
       { '<leader>le', group = 'GrugFar', icon = '󰛔' },
 
       { '<leader>lj', group = 'Spell', icon = '󰓆 ' },
-      { '<leader>la', group = 'Autocmd Toggles', icon = '󰒓' },
+      { '<leader>la', group = 'Tools Toggles', icon = '󰒓' },
       { '<leader>las', group = 'Snacks', icon = '󰡰' },
       { '<leader>lae', group = 'Editor', icon = '' },
       { '<leader>lal', group = 'LSP', icon = '' },
       { '<leader>lad', group = 'DBUI', icon = '󰆼' },
+      { '<leader>laa', group = 'AI', icon = '' },
 
       -- Rosakit
       { '<leader>k', group = 'Rosakit', icon = ' ' },

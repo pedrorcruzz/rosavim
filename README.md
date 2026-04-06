@@ -109,6 +109,7 @@ Rosavim ships with full support (LSP, formatting, linting, testing, and debuggin
 - **Dropbar** breadcrumbs for navigation
 - **Incline** floating filename indicator per window (toggleable)
 - **Noice.nvim** for modern messages and command line
+- **Rosamaximize** — built-in window maximizer (`<leader>cm`). Toggle to maximize the current window and restore the full layout
 
 ### File Management
 
@@ -189,6 +190,7 @@ On the first launch, **Lazy.nvim** will install all plugins and **Mason** will s
 │       ├── rosafile/                 # Built-in file operations (create, rename, duplicate, delete)
 │       ├── rosapick/                 # Built-in visual window picker
 │       ├── rosapreview/              # Built-in LSP preview in floating windows
+│       ├── rosamaximize/              # Built-in window maximizer (maximize/restore layout)
 │       ├── rosasave/                 # Built-in auto-save with debounce
 │       ├── rosasweep/                # Built-in automatic buffer sweeper (closes inactive buffers)
 │       └── rosakit/                  # Language-aware project navigator
@@ -213,6 +215,7 @@ On the first launch, **Lazy.nvim** will install all plugins and **Mason** will s
 | `gp` | Rosapreview Definition |
 | `<leader>kk` | Rosakit Menu |
 | `<leader>xx` | Rosafile Menu |
+| `<leader>cm` | Rosamaximize |
 | `<leader>ds` | Start/Continue Debug |
 | `<leader>db` | Toggle Breakpoint |
 | `<leader>gt` | Git Line Blame |
