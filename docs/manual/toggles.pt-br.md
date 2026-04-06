@@ -52,8 +52,8 @@ O orquestrador em `lua/rosavim/plugins/ui/snacks/toggles.lua` carrega todos os m
 | `<leader>ls` | Rosasave (Auto Save) | Desativado |
 | `<leader>lt` | TSContext (Treesitter Context) | Desativado |
 | `<leader>lc` | Incline (nome do arquivo flutuante) | Ativado |
-| `<leader>lj` | Bufferline (abas de buffers) | Ativado |
-| `<leader>lb` | Dropbar (breadcrumbs) | Ativado |
+| `<leader>lb` | Bufferline (abas de buffers) | Ativado |
+| `<leader>lu` | Dropbar (breadcrumbs) | Ativado |
 | `<leader>cm` | Rosamaximize (maximizar/restaurar janela) | Desativado |
 
 ### IA (`<leader>ai`)

@@ -183,7 +183,7 @@
 | n | `<leader>bq` | Ordenar por diretório | `Space b q` para ordenar buffers por diretório |
 | n | `<leader>be` | Ordenar por extensão | `Space b e` para ordenar buffers por extensão |
 | n | `<leader>br` | Ordenar por dir relativo | `Space b r` para ordenar buffers por diretório relativo |
-| n | `<leader>lj` | Toggle bufferline | `Space l j` para mostrar/ocultar a barra de abas |
+| n | `<leader>lb` | Toggle bufferline | `Space l b` para mostrar/ocultar a barra de abas |
 
 ---
 
@@ -388,7 +388,7 @@
 | n | `<leader>li` | Alternar guias de indentação | `Space l i` para alternar linhas guia de indentação |
 | n | `<leader>lk` | Alternar dim | `Space l k` para escurecer código inativo |
 | n | `<leader>ll` | Alternar lualine | `Space l l` para mostrar/ocultar a statusline |
-| n | `<leader>lb` | Alternar dropbar | `Space l b` para mostrar/ocultar a barra de breadcrumb |
+| n | `<leader>lu` | Alternar dropbar | `Space l u` para mostrar/ocultar a barra de breadcrumb |
 | n | `<leader>lt` | Alternar TSContext | `Space l t` para mostrar/ocultar o cabeçalho de contexto do treesitter |
 | n | `<leader>lc` | Alternar Incline | `Space l c` para mostrar/ocultar o indicador flutuante de nome de arquivo |
 | n | `<leader>ls` | Alternar auto-save | `Space l s` para ativar/desativar salvamento automático |

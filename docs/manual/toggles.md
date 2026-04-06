@@ -52,8 +52,8 @@ The orchestrator at `lua/rosavim/plugins/ui/snacks/toggles.lua` loads all module
 | `<leader>ls` | Rosasave (Auto Save) | Off |
 | `<leader>lt` | TSContext (Treesitter Context) | Off |
 | `<leader>lc` | Incline (floating filename) | On |
-| `<leader>lj` | Bufferline (buffer tabs) | On |
-| `<leader>lb` | Dropbar (breadcrumbs) | On |
+| `<leader>lb` | Bufferline (buffer tabs) | On |
+| `<leader>lu` | Dropbar (breadcrumbs) | On |
 | `<leader>cm` | Rosamaximize (maximize/restore window) | Off |
 
 ### AI (`<leader>ai`)

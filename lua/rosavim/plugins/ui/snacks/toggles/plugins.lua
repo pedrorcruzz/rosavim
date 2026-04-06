@@ -125,7 +125,7 @@ return function()
       vim.api.nvim_set_hl(0, 'BufferLineInfoSelected', { link = 'BufferLineBufferSelected' })
       vim.api.nvim_set_hl(0, 'BufferLineHintSelected', { link = 'BufferLineBufferSelected' })
     end,
-  }):map '<leader>lj'
+  }):map '<leader>lb'
 
   -- Dropbar
   Snacks.toggle({
@@ -147,5 +147,5 @@ return function()
         end
       end
     end,
-  }):map '<leader>lb'
+  }):map '<leader>lu'
 end

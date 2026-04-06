@@ -183,7 +183,7 @@
 | n | `<leader>bq` | Sort by directory | `Space b q` to sort buffers by directory |
 | n | `<leader>be` | Sort by extension | `Space b e` to sort buffers by file extension |
 | n | `<leader>br` | Sort by relative dir | `Space b r` to sort buffers by relative directory |
-| n | `<leader>lj` | Toggle bufferline | `Space l j` to show/hide the buffer tab bar |
+| n | `<leader>lb` | Toggle bufferline | `Space l b` to show/hide the buffer tab bar |
 
 ---
 
@@ -388,7 +388,7 @@
 | n | `<leader>li` | Toggle indent guides | `Space l i` to toggle indent guide lines |
 | n | `<leader>lk` | Toggle dim | `Space l k` to dim inactive code |
 | n | `<leader>ll` | Toggle lualine | `Space l l` to show/hide the statusline |
-| n | `<leader>lb` | Toggle dropbar | `Space l b` to show/hide the breadcrumb bar |
+| n | `<leader>lu` | Toggle dropbar | `Space l u` to show/hide the breadcrumb bar |
 | n | `<leader>lt` | Toggle TSContext | `Space l t` to show/hide the treesitter context header |
 | n | `<leader>lc` | Toggle Incline | `Space l c` to show/hide the floating filename indicator |
 | n | `<leader>ls` | Toggle auto-save | `Space l s` to enable/disable auto-save |
