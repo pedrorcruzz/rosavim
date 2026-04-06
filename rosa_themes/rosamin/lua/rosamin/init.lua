@@ -1,4 +1,3 @@
-local colors = require("rosamin.colors")
 local config = require("rosamin.config")
 local utils = require("rosamin.utils")
 local bufferline = require("rosamin.integrations.bufferline")
@@ -6,6 +5,7 @@ local cmp = require("rosamin.integrations.cmp")
 local min = {}
 
 local function set_terminal_colors()
+	local colors = require("rosamin.colors")
 	vim.g.terminal_color_0 = colors.bg
 	vim.g.terminal_color_1 = colors.red
 	vim.g.terminal_color_2 = colors.green
@@ -27,6 +27,7 @@ local function set_terminal_colors()
 end
 
 local function set_groups()
+	local colors = require("rosamin.colors")
 	local bg = config.transparent and "NONE" or colors.bg
 	local diff_add = utils.shade(colors.green, 0.5, colors.bg)
 	local diff_delete = utils.shade(colors.red, 0.5, colors.bg)
@@ -310,6 +311,12 @@ function min.colorscheme()
 		return
 	end
 
+	-- Sync transparent state from appearance module
+	local ok, appearance = pcall(require, "rosavim.config.appearance")
+	if ok then
+		config.transparent = appearance.get_transparent()
+	end
+
 	vim.api.nvim_command("hi clear")
 	if vim.fn.exists("syntax_on") then
 		vim.api.nvim_command("syntax reset")
@@ -318,6 +325,9 @@ function min.colorscheme()
 	vim.g.VM_theme_set_by_colorscheme = true -- Required for Visual Multi
 	vim.o.termguicolors = true
 	vim.g.colors_name = "rosamin"
+
+	-- Clear cached color module so it re-evaluates vim.o.background
+	package.loaded["rosamin.colors"] = nil
 
 	set_terminal_colors()
 	set_groups()

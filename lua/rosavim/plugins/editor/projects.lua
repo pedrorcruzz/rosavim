@@ -57,7 +57,7 @@ return {
     end,
     dependencies = {
       { 'nvim-lua/plenary.nvim', lazy = true },
-      { 'Shatur/neovim-session-manager', lazy = true },
+      { 'Shatur/neovim-session-manager', lazy = true, cmd = { 'SessionManager' } },
     },
   },
 }

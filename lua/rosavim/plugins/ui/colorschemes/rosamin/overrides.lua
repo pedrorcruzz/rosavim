@@ -156,6 +156,12 @@ function M.get(mode, transparent_background)
       FzfLuaSearch = { fg = '#1A1A1A' },
 
       bufferlinefill = { bg = '#EAEAEA' },
+
+      -- flash.nvim
+      FlashMatch = { fg = '#383A42', bg = '#D6E4F0' },
+      FlashCurrent = { fg = '#383A42', bg = '#D6E4F0' },
+      FlashLabel = { fg = '#E45649', bg = '#D6E4F0', bold = true },
+      FlashBackdrop = { fg = '#B0B0B0' },
     }
   end
   return {
@@ -362,6 +368,12 @@ function M.get(mode, transparent_background)
     nvimtreefoldername = { fg = '#aaaaaa' }, -- nome de pastas no nvimtree
 
     bufferlinefill = { bg = '#1a1a1a' }, -- cor de fundo do bufferline
+
+    -- flash.nvim
+    FlashMatch = { fg = '#abb2bf', bg = '#606060' },
+    FlashCurrent = { fg = '#abb2bf', bg = '#606060' },
+    FlashLabel = { fg = '#F67582', bg = '#606060', bold = true },
+    FlashBackdrop = { fg = '#505050' },
   }
 end
 

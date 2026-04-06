@@ -79,6 +79,15 @@ return {
           section = 'projects',
           limit = 4,
           indent = 3,
+          action = function(dir)
+            vim.fn.chdir(dir)
+            local ok, session_manager = pcall(require, 'session_manager')
+            if ok then
+              session_manager.load_current_dir_session()
+            else
+              Snacks.dashboard.pick()
+            end
+          end,
         },
       },
       {
@@ -116,6 +125,15 @@ return {
           title = 'Projects',
           section = 'projects',
           padding = 3,
+          action = function(dir)
+            vim.fn.chdir(dir)
+            local ok, session_manager = pcall(require, 'session_manager')
+            if ok then
+              session_manager.load_current_dir_session()
+            else
+              Snacks.dashboard.pick()
+            end
+          end,
         },
       },
     },
