@@ -1,5 +1,12 @@
 local M = {}
 
+M.sep = {
+  section = { left = '', right = '' },
+  component = { left = '', right = '' },
+  mode = { left = '', right = '' },
+  location = { left = '', right = '' },
+}
+
 function M.build(sep)
   return {
     lualine_a = {

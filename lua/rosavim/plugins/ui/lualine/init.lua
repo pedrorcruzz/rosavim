@@ -3,18 +3,11 @@ local sections = require 'rosavim.plugins.ui.lualine.sections'
 local toggles = require 'rosavim.config.toggles'
 
 local lualine_visible = toggles.get 'lualine'
-local use_custom_theme = toggles.get 'lualine_theme'
-
-local sep = {
-  section = { left = '', right = '' },
-  component = { left = '', right = '' },
-  -- mode = { left = '', right = '' },
-  -- location = { left = '', right = '' },
-}
+local sep = sections.sep
 
 local lualine_config = {
   options = {
-    theme = use_custom_theme and theme.create() or 'auto',
+    theme = toggles.get 'lualine_theme' and theme.create() or 'auto',
     section_separators = sep.section,
     component_separators = sep.component,
     globalstatus = true,

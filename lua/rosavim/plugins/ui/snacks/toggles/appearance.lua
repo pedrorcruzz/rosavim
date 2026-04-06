@@ -60,12 +60,7 @@ return function()
       local theme = require 'rosavim.plugins.ui.lualine.theme'
       local lualine = require 'lualine'
       local sections = require 'rosavim.plugins.ui.lualine.sections'
-      local sep = {
-        section = { left = '', right = '' },
-        component = { left = '', right = '' },
-        mode = { left = '', right = '' },
-        location = { left = '', right = '' },
-      }
+      local sep = sections.sep
       local config = {
         options = {
           theme = state and theme.create() or 'auto',
