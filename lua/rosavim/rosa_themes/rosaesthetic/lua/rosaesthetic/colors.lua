@@ -6,7 +6,7 @@ if vim.o.background == 'light' and not config.transparent then
   colors.bg = '#d3d2ce'
   colors.bgDark = '#c3c0ba'
   colors.bgDarker = '#c3c0ba'
-  colors.bgFloat = '#c3c0ba'
+  colors.bgFloat = '#ECF1FB'
   colors.bgOption = '#c3c0ba'
   colors.bgSidebar = '#EDF1FA'
   colors.fg = '#444136'

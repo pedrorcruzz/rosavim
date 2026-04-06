@@ -1,14 +1,13 @@
 local toggles = require 'rosavim.config.toggles'
-local dropbar_enabled = toggles.get 'dropbar'
 
 return {
   'Bekaboo/dropbar.nvim',
-  event = dropbar_enabled and { 'BufReadPost', 'BufNewFile' } or nil,
+  event = toggles.get 'dropbar' and { 'BufReadPost', 'BufNewFile' } or nil,
   config = function()
     require('dropbar').setup {
       bar = {
         enable = function(buf, win)
-          return dropbar_enabled
+          return toggles.get 'dropbar'
             and vim.api.nvim_buf_is_valid(buf)
             and vim.api.nvim_get_option_value('buftype', { buf = buf }) == ''
             and vim.api.nvim_win_get_config(win).relative == ''
