@@ -375,7 +375,7 @@
 | n | `<leader>lc` | Toggle Incline | `Space l c` to show/hide the floating filename indicator |
 | n | `<leader>ls` | Toggle auto-save | `Space l s` to enable/disable auto-save |
 | n | `<leader>lm` | Image preview | `Space l m` to preview an image in a floating window |
-| n | `<leader>ut` | Toggle Markview | `Space u t` to toggle enhanced markdown rendering |
+| n | `<leader>uu` | Toggle Markview | `Space u t` to toggle enhanced markdown rendering |
 | n | `<leader>ua` | Markdown preview | `Space u a` to open markdown preview in the browser |
 | n | `<leader>zz` | Pick winbar symbol | `Space z z` to pick a symbol from the breadcrumb bar |
 

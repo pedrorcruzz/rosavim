@@ -375,7 +375,7 @@
 | n | `<leader>lc` | Alternar Incline | `Space l c` para mostrar/ocultar o indicador flutuante de nome de arquivo |
 | n | `<leader>ls` | Alternar auto-save | `Space l s` para ativar/desativar salvamento automático |
 | n | `<leader>lm` | Preview de imagem | `Space l m` para visualizar uma imagem em uma janela flutuante |
-| n | `<leader>ut` | Alternar Markview | `Space u t` para alternar renderização aprimorada de markdown |
+| n | `<leader>uu` | Alternar Markview | `Space u t` para alternar renderização aprimorada de markdown |
 | n | `<leader>ua` | Preview de markdown | `Space u a` para abrir preview de markdown no navegador |
 | n | `<leader>zz` | Escolher símbolo da winbar | `Space z z` para escolher um símbolo da barra de breadcrumb |
 
