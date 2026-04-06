@@ -5,7 +5,7 @@ local cs_cache = vim.fn.stdpath 'cache' .. '/rosavim-colorscheme'
 local tp_cache = vim.fn.stdpath 'cache' .. '/rosavim-transparent'
 
 M._reloader = nil
-M._transparent = false
+M._transparent = nil
 
 function M.get_mode()
   return vim.o.background
@@ -17,6 +17,10 @@ function M.get_colorscheme()
 end
 
 function M.get_transparent()
+  if M._transparent == nil then
+    local tp_ok, tp_content = pcall(vim.fn.readfile, tp_cache)
+    M._transparent = tp_ok and tp_content[1] == 'true' or false
+  end
   return M._transparent
 end
 

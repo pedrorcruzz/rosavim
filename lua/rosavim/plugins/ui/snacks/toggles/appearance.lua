@@ -8,17 +8,12 @@ return function()
       return vim.o.background == 'light'
     end,
     set = function(state)
-      local appearance = require 'rosavim.config.appearance'
       local new_mode = state and 'light' or 'dark'
       vim.o.background = new_mode
       vim.fn.writefile({ new_mode }, vim.fn.stdpath 'cache' .. '/rosavim-background')
-      if appearance._reloader then
-        appearance._reloader()
-      else
-        local name = vim.g.colors_name
-        if name then
-          vim.cmd('colorscheme ' .. name)
-        end
+      local name = vim.g.colors_name
+      if name then
+        vim.cmd('colorscheme ' .. name)
       end
     end,
   }):map '<leader>lqt'
@@ -34,13 +29,9 @@ return function()
       local appearance = require 'rosavim.config.appearance'
       appearance._transparent = state
       vim.fn.writefile({ state and 'true' or 'false' }, vim.fn.stdpath 'cache' .. '/rosavim-transparent')
-      if appearance._reloader then
-        appearance._reloader()
-      else
-        local name = vim.g.colors_name
-        if name then
-          vim.cmd('colorscheme ' .. name)
-        end
+      local name = vim.g.colors_name
+      if name then
+        vim.cmd('colorscheme ' .. name)
       end
     end,
   }):map '<leader>lqe'

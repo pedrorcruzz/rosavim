@@ -16,13 +16,12 @@
 
 🇺🇸 **[English](README.md)** | 🇧🇷 **[Português](#o-que-é-rosavim)**
 
-[O que é Rosavim?](#o-que-é-rosavim) · [Documentação](#documentação) · [Linguagens](#linguagens--frameworks) · [Funcionalidades](#funcionalidades) · [Instalação](#instalação) · [Requisitos](#requisitos) · [Estrutura do Projeto](#estrutura-do-projeto) · [Atalhos Principais](#atalhos-principais)
+[O que é Rosavim?](#o-que-é-rosavim) · [Temas Próprios](#temas-próprios) · [Documentação](#documentação) · [Linguagens](#linguagens--frameworks) · [Funcionalidades](#funcionalidades) · [Instalação](#instalação) · [Requisitos](#requisitos) · [Estrutura do Projeto](#estrutura-do-projeto) · [Atalhos Principais](#atalhos-principais)
 
 | | |
 |:---:|:---:|
-| ![Screenshot 1](assets/screenshots/ex.png) | ![Screenshot 2](assets/screenshots/ex2.png) |
-| ![Screenshot 3](assets/screenshots/ex3.png) | ![Screenshot 4](assets/screenshots/ex4-v2.png) |
-| ![Screenshot 5](assets/screenshots/ex5-v2.png) | ![Screenshot 6](assets/screenshots/ex6-v2.png) |
+| ![Rosamin Dashboard Dark](assets/screenshots/rosamin_dashboard_dark.png) | ![Rosaesthetic Dashboard Light](assets/screenshots/rosaaesthetic_dashboard_light.png) |
+| ![Rosamin Code Dark](assets/screenshots/rosamin_code_dark.png) | ![Rosaesthetic Code Light](assets/screenshots/rosaaesthetic_code_light.png) |
 
 </div>
 
@@ -101,7 +100,8 @@ Rosavim oferece suporte completo (LSP, formatação, linting, testes e debug) pa
 
 ### UI & Aparência
 
-- **7 colorschemes** incluídos: Catppuccin, Gruvbox, Kanagawa, Min Theme, Rosé Pine, Rusticated e Vesper
+- **4 colorschemes** incluídos: **Rosamin** (padrão, inspirado no min-theme), **Rosaesthetic** (built-in), Catppuccin e Gruvbox
+- **2 temas próprios** (Rosamin & Rosaesthetic) com dark/light mode, suporte a transparência e overrides customizáveis
 - Alternância entre **dark/light mode** com um atalho
 - **Modo transparente** para integrar com o wallpaper do terminal
 - **Dashboard** customizado com acesso rápido a projetos e arquivos recentes
@@ -128,6 +128,26 @@ Rosavim oferece suporte completo (LSP, formatação, linting, testes e debug) pa
 - **ToggleTerm** para terminais flutuantes e splits
 
 > Essas são apenas as ferramentas que já vem inclusas. O sistema de plugins do Rosavim é modular — você pode facilmente adicionar, remover ou trocar plugins para adaptar ao seu workflow.
+
+## Temas Próprios
+
+Rosavim vem com seus próprios temas, totalmente integrados com os toggles de dark/light mode e transparência.
+
+### Rosamin (padrão)
+
+Tema minimal estético inspirado no min-theme. Limpo e focado.
+
+| Code (Dark) | Dashboard (Dark) | Code (Light) | Transparente |
+|:------------|:-----------------|:-------------|:-------------|
+| ![Rosamin Code Dark](assets/screenshots/rosamin_code_dark.png) | ![Rosamin Dashboard Dark](assets/screenshots/rosamin_dashboard_dark.png) | ![Rosamin Code Light](assets/screenshots/rosamin_code_light.png) | ![Rosamin Transparent](assets/screenshots/rosamin_transparent.png) |
+
+### Rosaesthetic
+
+Tema estético com tons quentes e terrosos.
+
+| Code (Dark) | Dashboard (Dark) | Code (Light) | Dashboard (Light) | Transparente |
+|:------------|:-----------------|:-------------|:-------------------|:-------------|
+| ![Rosaesthetic Code Dark](assets/screenshots/rosaaesthetic_code_dark.png) | ![Rosaesthetic Dashboard Dark](assets/screenshots/rosaaesthetic_dashboard_dark.png) | ![Rosaesthetic Code Light](assets/screenshots/rosaaesthetic_code_light.png) | ![Rosaesthetic Dashboard Light](assets/screenshots/rosaaesthetic_dashboard_light.png) | ![Rosaesthetic Transparent](assets/screenshots/rosaaesthetic_transparent.png) |
 
 ## Instalação
 
@@ -194,6 +214,9 @@ Na primeira execução, o **Lazy.nvim** instalará todos os plugins e o **Mason*
 │       ├── rosasave/                 # Salvamento automático com debounce
 │       ├── rosasweep/                # Varredor automático de buffers inativos
 │       └── rosakit/                  # Navegador de projeto com detecção de stack
+├── rosa_themes/
+│   ├── rosamin/                      # Tema built-in: Rosamin (padrão, inspirado no min-theme)
+│   └── rosaesthetic/                 # Tema built-in: Rosaesthetic (estético, tons quentes)
 ├── lsp/                              # Configurações individuais de LSP
 └── assets/                           # Logo e recursos visuais
 ```

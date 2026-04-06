@@ -111,15 +111,14 @@ Rosavim ships with **75+ plugins**, all managed by [Lazy.nvim](https://github.co
 
 ### Colorschemes
 
+Rosavim ships with its own built-in themes, stored in `rosa_themes/`:
+
 | Theme | Description |
 |:------|:------------|
+| **Rosamin** (built-in, default) | Minimal aesthetic theme inspired by min-theme — dark/light mode, transparency, custom overrides |
+| **Rosaesthetic** (built-in) | Earthy, warm aesthetic theme — dark/light mode, transparency, custom overrides |
 | [catppuccin](https://github.com/catppuccin/nvim) | Soothing pastel theme |
 | [gruvbox.nvim](https://github.com/ellisonleao/gruvbox.nvim) | Retro groove color scheme |
-| [kanagawa.nvim](https://github.com/rebelot/kanagawa.nvim) | Inspired by the colors of the famous painting |
-| min-theme | Custom minimal theme (default) |
-| [rose-pine](https://github.com/rose-pine/neovim) | Soho vibes for Neovim |
-| nvim-rusticated | Custom rusticated theme |
-| vesper | Custom vesper theme |
 
 ---
 

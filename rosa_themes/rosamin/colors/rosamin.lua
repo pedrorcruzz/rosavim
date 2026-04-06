@@ -1,0 +1,1 @@
+require("rosamin").colorscheme()

@@ -40,7 +40,7 @@ return {
       end)
     end,
     opts = {
-      colorscheme = require('rosavim.config.appearance').get_colorscheme() or 'min-theme',
+      colorscheme = require('rosavim.config.appearance').get_colorscheme() or 'rosamin',
     },
   },
 }

@@ -16,13 +16,12 @@
 
 🇺🇸 **[English](#what-is-rosavim)** | 🇧🇷 **[Português](README.pt-br.md)**
 
-[What is Rosavim?](#what-is-rosavim) · [Documentation](#documentation) · [Languages](#languages--frameworks) · [Features](#features) · [Installation](#installation) · [Requirements](#requirements) · [Project Structure](#project-structure) · [Key Shortcuts](#key-shortcuts)
+[What is Rosavim?](#what-is-rosavim) · [Built-in Themes](#built-in-themes) · [Documentation](#documentation) · [Languages](#languages--frameworks) · [Features](#features) · [Installation](#installation) · [Requirements](#requirements) · [Project Structure](#project-structure) · [Key Shortcuts](#key-shortcuts)
 
 | | |
 |:---:|:---:|
-| ![Screenshot 1](assets/screenshots/ex.png) | ![Screenshot 2](assets/screenshots/ex2.png) |
-| ![Screenshot 3](assets/screenshots/ex3.png) | ![Screenshot 4](assets/screenshots/ex4-v2.png) |
-| ![Screenshot 5](assets/screenshots/ex5-v2.png) | ![Screenshot 6](assets/screenshots/ex6-v2.png) |
+| ![Rosamin Dashboard Dark](assets/screenshots/rosamin_dashboard_dark.png) | ![Rosaesthetic Dashboard Light](assets/screenshots/rosaaesthetic_dashboard_light.png) |
+| ![Rosamin Code Dark](assets/screenshots/rosamin_code_dark.png) | ![Rosaesthetic Code Light](assets/screenshots/rosaaesthetic_code_light.png) |
 
 </div>
 
@@ -101,7 +100,8 @@ Rosavim ships with full support (LSP, formatting, linting, testing, and debuggin
 
 ### UI & Appearance
 
-- **7 colorschemes** included: Catppuccin, Gruvbox, Kanagawa, Min Theme, Rose Pine, Rusticated, and Vesper
+- **4 colorschemes** included: **Rosamin** (default, inspired by min-theme), **Rosaesthetic** (built-in), Catppuccin, and Gruvbox
+- **2 built-in themes** (Rosamin & Rosaesthetic) with dark/light mode, transparency support, and custom overrides
 - **Dark/light mode** toggle with a single shortcut
 - **Transparent mode** to blend with your terminal wallpaper
 - Custom **dashboard** with quick access to projects and recent files
@@ -128,6 +128,26 @@ Rosavim ships with full support (LSP, formatting, linting, testing, and debuggin
 - **ToggleTerm** for floating and split terminals
 
 > These are just the built-in tools. Rosavim's plugin system is modular — you can easily add, remove, or swap plugins to match your workflow.
+
+## Built-in Themes
+
+Rosavim ships with its own themes, fully integrated with dark/light mode and transparency toggles.
+
+### Rosamin (default)
+
+Minimal aesthetic theme inspired by min-theme. Clean and focused.
+
+| Code (Dark) | Dashboard (Dark) | Code (Light) | Transparent |
+|:------------|:-----------------|:-------------|:------------|
+| ![Rosamin Code Dark](assets/screenshots/rosamin_code_dark.png) | ![Rosamin Dashboard Dark](assets/screenshots/rosamin_dashboard_dark.png) | ![Rosamin Code Light](assets/screenshots/rosamin_code_light.png) | ![Rosamin Transparent](assets/screenshots/rosamin_transparent.png) |
+
+### Rosaesthetic
+
+Warm, earthy aesthetic theme with rich tones.
+
+| Code (Dark) | Dashboard (Dark) | Code (Light) | Dashboard (Light) | Transparent |
+|:------------|:-----------------|:-------------|:-------------------|:------------|
+| ![Rosaesthetic Code Dark](assets/screenshots/rosaaesthetic_code_dark.png) | ![Rosaesthetic Dashboard Dark](assets/screenshots/rosaaesthetic_dashboard_dark.png) | ![Rosaesthetic Code Light](assets/screenshots/rosaaesthetic_code_light.png) | ![Rosaesthetic Dashboard Light](assets/screenshots/rosaaesthetic_dashboard_light.png) | ![Rosaesthetic Transparent](assets/screenshots/rosaaesthetic_transparent.png) |
 
 ## Installation
 
@@ -194,6 +214,9 @@ On the first launch, **Lazy.nvim** will install all plugins and **Mason** will s
 │       ├── rosasave/                 # Built-in auto-save with debounce
 │       ├── rosasweep/                # Built-in automatic buffer sweeper (closes inactive buffers)
 │       └── rosakit/                  # Language-aware project navigator
+├── rosa_themes/
+│   ├── rosamin/                      # Built-in theme: Rosamin (default, inspired by min-theme)
+│   └── rosaesthetic/                 # Built-in theme: Rosaesthetic (earthy, warm aesthetic)
 ├── lsp/                              # Individual LSP configurations
 └── assets/                           # Logo and visual resources
 ```
