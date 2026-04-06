@@ -21,7 +21,7 @@ end
 
 return {
   {
-    dir = vim.fn.stdpath 'config' .. '/rosa_themes/rosamin',
+    dir = vim.fn.stdpath 'config' .. '/lua/rosavim/rosa_themes/rosamin',
     name = 'rosamin',
     lazy = false,
     priority = 1000,

@@ -197,26 +197,26 @@ On the first launch, **Lazy.nvim** will install all plugins and **Mason** will s
 │   │   ├── autocmds.lua              # Autocommands
 │   │   ├── filetypes.lua             # Filetype detection
 │   │   └── snippets/                 # Custom snippets
-│   └── plugins/
-│       ├── env/                      # LSP, Mason, Treesitter, DAP, Lint, Format
-│       ├── ai/                       # Copilot, Sidekick
-│       ├── ui/                       # Themes, statusline, dashboard
-│       ├── editor/                   # Terminal, navigation, Rosafile
-│       ├── coding/                   # Surround, multi-cursor, refactoring
-│       ├── language/                 # Language-specific (Laravel, Java, etc.)
-│       └── test/                     # Rosatest, Rosakit
-│   └── rosa_plugins/
-│       ├── rosatest/                 # Built-in test runner (Go, Jest, Vitest, Pytest, Pest, Java)
-│       ├── rosafile/                 # Built-in file operations (create, rename, duplicate, delete)
-│       ├── rosapick/                 # Built-in visual window picker
-│       ├── rosapreview/              # Built-in LSP preview in floating windows
-│       ├── rosamaximize/              # Built-in window maximizer (maximize/restore layout)
-│       ├── rosasave/                 # Built-in auto-save with debounce
-│       ├── rosasweep/                # Built-in automatic buffer sweeper (closes inactive buffers)
-│       └── rosakit/                  # Language-aware project navigator
-├── rosa_themes/
-│   ├── rosamin/                      # Built-in theme: Rosamin (default, inspired by min-theme)
-│   └── rosaesthetic/                 # Built-in theme: Rosaesthetic (earthy, warm aesthetic)
+│   ├── plugins/
+│   │   ├── env/                      # LSP, Mason, Treesitter, DAP, Lint, Format
+│   │   ├── ai/                       # Copilot, Sidekick
+│   │   ├── ui/                       # Themes, statusline, dashboard
+│   │   ├── editor/                   # Terminal, navigation, Rosafile
+│   │   ├── coding/                   # Surround, multi-cursor, refactoring
+│   │   ├── language/                 # Language-specific (Laravel, Java, etc.)
+│   │   └── test/                     # Rosatest, Rosakit
+│   ├── rosa_plugins/
+│   │   ├── rosatest/                 # Built-in test runner (Go, Jest, Vitest, Pytest, Pest, Java)
+│   │   ├── rosafile/                 # Built-in file operations (create, rename, duplicate, delete)
+│   │   ├── rosapick/                 # Built-in visual window picker
+│   │   ├── rosapreview/              # Built-in LSP preview in floating windows
+│   │   ├── rosamaximize/             # Built-in window maximizer (maximize/restore layout)
+│   │   ├── rosasave/                 # Built-in auto-save with debounce
+│   │   ├── rosasweep/                # Built-in automatic buffer sweeper (closes inactive buffers)
+│   │   └── rosakit/                  # Language-aware project navigator
+│   └── rosa_themes/
+│       ├── rosamin/                  # Built-in theme: Rosamin (default, inspired by min-theme)
+│       └── rosaesthetic/             # Built-in theme: Rosaesthetic (earthy, warm aesthetic)
 ├── lsp/                              # Individual LSP configurations
 └── assets/                           # Logo and visual resources
 ```

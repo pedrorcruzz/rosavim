@@ -11,7 +11,7 @@ local function setup_theme()
 end
 
 return {
-  dir = vim.fn.stdpath 'config' .. '/rosa_themes/rosaesthetic',
+  dir = vim.fn.stdpath 'config' .. '/lua/rosavim/rosa_themes/rosaesthetic',
   name = 'rosaesthetic',
   lazy = false,
   priority = 1000,

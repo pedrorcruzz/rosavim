@@ -111,7 +111,7 @@ Rosavim vem com **75+ plugins**, todos gerenciados pelo [Lazy.nvim](https://gith
 
 ### Colorschemes
 
-Rosavim vem com seus próprios temas built-in, armazenados em `rosa_themes/`:
+Rosavim vem com seus próprios temas built-in, armazenados em `lua/rosavim/rosa_themes/`:
 
 | Tema | Descrição |
 |:-----|:----------|
