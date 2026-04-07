@@ -139,6 +139,25 @@ return function()
     end,
   }):map '<leader>lb'
 
+  -- Markview
+  Snacks.toggle({
+    name = 'Markview',
+    get = function()
+      return toggles.get 'markview'
+    end,
+    set = function(state)
+      toggles.set('markview', state)
+      if not package.loaded['markview'] then
+        require('lazy').load { plugins = { 'markview.nvim' } }
+      end
+      if state then
+        vim.cmd 'Markview Enable'
+      else
+        vim.cmd 'Markview Disable'
+      end
+    end,
+  }):map '<leader>uu'
+
   -- Dropbar
   Snacks.toggle({
     name = 'Dropbar',

@@ -4,6 +4,6 @@ return {
   ft = { 'markdown' },
   cmd = { 'MarkviewToggle', 'MarkviewOpen', 'MarkviewClose' },
   keys = {
-    { '<leader>uu', '<cmd>Markview Toggle<cr>', desc = 'Markview: Toggle' },
+    { '<leader>uu', desc = 'Markview: Toggle' },
   },
 }

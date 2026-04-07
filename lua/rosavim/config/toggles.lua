@@ -32,6 +32,7 @@ local defaults = {
   explorer_right = false,
   sidekick_right = true,
   git_blame = true,
+  markview = true,
 }
 
 M._state = nil

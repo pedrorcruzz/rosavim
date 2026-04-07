@@ -22,3 +22,14 @@ end
 if toggles.get 'dim' then
   Snacks.toggle.dim():set(true)
 end
+if not toggles.get 'markview' then
+  vim.api.nvim_create_autocmd('FileType', {
+    pattern = 'markdown',
+    once = true,
+    callback = function()
+      vim.schedule(function()
+        vim.cmd 'Markview Disable'
+      end)
+    end,
+  })
+end
