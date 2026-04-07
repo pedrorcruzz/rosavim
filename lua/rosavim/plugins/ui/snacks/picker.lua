@@ -8,7 +8,7 @@ return {
   sources = {
     files = {
       hidden = toggles.get 'picker_hidden',
-      ignored = false,
+      ignored = toggles.get 'picker_ignored',
     },
     explorer = {
       finder = 'explorer',

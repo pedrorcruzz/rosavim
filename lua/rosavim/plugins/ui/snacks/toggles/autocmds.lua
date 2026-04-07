@@ -46,6 +46,7 @@ return function()
       toggles.set('picker_hidden', state)
       Snacks.config.picker.hidden = state
       Snacks.config.picker.sources.files.hidden = state
+      Snacks.config.picker.sources.explorer.hidden = state
     end,
   }):map '<leader>lash'
 
@@ -57,6 +58,8 @@ return function()
     set = function(state)
       toggles.set('picker_ignored', state)
       Snacks.config.picker.ignored = state
+      Snacks.config.picker.sources.files.ignored = state
+      Snacks.config.picker.sources.explorer.ignored = state
     end,
   }):map '<leader>lasi'
 
