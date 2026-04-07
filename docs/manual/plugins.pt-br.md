@@ -112,7 +112,7 @@ Rosavim vem com **75+ plugins**, todos gerenciados pelo [Lazy.nvim](https://gith
 
 ### Colorschemes
 
-Rosavim vem com seus próprios temas built-in, armazenados em `lua/rosavim/rosa_themes/`. Esses são os únicos temas totalmente customizáveis com dark/light mode, transparência e overrides. Outros temas (catppuccin, tokyonight, etc.) vêm do LazyVim e funcionam normalmente, mas sem customizações específicas do Rosavim.
+Rosavim vem com seus próprios temas built-in, armazenados em `lua/rosavim/rosa_themes/`. Esses são os únicos temas totalmente customizáveis com dark/light mode, transparência e overrides. Outros temas disponíveis vêm do LazyVim.
 
 | Tema | Descrição |
 |:-----|:----------|
