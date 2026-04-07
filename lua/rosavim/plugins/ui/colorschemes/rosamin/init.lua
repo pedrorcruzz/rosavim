@@ -27,7 +27,7 @@ return {
     priority = 1000,
     config = function()
       setup_theme()
-      appearance.register_reloader(function()
+      appearance.register_reloader('rosamin', function()
         setup_theme()
         vim.cmd 'colorscheme rosamin'
       end)

@@ -10,5 +10,12 @@ return {
       end,
       desc = 'Rosapick',
     },
+    {
+      '<leader>cd',
+      function()
+        require('rosavim.rosa_plugins.rosapick').close()
+      end,
+      desc = 'Close Window (Pick)',
+    },
   },
 }

@@ -17,7 +17,7 @@ return {
   priority = 1000,
   config = function()
     setup_theme()
-    appearance.register_reloader(function()
+    appearance.register_reloader('rosaesthetic', function()
       setup_theme()
       vim.cmd 'colorscheme rosaesthetic'
     end)

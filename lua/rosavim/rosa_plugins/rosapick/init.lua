@@ -126,4 +126,11 @@ function M.pick()
   end
 end
 
+function M.close()
+  local win = M.select()
+  if win then
+    vim.api.nvim_win_close(win, false)
+  end
+end
+
 return M

@@ -226,6 +226,43 @@ vim.api.nvim_create_autocmd('ColorScheme', {
   end,
 })
 
+-- Re-apply lualine state after colorscheme change
+vim.api.nvim_create_autocmd('ColorScheme', {
+  callback = function()
+    vim.schedule(function()
+      local ok, lualine = pcall(require, 'lualine')
+      if not ok then
+        return
+      end
+      local lualine_enabled = toggles.get 'lualine'
+      if lualine_enabled then
+        -- Refresh lualine to pick up new theme colors
+        local theme_ok, theme = pcall(require, 'rosavim.plugins.ui.lualine.theme')
+        local sections = require 'rosavim.plugins.ui.lualine.sections'
+        local sep = sections.sep
+        local use_custom = toggles.get 'lualine_theme'
+        lualine.setup {
+          options = {
+            theme = (use_custom and theme_ok) and theme.create() or 'auto',
+            section_separators = sep.section,
+            component_separators = sep.component,
+            globalstatus = true,
+          },
+          sections = sections.build(sep),
+          inactive_sections = sections.inactive_sections,
+        }
+        lualine.hide { unhide = true }
+      else
+        lualine.hide { unhide = false }
+        -- Ensure native statusline stays visible when lualine is off
+        vim.defer_fn(function()
+          vim.o.laststatus = 3
+        end, 50)
+      end
+    end)
+  end,
+})
+
 -- DBUI NO FOLDING
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'dbout',

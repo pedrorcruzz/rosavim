@@ -31,6 +31,7 @@ local defaults = {
   picker_ignored = true,
   explorer_right = false,
   sidekick_right = true,
+  git_blame = true,
 }
 
 M._state = nil

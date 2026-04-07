@@ -204,5 +204,22 @@ return {
         desc = 'Toggle OpenClaude CLI',
       },
     },
+    config = function(_, opts)
+      require('sidekick').setup(opts)
+      vim.api.nvim_create_autocmd('TermOpen', {
+        callback = function(ev)
+          vim.schedule(function()
+            if not vim.api.nvim_buf_is_valid(ev.buf) then
+              return
+            end
+            if not vim.b[ev.buf].sidekick_cli then
+              return
+            end
+            local bopts = { buffer = ev.buf }
+            vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], bopts)
+          end)
+        end,
+      })
+    end,
   },
 }

@@ -15,6 +15,12 @@ return function()
       if name then
         vim.cmd('colorscheme ' .. name)
       end
+      -- Ensure native statusline stays visible when lualine is off
+      if not toggles.get 'lualine' then
+        vim.defer_fn(function()
+          vim.o.laststatus = 3
+        end, 100)
+      end
     end,
   }):map '<leader>lqt'
 
@@ -29,9 +35,11 @@ return function()
       local appearance = require 'rosavim.config.appearance'
       appearance._transparent = state
       vim.fn.writefile({ state and 'true' or 'false' }, vim.fn.stdpath 'cache' .. '/rosavim-transparent')
-      local name = vim.g.colors_name
-      if name then
-        vim.cmd('colorscheme ' .. name)
+      appearance.reload()
+      if not toggles.get 'lualine' then
+        vim.defer_fn(function()
+          vim.o.laststatus = 3
+        end, 100)
       end
     end,
   }):map '<leader>lqe'

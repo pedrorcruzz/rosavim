@@ -239,10 +239,13 @@ On the first launch, **Lazy.nvim** will install all plugins and **Mason** will s
 | `gp` | Rosapreview Definition |
 | `<leader>kk` | Rosakit Menu |
 | `<leader>xx` | Rosafile Menu |
+| `<leader>m` | Rosapick (Window Picker) |
+| `<leader>cd` | Close Window (Pick) |
 | `<leader>cm` | Rosamaximize |
 | `<leader>ds` | Start/Continue Debug |
 | `<leader>db` | Toggle Breakpoint |
-| `<leader>gt` | Git Line Blame |
+| `<leader>gt` | Toggle Git Blame (persistent) |
+| `<leader>ll` | Toggle Lualine (persistent) |
 | `<leader>lqt` | Toggle Dark/Light Mode |
 | `<leader>lqs` | Switch Colorscheme |
 | `<C-\>` | Floating Terminal |

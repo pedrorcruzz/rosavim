@@ -4,7 +4,7 @@ local bg_cache = vim.fn.stdpath 'cache' .. '/rosavim-background'
 local cs_cache = vim.fn.stdpath 'cache' .. '/rosavim-colorscheme'
 local tp_cache = vim.fn.stdpath 'cache' .. '/rosavim-transparent'
 
-M._reloader = nil
+M._reloaders = {}
 M._transparent = nil
 
 function M.get_mode()
@@ -45,8 +45,17 @@ function M.setup()
   })
 end
 
-function M.register_reloader(fn)
-  M._reloader = fn
+function M.register_reloader(name, fn)
+  M._reloaders[name] = fn
+end
+
+function M.reload()
+  local name = vim.g.colors_name
+  if name and M._reloaders[name] then
+    M._reloaders[name]()
+  elseif name then
+    vim.cmd('colorscheme ' .. name)
+  end
 end
 
 -- toggle() removed — handled by snacks/toggles.lua

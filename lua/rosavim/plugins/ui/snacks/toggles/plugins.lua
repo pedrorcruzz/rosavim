@@ -86,6 +86,18 @@ return function()
     end,
   }):map '<leader>cm'
 
+  -- Git Blame
+  Snacks.toggle({
+    name = 'Git Blame',
+    get = function()
+      return toggles.get 'git_blame'
+    end,
+    set = function(state)
+      toggles.set('git_blame', state)
+      require('gitsigns').toggle_current_line_blame(state)
+    end,
+  }):map '<leader>gt'
+
   -- Bufferline
   Snacks.toggle({
     name = 'Bufferline',
