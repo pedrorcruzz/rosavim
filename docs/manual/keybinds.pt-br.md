@@ -309,6 +309,7 @@
 | x | `<leader>av` | Enviar seleção | Selecione código, `Space a v` para enviar para o Sidekick |
 | n,x | `<leader>ap` | Selecionar prompt | `Space a p` para escolher entre prompts salvos |
 | n | `<leader>ac` | Alternar Claude | `Space a c` para usar o Claude como backend do Sidekick |
+| n | `<leader>aC` | Alternar Claude (Pular Permissões) | `Space a Shift+c` para usar o Claude com `--dangerously-skip-permissions` |
 | n | `<leader>ag` | Alternar Cursor | `Space a g` para usar o Cursor como backend do Sidekick |
 
 ---

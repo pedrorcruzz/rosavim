@@ -74,6 +74,12 @@ return {
             resume = { '--resume' },
             continue = { '--continue' },
           },
+          ['claude-yolo'] = {
+            cmd = { 'claude', '--dangerously-skip-permissions' },
+            is_proc = '\\<claude\\>',
+            resume = { '--resume' },
+            continue = { '--continue' },
+          },
         },
         win = {
           split = {
@@ -188,6 +194,13 @@ return {
           toggle_with_layout { name = 'claude', focus = true }
         end,
         desc = 'Sidekick Toggle Claude',
+      },
+      {
+        '<leader>aC',
+        function()
+          toggle_with_layout { name = 'claude-yolo', focus = true }
+        end,
+        desc = 'Sidekick Toggle Claude (Skip Permissions)',
       },
       {
         '<leader>ag',
