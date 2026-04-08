@@ -4,7 +4,7 @@ return {
   enabled = true,
   hidden = toggles.get 'picker_hidden',
   ignored = toggles.get 'picker_ignored',
-  layout = { preset = 'default', preview = true, border = 'rounded' },
+  layout = { preset = toggles.get 'picker_layout', preview = toggles.get 'picker_preview', border = toggles.get 'picker_border' },
   sources = {
     files = {
       hidden = toggles.get 'picker_hidden',

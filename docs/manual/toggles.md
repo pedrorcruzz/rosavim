@@ -16,7 +16,7 @@ Toggle definitions are organized in modular files under `lua/rosavim/plugins/ui/
 | `options.lua` | Vim options (wrap, relative number, line number, indent, dim, spell) |
 | `plugins.lua` | Plugin toggles (Rosasave, Incline, TSContext, Copilot, Bufferline, Dropbar, Markview, Rosamaximize) |
 | `appearance.lua` | Theme toggles (Dark/Light, Transparent, Lualine, Lualine Theme) |
-| `autocmds.lua` | Tools toggles (Snacks, AI, Editor, LSP, DBUI) |
+| `autocmds.lua` | Tools toggles (Snacks, Which-Key, AI, Editor, LSP, DBUI) |
 
 The orchestrator at `lua/rosavim/plugins/ui/snacks/toggles.lua` loads all modules and restores persisted states.
 
@@ -80,6 +80,24 @@ Additional features are persisted and can be toggled at runtime via `<leader>la`
 | `<leader>lasr` | Explorer Position (Left/Right) | Left |
 | `<leader>lash` | Picker Hidden Files | Off |
 | `<leader>lasi` | Picker Ignored Files | On |
+| `<leader>lasl` | Picker Layout (popup selector) | default |
+| `<leader>lasp` | Picker Preview | On |
+| `<leader>lasb` | Picker Border (popup selector) | rounded |
+
+Available picker layouts: `default`, `telescope`, `ivy`, `dropdown`, `vertical`, `vscode`
+
+Available picker borders: `none`, `single`, `double`, `rounded`, `solid`, `shadow`
+
+### Which-Key (`<leader>law`)
+
+| Shortcut | Toggle | Default |
+|:---------|:-------|:--------|
+| `<leader>lawp` | Which-Key Preset (popup selector) | modern |
+| `<leader>lawb` | Which-Key Border (popup selector) | single |
+
+Available which-key presets: `classic`, `modern`, `helix`
+
+Available which-key borders: `none`, `single`, `double`, `shadow`
 
 ### AI (`<leader>laa`)
 
@@ -101,6 +119,7 @@ Additional features are persisted and can be toggled at runtime via `<leader>la`
 | Shortcut | Toggle | Default |
 |:---------|:-------|:--------|
 | `<leader>lalh` | Custom/default LSP reference highlights | On |
+| `<leader>lalv` | Virtual Text (current line) | Off |
 
 ### DBUI (`<leader>lad`)
 

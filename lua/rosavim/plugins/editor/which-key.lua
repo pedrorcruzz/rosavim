@@ -4,11 +4,11 @@ return {
   lazy = true,
   event = 'VeryLazy',
   config = function() -- This is the function that runs, AFTER loading
+    local toggles = require 'rosavim.config.toggles'
     require('which-key').setup {
-      preset = 'modern', --classic, modern, helix
+      preset = toggles.get 'whichkey_preset',
       win = {
-        border = 'single', -- none, single, double, shadow
-        -- width = 60,
+        border = toggles.get 'whichkey_border',
       },
     }
 
@@ -58,6 +58,7 @@ return {
       { '<leader>lae', group = 'Editor', icon = '' },
       { '<leader>lal', group = 'LSP', icon = '' },
       { '<leader>lad', group = 'DBUI', icon = '󰆼' },
+      { '<leader>law', group = 'Which-Key', icon = '󰌌' },
       { '<leader>laa', group = 'AI', icon = '' },
 
       -- Rosakit

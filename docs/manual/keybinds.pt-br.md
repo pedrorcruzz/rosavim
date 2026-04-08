@@ -396,6 +396,11 @@
 | n | `<leader>lc` | Alternar Incline | `Space l c` para mostrar/ocultar o indicador flutuante de nome de arquivo |
 | n | `<leader>ls` | Alternar auto-save | `Space l s` para ativar/desativar salvamento automático |
 | n | `<leader>lm` | Preview de imagem | `Space l m` para visualizar uma imagem em uma janela flutuante |
+| n | `<leader>lasl` | Picker Layout | `Space l a s l` para abrir popup de seleção de layout do picker |
+| n | `<leader>lasp` | Picker Preview | `Space l a s p` para alternar preview do picker on/off |
+| n | `<leader>lasb` | Picker Border | `Space l a s b` para abrir popup de seleção de borda do picker |
+| n | `<leader>lawp` | Which-Key Preset | `Space l a w p` para abrir popup de seleção de preset do which-key |
+| n | `<leader>lawb` | Which-Key Border | `Space l a w b` para abrir popup de seleção de borda do which-key |
 | n | `<leader>uu` | Alternar Markview | `Space u t` para alternar renderização aprimorada de markdown |
 | n | `<leader>ua` | Preview de markdown | `Space u a` para abrir preview de markdown no navegador |
 | n | `<leader>zz` | Escolher símbolo da winbar | `Space z z` para escolher um símbolo da barra de breadcrumb |

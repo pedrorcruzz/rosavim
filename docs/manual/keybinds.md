@@ -396,6 +396,11 @@
 | n | `<leader>lc` | Toggle Incline | `Space l c` to show/hide the floating filename indicator |
 | n | `<leader>ls` | Toggle auto-save | `Space l s` to enable/disable auto-save |
 | n | `<leader>lm` | Image preview | `Space l m` to preview an image in a floating window |
+| n | `<leader>lasl` | Picker Layout | `Space l a s l` to open a popup to select picker layout preset |
+| n | `<leader>lasp` | Picker Preview | `Space l a s p` to toggle picker preview on/off |
+| n | `<leader>lasb` | Picker Border | `Space l a s b` to open a popup to select picker border style |
+| n | `<leader>lawp` | Which-Key Preset | `Space l a w p` to open a popup to select which-key preset |
+| n | `<leader>lawb` | Which-Key Border | `Space l a w b` to open a popup to select which-key border style |
 | n | `<leader>uu` | Toggle Markview | `Space u t` to toggle enhanced markdown rendering |
 | n | `<leader>ua` | Markdown preview | `Space u a` to open markdown preview in the browser |
 | n | `<leader>zz` | Pick winbar symbol | `Space z z` to pick a symbol from the breadcrumb bar |

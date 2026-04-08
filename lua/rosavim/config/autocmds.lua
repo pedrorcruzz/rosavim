@@ -217,7 +217,8 @@ vim.api.nvim_create_autocmd('ColorScheme', {
   pattern = '*',
   callback = function()
     if toggles.get 'lsp_ref_highlights' then
-      local highlight_style = { bold = true, bg = 'none', fg = '#FFFFFF' }
+      local fg = vim.o.background == 'light' and '#000000' or '#FFFFFF'
+      local highlight_style = { bold = true, bg = 'none', fg = fg }
 
       vim.api.nvim_set_hl(0, 'LspReferenceRead', highlight_style)
       vim.api.nvim_set_hl(0, 'LspReferenceWrite', highlight_style)
