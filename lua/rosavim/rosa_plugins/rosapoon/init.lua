@@ -139,15 +139,16 @@ function M.toggle_tags()
   local current_file = vim.fn.expand '%:p'
 
   -- Highlights
-  vim.api.nvim_set_hl(0, 'RosapoonTitle', { fg = '#cba6f7', bold = true })
-  vim.api.nvim_set_hl(0, 'RosapoonBorder', { fg = '#6c7086' })
-  vim.api.nvim_set_hl(0, 'RosapoonIdx', { fg = '#89b4fa', bold = true })
-  vim.api.nvim_set_hl(0, 'RosapoonFile', { fg = '#cdd6f4' })
-  vim.api.nvim_set_hl(0, 'RosapoonActive', { fg = '#a6e3a1', bold = true })
-  vim.api.nvim_set_hl(0, 'RosapoonActiveIdx', { fg = '#a6e3a1', bold = true })
-  vim.api.nvim_set_hl(0, 'RosapoonDim', { fg = '#6c7086' })
-  vim.api.nvim_set_hl(0, 'RosapoonDanger', { fg = '#f38ba8' })
-  vim.api.nvim_set_hl(0, 'RosapoonHint', { fg = '#6c7086', italic = true })
+  local p = require('rosavim.rosa_plugins.palette').get()
+  vim.api.nvim_set_hl(0, 'RosapoonTitle', { fg = p.title, bold = true })
+  vim.api.nvim_set_hl(0, 'RosapoonBorder', { fg = p.border })
+  vim.api.nvim_set_hl(0, 'RosapoonIdx', { fg = p.key, bold = true })
+  vim.api.nvim_set_hl(0, 'RosapoonFile', { fg = p.text })
+  vim.api.nvim_set_hl(0, 'RosapoonActive', { fg = p.green, bold = true })
+  vim.api.nvim_set_hl(0, 'RosapoonActiveIdx', { fg = p.green, bold = true })
+  vim.api.nvim_set_hl(0, 'RosapoonDim', { fg = p.dim })
+  vim.api.nvim_set_hl(0, 'RosapoonDanger', { fg = p.red })
+  vim.api.nvim_set_hl(0, 'RosapoonHint', { fg = p.dim, italic = true })
 
   local pad = '   '
   local gap = '  '

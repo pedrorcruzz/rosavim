@@ -5,15 +5,16 @@ local ns = vim.api.nvim_create_namespace 'rosatest'
 
 --- Highlight groups
 local function setup_highlights()
-  vim.api.nvim_set_hl(0, 'RosatestPassed', { fg = '#a6e3a1', bold = true })
-  vim.api.nvim_set_hl(0, 'RosatestFailed', { fg = '#f38ba8', bold = true })
-  vim.api.nvim_set_hl(0, 'RosatestSkipped', { fg = '#f9e2af', bold = true })
-  vim.api.nvim_set_hl(0, 'RosatestRunning', { fg = '#89b4fa', bold = true })
-  vim.api.nvim_set_hl(0, 'RosatestTitle', { fg = '#cba6f7', bold = true })
-  vim.api.nvim_set_hl(0, 'RosatestBorder', { fg = '#6c7086' })
-  vim.api.nvim_set_hl(0, 'RosatestHeader', { fg = '#89dceb', bold = true })
-  vim.api.nvim_set_hl(0, 'RosatestDim', { fg = '#6c7086' })
-  vim.api.nvim_set_hl(0, 'RosatestIcon', { fg = '#f5c2e7' })
+  local p = require('rosavim.rosa_plugins.palette').get()
+  vim.api.nvim_set_hl(0, 'RosatestPassed', { fg = p.green, bold = true })
+  vim.api.nvim_set_hl(0, 'RosatestFailed', { fg = p.red, bold = true })
+  vim.api.nvim_set_hl(0, 'RosatestSkipped', { fg = p.yellow, bold = true })
+  vim.api.nvim_set_hl(0, 'RosatestRunning', { fg = p.key, bold = true })
+  vim.api.nvim_set_hl(0, 'RosatestTitle', { fg = p.title, bold = true })
+  vim.api.nvim_set_hl(0, 'RosatestBorder', { fg = p.border })
+  vim.api.nvim_set_hl(0, 'RosatestHeader', { fg = p.teal, bold = true })
+  vim.api.nvim_set_hl(0, 'RosatestDim', { fg = p.dim })
+  vim.api.nvim_set_hl(0, 'RosatestIcon', { fg = p.pink })
 end
 
 --- Icon definitions

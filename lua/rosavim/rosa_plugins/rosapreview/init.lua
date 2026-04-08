@@ -13,10 +13,11 @@ local config = {}
 
 --- Setup highlights
 local function setup_highlights()
-  vim.api.nvim_set_hl(0, 'RosapreviewBorder', { fg = '#6c7086' })
-  vim.api.nvim_set_hl(0, 'RosapreviewTitle', { fg = '#cba6f7', bold = true })
-  vim.api.nvim_set_hl(0, 'RosapreviewFooter', { fg = '#6c7086', italic = true })
-  vim.api.nvim_set_hl(0, 'RosapreviewFooterKey', { fg = '#89b4fa', bold = true })
+  local p = require('rosavim.rosa_plugins.palette').get()
+  vim.api.nvim_set_hl(0, 'RosapreviewBorder', { fg = p.border })
+  vim.api.nvim_set_hl(0, 'RosapreviewTitle', { fg = p.title, bold = true })
+  vim.api.nvim_set_hl(0, 'RosapreviewFooter', { fg = p.dim, italic = true })
+  vim.api.nvim_set_hl(0, 'RosapreviewFooterKey', { fg = p.key, bold = true })
 end
 
 --- Build styled footer with highlighted keys

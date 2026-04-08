@@ -4,16 +4,17 @@ local M = {}
 local ns = vim.api.nvim_create_namespace 'rosafile'
 
 local function setup_highlights()
-  vim.api.nvim_set_hl(0, 'RosafileTitle', { fg = '#cba6f7', bold = true })
-  vim.api.nvim_set_hl(0, 'RosafileBorder', { fg = '#6c7086' })
-  vim.api.nvim_set_hl(0, 'RosafileKey', { fg = '#89b4fa', bold = true })
-  vim.api.nvim_set_hl(0, 'RosafileAction', { fg = '#cdd6f4' })
-  vim.api.nvim_set_hl(0, 'RosafileCreate', { fg = '#a6e3a1' })
-  vim.api.nvim_set_hl(0, 'RosafileDanger', { fg = '#f38ba8', bold = true })
-  vim.api.nvim_set_hl(0, 'RosafileDim', { fg = '#6c7086' })
-  vim.api.nvim_set_hl(0, 'RosafileInfo', { fg = '#89dceb' })
-  vim.api.nvim_set_hl(0, 'RosafileWarn', { fg = '#f9e2af', bold = true })
-  vim.api.nvim_set_hl(0, 'RosafilePath', { fg = '#a6adc8', italic = true })
+  local p = require('rosavim.rosa_plugins.palette').get()
+  vim.api.nvim_set_hl(0, 'RosafileTitle', { fg = p.title, bold = true })
+  vim.api.nvim_set_hl(0, 'RosafileBorder', { fg = p.border })
+  vim.api.nvim_set_hl(0, 'RosafileKey', { fg = p.key, bold = true })
+  vim.api.nvim_set_hl(0, 'RosafileAction', { fg = p.text })
+  vim.api.nvim_set_hl(0, 'RosafileCreate', { fg = p.green })
+  vim.api.nvim_set_hl(0, 'RosafileDanger', { fg = p.red, bold = true })
+  vim.api.nvim_set_hl(0, 'RosafileDim', { fg = p.dim })
+  vim.api.nvim_set_hl(0, 'RosafileInfo', { fg = p.teal })
+  vim.api.nvim_set_hl(0, 'RosafileWarn', { fg = p.yellow, bold = true })
+  vim.api.nvim_set_hl(0, 'RosafilePath', { fg = p.subtext, italic = true })
 end
 
 --- Create a centered floating window

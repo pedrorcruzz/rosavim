@@ -4,14 +4,15 @@ local M = {}
 local ns = vim.api.nvim_create_namespace 'rosakit'
 
 local function setup_highlights()
-  vim.api.nvim_set_hl(0, 'RosakitTitle', { fg = '#cba6f7', bold = true })
-  vim.api.nvim_set_hl(0, 'RosakitBorder', { fg = '#6c7086' })
-  vim.api.nvim_set_hl(0, 'RosakitKey', { fg = '#89b4fa', bold = true })
-  vim.api.nvim_set_hl(0, 'RosakitSection', { fg = '#a6e3a1' })
-  vim.api.nvim_set_hl(0, 'RosakitTool', { fg = '#f9e2af' })
-  vim.api.nvim_set_hl(0, 'RosakitDim', { fg = '#6c7086' })
-  vim.api.nvim_set_hl(0, 'RosakitStack', { fg = '#f5c2e7', bold = true })
-  vim.api.nvim_set_hl(0, 'RosakitAction', { fg = '#89dceb' })
+  local p = require('rosavim.rosa_plugins.palette').get()
+  vim.api.nvim_set_hl(0, 'RosakitTitle', { fg = p.title, bold = true })
+  vim.api.nvim_set_hl(0, 'RosakitBorder', { fg = p.border })
+  vim.api.nvim_set_hl(0, 'RosakitKey', { fg = p.key, bold = true })
+  vim.api.nvim_set_hl(0, 'RosakitSection', { fg = p.green })
+  vim.api.nvim_set_hl(0, 'RosakitTool', { fg = p.yellow })
+  vim.api.nvim_set_hl(0, 'RosakitDim', { fg = p.dim })
+  vim.api.nvim_set_hl(0, 'RosakitStack', { fg = p.pink, bold = true })
+  vim.api.nvim_set_hl(0, 'RosakitAction', { fg = p.teal })
 end
 
 --- Create a centered floating window
