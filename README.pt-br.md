@@ -29,7 +29,7 @@
 
 Rosavim é uma distribuição do Neovim pensada para desenvolvedores que querem um ambiente de desenvolvimento completo, rápido e bonito sem precisar gastar horas configurando do zero. Com suporte de primeira classe para as principais linguagens e frameworks do mercado, basta clonar e começar a codar.
 
-Construída sobre o **Lazy.nvim**, Rosavim carrega mais de **70+ plugins** de forma inteligente, mantendo o startup rápido e a experiência fluida.
+Construída sobre o **Lazy.nvim**, Rosavim carrega plugins de forma inteligente, mantendo o startup rápido e a experiência fluida.
 
 ## Documentação
 
@@ -68,7 +68,7 @@ Rosavim oferece suporte completo (LSP, formatação, linting, testes e debug) pa
 
 - **Autocompletion** via [blink.cmp](https://github.com/Saghen/blink.cmp) — engine de completion em Rust, extremamente rápido
 - **Snippets** com LuaSnip + friendly-snippets para produtividade máxima
-- **Treesitter** para syntax highlighting preciso, text objects e contexto de código
+- **Treesitter Nativo** (Neovim 0.12+) para syntax highlighting preciso e indentação
 - **Format on Save** automático com conform.nvim
 - **Auto Save** ao perder foco da janela
 - **Toggles Persistentes** — todas as configurações de UI e autocmd são salvas entre sessões com toggle em runtime

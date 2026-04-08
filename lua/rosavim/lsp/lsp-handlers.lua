@@ -1,3 +1,5 @@
+local toggles = require 'rosavim.config.toggles'
+
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('UserLspConfig', { clear = true }),
   callback = function(event)
@@ -24,7 +26,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
 local severity = vim.diagnostic.severity
 vim.diagnostic.config {
-  virtual_text = { current_line = false },
+  virtual_text = { current_line = toggles.get 'virtual_text_current_line' },
   signs = {
     text = {
       [severity.ERROR] = ' ',

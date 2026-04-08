@@ -38,21 +38,6 @@ return function()
     end,
   }):map '<leader>lc'
 
-  -- TSContext
-  Snacks.toggle({
-    name = 'TSContext',
-    get = function()
-      return toggles.get 'tscontext'
-    end,
-    set = function(state)
-      toggles.set('tscontext', state)
-      local ok, context = pcall(require, 'treesitter-context')
-      if ok then
-        context.toggle()
-      end
-    end,
-  }):map '<leader>lt'
-
   -- Copilot
   Snacks.toggle({
     name = 'Copilot',

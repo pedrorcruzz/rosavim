@@ -1,6 +1,6 @@
 # Plugin Catalog
 
-Rosavim ships with **75+ plugins**, all managed by [Lazy.nvim](https://github.com/folke/lazy.nvim) with intelligent lazy-loading for fast startup.
+Rosavim plugins are managed by [Lazy.nvim](https://github.com/folke/lazy.nvim) with intelligent lazy-loading for fast startup.
 
 ## Table of Contents
 
@@ -44,7 +44,6 @@ Rosavim ships with **75+ plugins**, all managed by [Lazy.nvim](https://github.co
 | [LuaSnip](https://github.com/L3MON4D3/LuaSnip) | Snippet engine with support for VSCode-style snippets |
 | [friendly-snippets](https://github.com/rafamadriz/friendly-snippets) | Community-maintained snippet collection for many languages |
 | [lazydev.nvim](https://github.com/folke/lazydev.nvim) | Development helpers for Lua/Neovim plugin development |
-| [nvim-navic](https://github.com/SmiteshP/nvim-navic) | LSP-powered breadcrumb provider |
 | [nvim-lsp-file-operations](https://github.com/antosha417/nvim-lsp-file-operations) | Automatic import updates on file rename/move |
 | [blink-copilot](https://github.com/giuxtaposition/blink-copilot) | Copilot source for blink.cmp |
 | [blink-emoji.nvim](https://github.com/moyiz/blink-emoji.nvim) | Emoji completion source |
@@ -54,12 +53,12 @@ Rosavim ships with **75+ plugins**, all managed by [Lazy.nvim](https://github.co
 
 ## Syntax & Treesitter
 
-| Plugin | Description |
-|:-------|:------------|
-| [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) | Treesitter integration — precise syntax highlighting, text objects, folding |
-| [nvim-treesitter-context](https://github.com/nvim-treesitter/nvim-treesitter-context) | Shows the current function/class context at the top of the screen |
-| [nvim-treesitter-textobjects](https://github.com/nvim-treesitter/nvim-treesitter-textobjects) | Treesitter-powered text objects (select function, class, parameter, etc.) |
-| [nvim-ts-autotag](https://github.com/windwp/nvim-ts-autotag) | Auto-close and auto-rename HTML/JSX tags |
+Rosavim uses **native Neovim 0.12+ treesitter** — no plugins needed for syntax highlighting, indentation, or folding.
+
+| Feature | Description |
+|:--------|:------------|
+| Native Treesitter Highlighting | Built-in `vim.treesitter.start()` — enabled automatically per buffer |
+| Native Treesitter Indentation | Built-in `vim.treesitter.indentexpr()` — set automatically per buffer |
 
 ---
 

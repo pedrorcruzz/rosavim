@@ -1,8 +1,5 @@
 require('rosavim.config.appearance').setup()
 
--- Array of file names indicating root directory. Modify to your liking.
-local root_names = { '.git', 'Makefile', '.rn' }
-
 -- Enable loader (speed up startup time)
 vim.loader.enable()
 
@@ -10,29 +7,27 @@ vim.opt.lazyredraw = false
 
 vim.opt.fileencoding = 'utf-8'
 
--- Cache to use for speed up (at cost of possibly outdated results)
+-- Global floating window border (Neovim 0.12+)
+vim.opt.winborder = 'rounded'
+
+-- Auto root detection using vim.fs.root() (Neovim 0.12+)
 local root_cache = {}
 
 local set_root = function()
-  -- Get directory path to start search from
   local path = vim.api.nvim_buf_get_name(0)
   if path == '' then
     return
   end
-  path = vim.fs.dirname(path)
 
-  -- Try cache and resort to searching upward for root directory
   local root = root_cache[path]
   if root == nil then
-    local root_file = vim.fs.find(root_names, { path = path, upward = true })[1]
-    if root_file == nil then
+    root = vim.fs.root(0, { '.git', 'Makefile', '.rn' })
+    if root == nil then
       return
     end
-    root = vim.fs.dirname(root_file)
     root_cache[path] = root
   end
 
-  -- Set current directory
   vim.fn.chdir(root)
 end
 

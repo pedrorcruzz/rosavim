@@ -389,7 +389,10 @@
 | n | `<leader>lk` | Toggle dim | `Space l k` to dim inactive code |
 | n | `<leader>ll` | Toggle lualine | `Space l l` to show/hide the statusline |
 | n | `<leader>lu` | Toggle dropbar | `Space l u` to show/hide the breadcrumb bar |
-| n | `<leader>lt` | Toggle TSContext | `Space l t` to show/hide the treesitter context header |
+| v | `an` | Select parent node | In visual mode, expand selection to the parent treesitter node |
+| v | `in` | Select child node | In visual mode, shrink selection to a child treesitter node |
+| v | `]n` | Next sibling node | In visual mode, move selection to the next sibling node |
+| v | `[n` | Previous sibling node | In visual mode, move selection to the previous sibling node |
 | n | `<leader>lc` | Toggle Incline | `Space l c` to show/hide the floating filename indicator |
 | n | `<leader>ls` | Toggle auto-save | `Space l s` to enable/disable auto-save |
 | n | `<leader>lm` | Image preview | `Space l m` to preview an image in a floating window |

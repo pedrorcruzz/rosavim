@@ -1,6 +1,6 @@
 # Catálogo de Plugins
 
-Rosavim vem com **75+ plugins**, todos gerenciados pelo [Lazy.nvim](https://github.com/folke/lazy.nvim) com carregamento inteligente para startup rápido.
+Os plugins do Rosavim são gerenciados pelo [Lazy.nvim](https://github.com/folke/lazy.nvim) com carregamento inteligente para startup rápido.
 
 ## Índice
 
@@ -44,7 +44,6 @@ Rosavim vem com **75+ plugins**, todos gerenciados pelo [Lazy.nvim](https://gith
 | [LuaSnip](https://github.com/L3MON4D3/LuaSnip) | Engine de snippets com suporte a snippets estilo VSCode |
 | [friendly-snippets](https://github.com/rafamadriz/friendly-snippets) | Coleção de snippets mantida pela comunidade para muitas linguagens |
 | [lazydev.nvim](https://github.com/folke/lazydev.nvim) | Helpers de desenvolvimento para criação de plugins Lua/Neovim |
-| [nvim-navic](https://github.com/SmiteshP/nvim-navic) | Provedor de breadcrumb alimentado pelo LSP |
 | [nvim-lsp-file-operations](https://github.com/antosha417/nvim-lsp-file-operations) | Atualização automática de imports ao renomear/mover arquivos |
 | [blink-copilot](https://github.com/giuxtaposition/blink-copilot) | Fonte do Copilot para blink.cmp |
 | [blink-emoji.nvim](https://github.com/moyiz/blink-emoji.nvim) | Fonte de completion de emojis |
@@ -54,12 +53,12 @@ Rosavim vem com **75+ plugins**, todos gerenciados pelo [Lazy.nvim](https://gith
 
 ## Sintaxe & Treesitter
 
-| Plugin | Descrição |
-|:-------|:----------|
-| [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) | Integração Treesitter — syntax highlighting preciso, text objects, folding |
-| [nvim-treesitter-context](https://github.com/nvim-treesitter/nvim-treesitter-context) | Mostra o contexto da função/classe atual no topo da tela |
-| [nvim-treesitter-textobjects](https://github.com/nvim-treesitter/nvim-treesitter-textobjects) | Text objects via Treesitter (selecionar função, classe, parâmetro, etc.) |
-| [nvim-ts-autotag](https://github.com/windwp/nvim-ts-autotag) | Auto-fechar e auto-renomear tags HTML/JSX |
+Rosavim usa **treesitter nativo do Neovim 0.12+** — nenhum plugin necessário para syntax highlighting, indentação ou folding.
+
+| Feature | Descrição |
+|:--------|:----------|
+| Treesitter Highlighting Nativo | `vim.treesitter.start()` built-in — habilitado automaticamente por buffer |
+| Treesitter Indentação Nativa | `vim.treesitter.indentexpr()` built-in — configurado automaticamente por buffer |
 
 ---
 

@@ -1,7 +1,6 @@
 return {
   'b0o/incline.nvim',
   dependencies = {
-    { 'SmiteshP/nvim-navic', setup = { highlight = true } },
     'echasnovski/mini.icons',
   },
   event = 'VeryLazy',

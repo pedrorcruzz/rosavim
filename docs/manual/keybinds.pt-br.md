@@ -389,7 +389,10 @@
 | n | `<leader>lk` | Alternar dim | `Space l k` para escurecer código inativo |
 | n | `<leader>ll` | Alternar lualine | `Space l l` para mostrar/ocultar a statusline |
 | n | `<leader>lu` | Alternar dropbar | `Space l u` para mostrar/ocultar a barra de breadcrumb |
-| n | `<leader>lt` | Alternar TSContext | `Space l t` para mostrar/ocultar o cabeçalho de contexto do treesitter |
+| v | `an` | Selecionar nó pai | No modo visual, expande a seleção para o nó pai do treesitter |
+| v | `in` | Selecionar nó filho | No modo visual, reduz a seleção para um nó filho do treesitter |
+| v | `]n` | Próximo nó irmão | No modo visual, move a seleção para o próximo nó irmão |
+| v | `[n` | Nó irmão anterior | No modo visual, move a seleção para o nó irmão anterior |
 | n | `<leader>lc` | Alternar Incline | `Space l c` para mostrar/ocultar o indicador flutuante de nome de arquivo |
 | n | `<leader>ls` | Alternar auto-save | `Space l s` para ativar/desativar salvamento automático |
 | n | `<leader>lm` | Preview de imagem | `Space l m` para visualizar uma imagem em uma janela flutuante |

@@ -123,6 +123,19 @@ return function()
     end,
   }):map '<leader>lalh'
 
+  Snacks.toggle({
+    name = 'Virtual Text (current line)',
+    get = function()
+      return toggles.get 'virtual_text_current_line'
+    end,
+    set = function(state)
+      toggles.set('virtual_text_current_line', state)
+      vim.diagnostic.config {
+        virtual_text = { current_line = state },
+      }
+    end,
+  }):map '<leader>lalv'
+
   -- Sidekick
   Snacks.toggle({
     name = 'Sidekick Position',
