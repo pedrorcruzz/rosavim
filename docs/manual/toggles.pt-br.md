@@ -62,6 +62,7 @@ O orquestrador em `lua/rosavim/plugins/ui/snacks/toggles.lua` carrega todos os m
 | Atalho | Toggle | Padrão |
 |:-------|:-------|:-------|
 | `<leader>aii` | Copilot | Desativado |
+| `<leader>al` | Sidekick Auto Focus | Ativado |
 
 > **Modo Zen** (`<leader>lz`) intencionalmente **não é** persistido, ele reseta a cada sessão.
 

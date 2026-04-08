@@ -1,5 +1,4 @@
 local toggles = require 'rosavim.config.toggles'
-local auto_focus = false
 
 local function get_layout()
   return toggles.get 'sidekick_right' and 'right' or 'left'
@@ -45,7 +44,7 @@ local function toggle_with_layout(toggle_opts)
       end
       state.terminal.opts.layout = layout
       state.terminal:show()
-      if auto_focus then
+      if toggles.get 'sidekick_auto_focus' then
         state.terminal:focus()
       end
     end, { attach = true, filter = filter })

@@ -62,6 +62,7 @@ The orchestrator at `lua/rosavim/plugins/ui/snacks/toggles.lua` loads all module
 | Shortcut | Toggle | Default |
 |:---------|:-------|:--------|
 | `<leader>aii` | Copilot | Off |
+| `<leader>al` | Sidekick Auto Focus | On |
 
 > **Zen Mode** (`<leader>lz`) is intentionally **not** persisted, it resets on each session.
 

@@ -360,6 +360,10 @@ local function set_groups()
     WhichKeyValue = { fg = colors.fgInactive },
     WhichKeySeparator = { fg = colors.fgInactive },
 
+    -- blink-cmp doc
+    BlinkCmpDoc = { bg = vim.o.background == 'light' and '#C4C0B9' or colors.bgFloat },
+    BlinkCmpDocSeparator = { bg = vim.o.background == 'light' and '#C4C0B9' or colors.bgFloat },
+
     -- incline
     InclineNormal = { fg = (config.transparent or vim.o.background == 'dark') and '#D5D0C7' or '#454135', bg = bg },
     InclineNormalNC = { fg = (config.transparent or vim.o.background == 'dark') and '#D5D0C7' or '#454135', bg = bg },

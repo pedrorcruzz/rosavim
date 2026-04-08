@@ -36,6 +36,7 @@ local defaults = {
   whichkey_border = 'single',
   explorer_right = false,
   sidekick_right = true,
+  sidekick_auto_focus = true,
   git_blame = true,
   markview = true,
 }
