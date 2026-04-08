@@ -14,7 +14,7 @@ Toggle definitions are organized in modular files under `lua/rosavim/plugins/ui/
 | Module | Toggles |
 |:-------|:--------|
 | `options.lua` | Vim options (wrap, relative number, line number, indent, dim, spell) |
-| `plugins.lua` | Plugin toggles (Rosasave, Incline, TSContext, Copilot, Bufferline, Dropbar, Markview, Rosamaximize) |
+| `plugins.lua` | Plugin toggles (Rosasave, Incline, TSContext, Copilot, Bufferline, Dropbar, Markview, Rosamaximize, Image Preview) |
 | `appearance.lua` | Theme toggles (Dark/Light, Transparent, Lualine, Lualine Theme) |
 | `autocmds.lua` | Tools toggles (Snacks, Which-Key, AI, Editor, LSP, DBUI) |
 
@@ -55,6 +55,7 @@ The orchestrator at `lua/rosavim/plugins/ui/snacks/toggles.lua` loads all module
 | `<leader>lb` | Bufferline (buffer tabs) | On |
 | `<leader>lu` | Dropbar (breadcrumbs) | On |
 | `<leader>uu` | Markview (enhanced markdown rendering) | On |
+| `<leader>lm` | Image Preview (hover image preview) | Off |
 | `<leader>cm` | Rosamaximize (maximize/restore window) | Off |
 
 ### AI (`<leader>ai`)

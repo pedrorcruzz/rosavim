@@ -108,5 +108,4 @@ return {
   { '<leader>;', function() Snacks.dashboard() end, desc = 'Dashboard' },
   { '<leader>.', function() Snacks.notifier.hide() end, desc = 'Dimiss Notification' },
   { '<leader>lv', function() Snacks.rename.rename_file() end, desc = 'Snacks: Rename Current File' },
-  { '<leader>lm', function() Snacks.image.hover() end, desc = 'Snacks: Image Preview' },
 }

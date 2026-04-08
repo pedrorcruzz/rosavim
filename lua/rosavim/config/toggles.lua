@@ -39,6 +39,7 @@ local defaults = {
   sidekick_auto_focus = true,
   git_blame = true,
   markview = true,
+  image_preview = false,
 }
 
 M._state = nil

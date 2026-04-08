@@ -396,7 +396,7 @@
 | v | `[n` | Nó irmão anterior | No modo visual, move a seleção para o nó irmão anterior |
 | n | `<leader>lc` | Alternar Incline | `Space l c` para mostrar/ocultar o indicador flutuante de nome de arquivo |
 | n | `<leader>ls` | Alternar auto-save | `Space l s` para ativar/desativar salvamento automático |
-| n | `<leader>lm` | Preview de imagem | `Space l m` para visualizar uma imagem em uma janela flutuante |
+| n | `<leader>lm` | Toggle Image Preview | `Space l m` para alternar preview de imagem on/off (padrão: desativado) |
 | n | `<leader>lasl` | Picker Layout | `Space l a s l` para abrir popup de seleção de layout do picker |
 | n | `<leader>lasp` | Picker Preview | `Space l a s p` para alternar preview do picker on/off |
 | n | `<leader>lasb` | Picker Border | `Space l a s b` para abrir popup de seleção de borda do picker |

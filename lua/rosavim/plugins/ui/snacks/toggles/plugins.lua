@@ -154,6 +154,20 @@ return function()
     end,
   }):map '<leader>uu'
 
+  -- Image Preview
+  Snacks.toggle({
+    name = 'Image Preview',
+    get = function()
+      return toggles.get 'image_preview'
+    end,
+    set = function(state)
+      toggles.set('image_preview', state)
+      if state then
+        Snacks.image.hover()
+      end
+    end,
+  }):map '<leader>lm'
+
   -- Dropbar
   Snacks.toggle({
     name = 'Dropbar',

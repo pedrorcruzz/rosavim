@@ -95,7 +95,7 @@ return {
 
     mini_icons.get = function(category, name)
       if category == 'file' and name and (name:find '%.test' or name:find '_test') then
-        return '', 'RosatestFileIcon'
+        return '󰙨', 'RosatestFileIcon'
       end
 
       if use_theme_directory_color and category == 'directory' then

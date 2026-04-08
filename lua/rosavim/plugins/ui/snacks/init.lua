@@ -51,7 +51,7 @@ return {
     quickfile = { enabled = true },
     scope = { enabled = true },
     statuscolumn = { enabled = true },
-    image = { enabled = false },
+    image = { enabled = true },
     icons = { enabled = true },
     animate = { enabled = true },
     words = { enabled = true },

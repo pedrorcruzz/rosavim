@@ -396,7 +396,7 @@
 | v | `[n` | Previous sibling node | In visual mode, move selection to the previous sibling node |
 | n | `<leader>lc` | Toggle Incline | `Space l c` to show/hide the floating filename indicator |
 | n | `<leader>ls` | Toggle auto-save | `Space l s` to enable/disable auto-save |
-| n | `<leader>lm` | Image preview | `Space l m` to preview an image in a floating window |
+| n | `<leader>lm` | Toggle Image Preview | `Space l m` to toggle persistent image preview on/off (default: off) |
 | n | `<leader>lasl` | Picker Layout | `Space l a s l` to open a popup to select picker layout preset |
 | n | `<leader>lasp` | Picker Preview | `Space l a s p` to toggle picker preview on/off |
 | n | `<leader>lasb` | Picker Border | `Space l a s b` to open a popup to select picker border style |
