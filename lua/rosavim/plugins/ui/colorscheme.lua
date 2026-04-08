@@ -5,7 +5,7 @@ vim.api.nvim_create_autocmd('ColorScheme', {
     vim.api.nvim_set_hl(0, 'BlinkCmpMenuBorder', { fg = '#4c4c4c' })
     vim.api.nvim_set_hl(0, 'BlinkCmpDocBorder', { fg = '#4c4c4c' })
     vim.api.nvim_set_hl(0, 'BlinkCmpSignatureHelpBorder', { fg = '#4c4c4c' })
-    vim.api.nvim_set_hl(0, 'BlinkCmpDocSeparator', { fg = '#606060' })
+    vim.api.nvim_set_hl(0, 'BlinkCmpDocSeparator', { fg = '#3a3a3a' })
     vim.api.nvim_set_hl(0, 'MiniIconsPurple', { fg = '#777BB4', bg = 'none' })
     vim.api.nvim_set_hl(0, 'MiniIconsAzure', { fg = '#007FFF', bg = 'none' })
     vim.api.nvim_set_hl(0, 'MiniIconsBlue', { fg = '#0000FF', bg = 'none' })
