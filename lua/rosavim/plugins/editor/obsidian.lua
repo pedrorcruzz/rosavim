@@ -93,15 +93,9 @@ return {
         return path:with_suffix '.md'
       end,
 
-      preferred_link_style = 'wiki',
-
-      wiki_link_func = function(opts)
-        return require('obsidian.util').wiki_link_id_prefix(opts)
-      end,
-
-      markdown_link_func = function(opts)
-        return require('obsidian.util').markdown_link(opts)
-      end,
+      link = {
+        style = 'wiki',
+      },
 
       frontmatter = {
         enabled = true,
@@ -131,14 +125,6 @@ return {
         date_format = '%Y-%m-%d',
         time_format = '%H:%M',
       },
-
-      follow_url_func = function(url)
-        vim.fn.jobstart { 'open', url }
-      end,
-
-      follow_img_func = function(img)
-        vim.fn.jobstart { 'qlmanage', '-p', img }
-      end,
 
       open = {
         func = function(uri)
@@ -173,7 +159,7 @@ return {
       },
 
       attachments = {
-        img_folder = 'assets/Imagens',
+        folder = 'assets/Imagens',
         img_name_func = function()
           return string.format('%s-', os.time())
         end,
