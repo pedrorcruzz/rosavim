@@ -12,7 +12,7 @@ return {
     require('discord').setup {
       auto_connect = false,
       logo = 'https://raw.githubusercontent.com/pedrorcruzz/rosavim/main/assets/logo/rosavim.png',
-      logo_tooltip = '  ',
+      logo_tooltip = 'Rosavim',
       main_image = 'language',
       client_id = '1342537926969524325', -- Neovim: 1233867420330889286 || Rosavim: 1342537926969524325
       log_level = nil,
