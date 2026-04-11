@@ -11,8 +11,8 @@ return {
 
     require('discord').setup {
       auto_connect = false,
-      logo = 'https://logosrated.net/wp-content/uploads/parser/Neovim-Logo-1.png', -- Logo Neovim: https://logosrated.net/wp-content/uploads/parser/Neovim-Logo-1.png
-      logo_tooltip = nil,
+      logo = 'https://raw.githubusercontent.com/pedrorcruzz/rosavim/main/assets/logo/rosavim.png',
+      logo_tooltip = '  ',
       main_image = 'language',
       client_id = '1342537926969524325', -- Neovim: 1233867420330889286 || Rosavim: 1342537926969524325
       log_level = nil,
