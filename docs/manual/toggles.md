@@ -33,6 +33,7 @@ The orchestrator at `lua/rosavim/plugins/ui/snacks/toggles.lua` loads all module
 | `<leader>lw` | Word Wrap | Off |
 | `<leader>li` | Indent Guide | On |
 | `<leader>lk` | Dimming | Off |
+| `<leader>ld` | Last Cursor Position | Off |
 | `<leader>ljj` | Spell Check | Off |
 | `<leader>ljp` / `<leader>lje` | Spell Language (pt/en) | en |
 
@@ -111,7 +112,6 @@ Available which-key borders: `none`, `single`, `double`, `shadow`
 
 | Shortcut | Toggle | Default |
 |:---------|:-------|:--------|
-| `<leader>laec` | Restore cursor to last position | Off |
 | `<leader>laed` | Syntax highlight for .env files | On |
 | `<leader>laeo` | Block auto comment continuation on new lines | On |
 | `<leader>laes` | Auto save on focus lost / buffer leave | On |

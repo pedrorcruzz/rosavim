@@ -33,6 +33,7 @@ O orquestrador em `lua/rosavim/plugins/ui/snacks/toggles.lua` carrega todos os m
 | `<leader>lw` | Quebra de Linha | Desativado |
 | `<leader>li` | Guia de Indentação | Ativado |
 | `<leader>lk` | Dimming | Desativado |
+| `<leader>ld` | Last Cursor Position | Desativado |
 | `<leader>ljj` | Verificação Ortográfica | Desativado |
 | `<leader>ljp` / `<leader>lje` | Idioma Ortográfico (pt/en) | en |
 
@@ -111,7 +112,6 @@ Bordas de which-key disponíveis: `none`, `single`, `double`, `shadow`
 
 | Atalho | Toggle | Padrão |
 |:-------|:-------|:-------|
-| `<leader>laec` | Restaurar cursor na última posição | Desativado |
 | `<leader>laed` | Syntax highlight para arquivos .env | Ativado |
 | `<leader>laeo` | Bloquear continuação automática de comentário | Ativado |
 | `<leader>laes` | Salvar automático ao sair do foco/buffer | Ativado |

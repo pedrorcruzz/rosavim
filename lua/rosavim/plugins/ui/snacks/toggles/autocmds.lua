@@ -515,7 +515,7 @@ return function()
     set = function(state)
       toggles.set('lastpos', state)
     end,
-  }):map '<leader>laec'
+  }):map '<leader>ld'
 
   Snacks.toggle({
     name = 'Dotenv Syntax',
