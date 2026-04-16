@@ -202,7 +202,7 @@ return {
         desc = 'Sidekick Toggle Claude (Skip Permissions)',
       },
       {
-        '<leader>ag',
+        '<leader>av',
         function()
           toggle_with_layout { name = 'cursor', focus = true }
         end,
