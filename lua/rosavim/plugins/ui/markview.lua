@@ -3,7 +3,4 @@ return {
   lazy = true,
   ft = { 'markdown' },
   cmd = { 'MarkviewToggle', 'MarkviewOpen', 'MarkviewClose' },
-  keys = {
-    { '<leader>uu', desc = 'Markview: Toggle' },
-  },
 }
