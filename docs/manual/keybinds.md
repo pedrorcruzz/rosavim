@@ -356,22 +356,11 @@
 
 ---
 
-## Yank & Paste (Yanky)
+## Yank & Paste (Rosayank)
 
 | Mode | Key | Action | Example |
 |:----:|:----|:-------|:--------|
-| n,x | `<leader>p` | Yank history | `Space p` to browse and paste from yank history |
-| n,x | `y` | Yank | Works like normal `y` but saves to Yanky history |
-| n,x | `p` | Put after | Paste after cursor with Yanky tracking |
-| n,x | `P` | Put before | Paste before cursor with Yanky tracking |
-| n | `[y` | Cycle forward | After pasting, `[y` to cycle through older yanks |
-| n | `]y` | Cycle backward | After pasting, `]y` to cycle through newer yanks |
-| n | `]p` | Put indented after | Paste after with automatic indentation |
-| n | `[p` | Put indented before | Paste before with automatic indentation |
-| n | `>p` | Put indent right | Paste and shift right |
-| n | `<p` | Put indent left | Paste and shift left |
-| n | `=p` | Put filtered after | Paste after applying a filter |
-| n | `=P` | Put filtered before | Paste before applying a filter |
+| n,x | `<leader>p` | Yank history | `Space p` to browse and paste from yank history (persisted across sessions) |
 
 ---
 

@@ -356,22 +356,11 @@
 
 ---
 
-## Copiar & Colar (Yanky)
+## Copiar & Colar (Rosayank)
 
 | Modo | Tecla | Ação | Exemplo |
 |:----:|:------|:-----|:--------|
-| n,x | `<leader>p` | Histórico de cópias | `Space p` para navegar e colar do histórico de cópias |
-| n,x | `y` | Copiar | Funciona como `y` normal mas salva no histórico do Yanky |
-| n,x | `p` | Colar depois | Colar após o cursor com rastreamento do Yanky |
-| n,x | `P` | Colar antes | Colar antes do cursor com rastreamento do Yanky |
-| n | `[y` | Ciclo para frente | Após colar, `[y` para navegar por cópias mais antigas |
-| n | `]y` | Ciclo para trás | Após colar, `]y` para navegar por cópias mais recentes |
-| n | `]p` | Colar indentado depois | Colar depois com indentação automática |
-| n | `[p` | Colar indentado antes | Colar antes com indentação automática |
-| n | `>p` | Colar e indentar direita | Colar e deslocar para direita |
-| n | `<p` | Colar e indentar esquerda | Colar e deslocar para esquerda |
-| n | `=p` | Colar filtrado depois | Colar depois aplicando um filtro |
-| n | `=P` | Colar filtrado antes | Colar antes aplicando um filtro |
+| n,x | `<leader>p` | Histórico de cópias | `Space p` para navegar e colar do histórico de cópias (persistido entre sessões) |
 
 ---
 

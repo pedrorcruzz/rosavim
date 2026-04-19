@@ -139,7 +139,7 @@ Rosavim ships with its own built-in themes, stored in `lua/rosavim/rosa_themes/`
 | [vim-matchup](https://github.com/andymass/vim-matchup) | Extended `%` matching for language constructs |
 | [vim-visual-multi](https://github.com/mg979/vim-visual-multi) | Multi-cursor editing |
 | [refactoring.nvim](https://github.com/ThePrimeagen/refactoring.nvim) | Code refactoring operations (extract, inline, debug print) |
-| [yanky.nvim](https://github.com/gbprod/yanky.nvim) | Improved yank and put with history |
+| Rosayank (built-in) | Yank history with persistence — ring buffer of 50 entries, auto-cleanup |
 | [todo-comments.nvim](https://github.com/folke/todo-comments.nvim) | Highlight and search TODO, FIXME, HACK, etc. |
 | [outline.nvim](https://github.com/hedyhli/outline.nvim) | Code outline sidebar |
 | Rosapick (built-in) | Visual window picker with floating labels |

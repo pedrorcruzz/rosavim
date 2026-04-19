@@ -214,6 +214,7 @@ On the first launch, **Lazy.nvim** will install all plugins and **Mason** will s
 │   │   ├── rosamaximize/             # Built-in window maximizer (maximize/restore layout)
 │   │   ├── rosasave/                 # Built-in auto-save with debounce
 │   │   ├── rosasweep/                # Built-in automatic buffer sweeper (closes inactive buffers)
+│   │   ├── rosayank/                 # Built-in yank history with persistence (ring buffer)
 │   │   └── rosakit/                  # Language-aware project navigator
 │   └── rosa_themes/
 │       ├── rosamin/                  # Built-in theme: Rosamin (default, inspired by min-theme)
