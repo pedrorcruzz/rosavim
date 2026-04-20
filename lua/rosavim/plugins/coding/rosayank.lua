@@ -14,5 +14,12 @@ return {
       mode = { 'n', 'x' },
       desc = 'Rosayank: History',
     },
+    {
+      '<leader>P',
+      function()
+        require('rosavim.rosa_plugins.rosayank').menu()
+      end,
+      desc = 'Rosayank: Menu',
+    },
   },
 }

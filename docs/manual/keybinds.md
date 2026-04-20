@@ -361,6 +361,7 @@
 | Mode | Key | Action | Example |
 |:----:|:----|:-------|:--------|
 | n,x | `<leader>p` | Yank history | `Space p` to browse and paste from yank history (persisted across sessions) |
+| n | `<leader>P` | Yank menu | `Space P` to open yank menu with numbered entries, `dd` remove, `DD` clear all |
 
 ---
 

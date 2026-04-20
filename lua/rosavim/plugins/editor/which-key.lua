@@ -27,6 +27,8 @@ return {
 
       { '<leader>n', group = 'Rosatest', icon = '󰙨' },
       { '<leader>m', group = 'Rosapick', icon = '' },
+      { '<leader>p', icon = '' },
+      { '<leader>P', icon = '' },
 
       { '<leader>y', group = 'Yazi', icon = '' },
       { '<leader>;', group = 'Dashboard', icon = '󰕮' },

@@ -361,6 +361,7 @@
 | Modo | Tecla | Ação | Exemplo |
 |:----:|:------|:-----|:--------|
 | n,x | `<leader>p` | Histórico de cópias | `Space p` para navegar e colar do histórico de cópias (persistido entre sessões) |
+| n | `<leader>P` | Menu de cópias | `Space P` para abrir menu de cópias com entradas numeradas, `dd` remover, `DD` limpar tudo |
 
 ---
 
