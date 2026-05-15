@@ -25,6 +25,31 @@ vim.keymap.set('n', '<leader>lqs', function()
   Snacks.picker.colorschemes()
 end, { desc = 'Search Colorscheme' })
 
+-- Apply the default (or cached) colorscheme as soon as the rosa themes are
+-- ready. Runs once, defensively — covers the fresh-install case where no
+-- cache file exists and nothing else has set `g:colors_name` yet.
+local function apply_default_colorscheme()
+  local cs = require('rosavim.config.appearance').get_colorscheme() or 'rosamin'
+  if vim.g.colors_name ~= cs then
+    pcall(vim.cmd.colorscheme, cs)
+  end
+end
+
+vim.api.nvim_create_autocmd('User', {
+  pattern = 'LazyDone',
+  once = true,
+  callback = apply_default_colorscheme,
+})
+
+vim.api.nvim_create_autocmd('VimEnter', {
+  once = true,
+  callback = function()
+    -- Last-resort: if nothing set a colorscheme by VimEnter (e.g. LazyDone
+    -- fired before colorscheme plugins loaded), force it now.
+    vim.schedule(apply_default_colorscheme)
+  end,
+})
+
 return {
   {
     'LazyVim/LazyVim',
