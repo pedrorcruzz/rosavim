@@ -1,5 +1,3 @@
-local toggles = require 'rosavim.config.toggles'
-
 local header = {
   [[
     ██████╗  ██████╗ ███████╗ █████╗ ██╗   ██╗██╗███╗   ███╗
@@ -11,15 +9,24 @@ local header = {
   ]],
 }
 
--- Dashboard gif (chafa) — managed via <leader>lqd toggles
-local gif_name = toggles.get 'dashboard_gif_name' or 'gopher.gif'
-local gif_height = toggles.get 'dashboard_gif_height' or 8
-local gif_width = toggles.get 'dashboard_gif_width' or 20
-local gif_indent = toggles.get 'dashboard_gif_indent' or 50
-local gif_cmd = string.format(
-  'chafa -f symbols -c full --speed=0.8 --clear --stretch $HOME/.config/nvim/lua/rosavim/plugins/ui/dashboard_img/%s; sleep .1',
-  gif_name
-)
+-- Dashboard gif (chafa) — managed via <leader>lqd toggles.
+-- The terminal section is a function so it's re-evaluated on every render,
+-- which lets the gif/dimensions hot-reload after Snacks.dashboard.update().
+local function gif_section()
+  local toggles = require 'rosavim.config.toggles'
+  return {
+    section = 'terminal',
+    enabled = toggles.get 'dashboard_gif',
+    cmd = string.format(
+      'chafa -f symbols -c full --speed=0.8 --clear --stretch $HOME/.config/nvim/lua/rosavim/plugins/ui/dashboard_img/%s; sleep .1',
+      toggles.get 'dashboard_gif_name' or 'gopher.gif'
+    ),
+    ttl = 0,
+    height = toggles.get 'dashboard_gif_height' or 8,
+    width = toggles.get 'dashboard_gif_width' or 20,
+    indent = toggles.get 'dashboard_gif_indent' or 50,
+  }
+end
 
 -- Obsidian vault is read from Rosadirs (<leader>lp to add/remove)
 local obsidian_action = function()
@@ -121,16 +128,7 @@ return {
       {
         padding = 2,
       },
-      {
-        section = 'terminal',
-        enabled = function()
-          return require('rosavim.config.toggles').get 'dashboard_gif'
-        end,
-        cmd = gif_cmd,
-        height = gif_height,
-        width = gif_width,
-        indent = gif_indent,
-      },
+      gif_section,
     },
 
     -- Slim version (less than 180 columns)

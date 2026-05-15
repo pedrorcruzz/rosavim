@@ -170,17 +170,17 @@ The Rosavim dashboard (powered by snacks.nvim) appears when you open Neovim with
 
 ### Dashboard Gif (chafa)
 
-The dashboard can render an animated image via `chafa`. **It ships disabled by default** — toggle it on with `<leader>lqdt`. The active gif and its dimensions are persisted as toggles, so you can swap and resize without editing `dashboard.lua`.
+The dashboard can render an animated image via `chafa`. **It ships disabled by default** — toggle it on with `<leader>lqdt`. The active gif and its dimensions are persisted as toggles, so you can swap and resize without editing `dashboard.lua`. All three actions hot-reload — no restart required.
 
 | Key | Action |
 |:----|:-------|
-| `<leader>lqdt` | Toggle the gif on/off (re-renders on next dashboard open) |
-| `<leader>lqde` | Picker over `lua/rosavim/plugins/ui/dashboard_img/` — choose any `.gif`, `.png`, `.jpg`, `.jpeg`, `.webp`, `.bmp` |
-| `<leader>lqdc` | Three-step prompt to set height, width and indent for the active gif |
+| `<leader>lqdt` | Toggle the gif on/off |
+| `<leader>lqds` | Picker over `lua/rosavim/plugins/ui/dashboard_img/` — choose any `.gif`, `.png`, `.jpg`, `.jpeg`, `.webp`, `.bmp` |
+| `<leader>lqdc` | Popup showing the current height/width/indent — pick `h`, `w`, or `i` to edit just one |
 
-After `<leader>lqde` or `<leader>lqdc`, restart Neovim (or run `:Lazy reload snacks.nvim`) so the new chafa command/dimensions take effect. The on/off toggle (`<leader>lqdt`) does not require restart.
+How the hot-reload works: the terminal section is defined as a function so it's re-evaluated on every render, and after each change Rosavim calls `Snacks.dashboard.update()`. Cache is disabled (`ttl = 0`) so dimension changes show immediately.
 
-Add new images by dropping files into `lua/rosavim/plugins/ui/dashboard_img/` and selecting them with `<leader>lqde`. Each gif may need its own height/width/indent — adjust with `<leader>lqdc` after switching.
+Add new images by dropping files into `lua/rosavim/plugins/ui/dashboard_img/` and selecting them with `<leader>lqds`. Each gif may need its own height/width/indent — adjust with `<leader>lqdc` after switching.
 
 ---
 

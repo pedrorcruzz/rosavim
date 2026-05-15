@@ -170,17 +170,17 @@ O dashboard do Rosavim (alimentado pelo snacks.nvim) aparece quando você abre o
 
 ### Gif do Dashboard (chafa)
 
-O dashboard pode renderizar uma imagem animada via `chafa`. **Vem desativado por padrão** — ative com `<leader>lqdt`. O gif ativo e suas dimensões são persistidos como toggles, então você pode trocar e redimensionar sem editar o `dashboard.lua`.
+O dashboard pode renderizar uma imagem animada via `chafa`. **Vem desativado por padrão** — ative com `<leader>lqdt`. O gif ativo e suas dimensões são persistidos como toggles, então você pode trocar e redimensionar sem editar o `dashboard.lua`. As três ações fazem hot-reload — sem restart.
 
 | Tecla | Ação |
 |:------|:-----|
-| `<leader>lqdt` | Liga/desliga o gif (re-renderiza no próximo abrir do dashboard) |
-| `<leader>lqde` | Picker sobre `lua/rosavim/plugins/ui/dashboard_img/` — escolhe qualquer `.gif`, `.png`, `.jpg`, `.jpeg`, `.webp`, `.bmp` |
-| `<leader>lqdc` | Prompt de 3 passos pra definir height, width e indent do gif atual |
+| `<leader>lqdt` | Liga/desliga o gif |
+| `<leader>lqds` | Picker sobre `lua/rosavim/plugins/ui/dashboard_img/` — escolhe qualquer `.gif`, `.png`, `.jpg`, `.jpeg`, `.webp`, `.bmp` |
+| `<leader>lqdc` | Popup mostrando height/width/indent atuais — escolhe `h`, `w` ou `i` pra editar só um |
 
-Depois de `<leader>lqde` ou `<leader>lqdc`, reinicie o Neovim (ou rode `:Lazy reload snacks.nvim`) pra que o novo comando do chafa / as novas dimensões entrem em vigor. O toggle on/off (`<leader>lqdt`) não exige restart.
+Como o hot-reload funciona: a seção de terminal é definida como função, então é re-avaliada a cada render, e após cada mudança o Rosavim chama `Snacks.dashboard.update()`. O cache é desativado (`ttl = 0`) pra que mudanças de dimensão apareçam imediatamente.
 
-Pra adicionar novas imagens, jogue os arquivos em `lua/rosavim/plugins/ui/dashboard_img/` e selecione com `<leader>lqde`. Cada gif pode ter height/width/indent ideais diferentes — ajuste com `<leader>lqdc` depois de trocar.
+Pra adicionar novas imagens, jogue os arquivos em `lua/rosavim/plugins/ui/dashboard_img/` e selecione com `<leader>lqds`. Cada gif pode ter height/width/indent ideais diferentes — ajuste com `<leader>lqdc` depois de trocar.
 
 ---
 

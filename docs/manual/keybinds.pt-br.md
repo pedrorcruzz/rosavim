@@ -391,9 +391,9 @@
 | n | `<leader>lqt` | Alternar dark/light | `Space l q t` para alternar entre modo escuro e claro |
 | n | `<leader>lqs` | Buscar colorscheme | `Space l q s` para escolher um colorscheme da lista |
 | n | `<leader>lqe` | Alternar transparência | `Space l q e` para alternar a transparência do fundo |
-| n | `<leader>lqdt` | Liga/desliga gif do dashboard | `Space l q d t` pra ativar/desativar o gif chafa do dashboard (persistido) |
-| n | `<leader>lqde` | Selecionar gif do dashboard | `Space l q d e` pra escolher uma imagem em `dashboard_img/` (persistido, exige restart) |
-| n | `<leader>lqdc` | Configurar gif do dashboard | `Space l q d c` pra definir height/width/indent do gif atual (persistido, exige restart) |
+| n | `<leader>lqdt` | Liga/desliga gif do dashboard | `Space l q d t` pra ativar/desativar o gif chafa (persistido, hot-reload) |
+| n | `<leader>lqds` | Buscar gif do dashboard | `Space l q d s` pra escolher uma imagem em `dashboard_img/` (persistido, hot-reload) |
+| n | `<leader>lqdc` | Configurar gif do dashboard | `Space l q d c` abre popup — aperta `h`, `w` ou `i` pra editar só height/width/indent (persistido, hot-reload) |
 | n | `<leader>lw` | Alternar wrap | `Space l w` para alternar quebra de linha |
 | n | `<leader>lg` | Alternar números relativos | `Space l g` para alternar números de linha relativos |
 | n | `<leader>ln` | Alternar números de linha | `Space l n` para ativar/desativar números de linha |

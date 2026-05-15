@@ -391,9 +391,9 @@
 | n | `<leader>lqt` | Toggle dark/light | `Space l q t` to switch between dark and light mode |
 | n | `<leader>lqs` | Search colorscheme | `Space l q s` to pick a colorscheme from the list |
 | n | `<leader>lqe` | Toggle transparent | `Space l q e` to toggle background transparency |
-| n | `<leader>lqdt` | Toggle dashboard gif | `Space l q d t` to enable/disable the chafa gif on the dashboard (persisted) |
-| n | `<leader>lqde` | Select dashboard gif | `Space l q d e` to pick a new image from `dashboard_img/` (persisted, requires restart) |
-| n | `<leader>lqdc` | Configure dashboard gif | `Space l q d c` to set height/width/indent for the current gif (persisted, requires restart) |
+| n | `<leader>lqdt` | Toggle dashboard gif | `Space l q d t` to enable/disable the chafa gif (persisted, hot-reload) |
+| n | `<leader>lqds` | Search dashboard gif | `Space l q d s` to pick a new image from `dashboard_img/` (persisted, hot-reload) |
+| n | `<leader>lqdc` | Configure dashboard gif | `Space l q d c` opens a popup — press `h`, `w`, or `i` to edit just height/width/indent (persisted, hot-reload) |
 | n | `<leader>lw` | Toggle wrap | `Space l w` to toggle line wrapping |
 | n | `<leader>lg` | Toggle relative numbers | `Space l g` to toggle relative line numbers |
 | n | `<leader>ln` | Toggle line numbers | `Space l n` to toggle line numbers on/off |
