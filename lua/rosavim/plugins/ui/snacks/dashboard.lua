@@ -1,3 +1,5 @@
+local toggles = require 'rosavim.config.toggles'
+
 local header = {
   [[
     ██████╗  ██████╗ ███████╗ █████╗ ██╗   ██╗██╗███╗   ███╗
@@ -9,17 +11,43 @@ local header = {
   ]],
 }
 
--- Change this to your Obsidian vault path
+-- Dashboard gif (chafa) — managed via <leader>lqd toggles
+local gif_name = toggles.get 'dashboard_gif_name' or 'gopher.gif'
+local gif_height = toggles.get 'dashboard_gif_height' or 8
+local gif_width = toggles.get 'dashboard_gif_width' or 20
+local gif_indent = toggles.get 'dashboard_gif_indent' or 50
+local gif_cmd = string.format(
+  'chafa -f symbols -c full --speed=0.8 --clear --stretch $HOME/.config/nvim/lua/rosavim/plugins/ui/dashboard_img/%s; sleep .1',
+  gif_name
+)
+
+-- Obsidian vault is read from Rosadirs (<leader>lp to add/remove)
 local obsidian_action = function()
-  Snacks.picker.smart { cwd = vim.fn.expand '~/Developer/second-brain/' }
+  local ok, rosadirs = pcall(require, 'rosavim.rosa_plugins.rosadirs')
+  local vaults = ok and rosadirs.obsidian() or {}
+  if #vaults == 0 then
+    Snacks.notify.warn 'Rosadirs: no Obsidian vault configured (<leader>lp to add)'
+    return
+  end
+  Snacks.picker.smart { cwd = vim.fn.expand(vaults[1]) }
 end
 
 local browse_action = function()
   Snacks.gitbrowse()
 end
 
+local projects_action = function()
+  local ok, rosadirs = pcall(require, 'rosavim.rosa_plugins.rosadirs')
+  local projects = ok and rosadirs.projects() or {}
+  if #projects == 0 then
+    Snacks.notify.warn 'Rosadirs: no project directories configured (<leader>lp to add)'
+    return
+  end
+  vim.cmd 'NeovimProjectDiscover'
+end
+
 local menu = {
-  { icon = ' ', key = 'p', desc = 'Projects', action = ':NeovimProjectDiscover' },
+  { icon = ' ', key = 'p', desc = 'Projects', action = projects_action },
   { icon = ' ', key = 'o', desc = 'Obsidian', action = obsidian_action },
   { icon = ' ', key = 'f', desc = 'Find File', action = ":lua Snacks.dashboard.pick('files')" },
   { icon = ' ', key = 'r', desc = 'Recent Files', action = ":lua Snacks.dashboard.pick('oldfiles')" },
@@ -95,10 +123,13 @@ return {
       },
       {
         section = 'terminal',
-        cmd = 'chafa -f symbols -c full --speed=0.8 --clear --stretch $HOME/.config/nvim/lua/rosavim/plugins/ui/dashboard_img/gopher.gif; sleep .1',
-        height = 8,
-        width = 20,
-        indent = 50,
+        enabled = function()
+          return require('rosavim.config.toggles').get 'dashboard_gif'
+        end,
+        cmd = gif_cmd,
+        height = gif_height,
+        width = gif_width,
+        indent = gif_indent,
       },
     },
 

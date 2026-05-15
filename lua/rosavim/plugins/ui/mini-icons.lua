@@ -19,7 +19,8 @@ return {
       ['package-lock.json'] = { glyph = '', hl = 'MiniIconsGreen' },
       ['.gitignore'] = { glyph = '', hl = 'MiniIconsRed' },
       ['LICENSE'] = { glyph = '', hl = 'RosatestFileIcon' },
-      ['.env.example'] = { glyph = '', hl = 'MiniIconsGreen' },
+      ['.env'] = { glyph = '', hl = 'MiniIconsGreen' },
+      ['.env.example'] = { glyph = '', hl = 'RosaWhiteIcon' },
       ['.env.example.docker'] = { glyph = '', hl = 'MiniIconsGreen' },
       ['.env.example.docker-prod'] = { glyph = '', hl = 'MiniIconsGreen' },
 
@@ -88,6 +89,7 @@ return {
     local mini_icons = require 'mini.icons'
     mini_icons.setup(opts)
     vim.api.nvim_set_hl(0, 'RosatestFileIcon', { fg = '#cdd6f4' })
+    vim.api.nvim_set_hl(0, 'RosaWhiteIcon', { fg = '#ffffff' })
 
     local use_theme_directory_color = true
 

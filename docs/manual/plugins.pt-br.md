@@ -90,6 +90,7 @@ Rosavim usa **treesitter nativo do Neovim 0.12+** — nenhum plugin necessário 
 |:-------|:----------|
 | Rosatest | Test runner nativo com popup UI (Go, Jest, Vitest, Pytest, Pest, PHPUnit, Java) |
 | Rosafile | Menu nativo de operações com arquivos (criar, renomear, duplicar, deletar, info) |
+| Rosadirs | Gerenciador dinâmico de diretórios de Projects & vaults Obsidian — `<leader>lp` |
 
 ---
 

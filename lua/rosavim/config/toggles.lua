@@ -40,6 +40,12 @@ local defaults = {
   git_blame = true,
   markview = true,
   image_preview = false,
+  -- Dashboard gif (chafa)
+  dashboard_gif = false,
+  dashboard_gif_name = 'gopher.gif',
+  dashboard_gif_height = 8,
+  dashboard_gif_width = 20,
+  dashboard_gif_indent = 50,
 }
 
 M._state = nil

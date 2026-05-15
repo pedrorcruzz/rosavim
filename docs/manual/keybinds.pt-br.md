@@ -18,6 +18,7 @@
 - [Terminal](#terminal)
 - [IA (Copilot & Sidekick)](#ia-copilot--sidekick)
 - [Operações de Arquivo](#operações-de-arquivo)
+- [Rosadirs (diretórios de Projects & Obsidian)](#rosadirs-diretórios-de-projects--obsidian)
 - [Rosapoon (Favoritos)](#rosapoon-favoritos)
 - [Flash (Movimentação)](#flash-movimentação)
 - [Copiar & Colar (Yanky)](#copiar--colar-yanky)
@@ -328,6 +329,24 @@
 
 ---
 
+## Rosadirs (diretórios de Projects & Obsidian)
+
+| Modo | Tecla | Ação | Exemplo |
+|:----:|:------|:-----|:--------|
+| n | `<leader>lp` | Menu Rosadirs | `Space l p` pra abrir o popup do gerenciador de diretórios |
+| n (no menu) | `a` | Adicionar projeto | Digite o caminho (use `/*` pra subpastas como projetos) |
+| n (no menu) | `d` | Remover projeto | Picker abre listando todos os projetos |
+| n (no menu) | `c` | Limpar projetos | Confirma e remove todos os diretórios de projeto |
+| n (no menu) | `A` | Adicionar vault do Obsidian | Digite o caminho do vault |
+| n (no menu) | `D` | Remover vault do Obsidian | Picker abre listando todos os vaults |
+| n (no menu) | `C` | Limpar vaults | Confirma e remove todos os vaults |
+| n (no menu) | `X` | Limpar TUDO | Apaga as duas listas após confirmação |
+| n (no menu) | `q` / `<Esc>` | Fechar | Fecha o menu |
+
+> As mudanças entram em vigor na hora: projetos atualizam imediatamente, e o Obsidian re-executa `Workspace.setup` se já estiver carregado. Só o **primeiro** vault Obsidian adicionado na sessão exige restart (o plugin foi pulado no startup).
+
+---
+
 ## Rosapoon (Favoritos)
 
 | Modo | Tecla | Ação | Exemplo |
@@ -372,6 +391,9 @@
 | n | `<leader>lqt` | Alternar dark/light | `Space l q t` para alternar entre modo escuro e claro |
 | n | `<leader>lqs` | Buscar colorscheme | `Space l q s` para escolher um colorscheme da lista |
 | n | `<leader>lqe` | Alternar transparência | `Space l q e` para alternar a transparência do fundo |
+| n | `<leader>lqdt` | Liga/desliga gif do dashboard | `Space l q d t` pra ativar/desativar o gif chafa do dashboard (persistido) |
+| n | `<leader>lqde` | Selecionar gif do dashboard | `Space l q d e` pra escolher uma imagem em `dashboard_img/` (persistido, exige restart) |
+| n | `<leader>lqdc` | Configurar gif do dashboard | `Space l q d c` pra definir height/width/indent do gif atual (persistido, exige restart) |
 | n | `<leader>lw` | Alternar wrap | `Space l w` para alternar quebra de linha |
 | n | `<leader>lg` | Alternar números relativos | `Space l g` para alternar números de linha relativos |
 | n | `<leader>ln` | Alternar números de linha | `Space l n` para ativar/desativar números de linha |

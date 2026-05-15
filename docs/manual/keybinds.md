@@ -18,6 +18,7 @@
 - [Terminal](#terminal)
 - [AI (Copilot & Sidekick)](#ai-copilot--sidekick)
 - [File Operations](#file-operations)
+- [Rosadirs (Projects & Obsidian dirs)](#rosadirs-projects--obsidian-dirs)
 - [Rosapoon (Bookmarks)](#rosapoon-bookmarks)
 - [Flash (Motion)](#flash-motion)
 - [Yank & Paste (Yanky)](#yank--paste-yanky)
@@ -328,6 +329,24 @@
 
 ---
 
+## Rosadirs (Projects & Obsidian dirs)
+
+| Mode | Key | Action | Example |
+|:----:|:----|:-------|:--------|
+| n | `<leader>lp` | Rosadirs menu | `Space l p` to open the directory manager popup |
+| n (in menu) | `a` | Add project | Type a path (use `/*` to treat subfolders as projects) |
+| n (in menu) | `d` | Remove project | Picker opens with all project entries |
+| n (in menu) | `c` | Clear projects | Confirms then removes every project directory |
+| n (in menu) | `A` | Add Obsidian vault | Type the vault path |
+| n (in menu) | `D` | Remove Obsidian vault | Picker opens with all vault entries |
+| n (in menu) | `C` | Clear Obsidian vaults | Confirms then removes every vault |
+| n (in menu) | `X` | Clear EVERYTHING | Wipes both lists after confirm |
+| n (in menu) | `q` / `<Esc>` | Close | Closes the menu |
+
+> Changes apply live: project updates take effect immediately, and Obsidian re-runs `Workspace.setup` if already loaded. Only the **first** Obsidian vault added in a session needs a restart (the plugin was skipped at startup).
+
+---
+
 ## Rosapoon (Bookmarks)
 
 | Mode | Key | Action | Example |
@@ -372,6 +391,9 @@
 | n | `<leader>lqt` | Toggle dark/light | `Space l q t` to switch between dark and light mode |
 | n | `<leader>lqs` | Search colorscheme | `Space l q s` to pick a colorscheme from the list |
 | n | `<leader>lqe` | Toggle transparent | `Space l q e` to toggle background transparency |
+| n | `<leader>lqdt` | Toggle dashboard gif | `Space l q d t` to enable/disable the chafa gif on the dashboard (persisted) |
+| n | `<leader>lqde` | Select dashboard gif | `Space l q d e` to pick a new image from `dashboard_img/` (persisted, requires restart) |
+| n | `<leader>lqdc` | Configure dashboard gif | `Space l q d c` to set height/width/indent for the current gif (persisted, requires restart) |
 | n | `<leader>lw` | Toggle wrap | `Space l w` to toggle line wrapping |
 | n | `<leader>lg` | Toggle relative numbers | `Space l g` to toggle relative line numbers |
 | n | `<leader>ln` | Toggle line numbers | `Space l n` to toggle line numbers on/off |

@@ -7,6 +7,7 @@ Rosavim foi feito para ser estendido. Este guia cobre temas, aparência e como f
 - [Colorschemes](#colorschemes)
 - [Modo Dark & Light](#modo-dark--light)
 - [Transparência](#transparência)
+- [Diretórios (Projects & Obsidian)](#diretórios-projects--obsidian)
 - [Statusline](#statusline)
 - [Dashboard](#dashboard)
 - [Adicionando Plugins](#adicionando-plugins)
@@ -19,17 +20,14 @@ Rosavim foi feito para ser estendido. Este guia cobre temas, aparência e como f
 
 ## Colorschemes
 
-Rosavim vem com 7 colorschemes:
+Rosavim vem com dois temas customizados embutidos, ambos totalmente integrados ao toggle dark/light, à transparência e aos overrides do Rosavim:
 
 | Tema | Estilo | Descrição |
 |:-----|:-------|:----------|
-| **min-theme** | Minimal | Padrão — limpo e sem distrações |
-| **Catppuccin** | Pastel | Paleta pastel suave com múltiplos sabores |
-| **Gruvbox** | Retrô | Tons quentes e terrosos |
-| **Kanagawa** | Japonês | Inspirado na pintura A Grande Onda |
-| **Rosé Pine** | Suave | Vibes de Soho — suave e elegante |
-| **Rusticated** | Quente | Visual rusticated customizado |
-| **Vesper** | Escuro | Tema escuro customizado |
+| **Rosamin** (padrão) | Minimal | Limpo e sem distrações, inspirado no min-theme |
+| **Rosaesthetic** | Quente | Estética terrosa com tons quentes e ricos |
+
+Os fontes ficam em `lua/rosavim/rosa_themes/` pra você ajustar as paletas diretamente. Outros colorschemes (qualquer um trazido pela LazyVim) ainda aparecem no picker, mas não compartilham os overrides do Rosavim.
 
 ### Trocando Colorschemes
 
@@ -69,6 +67,56 @@ Quando ativado, Rosavim remove a cor de fundo dos grupos Normal, NormalFloat e o
 Esta configuração também é salva em cache entre sessões.
 
 > Rosavim também persiste toggles de interface (statusline, indentação, spell, etc.) entre sessões. Veja o guia de **[Toggles](toggles.pt-br.md)** para detalhes.
+
+---
+
+## Diretórios (Projects & Obsidian)
+
+Diretórios de projetos e vaults do Obsidian são gerenciados dinamicamente pelo **Rosadirs**, um rosa_plugin embutido. Em vez de hardcodar caminhos em `projects.lua` ou `obsidian.lua`, você adiciona e remove em tempo de execução via um menu popup, e as escolhas são persistidas em disco.
+
+### Abrindo o menu
+
+```
+<leader>lp → Rosadirs: Gerenciar Projects & Obsidian
+```
+
+O menu segue o mesmo estilo dos outros rosa_plugins (`<leader>xx`, `<leader>nn`, ...). Ele mostra os contadores atuais e deixa você:
+
+| Tecla | Ação |
+|:------|:-----|
+| `a` | Adicionar diretório de projeto (suporta `~/caminho/*` pra cada subpasta como projeto) |
+| `d` | Remover diretório de projeto (picker do Snacks listando todos) |
+| `c` | Limpar todos os diretórios de projeto |
+| `A` | Adicionar caminho de vault do Obsidian |
+| `D` | Remover vault do Obsidian |
+| `C` | Limpar todos os vaults do Obsidian |
+| `X` | Limpar TUDO (projects + obsidian) |
+| `q` / `<Esc>` | Fechar o menu |
+
+### Como funciona
+
+- A configuração fica em `~/.local/share/nvim/rosadirs/config.json`.
+- `lua/rosavim/plugins/editor/projects.lua` lê `projects` do Rosadirs no load do plugin.
+- `lua/rosavim/plugins/editor/obsidian.lua` lê `obsidian` e só carrega o plugin se houver pelo menos um vault configurado. Cada vault vira um workspace cujo nome é o basename da pasta.
+- Os botões "Projects" e "Obsidian" do dashboard do Snacks lêem a mesma lista, então se nada estiver configurado eles avisam pra abrir `<leader>lp`.
+
+### Aplicando mudanças
+
+Rosadirs aplica as mudanças em tempo real sempre que possível:
+
+- **Projects** — atualiza a config em memória do `neovim-project` imediatamente. O próximo `:NeovimProjectDiscover` (ou o botão "Projects" do dashboard) já mostra a nova lista, sem precisar reiniciar.
+- **Obsidian** — se o `obsidian.nvim` já está carregado, o Rosadirs chama `Workspace.setup` com a nova lista e a sessão ativa se atualiza na hora. A exceção é o **primeiro** vault que você adiciona quando o Neovim iniciou sem nenhum configurado: o plugin foi pulado no startup (`cond = false`), então um restart é necessário pra carregar. A notificação te avisa quando esse for o caso.
+
+### Sintaxe dos caminhos
+
+Rosadirs guarda os caminhos exatamente como você digita. Pra fazer com que cada subpasta de uma pasta-pai vire um projeto separado (convenção de glob do `coffebar/neovim-project`), termine o caminho com `/*`:
+
+```
+~/Developer/Projects/*        → cada subpasta vira um projeto
+~/Developer/Projects/Sandbox  → a pasta em si é um projeto único
+```
+
+Caminhos de vault do Obsidian precisam ser pastas literais (sem globs).
 
 ---
 
@@ -119,6 +167,20 @@ O dashboard do Rosavim (alimentado pelo snacks.nvim) aparece quando você abre o
 ```
 <leader>; → Retornar ao dashboard
 ```
+
+### Gif do Dashboard (chafa)
+
+O dashboard pode renderizar uma imagem animada via `chafa`. **Vem desativado por padrão** — ative com `<leader>lqdt`. O gif ativo e suas dimensões são persistidos como toggles, então você pode trocar e redimensionar sem editar o `dashboard.lua`.
+
+| Tecla | Ação |
+|:------|:-----|
+| `<leader>lqdt` | Liga/desliga o gif (re-renderiza no próximo abrir do dashboard) |
+| `<leader>lqde` | Picker sobre `lua/rosavim/plugins/ui/dashboard_img/` — escolhe qualquer `.gif`, `.png`, `.jpg`, `.jpeg`, `.webp`, `.bmp` |
+| `<leader>lqdc` | Prompt de 3 passos pra definir height, width e indent do gif atual |
+
+Depois de `<leader>lqde` ou `<leader>lqdc`, reinicie o Neovim (ou rode `:Lazy reload snacks.nvim`) pra que o novo comando do chafa / as novas dimensões entrem em vigor. O toggle on/off (`<leader>lqdt`) não exige restart.
+
+Pra adicionar novas imagens, jogue os arquivos em `lua/rosavim/plugins/ui/dashboard_img/` e selecione com `<leader>lqde`. Cada gif pode ter height/width/indent ideais diferentes — ajuste com `<leader>lqdc` depois de trocar.
 
 ---
 

@@ -100,8 +100,7 @@ Rosavim ships with full support (LSP, formatting, linting, testing, and debuggin
 
 ### UI & Appearance
 
-- **4 colorschemes** included: **Rosamin** (default, inspired by min-theme), **Rosaesthetic** (built-in), Catppuccin, and Gruvbox
-- **2 built-in themes** (Rosamin & Rosaesthetic) with dark/light mode, transparency support, and custom overrides
+- **2 built-in themes** included: **Rosamin** (default, inspired by min-theme) and **Rosaesthetic**, both with dark/light mode, transparency support, and custom overrides
 - **Dark/light mode** toggle with a single shortcut
 - **Transparent mode** to blend with your terminal wallpaper
 - Custom **dashboard** with quick access to projects and recent files

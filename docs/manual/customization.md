@@ -7,6 +7,7 @@ Rosavim is designed to be extended. This guide covers themes, appearance, and ho
 - [Colorschemes](#colorschemes)
 - [Dark & Light Mode](#dark--light-mode)
 - [Transparency](#transparency)
+- [Directories (Projects & Obsidian)](#directories-projects--obsidian)
 - [Statusline](#statusline)
 - [Dashboard](#dashboard)
 - [Adding Plugins](#adding-plugins)
@@ -19,17 +20,14 @@ Rosavim is designed to be extended. This guide covers themes, appearance, and ho
 
 ## Colorschemes
 
-Rosavim ships with 7 colorschemes:
+Rosavim ships with two custom built-in themes, both fully integrated with the dark/light toggle, transparency, and Rosavim's overrides:
 
 | Theme | Style | Description |
 |:------|:------|:------------|
-| **min-theme** | Minimal | Default — clean and distraction-free |
-| **Catppuccin** | Pastel | Soothing pastel palette with multiple flavors |
-| **Gruvbox** | Retro | Warm, earthy tones |
-| **Kanagawa** | Japanese | Inspired by the Great Wave painting |
-| **Rose Pine** | Soft | Soho vibes — muted and elegant |
-| **Rusticated** | Warm | Custom rusticated look |
-| **Vesper** | Dark | Custom dark theme |
+| **Rosamin** (default) | Minimal | Clean, distraction-free, inspired by min-theme |
+| **Rosaesthetic** | Warm | Earthy aesthetic with rich, warm tones |
+
+Sources live in `lua/rosavim/rosa_themes/` so you can tweak palettes directly. Other colorschemes (anything provided by LazyVim) can still be picked from the picker, but they won't share Rosavim's overrides.
 
 ### Switching Colorschemes
 
@@ -69,6 +67,56 @@ When enabled, Rosavim removes the background color from the Normal, NormalFloat,
 This setting is also cached across sessions.
 
 > Rosavim also persists UI toggles (statusline, indent, spell, etc.) across sessions. See the **[Toggles](toggles.md)** guide for details.
+
+---
+
+## Directories (Projects & Obsidian)
+
+Project directories and Obsidian vaults are managed dynamically through **Rosadirs**, a built-in rosa_plugin. Instead of hardcoding paths in `projects.lua` or `obsidian.lua`, you add and remove them at runtime through a popup menu, and the choices are persisted on disk.
+
+### Opening the menu
+
+```
+<leader>lp → Rosadirs: Manage Projects & Obsidian
+```
+
+The menu mirrors the style of other rosa_plugins (`<leader>xx`, `<leader>nn`, ...). It shows the current counts and lets you:
+
+| Key | Action |
+|:----|:-------|
+| `a` | Add project directory (supports `~/path/*` for subfolders as projects) |
+| `d` | Remove project directory (Snacks picker over all entries) |
+| `c` | Clear all project directories |
+| `A` | Add Obsidian vault path |
+| `D` | Remove Obsidian vault |
+| `C` | Clear all Obsidian vaults |
+| `X` | Clear EVERYTHING (projects + obsidian) |
+| `q` / `<Esc>` | Close the menu |
+
+### How it works
+
+- The configuration lives at `~/.local/share/nvim/rosadirs/config.json`.
+- `lua/rosavim/plugins/editor/projects.lua` reads `projects` from Rosadirs at plugin load.
+- `lua/rosavim/plugins/editor/obsidian.lua` reads `obsidian` and only loads the plugin if at least one vault is configured. Each vault becomes a workspace whose name is the folder basename.
+- The Snacks dashboard "Projects" and "Obsidian" buttons read the same list, so if you have nothing configured they tell you to open `<leader>lp`.
+
+### Applying changes
+
+Rosadirs applies changes live whenever it can:
+
+- **Projects** — updates `neovim-project`'s in-memory config immediately. The next `:NeovimProjectDiscover` (or dashboard "Projects" button) shows the new list without a restart.
+- **Obsidian** — if `obsidian.nvim` is already loaded, Rosadirs calls `Workspace.setup` with the new vault list so the active session updates on the spot. The exception is the **first** vault you add after starting Neovim with an empty config: the plugin was skipped at startup (`cond = false`), so a restart is required to load it. The notification tells you when that's the case.
+
+### Project path syntax
+
+Rosadirs stores paths exactly as you type them. To match every subfolder of a parent as a separate project (the `coffebar/neovim-project` glob convention), end the path with `/*`:
+
+```
+~/Developer/Projects/*        → every immediate subfolder is a project
+~/Developer/Projects/Sandbox  → the folder itself is a single project
+```
+
+Obsidian vault paths must be literal directories (no globs).
 
 ---
 
@@ -119,6 +167,20 @@ The Rosavim dashboard (powered by snacks.nvim) appears when you open Neovim with
 ```
 <leader>; → Return to dashboard
 ```
+
+### Dashboard Gif (chafa)
+
+The dashboard can render an animated image via `chafa`. **It ships disabled by default** — toggle it on with `<leader>lqdt`. The active gif and its dimensions are persisted as toggles, so you can swap and resize without editing `dashboard.lua`.
+
+| Key | Action |
+|:----|:-------|
+| `<leader>lqdt` | Toggle the gif on/off (re-renders on next dashboard open) |
+| `<leader>lqde` | Picker over `lua/rosavim/plugins/ui/dashboard_img/` — choose any `.gif`, `.png`, `.jpg`, `.jpeg`, `.webp`, `.bmp` |
+| `<leader>lqdc` | Three-step prompt to set height, width and indent for the active gif |
+
+After `<leader>lqde` or `<leader>lqdc`, restart Neovim (or run `:Lazy reload snacks.nvim`) so the new chafa command/dimensions take effect. The on/off toggle (`<leader>lqdt`) does not require restart.
+
+Add new images by dropping files into `lua/rosavim/plugins/ui/dashboard_img/` and selecting them with `<leader>lqde`. Each gif may need its own height/width/indent — adjust with `<leader>lqdc` after switching.
 
 ---
 

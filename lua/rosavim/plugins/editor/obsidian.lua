@@ -1,10 +1,42 @@
--- Change this to your Obsidian vault path
-local vault_path = '~/Developer/second-brain'
+-- Obsidian vaults are managed dynamically via Rosadirs (<leader>lp).
+-- If no vaults are configured, the plugin is not loaded.
+
+local function get_vaults()
+  local ok, rosadirs = pcall(require, 'rosavim.rosa_plugins.rosadirs')
+  if not ok then
+    return {}
+  end
+  return rosadirs.obsidian()
+end
+
+local function build_workspaces()
+  local vaults = get_vaults()
+  local workspaces = {}
+  for i, path in ipairs(vaults) do
+    local name = vim.fn.fnamemodify(path, ':t')
+    if name == '' or name == '*' then
+      name = 'vault-' .. i
+    end
+    table.insert(workspaces, {
+      name = name,
+      path = path,
+    })
+  end
+  return workspaces
+end
+
+local function first_vault_path()
+  local vaults = get_vaults()
+  return vaults[1] and vim.fn.expand(vaults[1]) or nil
+end
 
 return {
   'obsidian-nvim/obsidian.nvim',
   version = '*',
   lazy = true,
+  cond = function()
+    return #get_vaults() > 0
+  end,
   dependencies = {
     'nvim-lua/plenary.nvim',
   },
@@ -13,9 +45,12 @@ return {
     {
       '<leader>jj',
       function()
-        Snacks.picker.smart {
-          cwd = vim.fn.expand(vault_path),
-        }
+        local path = first_vault_path()
+        if not path then
+          Snacks.notify.warn 'Rosadirs: no Obsidian vault configured (<leader>lp to add)'
+          return
+        end
+        Snacks.picker.smart { cwd = path }
       end,
       desc = 'Search notes (Second Brain)',
     },
@@ -45,23 +80,10 @@ return {
 
   config = function()
     require('obsidian').setup {
-      workspaces = {
-        {
-          name = 'personal',
-          path = vault_path,
-        },
-        {
-          name = 'work',
-          path = vault_path,
-          overrides = {
-            notes_subdir = 'Home/Anotacoes/NotasRealocar',
-          },
-        },
-      },
+      workspaces = build_workspaces(),
 
       legacy_commands = false,
       log_level = vim.log.levels.INFO,
-      notes_subdir = 'Home/Anotacoes/NotasRealocar',
 
       daily_notes = {
         folder = 'DailyNotes',

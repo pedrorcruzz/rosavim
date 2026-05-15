@@ -2,55 +2,47 @@ return {
   {
     'coffebar/neovim-project',
     lazy = true,
-    event = 'VeryLazy', -- otimizado: carrega só quando o Neovim estiver ocioso
-    -- lazy = false, -- removido para otimizar o ms
-    -- priority = 100, -- removido para otimizar o ms
-    opts = {
-      -- Change these to your own project directories
-      projects = {
-        '~/Developer/Projects/Garage/*',
-        '~/Developer/Projects/Personal/*',
-        '~/Developer/Projects/Sandbox/*',
-        '~/Developer/Projects/Udemy/*',
-        '~/Developer/Projects/algorithm-practice*',
-        '~/Developer/Business/Seven/*',
-        '~/Developer/Business/Precifica-ai/*',
-        '~/Developer/Business/Guru/*',
-        '~/Developer/Business/Freelas/*',
-        '~/Developer/Cesmac/*',
-      },
-      -- Path to store history and sessions
-      datapath = vim.fn.stdpath 'data', -- ~/.local/share/nvim/
-      -- Load the most recent session on startup if not in the project directory
-      last_session_on_startup = false,
-      -- Dashboard mode prevents session autoload on startup
-      dashboard_mode = true,
-      -- Timeout to trigger FileType autocmd after session load (for LSP attachment)
-      filetype_autocmd_timeout = 200,
-      -- Keymap to delete project from history in Telescope picker
-      forget_project_keys = {
-        i = '<C-d>', -- insert mode: Ctrl+d
-        n = 'd', -- normal mode: d
-      },
-      -- Overwrite some of Session Manager options
-      session_manager_opts = {
-        autosave_ignore_dirs = {
-          vim.fn.expand '~', -- don't create a session for $HOME/
-          '/tmp',
+    event = 'VeryLazy',
+    opts = function()
+      local ok, rosadirs = pcall(require, 'rosavim.rosa_plugins.rosadirs')
+      local projects = ok and rosadirs.projects() or {}
+
+      return {
+        -- Project directories are managed dynamically via Rosadirs (<leader>lp)
+        projects = projects,
+        -- Path to store history and sessions
+        datapath = vim.fn.stdpath 'data', -- ~/.local/share/nvim/
+        -- Load the most recent session on startup if not in the project directory
+        last_session_on_startup = false,
+        -- Dashboard mode prevents session autoload on startup
+        dashboard_mode = true,
+        -- Timeout to trigger FileType autocmd after session load (for LSP attachment)
+        filetype_autocmd_timeout = 200,
+        -- Keymap to delete project from history in Telescope picker
+        forget_project_keys = {
+          i = '<C-d>',
+          n = 'd',
         },
-        autosave_ignore_filetypes = {
-          'ccc-ui',
-          'gitcommit',
-          'gitrebase',
-          'qf',
-          'toggleterm',
+        -- Overwrite some of Session Manager options
+        session_manager_opts = {
+          autosave_ignore_dirs = {
+            vim.fn.expand '~',
+            '/tmp',
+          },
+          autosave_ignore_filetypes = {
+            'ccc-ui',
+            'gitcommit',
+            'gitrebase',
+            'qf',
+            'toggleterm',
+          },
         },
-      },
-      -- Picker configuration
-      picker = {
-        type = 'snacks',
-      },
-    },
+        -- Picker configuration
+        picker = {
+          type = 'snacks',
+        },
+      }
+    end,
     init = function()
       -- Enable saving the state of plugins in the session
       vim.opt.sessionoptions:append 'globals'

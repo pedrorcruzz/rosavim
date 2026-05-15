@@ -14,6 +14,7 @@ require('rosavim.plugins.ui.snacks.toggles.options')(persist_toggle)
 require('rosavim.plugins.ui.snacks.toggles.plugins')()
 require('rosavim.plugins.ui.snacks.toggles.appearance')()
 require('rosavim.plugins.ui.snacks.toggles.autocmds')()
+require('rosavim.plugins.ui.snacks.toggles.dashboard_gif')()
 
 -- Restore persisted states
 if toggles.get 'indent' then

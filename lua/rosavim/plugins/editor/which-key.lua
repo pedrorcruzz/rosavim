@@ -50,7 +50,8 @@ return {
 
       { '<leader>l', group = 'Tools', icon = ' ' },
       { '<leader>lq', group = 'Theme', icon = '' },
-      { '<leader>lp', group = 'Triforce', icon = '' },
+      { '<leader>lqd', group = 'Dashboard', icon = '' },
+      { '<leader>lp', desc = 'Rosadirs: Manage Dirs', icon = '' },
       { '<leader>lx', group = 'Virtual Environment', icon = ' ' },
       { '<leader>le', group = 'GrugFar', icon = '󰛔' },
 
