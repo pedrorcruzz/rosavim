@@ -11,6 +11,7 @@ Antes de instalar o Rosavim, certifique-se de ter estas dependências:
 | Dependência | Versão | Como instalar |
 |:------------|:-------|:--------------|
 | **Neovim** | **>= 0.12** | `brew install neovim` / [neovim.io](https://neovim.io) |
+| **Lua** | >= 5.1 | `brew install lua` / `sudo apt install lua5.1` |
 | **Git** | >= 2.19 | `brew install git` / `sudo apt install git` |
 | **Node.js** | >= 18 | `brew install node` / [nodejs.org](https://nodejs.org) |
 | **Python** | >= 3.10 | `brew install python` / `sudo apt install python3` |
