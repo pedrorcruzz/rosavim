@@ -123,22 +123,24 @@ local function pick_gif()
   }
 end
 
-local function prompt_dimension(label, key, default)
+local function prompt_dimension(label, key, default, on_done)
   vim.ui.input({
     prompt = label .. ' (current ' .. default .. '): ',
     default = tostring(default),
   }, function(input)
-    if not input or input == '' then
-      return
+    if input and input ~= '' then
+      local n = tonumber(input)
+      if n then
+        toggles.set(key, n)
+        Snacks.notify.info(string.format('Dashboard gif: %s = %d', label:lower(), n))
+        refresh_dashboard()
+      else
+        Snacks.notify.warn('Dashboard gif: invalid number "' .. input .. '"')
+      end
     end
-    local n = tonumber(input)
-    if not n then
-      Snacks.notify.warn('Dashboard gif: invalid number "' .. input .. '"')
-      return
+    if on_done then
+      vim.schedule(on_done)
     end
-    toggles.set(key, n)
-    Snacks.notify.info(string.format('Dashboard gif: %s = %d', label:lower(), n))
-    refresh_dashboard()
   end)
 end
 
@@ -243,13 +245,13 @@ local function config_popup()
 
   local action_handlers = {
     height = function()
-      prompt_dimension('Height', 'dashboard_gif_height', h)
+      prompt_dimension('Height', 'dashboard_gif_height', h, config_popup)
     end,
     width = function()
-      prompt_dimension('Width', 'dashboard_gif_width', w)
+      prompt_dimension('Width', 'dashboard_gif_width', w, config_popup)
     end,
     indent = function()
-      prompt_dimension('Indent', 'dashboard_gif_indent', i)
+      prompt_dimension('Indent', 'dashboard_gif_indent', i, config_popup)
     end,
   }
 
