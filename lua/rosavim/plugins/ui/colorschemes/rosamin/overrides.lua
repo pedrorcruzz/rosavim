@@ -128,6 +128,19 @@ function M.get(mode, transparent_background)
       ['@keyword.repeat.htmldjango'] = { fg = '#E45649' },
       ['@keyword.operator.htmldjango'] = { fg = '#E45649' },
 
+      -- yaml / yml
+      ['@property.yaml'] = { fg = '#0184BC' },
+      ['@string.yaml'] = { fg = '#50A14F' },
+      ['@number.yaml'] = { fg = '#C18401' },
+      ['@boolean.yaml'] = { fg = '#7C3AED', bold = true },
+      ['@constant.builtin.yaml'] = { fg = '#E45649', italic = true },
+      ['@type.yaml'] = { fg = '#A626A4' },
+      ['@operator.yaml'] = { fg = '#E45649' },
+      ['@punctuation.delimiter.yaml'] = { fg = '#909090' },
+      ['@punctuation.special.yaml'] = { fg = '#7C3AED' },
+      ['@punctuation.bracket.yaml'] = { fg = '#383A42' },
+      ['@comment.yaml'] = { fg = '#A0A5B0', italic = true },
+      ['@label.yaml'] = { fg = '#0184BC' },
 
       TelescopeBorder = { fg = '#C0C0C0' },
       TelescopePreviewBorder = { fg = '#C0C0C0' },
@@ -359,6 +372,19 @@ function M.get(mode, transparent_background)
     ['@keyword.repeat.htmldjango'] = { fg = '#F67582' },
     ['@keyword.operator.htmldjango'] = { fg = '#F67582' },
 
+    --yaml / yml
+    ['@property.yaml'] = { fg = '#64BAFF' },
+    ['@string.yaml'] = { fg = '#A0D6A0' },
+    ['@number.yaml'] = { fg = '#FFD580' },
+    ['@boolean.yaml'] = { fg = '#C18EFE', bold = true },
+    ['@constant.builtin.yaml'] = { fg = '#F67582', italic = true },
+    ['@type.yaml'] = { fg = '#DA70D6' },
+    ['@operator.yaml'] = { fg = '#F67582' },
+    ['@punctuation.delimiter.yaml'] = { fg = '#606060' },
+    ['@punctuation.special.yaml'] = { fg = '#C18EFE' },
+    ['@punctuation.bracket.yaml'] = { fg = '#abb2bf' },
+    ['@comment.yaml'] = { fg = '#646B73', italic = true },
+    ['@label.yaml'] = { fg = '#64BAFF' },
 
     --Telescope
     TelescopeBorder = { fg = '#ffffff' },
