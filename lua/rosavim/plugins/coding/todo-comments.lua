@@ -20,6 +20,64 @@ return {
     },
   },
   dependencies = { 'nvim-lua/plenary.nvim' },
+  config = function(_, opts)
+    require('todo-comments').setup(opts)
+
+    -- folders treated as third-party / generated code — TODOs inside them
+    -- should not be highlighted in the editor nor appear in :TodoTrouble etc.
+    local excluded_dirs = {
+      'node_modules',
+      'bower_components',
+      '__pycache__',
+      '%.venv',
+      'venv',
+      'env',
+      'site%-packages',
+      '%.tox',
+      'vendor',
+      'dist',
+      'build',
+      'out',
+      'target',
+      '%.next',
+      '%.nuxt',
+      '%.svelte%-kit',
+      '%.turbo',
+      '%.cache',
+      '%.parcel%-cache',
+      'coverage',
+      '%.git',
+      '%.idea',
+      '%.gradle',
+      '%.mvn',
+      'Pods',
+      'DerivedData',
+    }
+
+    local function is_excluded(path)
+      if path == '' then
+        return false
+      end
+      for _, dir in ipairs(excluded_dirs) do
+        if path:match('/' .. dir .. '/') or path:match('/' .. dir .. '$') then
+          return true
+        end
+      end
+      return false
+    end
+
+    vim.api.nvim_create_autocmd({ 'BufReadPost', 'BufNewFile' }, {
+      group = vim.api.nvim_create_augroup('RosavimTodoCommentsExclude', { clear = true }),
+      callback = function(args)
+        if is_excluded(vim.api.nvim_buf_get_name(args.buf)) then
+          pcall(function()
+            require('todo-comments.highlight').detach(args.buf)
+          end)
+          vim.b[args.buf].todo_comments_disabled = true
+        end
+      end,
+    })
+  end,
   opts = {
     signs = true, -- show icons in the signs column
     sign_priority = 8, -- sign priority
@@ -77,6 +135,33 @@ return {
         '--with-filename',
         '--line-number',
         '--column',
+        -- exclude third-party / generated code so TODOs from libs do not show up
+        '--glob=!**/node_modules/**',
+        '--glob=!**/bower_components/**',
+        '--glob=!**/__pycache__/**',
+        '--glob=!**/.venv/**',
+        '--glob=!**/venv/**',
+        '--glob=!**/env/**',
+        '--glob=!**/site-packages/**',
+        '--glob=!**/.tox/**',
+        '--glob=!**/vendor/**',
+        '--glob=!**/dist/**',
+        '--glob=!**/build/**',
+        '--glob=!**/out/**',
+        '--glob=!**/target/**',
+        '--glob=!**/.next/**',
+        '--glob=!**/.nuxt/**',
+        '--glob=!**/.svelte-kit/**',
+        '--glob=!**/.turbo/**',
+        '--glob=!**/.cache/**',
+        '--glob=!**/.parcel-cache/**',
+        '--glob=!**/coverage/**',
+        '--glob=!**/.git/**',
+        '--glob=!**/.idea/**',
+        '--glob=!**/.gradle/**',
+        '--glob=!**/.mvn/**',
+        '--glob=!**/Pods/**',
+        '--glob=!**/DerivedData/**',
       },
       -- regex that will be used to match keywords.
       -- don't replace the (KEYWORDS) placeholder
