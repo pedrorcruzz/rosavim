@@ -24,9 +24,9 @@ These are optional but highly recommended for the full experience:
 
 | Tool | What it does | How to install |
 |:-----|:-------------|:---------------|
-| [lazygit](https://github.com/jesseduffield/lazygit) | Git UI in the terminal | `brew install lazygit` |
-| [yazi](https://github.com/sxyazi/yazi) | Terminal file manager | `brew install yazi` |
-| [chafa](https://hpjansson.org/chafa/) | Terminal image display (dashboard) | `brew install chafa` |
+| [lazygit](https://github.com/jesseduffield/lazygit) | Git UI in the terminal | `brew install lazygit` / `sudo apt install lazygit` |
+| [yazi](https://github.com/sxyazi/yazi) | Terminal file manager | `brew install yazi` / `sudo apt install yazi` |
+| [chafa](https://hpjansson.org/chafa/) | Terminal image display (dashboard) | `brew install chafa` / `sudo apt install chafa` |
 
 ## Mason Dependencies (system runtimes)
 
