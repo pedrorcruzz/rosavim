@@ -85,6 +85,9 @@ return {
             width = 70,
             height = 20,
           },
+          wo = {
+            winbar = ' %#Comment#Esc%#Normal# -> Normal Mode  %#Comment#|%#Normal#  %#Comment#Esc Esc%#Normal# -> Esc in CLI',
+          },
         },
       },
     },
@@ -227,8 +230,27 @@ return {
             if not vim.b[ev.buf].sidekick_cli then
               return
             end
-            local bopts = { buffer = ev.buf }
-            vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], bopts)
+            local buf = ev.buf
+            local bopts = { buffer = buf }
+            local double_esc_window_ms = 300
+            local esc_window_until = 0
+            local now = (vim.uv and vim.uv.now) or vim.loop.now
+
+            vim.keymap.set('t', '<esc>', function()
+              esc_window_until = now() + double_esc_window_ms
+              vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes([[<C-\><C-n>]], true, false, true), 'n', false)
+            end, bopts)
+
+            vim.keymap.set('n', '<esc>', function()
+              if now() < esc_window_until then
+                esc_window_until = 0
+                local chan = vim.b[buf].terminal_job_id
+                vim.cmd 'startinsert'
+                if chan then
+                  vim.fn.chansend(chan, '\27')
+                end
+              end
+            end, bopts)
           end)
         end,
       })
