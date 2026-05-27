@@ -79,6 +79,12 @@ return {
             resume = { '--resume' },
             continue = { '--continue' },
           },
+          ['cursor-yolo'] = {
+            cmd = { 'cursor-agent', '--yolo' },
+            is_proc = '\\<cursor%-agent\\>',
+            resume = { '--resume' },
+            continue = { '--continue' },
+          },
         },
         win = {
           split = {
@@ -210,6 +216,13 @@ return {
           toggle_with_layout { name = 'cursor', focus = true }
         end,
         desc = 'Sidekick Toggle Cursor',
+      },
+      {
+        '<leader>aV',
+        function()
+          toggle_with_layout { name = 'cursor-yolo', focus = true }
+        end,
+        desc = 'Sidekick Toggle Cursor (YOLO)',
       },
       {
         '<leader>ao',
