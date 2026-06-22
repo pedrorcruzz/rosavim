@@ -9,7 +9,7 @@ return {
       { '<leader>cii', '<cmd>ToggleTerm 3 direction=horizontal<CR>', desc = 'ToggleTerm: Horizontal Split' },
       { '<leader>cie', '<cmd>ToggleTerm 4 direction=vertical<CR>', desc = 'ToggleTerm: Vertical Split' },
       { '<S-x>', desc = 'ToggleTerm: Horizontal' },
-      { '<S-z>', desc = 'ToggleTerm: Float' },
+      -- { '<S-z>', desc = 'ToggleTerm: Float' },
       { '<leader>lg', desc = 'ToggleTerm: LazyGit' },
     },
     opts = {
@@ -70,7 +70,7 @@ return {
       end
 
       create_terminal('horizontal', 20, '<S-x>')
-      create_terminal('float', nil, '<S-z>')
+      -- create_terminal('float', nil, '<S-z>')
 
       local lazygit = Terminal:new {
         cmd = 'lazygit',
