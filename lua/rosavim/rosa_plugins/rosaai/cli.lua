@@ -219,6 +219,9 @@ end
 --- Small popup that asks which layout to open the CLI in.
 --- Pressing v/h/f resolves the position; <Esc>/q cancels.
 local function show_layout_picker(on_pick)
+  -- The picker is reachable from the ask prompt where the user was in
+  -- insert mode — force normal mode so v/h/f land as commands.
+  vim.cmd 'stopinsert'
   local text = ' [v] vertical  [h] horizontal  [f] float '
   local width = vim.api.nvim_strwidth(text)
   local buf = api.nvim_create_buf(false, true)
@@ -263,6 +266,81 @@ local function show_layout_picker(on_pick)
   end, kopts)
   vim.keymap.set('n', '<Esc>', close, kopts)
   vim.keymap.set('n', 'q', close, kopts)
+end
+
+--- Pick a CLI via vim.ui.select (matches the `<leader>as` flow).
+--- `items` is an array of { name = string, tool = table }.
+local function pick_cli(items, on_pick)
+  vim.cmd 'stopinsert'
+  table.sort(items, function(a, b)
+    return a.name < b.name
+  end)
+  vim.ui.select(items, {
+    prompt = 'Rosaai · select CLI',
+    format_item = function(it)
+      return it.tool.icon .. ' ' .. it.tool.label
+    end,
+  }, function(choice)
+    if not choice then
+      return
+    end
+    on_pick(choice.name)
+  end)
+end
+
+--- Route a prepared ask message to the right CLI:
+---  - 0 alive sessions → pick CLI (if multiple installed), pick layout, send
+---  - 1 alive session  → send straight to it (no picker)
+---  - 2+ alive         → pick CLI from alive ones, send
+--- `opts.submit = false` defers the CR so the user can edit the message in
+--- the CLI before submitting (used by the multiline preview prompt).
+local function route_ask(msg, opts)
+  opts = opts or {}
+  local submit = opts.submit
+  local alive = state.alive()
+  local count, only_name = 0, nil
+  for name, _ in pairs(alive) do
+    count = count + 1
+    only_name = name
+  end
+
+  local function send_to(name)
+    M.send { msg = msg, focus = true, submit = submit, tool = name }
+  end
+
+  if count == 0 then
+    local avail = tools.available()
+    if #avail == 0 then
+      vim.notify('Rosaai: no CLI tools installed', vim.log.levels.WARN)
+      return
+    end
+    local function pick_layout(name)
+      show_layout_picker(function(pos)
+        if not pos then
+          return
+        end
+        require('rosavim.config.toggles').set('rosaai_position', pos)
+        send_to(name)
+      end)
+    end
+    if #avail == 1 then
+      pick_layout(avail[1].name)
+    else
+      local items = {}
+      for _, t in ipairs(avail) do
+        table.insert(items, { name = t.name, tool = t })
+      end
+      pick_cli(items, pick_layout)
+    end
+  elseif count == 1 then
+    send_to(only_name)
+  else
+    local items = {}
+    for name, s in pairs(alive) do
+      table.insert(items, { name = name, tool = s.tool })
+    end
+    pick_cli(items, send_to)
+  end
 end
 
 --- Smart toggle:
@@ -396,7 +474,7 @@ function M.send(opts)
   local ctx = capture_ctx()
   local msg = expand(opts.msg or '', ctx)
 
-  local name = state.active or (function()
+  local name = opts.tool or state.active or (function()
     local avail = tools.available()
     return avail[1] and avail[1].name or nil
   end)()
@@ -405,7 +483,14 @@ function M.send(opts)
     return
   end
 
+  local prev = state.get(name)
+  local fresh = not (prev and prev.started)
   M.show(name)
+  -- A cold-started CLI hasn't enabled bracketed-paste mode yet; if we
+  -- send immediately the bytes leak into its boot banner AND get re-read
+  -- once the input handler attaches, so the message shows up twice. Wait
+  -- long enough for the prompt to come up before sending.
+  local delay = fresh and 1500 or 80
   vim.defer_fn(function()
     local s = state.get(name)
     if not s or not s.job then
@@ -423,7 +508,7 @@ function M.send(opts)
       api.nvim_set_current_win(state.win)
       vim.cmd 'startinsert'
     end
-  end, 80)
+  end, delay)
 end
 
 --- Built-in prompt templates the user can pick from
@@ -466,7 +551,7 @@ function M.ask_with_selection()
     else
       ref = '@' .. file .. ':' .. ctx.line
     end
-    M.send { msg = ref .. ' ' .. input, focus = true }
+    route_ask(ref .. ' ' .. input)
   end)
 end
 
@@ -563,17 +648,7 @@ function M.ask_with_preview()
     end
     local ref = '@' .. file .. ':' .. ctx.sel_start .. '-' .. ctx.sel_end
     local msg = ref .. '\n' .. text
-    if win_open() then
-      M.send { msg = msg, focus = true, submit = false }
-    else
-      show_layout_picker(function(pos)
-        if not pos then
-          return
-        end
-        require('rosavim.config.toggles').set('rosaai_position', pos)
-        M.send { msg = msg, focus = true, submit = false }
-      end)
-    end
+    route_ask(msg, { submit = false })
   end
 
   local kopts = { buffer = input_buf, silent = true, nowait = true }
