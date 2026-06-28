@@ -270,8 +270,10 @@ end
 
 --- Pick a CLI via vim.ui.select (matches the `<leader>as` flow).
 --- `items` is an array of { name = string, tool = table }.
+--- No `stopinsert` here — the picker's input field should open in insert
+--- mode so the user can type to filter. The layout picker is different;
+--- it needs normal mode for its single-letter keymaps (v/h/f).
 local function pick_cli(items, on_pick)
-  vim.cmd 'stopinsert'
   table.sort(items, function(a, b)
     return a.name < b.name
   end)
