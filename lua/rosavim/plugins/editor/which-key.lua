@@ -37,9 +37,8 @@ return {
       { '<leader>J', group = 'Previous Buffer', icon = '󰙣' },
       { '<leader>K', group = 'Next Buffer', icon = '󰙡' },
       { '<leader>h', group = 'No Highlight', icon = '󰸱' },
-      { '<leader>ci', group = 'ToggleTerm', icon = ' ' },
+      { '<leader>ci', group = 'Rosaterm', icon = ' ' },
       { '<leader>o', group = 'Rosapoon', icon = '󰛢' },
-      { '<leader>k', group = 'Yeet Tmux', icon = ' ' },
 
       { '<leader>j', group = 'Obsidian', icon = '' },
       { '<leader>vb', group = 'Buffers', icon = '' },
@@ -62,6 +61,7 @@ return {
       { '<leader>lal', group = 'LSP', icon = '' },
       { '<leader>lad', group = 'DBUI', icon = '󰆼' },
       { '<leader>law', group = 'Which-Key', icon = '󰌌' },
+      { '<leader>lat', group = 'Rosaterm', icon = '' },
       { '<leader>laa', group = 'AI', icon = '' },
 
       -- Rosakit

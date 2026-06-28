@@ -34,7 +34,7 @@ return {
             'gitcommit',
             'gitrebase',
             'qf',
-            'toggleterm',
+            'rosaterm',
           },
         },
         -- Picker configuration

@@ -40,6 +40,11 @@ local defaults = {
   git_blame = true,
   markview = true,
   image_preview = false,
+  -- Rosaterm
+  rosaterm_title = true,
+  rosaterm_time = true,
+  rosaterm_theme = 'garland',
+  rosaterm_autoinsert = true,
   -- Dashboard gif (chafa)
   dashboard_gif = false,
   dashboard_gif_name = 'gopher.gif',

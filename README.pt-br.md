@@ -119,13 +119,17 @@ Rosavim oferece suporte completo (LSP, formatação, linting, testes e debug) pa
 
 - **Rosakit** — Navegador de projeto com detecção de stack. Detecta automaticamente o stack (React, Next.js, Vue, Angular, Svelte, Nest.js, Express, Go, Django, FastAPI, Laravel, Spring) e mostra seções relevantes (components, controllers, models, routes, etc.) + ferramentas LSP. Suporta monorepos
 
+### Terminal
+
+- **Rosaterm** — Plugin de terminal próprio do Rosavim. Float e splits sem dependências externas. Float com múltiplas instâncias (cicla com `<C-j>`/`<C-k>`), splits abertos relativos à janela focada com divisão igual, e um chip de título customizável mostrando `󰧱 Rosaterm hh:mm`
+  - **4 temas de chip** selecionáveis em `<leader>lats`: `Bloom` (chip arredondado), `Petal` (sem borda), `Garland` (banner em largura cheia), `Stem` (texto + linha separadora)
+  - **Toggles persistentes** sob `<leader>lat`: esconder chip, esconder hora, modo insert ao abrir
+
 ### Ferramentas Extras
 
 - **Database Client** (vim-dadbod) com UI para queries SQL
 - **Obsidian** integração para notas e second brain
 - **Discord Presence** para mostrar o que você está editando
-- **CodeSnap** para screenshots bonitos do código
-- **ToggleTerm** para terminais flutuantes e splits
 
 > Essas são apenas as ferramentas que já vem inclusas. O sistema de plugins do Rosavim é modular — você pode facilmente adicionar, remover ou trocar plugins para adaptar ao seu workflow.
 
@@ -248,7 +252,11 @@ Na primeira execução, o **Lazy.nvim** instalará todos os plugins e o **Mason*
 | `<leader>ll` | Toggle Lualine (persistente) |
 | `<leader>lqt` | Alternar Dark/Light Mode |
 | `<leader>lqs` | Trocar Colorscheme |
-| `<C-\>` | Terminal Flutuante |
+| `<C-\>` / `<S-z>` | Rosaterm: Toggle Float |
+| `<S-x>` | Rosaterm: Terminal Horizontal |
+| `<leader>cii` | Rosaterm: Split Vertical |
+| `<leader>cie` | Rosaterm: Split Horizontal |
+| `<leader>lats` | Rosaterm: Selecionar Tema |
 | `s` | Flash Jump |
 | `kj` | Sair do Insert Mode |
 

@@ -57,7 +57,6 @@ local function toggle_with_layout(toggle_opts)
     apply 'bottom'
   end, { buffer = buf, nowait = true })
   vim.keymap.set('n', '<esc>', close, { buffer = buf, nowait = true })
-  vim.keymap.set('n', 'q', close, { buffer = buf, nowait = true })
 end
 
 return {
