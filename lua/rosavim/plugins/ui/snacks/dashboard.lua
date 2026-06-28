@@ -12,17 +12,21 @@ local header = {
 -- Dashboard gif (chafa) — managed via <leader>lqd toggles.
 -- The terminal section is a function so it's re-evaluated on every render,
 -- which lets the gif/dimensions hot-reload after Snacks.dashboard.update().
+-- When disabled, return equivalent padding so the layout stays put.
 local function gif_section()
   local toggles = require 'rosavim.config.toggles'
+  local height = toggles.get 'dashboard_gif_height' or 8
+  if not toggles.get 'dashboard_gif' then
+    return { padding = math.max(1, height - 2) }
+  end
   return {
     section = 'terminal',
-    enabled = toggles.get 'dashboard_gif',
     cmd = string.format(
       'chafa -f symbols -c full --speed=0.8 --clear --stretch $HOME/.config/nvim/lua/rosavim/plugins/ui/dashboard_img/%s; sleep .1',
       toggles.get 'dashboard_gif_name' or 'gopher.gif'
     ),
     ttl = 0,
-    height = toggles.get 'dashboard_gif_height' or 8,
+    height = height,
     width = toggles.get 'dashboard_gif_width' or 20,
     indent = toggles.get 'dashboard_gif_indent' or 50,
   }
