@@ -125,7 +125,7 @@ return {
     --Lazy
     { '<leader>Ll', '<cmd>Lazy<cr>', desc = 'Lazy' },
     { '<leader>Lp', '<cmd>Lazy profile<cr>', desc = 'Profile' },
-    { '<leader>Lh', '<cmd>LazyHealth<cr>', desc = 'Health' },
+    { '<leader>Lh', '<cmd>checkhealth lazy<cr>', desc = 'Health' },
     { '<leader>LH', '<cmd>Lazy help<cr>', desc = 'Help' },
     { '<leader>Lb', '<cmd>Lazy build<cr>', desc = 'Build' },
     { '<leader>Lc', '<cmd>Lazy clean<cr>', desc = 'Clean' },

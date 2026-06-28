@@ -50,22 +50,4 @@ vim.api.nvim_create_autocmd('VimEnter', {
   end,
 })
 
-return {
-  {
-    'LazyVim/LazyVim',
-    init = function()
-      vim.g.lazyvim_check_order = false
-      vim.schedule(function()
-        local ok, util = pcall(require, 'lazyvim.util')
-        if ok then
-          pcall(function()
-            rawset(util, 'info', function(...) end)
-          end)
-        end
-      end)
-    end,
-    opts = {
-      colorscheme = require('rosavim.config.appearance').get_colorscheme() or 'rosamin',
-    },
-  },
-}
+return {}

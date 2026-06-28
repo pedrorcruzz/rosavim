@@ -1,4 +1,3 @@
-package.loaded['lazyvim.config.keymaps'] = true
 require 'rosavim'
 require 'rosavim.config.keybinds'
 require 'rosavim.config.autocmds'
