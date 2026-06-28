@@ -216,6 +216,17 @@ function M.get(mode, transparent_background)
 
       -- gitsigns blame
       GitSignsCurrentLineBlame = { fg = '#B0B0B0' },
+
+      -- mini.icons (override links to Function/Diagnostic* which would otherwise turn icons purple/yellow)
+      MiniIconsAzure = { fg = '#0184BC', bg = 'none' },
+      MiniIconsBlue = { fg = '#0184BC', bg = 'none' },
+      MiniIconsCyan = { fg = '#0A9396', bg = 'none' },
+      MiniIconsPurple = { fg = '#7C3AED', bg = 'none' },
+      MiniIconsRed = { fg = '#E45649', bg = 'none' },
+      MiniIconsGreen = { fg = '#50A14F', bg = 'none' },
+      MiniIconsOrange = { fg = '#f29718', bg = 'none' },
+      MiniIconsYellow = { fg = '#C18401', bg = 'none' },
+      MiniIconsGrey = { fg = '#909090', bg = 'none' },
     }
   end
   return {
@@ -481,6 +492,17 @@ function M.get(mode, transparent_background)
 
     -- gitsigns blame
     GitSignsCurrentLineBlame = { fg = '#727272' },
+
+    -- mini.icons (override links to Function/Diagnostic* which would otherwise turn icons purple/yellow)
+    MiniIconsAzure = { fg = '#79b8ff', bg = 'none' },
+    MiniIconsBlue = { fg = '#64BAFF', bg = 'none' },
+    MiniIconsCyan = { fg = '#7DD3FC', bg = 'none' },
+    MiniIconsPurple = { fg = '#b392f0', bg = 'none' },
+    MiniIconsRed = { fg = '#F67582', bg = 'none' },
+    MiniIconsGreen = { fg = '#A0D6A0', bg = 'none' },
+    MiniIconsOrange = { fg = '#FFA868', bg = 'none' },
+    MiniIconsYellow = { fg = '#FFD580', bg = 'none' },
+    MiniIconsGrey = { fg = '#9C9EA4', bg = 'none' },
   }
 end
 
