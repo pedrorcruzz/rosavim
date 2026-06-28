@@ -58,6 +58,9 @@ local function open_chip(term)
   if col < 0 then
     col = 0
   end
+  if not width or width < 1 then
+    return
+  end
 
   if not term.chip_buf or not api.nvim_buf_is_valid(term.chip_buf) then
     term.chip_buf = api.nvim_create_buf(false, true)
