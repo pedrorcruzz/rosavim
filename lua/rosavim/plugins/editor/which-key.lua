@@ -62,7 +62,8 @@ return {
       { '<leader>lad', group = 'DBUI', icon = '󰆼' },
       { '<leader>law', group = 'Which-Key', icon = '󰌌' },
       { '<leader>lat', group = 'Rosaterm', icon = '' },
-      { '<leader>laa', group = 'AI', icon = '' },
+      { '<leader>laa', group = 'Rosaai', icon = ' ' },
+      { '<leader>lau', group = 'Dropbar', icon = '󰜢 ' },
 
       -- Rosakit
       { '<leader>k', group = 'Rosakit', icon = ' ' },

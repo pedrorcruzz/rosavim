@@ -35,8 +35,16 @@ local defaults = {
   whichkey_preset = 'modern',
   whichkey_border = 'single',
   explorer_right = false,
-  sidekick_right = true,
-  sidekick_auto_focus = true,
+  -- Rosaai
+  rosaai_position = 'right',
+  rosaai_size = 'default',
+  rosaai_theme = 'garland',
+  rosaai_title = true,
+  rosaai_time = true,
+  rosaai_autoinsert = true,
+  rosaai_auto_focus = true,
+  rosaai_vertical_border = true,
+  rosaai_horizontal_border = true,
   git_blame = true,
   markview = true,
   image_preview = false,
@@ -45,6 +53,11 @@ local defaults = {
   rosaterm_time = true,
   rosaterm_theme = 'garland',
   rosaterm_autoinsert = true,
+  rosaterm_vertical_border = false,
+  rosaterm_horizontal_border = false,
+  -- Dropbar
+  dropbar_compact = false, -- false = full path (16 segments), true = parent + filename only
+  dropbar_path_preview = true,
   -- Dashboard gif (chafa)
   dashboard_gif = false,
   dashboard_gif_name = 'gopher.gif',

@@ -64,7 +64,6 @@ O orquestrador em `lua/rosavim/plugins/ui/snacks/toggles.lua` carrega todos os m
 | Atalho | Toggle | Padrão |
 |:-------|:-------|:-------|
 | `<leader>aii` | Copilot | Desativado |
-| `<leader>al` | Sidekick Auto Focus | Ativado |
 
 > **Modo Zen** (`<leader>lz`) intencionalmente **não é** persistido, ele reseta a cada sessão.
 
@@ -102,11 +101,25 @@ Presets de which-key disponíveis: `classic`, `modern`, `helix`
 
 Bordas de which-key disponíveis: `none`, `single`, `double`, `shadow`
 
-### IA (`<leader>laa`)
+### Rosaai (`<leader>laa`)
 
 | Atalho | Toggle | Padrão |
 |:-------|:-------|:-------|
-| `<leader>laae` | Sidekick Position (Left/Right) | Right |
+| `<leader>laat` | Chip de título (mostrar/esconder) | Ativado |
+| `<leader>laah` | Relógio no chip (mostrar/esconder) | Ativado |
+| `<leader>laai` | Auto Insert ao abrir o CLI | Ativado |
+| `<leader>laaf` | Auto Focus ao enviar mensagem | Ativado |
+| `<leader>laas` | Picker de tema (popup) | garland |
+| `<leader>laap` | Picker de posição (popup) | right |
+| `<leader>laaz` | Picker de tamanho (popup) | default |
+| `<leader>laab` | Borda vertical (right/left/float) | Ativado |
+| `<leader>laaB` | Borda horizontal (bottom) | Ativado |
+
+Temas rosaai disponíveis: `bloom`, `petal`, `garland`, `stem`
+
+Posições rosaai disponíveis: `right`, `left`, `bottom`, `float`
+
+Tamanhos rosaai disponíveis: `compact`, `default`, `wide`
 
 ### Editor (`<leader>lae`)
 
@@ -128,6 +141,19 @@ Bordas de which-key disponíveis: `none`, `single`, `double`, `shadow`
 | Atalho | Toggle | Padrão |
 |:-------|:-------|:-------|
 | `<leader>ladf` | Expandir folds automático no resultado DBUI | Ativado |
+
+### Rosaterm (`<leader>lat`)
+
+| Atalho | Toggle | Padrão |
+|:-------|:-------|:-------|
+| `<leader>latt` | Chip de título (mostrar/esconder) | Ativado |
+| `<leader>lath` | Relógio no chip (mostrar/esconder) | Ativado |
+| `<leader>lati` | Auto Insert ao abrir o terminal | Ativado |
+| `<leader>lats` | Picker de tema (popup) | garland |
+| `<leader>latb` | Borda vertical (vsplit vira float pinado) | Desativado |
+| `<leader>latB` | Borda horizontal (split vira float pinado) | Desativado |
+
+Temas rosaterm disponíveis: `bloom`, `petal`, `garland`, `stem`
 
 ---
 

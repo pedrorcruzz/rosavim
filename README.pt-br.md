@@ -96,7 +96,7 @@ Rosavim oferece suporte completo (LSP, formatação, linting, testes e debug) pa
 ### IA
 
 - **GitHub Copilot** integrado ao autocompletion
-- **Sidekick** como assistente de IA no editor
+- **Rosaai** integração nativa com CLIs de IA (Claude, Cursor, OpenClaude, Gemini, ...) com janela temática, preview no editor e bordas rounded por orientação
 
 ### UI & Aparência
 
@@ -203,7 +203,7 @@ Na primeira execução, o **Lazy.nvim** instalará todos os plugins e o **Mason*
 │   │   └── snippets/                 # Snippets customizados
 │   ├── plugins/
 │   │   ├── env/                      # LSP, Mason, Treesitter, DAP, Lint, Format
-│   │   ├── ai/                       # Copilot, Sidekick
+│   │   ├── ai/                       # Copilot, Rosaai
 │   │   ├── ui/                       # Temas, statusline, dashboard
 │   │   ├── editor/                   # Terminal, navegação, Rosafile
 │   │   ├── coding/                   # Surround, multi-cursor, refactoring

@@ -1,0 +1,71 @@
+--- Rosaai - Native AI CLI integration for Rosavim
+--- One persistent terminal per supported CLI tool (claude, cursor-agent,
+--- openclaude, gemini, ...). Layout/theme are configurable through the
+--- shared toggles store and mirror the look-and-feel of rosaterm.
+local M = {}
+
+local cli = require 'rosavim.rosa_plugins.rosaai.cli'
+
+function M.toggle(name)
+  cli.toggle(name)
+end
+
+function M.toggle_with_picker(name)
+  cli.toggle_with_picker(name)
+end
+
+function M.show_in(position, name)
+  cli.show_in(position, name)
+end
+
+function M.show(name)
+  cli.show(name)
+end
+
+function M.hide()
+  cli.hide()
+end
+
+function M.close()
+  cli.close()
+end
+
+function M.focus()
+  cli.focus()
+end
+
+function M.select()
+  cli.select()
+end
+
+function M.send(opts)
+  cli.send(opts)
+end
+
+function M.prompt()
+  cli.prompt()
+end
+
+function M.ask_with_selection()
+  cli.ask_with_selection()
+end
+
+function M.ask_with_preview()
+  cli.ask_with_preview()
+end
+
+function M.refresh_chips()
+  cli.refresh_chips()
+end
+
+function M.relayout()
+  cli.relayout()
+end
+
+--- Whether any CLI buffer is currently visible (used by rosamaximize)
+function M.is_open()
+  local state = require 'rosavim.rosa_plugins.rosaai.state'
+  return state.win ~= nil and vim.api.nvim_win_is_valid(state.win)
+end
+
+return M

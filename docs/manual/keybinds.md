@@ -16,7 +16,7 @@
 - [Formatting & Code Actions](#formatting--code-actions)
 - [Refactoring](#refactoring)
 - [Terminal](#terminal)
-- [AI (Copilot & Sidekick)](#ai-copilot--sidekick)
+- [AI (Copilot & Rosaai)](#ai-copilot--rosaai)
 - [File Operations](#file-operations)
 - [Rosadirs (Projects & Obsidian dirs)](#rosadirs-projects--obsidian-dirs)
 - [Rosapoon (Bookmarks)](#rosapoon-bookmarks)
@@ -282,7 +282,7 @@
 
 ---
 
-## AI (Copilot & Sidekick)
+## AI (Copilot & Rosaai)
 
 ### Copilot
 
@@ -296,22 +296,31 @@
 | n | `<leader>aii` | Toggle | `Space a i i` to toggle Copilot on/off (persisted) |
 | n | `<leader>aip` | Panel | `Space a i p` to open the Copilot suggestions panel |
 
-### Sidekick
+### Rosaai
+
+Native AI CLI integration for Claude, Cursor, OpenClaude, Gemini and friends. Each tool gets its own persistent terminal session — switching tools or layouts preserves history. The picker on `<leader>aa` only appears the very first time; after that it just toggles the last open layout.
 
 | Mode | Key | Action | Example |
 |:----:|:----|:-------|:--------|
-| n,t,i,x | `<C-.>` | Focus Sidekick | `Ctrl+.` to focus the Sidekick chat window |
-| n | `<leader>aa` | Toggle CLI | `Space a a` to toggle the Sidekick CLI |
-| x | `<leader>aa` | Ask AI (selection) | Select code, `Space a a` to type a question and send it with file context |
-| n | `<leader>as` | Select CLI | `Space a s` to select which CLI backend to use |
-| n | `<leader>ad` | Detach session | `Space a d` to close the current CLI session |
-| n,x | `<leader>at` | Send this | `Space a t` to send the current context to Sidekick |
-| n | `<leader>af` | Send file | `Space a f` to send the entire file to Sidekick |
-| x | `<leader>av` | Send selection | Select code, `Space a v` to send it to Sidekick |
-| n,x | `<leader>ap` | Select prompt | `Space a p` to pick from saved prompts |
-| n | `<leader>ac` | Toggle Claude | `Space a c` to use Claude as the Sidekick backend |
-| n | `<leader>aC` | Toggle Claude (Skip Permissions) | `Space a Shift+c` to use Claude with `--dangerously-skip-permissions` |
-| n | `<leader>av` | Toggle Cursor | `Space a v` to use Cursor as the Sidekick backend |
+| n,t,i,x | `<C-.>` | Focus Rosaai | `Ctrl+.` to focus the Rosaai window |
+| n | `<leader>aa` | Toggle CLI (smart) | First time prompts layout `v/h/f`; afterwards toggles last layout |
+| x | `<leader>aa` | Ask AI (preview + prompt) | Select code, `Space a a` to open a preview window + prompt below |
+| n | `<leader>av` | Open Vertical | Opens (or hides if already vertical) on the right/left edge |
+| n | `<leader>ah` | Open Horizontal | Opens (or hides if already horizontal) at the bottom |
+| n | `<leader>af` | Open Float | Opens (or hides if already float) as a centered floating window |
+| n | `<leader>as` | Select CLI | Pick from the list of CLIs whose binary is installed |
+| n,x | `<leader>at` | Send `{this}` | Send the current cursor reference (`@file:line`) |
+| n | `<leader>aF` | Send `{file}` | Send the whole file reference (`@file`) |
+| x | `<leader>av` | Send selection | Send the visual selection range (`@file:start-end`) |
+| n,x | `<leader>ap` | Select prompt | Pick from built-in prompt templates (explain / review / refactor / ...) |
+| n | `<leader>ac` | Toggle Claude | Open/hide Claude (`claude`) |
+| n | `<leader>aC` | Toggle Claude YOLO | Open/hide Claude with `--dangerously-skip-permissions` |
+| n | `<leader>au` | Toggle Cursor | Open/hide `cursor-agent` |
+| n | `<leader>aU` | Toggle Cursor YOLO | Open/hide `cursor-agent --yolo` |
+| n | `<leader>ao` | Toggle OpenClaude | Open/hide `openclaude` |
+| n | `<leader>ag` | Toggle Gemini | Open/hide `gemini` |
+
+Inside the CLI terminal: single `<Esc>` exits to nvim normal mode; double `<Esc>` within 300ms sends a literal `ESC` to the CLI (cancel current operation).
 
 ---
 

@@ -64,7 +64,6 @@ The orchestrator at `lua/rosavim/plugins/ui/snacks/toggles.lua` loads all module
 | Shortcut | Toggle | Default |
 |:---------|:-------|:--------|
 | `<leader>aii` | Copilot | Off |
-| `<leader>al` | Sidekick Auto Focus | On |
 
 > **Zen Mode** (`<leader>lz`) is intentionally **not** persisted, it resets on each session.
 
@@ -102,11 +101,25 @@ Available which-key presets: `classic`, `modern`, `helix`
 
 Available which-key borders: `none`, `single`, `double`, `shadow`
 
-### AI (`<leader>laa`)
+### Rosaai (`<leader>laa`)
 
 | Shortcut | Toggle | Default |
 |:---------|:-------|:--------|
-| `<leader>laae` | Sidekick Position (Left/Right) | Right |
+| `<leader>laat` | Title chip (show/hide) | On |
+| `<leader>laah` | Time in chip (show/hide) | On |
+| `<leader>laai` | Auto Insert when opening a CLI | On |
+| `<leader>laaf` | Auto Focus when sending a message | On |
+| `<leader>laas` | Theme picker (popup) | garland |
+| `<leader>laap` | Position picker (popup) | right |
+| `<leader>laaz` | Size picker (popup) | default |
+| `<leader>laab` | Vertical border (right/left/float) | On |
+| `<leader>laaB` | Horizontal border (bottom) | On |
+
+Available rosaai themes: `bloom`, `petal`, `garland`, `stem`
+
+Available rosaai positions: `right`, `left`, `bottom`, `float`
+
+Available rosaai sizes: `compact`, `default`, `wide`
 
 ### Editor (`<leader>lae`)
 
@@ -128,6 +141,19 @@ Available which-key borders: `none`, `single`, `double`, `shadow`
 | Shortcut | Toggle | Default |
 |:---------|:-------|:--------|
 | `<leader>ladf` | Auto expand folds in DBUI output | On |
+
+### Rosaterm (`<leader>lat`)
+
+| Shortcut | Toggle | Default |
+|:---------|:-------|:--------|
+| `<leader>latt` | Title chip (show/hide) | On |
+| `<leader>lath` | Time in chip (show/hide) | On |
+| `<leader>lati` | Auto Insert when opening a terminal | On |
+| `<leader>lats` | Theme picker (popup) | garland |
+| `<leader>latb` | Vertical border (vsplit becomes a pinned float) | Off |
+| `<leader>latB` | Horizontal border (split becomes a pinned float) | Off |
+
+Available rosaterm themes: `bloom`, `petal`, `garland`, `stem`
 
 ---
 

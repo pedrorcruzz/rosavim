@@ -1,17 +1,17 @@
 --- Rosamaximize - Window maximizer for Rosavim
 --- No mksession — manually saves and restores window layout to avoid
---- buggy behavior with special buffers (snacks explorer, sidekick).
+--- buggy behavior with special buffers (snacks explorer, rosaai).
 local M = {}
 
 local state = nil
 
--- #TODO: This is a bit hacky but it works for now. The main issue is that mksession doesn't handle the snacks explorer or sidekick windows well — they end up taking up space in the layout and causing weirdness when restored. To work around this, we manually snapshot and restore the layout, filtering out any special windows. This way we can maximize just the "real" buffers and then restore everything else afterward.
+-- #TODO: This is a bit hacky but it works for now. The main issue is that mksession doesn't handle the snacks explorer or rosaai windows well — they end up taking up space in the layout and causing weirdness when restored. To work around this, we manually snapshot and restore the layout, filtering out any special windows. This way we can maximize just the "real" buffers and then restore everything else afterward.
 
 local function is_special_buf(buf)
   if not vim.api.nvim_buf_is_valid(buf) then
     return true
   end
-  return vim.bo[buf].filetype == 'snacks_explorer' or vim.b[buf].sidekick_cli ~= nil
+  return vim.bo[buf].filetype == 'snacks_explorer' or vim.b[buf].rosaai_cli ~= nil
 end
 
 local function explorer_is_open()
@@ -23,9 +23,9 @@ local function explorer_is_open()
   return false
 end
 
-local function sidekick_is_open()
+local function rosaai_is_open()
   for _, win in ipairs(vim.api.nvim_list_wins()) do
-    if vim.b[vim.api.nvim_win_get_buf(win)].sidekick_cli then
+    if vim.b[vim.api.nvim_win_get_buf(win)].rosaai_cli then
       return true
     end
   end
@@ -107,12 +107,12 @@ function M.maximize()
   end
 
   local had_explorer = explorer_is_open()
-  local had_sidekick = sidekick_is_open()
+  local had_rosaai = rosaai_is_open()
 
   -- Close special windows FIRST so they don't occupy layout space
-  if had_sidekick then
+  if had_rosaai then
     pcall(function()
-      require('sidekick.cli').hide()
+      require('rosavim.rosa_plugins.rosaai').hide()
     end)
   end
   if had_explorer then
@@ -130,7 +130,7 @@ function M.maximize()
   state = {
     tree = tree,
     had_explorer = had_explorer,
-    had_sidekick = had_sidekick,
+    had_rosaai = had_rosaai,
   }
 
   vim.cmd 'only'
@@ -186,13 +186,13 @@ function M.restore()
       Snacks.explorer()
     end)
   end
-  if s.had_sidekick then
+  if s.had_rosaai then
     pcall(function()
-      require('sidekick.cli').show()
+      require('rosavim.rosa_plugins.rosaai').show()
     end)
   end
 
-  -- Ensure focus stays on the buffer, not on explorer/sidekick
+  -- Ensure focus stays on the buffer, not on explorer/rosaai
   if focus_win and vim.api.nvim_win_is_valid(focus_win) then
     vim.api.nvim_set_current_win(focus_win)
   end

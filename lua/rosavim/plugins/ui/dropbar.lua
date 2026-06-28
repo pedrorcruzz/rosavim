@@ -14,6 +14,12 @@ return {
             and vim.api.nvim_get_option_value('modifiable', { buf = buf })
         end,
       },
+      sources = {
+        path = {
+          max_depth = toggles.get 'dropbar_compact' and 2 or 16,
+          preview = toggles.get 'dropbar_path_preview',
+        },
+      },
     }
   end,
   keys = {

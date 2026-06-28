@@ -69,17 +69,23 @@ return {
   styles = {
     enabled = true,
   },
+  -- Remap Ctrl-d / Ctrl-u to scroll the PREVIEW (defaults scroll the list).
+  -- List still moves with <C-n>/<C-p>; <C-f>/<C-b> also scroll the preview.
   win = {
     input = {
       keys = {
         ['<C-h>'] = { 'toggle_hidden', mode = { 'i', 'n' } },
         ['<C-l>'] = { 'toggle_ignored', mode = { 'i', 'n' } },
+        ['<c-d>'] = { 'preview_scroll_down', mode = { 'i', 'n' } },
+        ['<c-u>'] = { 'preview_scroll_up', mode = { 'i', 'n' } },
       },
     },
     list = {
       keys = {
         ['<C-h>'] = { 'toggle_hidden', mode = { 'i', 'n' } },
         ['<C-l>'] = { 'toggle_ignored', mode = { 'i', 'n' } },
+        ['<c-d>'] = 'preview_scroll_down',
+        ['<c-u>'] = 'preview_scroll_up',
       },
     },
   },

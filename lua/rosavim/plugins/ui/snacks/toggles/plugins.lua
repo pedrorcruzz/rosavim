@@ -38,17 +38,6 @@ return function()
     end,
   }):map '<leader>lc'
 
-  -- Sidekick Auto Focus
-  Snacks.toggle({
-    name = 'Sidekick Auto Focus',
-    get = function()
-      return toggles.get 'sidekick_auto_focus'
-    end,
-    set = function(state)
-      toggles.set('sidekick_auto_focus', state)
-    end,
-  }):map '<leader>al'
-
   -- Copilot
   Snacks.toggle({
     name = 'Copilot',

@@ -33,4 +33,10 @@ function M.refresh_chips()
   split.refresh_all()
 end
 
+--- Reload open splits to apply a border-mode change. Pass 'vertical' or
+--- 'horizontal' to limit; nil reloads both.
+function M.reload_splits(direction)
+  split.reload_all(direction)
+end
+
 return M
