@@ -1,4 +1,4 @@
---- Rosaai cli - Open, manage and message the AI CLI terminals
+--- RosaAI cli - Open, manage and message the AI CLI terminals
 --- Each tool owns one persistent terminal buffer + job; toggling only hides
 --- or shows the window. The same shared window slot renders whichever tool
 --- is currently active.
@@ -157,13 +157,13 @@ function M.show(name)
     name = avail[1] and avail[1].name
   end
   if not name then
-    vim.notify('Rosaai: no CLI tools installed', vim.log.levels.WARN)
+    vim.notify('RosaAI: no CLI tools installed', vim.log.levels.WARN)
     return
   end
 
   local s, err = ensure_session(name)
   if not s then
-    vim.notify(err or 'Rosaai: failed to open session', vim.log.levels.ERROR)
+    vim.notify(err or 'RosaAI: failed to open session', vim.log.levels.ERROR)
     return
   end
 
@@ -203,7 +203,7 @@ function M.toggle(name)
     -- Pick the first available tool when nothing has been opened yet
     local avail = tools.available()
     if #avail == 0 then
-      vim.notify('Rosaai: no CLI tools installed', vim.log.levels.WARN)
+      vim.notify('RosaAI: no CLI tools installed', vim.log.levels.WARN)
       return
     end
     name = avail[1].name
@@ -237,7 +237,7 @@ local function show_layout_picker(on_pick)
     height = 1,
     style = 'minimal',
     border = 'rounded',
-    title = '   Rosaai Layout ',
+    title = '   RosaAI Layout ',
     title_pos = 'center',
   })
 
@@ -278,7 +278,7 @@ local function pick_cli(items, on_pick)
     return a.name < b.name
   end)
   vim.ui.select(items, {
-    prompt = 'Rosaai · select CLI',
+    prompt = 'RosaAI · select CLI',
     format_item = function(it)
       return it.tool.icon .. ' ' .. it.tool.label
     end,
@@ -313,7 +313,7 @@ local function route_ask(msg, opts)
   if count == 0 then
     local avail = tools.available()
     if #avail == 0 then
-      vim.notify('Rosaai: no CLI tools installed', vim.log.levels.WARN)
+      vim.notify('RosaAI: no CLI tools installed', vim.log.levels.WARN)
       return
     end
     local function pick_layout(name)
@@ -417,7 +417,7 @@ function M.select(opts)
   opts = opts or {}
   local avail = tools.available()
   if #avail == 0 then
-    vim.notify('Rosaai: no CLI tools installed', vim.log.levels.WARN)
+    vim.notify('RosaAI: no CLI tools installed', vim.log.levels.WARN)
     return
   end
 
@@ -430,7 +430,7 @@ function M.select(opts)
   end
 
   vim.ui.select(items, {
-    prompt = 'Rosaai · select CLI',
+    prompt = 'RosaAI · select CLI',
     format_item = function(item)
       return item.text
     end,
@@ -486,7 +486,7 @@ function M.send(opts)
     return avail[1] and avail[1].name or nil
   end)()
   if not name then
-    vim.notify('Rosaai: no CLI tools installed', vim.log.levels.WARN)
+    vim.notify('RosaAI: no CLI tools installed', vim.log.levels.WARN)
     return
   end
 
@@ -530,7 +530,7 @@ M.prompts = {
 
 function M.prompt()
   vim.ui.select(M.prompts, {
-    prompt = 'Rosaai · select prompt',
+    prompt = 'RosaAI · select prompt',
     format_item = function(p)
       return p.icon .. p.label
     end,

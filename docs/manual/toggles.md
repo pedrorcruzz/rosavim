@@ -82,7 +82,7 @@ Additional features are persisted and can be toggled at runtime via `<leader>la`
 | `<leader>lasr` | Explorer Position (Left/Right) | Left |
 | `<leader>lash` | Picker Hidden Files | Off |
 | `<leader>lasi` | Picker Ignored Files | On |
-| `<leader>lasl` | Picker Layout (popup selector) | default |
+| `<leader>lqp` | Picker Layout (popup selector) | default |
 | `<leader>lasp` | Picker Preview | On |
 | `<leader>lasb` | Picker Border (popup selector) | rounded |
 
@@ -94,14 +94,14 @@ Available picker borders: `none`, `single`, `double`, `rounded`, `solid`, `shado
 
 | Shortcut | Toggle | Default |
 |:---------|:-------|:--------|
-| `<leader>lawp` | Which-Key Preset (popup selector) | modern |
-| `<leader>lawb` | Which-Key Border (popup selector) | single |
+| `<leader>lqw` | Which-Key Preset (popup selector) | modern |
+| `<leader>lqb` | Which-Key Border (popup selector) | single |
 
 Available which-key presets: `classic`, `modern`, `helix`
 
 Available which-key borders: `none`, `single`, `double`, `shadow`
 
-### Rosaai (`<leader>laa`)
+### RosaAI (`<leader>laa`)
 
 | Shortcut | Toggle | Default |
 |:---------|:-------|:--------|
@@ -109,17 +109,17 @@ Available which-key borders: `none`, `single`, `double`, `shadow`
 | `<leader>laah` | Time in chip (show/hide) | On |
 | `<leader>laai` | Auto Insert when opening a CLI | On |
 | `<leader>laaf` | Auto Focus when sending a message | On |
-| `<leader>laas` | Theme picker (popup) | garland |
+| `<leader>lqa` | Theme picker (popup) — under Theme group | garland |
 | `<leader>laap` | Position picker (popup) | right |
 | `<leader>laaz` | Size picker (popup) | default |
 | `<leader>laab` | Vertical border (right/left/float) | On |
 | `<leader>laaB` | Horizontal border (bottom) | On |
 
-Available rosaai themes: `bloom`, `petal`, `garland`, `stem`
+Available RosaAI themes: `bloom`, `petal`, `garland`, `stem`
 
-Available rosaai positions: `right`, `left`, `bottom`, `float`
+Available RosaAI positions: `right`, `left`, `bottom`, `float`
 
-Available rosaai sizes: `compact`, `default`, `wide`
+Available RosaAI sizes: `compact`, `default`, `wide`
 
 ### Editor (`<leader>lae`)
 
@@ -149,7 +149,7 @@ Available rosaai sizes: `compact`, `default`, `wide`
 | `<leader>latt` | Title chip (show/hide) | On |
 | `<leader>lath` | Time in chip (show/hide) | On |
 | `<leader>lati` | Auto Insert when opening a terminal | On |
-| `<leader>lats` | Theme picker (popup) | garland |
+| `<leader>lqr` | Theme picker (popup) — under Theme group | garland |
 | `<leader>latb` | Vertical border (vsplit becomes a pinned float) | Off |
 | `<leader>latB` | Horizontal border (split becomes a pinned float) | Off |
 

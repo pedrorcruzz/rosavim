@@ -1,6 +1,6 @@
 --- Directional window focus with float fallback.
 --- `wincmd h/j/k/l` only navigates between regular splits — when the cursor
---- can't move in the requested direction, fall back to the Rosaai CLI float
+--- can't move in the requested direction, fall back to the RosaAI CLI float
 --- if it's open on that side, so <leader>1..4 can reach the float too.
 local M = {}
 

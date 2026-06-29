@@ -82,7 +82,7 @@ Funcionalidades adicionais são persistidas e podem ser alternadas em runtime vi
 | `<leader>lasr` | Explorer Position (Left/Right) | Left |
 | `<leader>lash` | Picker Hidden Files | Desativado |
 | `<leader>lasi` | Picker Ignored Files | Ativado |
-| `<leader>lasl` | Picker Layout (seletor popup) | default |
+| `<leader>lqp` | Picker Layout (seletor popup) | default |
 | `<leader>lasp` | Picker Preview | Ativado |
 | `<leader>lasb` | Picker Border (seletor popup) | rounded |
 
@@ -94,14 +94,14 @@ Bordas de picker disponíveis: `none`, `single`, `double`, `rounded`, `solid`, `
 
 | Atalho | Toggle | Padrão |
 |:-------|:-------|:-------|
-| `<leader>lawp` | Which-Key Preset (seletor popup) | modern |
-| `<leader>lawb` | Which-Key Border (seletor popup) | single |
+| `<leader>lqw` | Which-Key Preset (seletor popup) | modern |
+| `<leader>lqb` | Which-Key Border (seletor popup) | single |
 
 Presets de which-key disponíveis: `classic`, `modern`, `helix`
 
 Bordas de which-key disponíveis: `none`, `single`, `double`, `shadow`
 
-### Rosaai (`<leader>laa`)
+### RosaAI (`<leader>laa`)
 
 | Atalho | Toggle | Padrão |
 |:-------|:-------|:-------|
@@ -109,17 +109,17 @@ Bordas de which-key disponíveis: `none`, `single`, `double`, `shadow`
 | `<leader>laah` | Relógio no chip (mostrar/esconder) | Ativado |
 | `<leader>laai` | Auto Insert ao abrir o CLI | Ativado |
 | `<leader>laaf` | Auto Focus ao enviar mensagem | Ativado |
-| `<leader>laas` | Picker de tema (popup) | garland |
+| `<leader>lqa` | Picker de tema (popup) — fica no grupo Theme | garland |
 | `<leader>laap` | Picker de posição (popup) | right |
 | `<leader>laaz` | Picker de tamanho (popup) | default |
 | `<leader>laab` | Borda vertical (right/left/float) | Ativado |
 | `<leader>laaB` | Borda horizontal (bottom) | Ativado |
 
-Temas rosaai disponíveis: `bloom`, `petal`, `garland`, `stem`
+Temas RosaAI disponíveis: `bloom`, `petal`, `garland`, `stem`
 
-Posições rosaai disponíveis: `right`, `left`, `bottom`, `float`
+Posições RosaAI disponíveis: `right`, `left`, `bottom`, `float`
 
-Tamanhos rosaai disponíveis: `compact`, `default`, `wide`
+Tamanhos RosaAI disponíveis: `compact`, `default`, `wide`
 
 ### Editor (`<leader>lae`)
 
@@ -149,7 +149,7 @@ Tamanhos rosaai disponíveis: `compact`, `default`, `wide`
 | `<leader>latt` | Chip de título (mostrar/esconder) | Ativado |
 | `<leader>lath` | Relógio no chip (mostrar/esconder) | Ativado |
 | `<leader>lati` | Auto Insert ao abrir o terminal | Ativado |
-| `<leader>lats` | Picker de tema (popup) | garland |
+| `<leader>lqr` | Picker de tema (popup) — fica no grupo Theme | garland |
 | `<leader>latb` | Borda vertical (vsplit vira float pinado) | Desativado |
 | `<leader>latB` | Borda horizontal (split vira float pinado) | Desativado |
 

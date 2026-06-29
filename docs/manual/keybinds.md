@@ -16,7 +16,7 @@
 - [Formatting & Code Actions](#formatting--code-actions)
 - [Refactoring](#refactoring)
 - [Terminal](#terminal)
-- [AI (Copilot & Rosaai)](#ai-copilot--rosaai)
+- [AI (Copilot & RosaAI)](#ai-copilot--rosaai)
 - [File Operations](#file-operations)
 - [Rosadirs (Projects & Obsidian dirs)](#rosadirs-projects--obsidian-dirs)
 - [Rosapoon (Bookmarks)](#rosapoon-bookmarks)
@@ -282,7 +282,7 @@
 
 ---
 
-## AI (Copilot & Rosaai)
+## AI (Copilot & RosaAI)
 
 ### Copilot
 
@@ -296,13 +296,13 @@
 | n | `<leader>aii` | Toggle | `Space a i i` to toggle Copilot on/off (persisted) |
 | n | `<leader>aip` | Panel | `Space a i p` to open the Copilot suggestions panel |
 
-### Rosaai
+### RosaAI
 
 Native AI CLI integration for Claude, Cursor, OpenClaude, Gemini and friends. Each tool gets its own persistent terminal session — switching tools or layouts preserves history. The picker on `<leader>aa` only appears the very first time; after that it just toggles the last open layout.
 
 | Mode | Key | Action | Example |
 |:----:|:----|:-------|:--------|
-| n,t,i,x | `<C-.>` | Focus Rosaai | `Ctrl+.` to focus the Rosaai window |
+| n,t,i,x | `<C-.>` | Focus RosaAI | `Ctrl+.` to focus the RosaAI window |
 | n | `<leader>aa` | Toggle CLI (smart) | First time prompts layout `v/h/f`; afterwards toggles last layout |
 | x | `<leader>aa` | Ask AI (preview + prompt) | Select code, `Space a a` to open a preview window + prompt below |
 | n | `<leader>av` | Open Vertical | Opens (or hides if already vertical) on the right/left edge |
@@ -418,11 +418,11 @@ Inside the CLI terminal: single `<Esc>` exits to nvim normal mode; double `<Esc>
 | n | `<leader>lc` | Toggle Incline | `Space l c` to show/hide the floating filename indicator |
 | n | `<leader>ls` | Toggle auto-save | `Space l s` to enable/disable auto-save |
 | n | `<leader>lm` | Toggle Image Preview | `Space l m` to toggle persistent image preview on/off (default: off) |
-| n | `<leader>lasl` | Picker Layout | `Space l a s l` to open a popup to select picker layout preset |
+| n | `<leader>lqp` | Picker Layout | `Space l q p` to open a popup to select picker layout preset |
 | n | `<leader>lasp` | Picker Preview | `Space l a s p` to toggle picker preview on/off |
 | n | `<leader>lasb` | Picker Border | `Space l a s b` to open a popup to select picker border style |
-| n | `<leader>lawp` | Which-Key Preset | `Space l a w p` to open a popup to select which-key preset |
-| n | `<leader>lawb` | Which-Key Border | `Space l a w b` to open a popup to select which-key border style |
+| n | `<leader>lqw` | Which-Key Preset | `Space l q w` to open a popup to select which-key preset |
+| n | `<leader>lqb` | Which-Key Border | `Space l q b` to open a popup to select which-key border style |
 | n | `<leader>uu` | Toggle Markview | `Space u t` to toggle enhanced markdown rendering |
 | n | `<leader>ua` | Markdown preview | `Space u a` to open markdown preview in the browser |
 | n | `<leader>zz` | Pick winbar symbol | `Space z z` to pick a symbol from the breadcrumb bar |

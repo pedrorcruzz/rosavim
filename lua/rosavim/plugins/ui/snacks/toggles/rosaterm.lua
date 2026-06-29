@@ -42,6 +42,65 @@ return function()
     end,
   }):map '<leader>lati'
 
+  -- Display name: ON = "Rosaterm", OFF = "Terminal"
+  Snacks.toggle({
+    name = 'Rosaterm Full Name',
+    wk_desc = { enabled = 'Use ', disabled = 'Use ' },
+    get = function()
+      return toggles.get 'rosaterm_name_full'
+    end,
+    set = function(state)
+      toggles.set('rosaterm_name_full', state)
+      local ok, rosaterm = pcall(require, 'rosavim.rosa_plugins.rosaterm')
+      if ok then
+        rosaterm.refresh_chips()
+      end
+    end,
+  }):map '<leader>latn'
+
+  -- Chip icon visibility (show/hide)
+  Snacks.toggle({
+    name = 'Rosaterm Icon',
+    wk_desc = { enabled = 'Hide ', disabled = 'Show ' },
+    get = function()
+      return toggles.get 'rosaterm_icon_visible'
+    end,
+    set = function(state)
+      toggles.set('rosaterm_icon_visible', state)
+      local ok, rosaterm = pcall(require, 'rosavim.rosa_plugins.rosaterm')
+      if ok then
+        rosaterm.refresh_chips()
+      end
+    end,
+  }):map '<leader>latc'
+
+  -- Chip icon style picker: 'rosa' (󰧱) vs 'terminal' ()
+  vim.keymap.set('n', '<leader>lats', function()
+    local styles = {
+      { name = 'rosa', glyph = '󰧱', label = 'Rosa' },
+      { name = 'terminal', glyph = '', label = 'Terminal' },
+    }
+    local current = toggles.get 'rosaterm_icon_style'
+    vim.ui.select(styles, {
+      prompt = 'Rosaterm · select icon',
+      kind = 'rosaterm_icon',
+      format_item = function(s)
+        local marker = s.name == current and ' ●' or ''
+        return s.glyph .. '  ' .. s.label .. marker
+      end,
+    }, function(choice)
+      if not choice then
+        return
+      end
+      toggles.set('rosaterm_icon_style', choice.name)
+      local ok, rosaterm = pcall(require, 'rosavim.rosa_plugins.rosaterm')
+      if ok then
+        rosaterm.refresh_chips()
+      end
+      Snacks.notify.info('Rosaterm icon: ' .. choice.label)
+    end)
+  end, { desc = 'Rosaterm: Select Icon' })
+
   -- Vertical border (vsplit). When on, the vertical split becomes a pinned
   -- float with a rounded border. When off, it's a native split (no border).
   Snacks.toggle({
@@ -76,7 +135,7 @@ return function()
   }):map '<leader>latB'
 
   -- Theme selector — uses vim.ui.select so it follows the snacks picker style
-  vim.keymap.set('n', '<leader>lats', function()
+  vim.keymap.set('n', '<leader>lqr', function()
     local themes = require 'rosavim.rosa_plugins.rosaterm.themes'
     local current = themes.current().name
     vim.ui.select(themes.list, {

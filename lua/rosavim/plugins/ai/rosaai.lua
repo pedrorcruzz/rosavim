@@ -1,4 +1,4 @@
---- Rosaai - Plugin spec wiring keymaps for the native AI CLI integration
+--- RosaAI - Plugin spec wiring keymaps for the native AI CLI integration
 return {
   dir = vim.fn.stdpath 'config' .. '/lua/rosavim/rosa_plugins/rosaai',
   name = 'rosaai',
@@ -10,7 +10,7 @@ return {
       function()
         require('rosavim.rosa_plugins.rosaai').focus()
       end,
-      desc = 'Rosaai: Focus',
+      desc = 'RosaAI: Focus',
       mode = { 'n', 't', 'i', 'x' },
     },
 
@@ -20,7 +20,7 @@ return {
       function()
         require('rosavim.rosa_plugins.rosaai').toggle_with_picker()
       end,
-      desc = 'Rosaai: Toggle CLI',
+      desc = 'RosaAI: Toggle CLI',
     },
     {
       '<leader>aa',
@@ -28,7 +28,7 @@ return {
         require('rosavim.rosa_plugins.rosaai').ask_with_preview()
       end,
       mode = 'x',
-      desc = 'Rosaai: Ask (preview + prompt)',
+      desc = 'RosaAI: Ask (preview + prompt)',
     },
 
     -- Direct layout switchers
@@ -37,21 +37,21 @@ return {
       function()
         require('rosavim.rosa_plugins.rosaai').show_in 'right'
       end,
-      desc = 'Rosaai: Open Vertical',
+      desc = 'RosaAI: Open Vertical',
     },
     {
       '<leader>ah',
       function()
         require('rosavim.rosa_plugins.rosaai').show_in 'bottom'
       end,
-      desc = 'Rosaai: Open Horizontal',
+      desc = 'RosaAI: Open Horizontal',
     },
     {
       '<leader>af',
       function()
         require('rosavim.rosa_plugins.rosaai').show_in 'float'
       end,
-      desc = 'Rosaai: Open Float',
+      desc = 'RosaAI: Open Float',
     },
 
     -- Selection / prompts / sends
@@ -60,7 +60,7 @@ return {
       function()
         require('rosavim.rosa_plugins.rosaai').select()
       end,
-      desc = 'Rosaai: Select CLI',
+      desc = 'RosaAI: Select CLI',
     },
     {
       '<leader>at',
@@ -68,14 +68,14 @@ return {
         require('rosavim.rosa_plugins.rosaai').send { msg = '{this}' }
       end,
       mode = { 'x', 'n' },
-      desc = 'Rosaai: Send This',
+      desc = 'RosaAI: Send This',
     },
     {
       '<leader>aF',
       function()
         require('rosavim.rosa_plugins.rosaai').send { msg = '{file}' }
       end,
-      desc = 'Rosaai: Send File',
+      desc = 'RosaAI: Send File',
     },
     {
       '<leader>av',
@@ -83,7 +83,7 @@ return {
         require('rosavim.rosa_plugins.rosaai').send { msg = '{selection}' }
       end,
       mode = { 'x' },
-      desc = 'Rosaai: Send Visual Selection',
+      desc = 'RosaAI: Send Visual Selection',
     },
     {
       '<leader>ap',
@@ -91,7 +91,7 @@ return {
         require('rosavim.rosa_plugins.rosaai').prompt()
       end,
       mode = { 'n', 'x' },
-      desc = 'Rosaai: Select Prompt',
+      desc = 'RosaAI: Select Prompt',
     },
 
     -- Per-tool toggles
@@ -100,42 +100,42 @@ return {
       function()
         require('rosavim.rosa_plugins.rosaai').toggle_with_picker 'claude'
       end,
-      desc = 'Rosaai: Toggle Claude',
+      desc = 'RosaAI: Toggle Claude',
     },
     {
       '<leader>aC',
       function()
         require('rosavim.rosa_plugins.rosaai').toggle_with_picker 'claude-yolo'
       end,
-      desc = 'Rosaai: Toggle Claude (YOLO)',
+      desc = 'RosaAI: Toggle Claude (YOLO)',
     },
     {
       '<leader>au',
       function()
         require('rosavim.rosa_plugins.rosaai').toggle_with_picker 'cursor'
       end,
-      desc = 'Rosaai: Toggle Cursor',
+      desc = 'RosaAI: Toggle Cursor',
     },
     {
       '<leader>aU',
       function()
         require('rosavim.rosa_plugins.rosaai').toggle_with_picker 'cursor-yolo'
       end,
-      desc = 'Rosaai: Toggle Cursor (YOLO)',
+      desc = 'RosaAI: Toggle Cursor (YOLO)',
     },
     {
       '<leader>ao',
       function()
         require('rosavim.rosa_plugins.rosaai').toggle_with_picker 'openclaude'
       end,
-      desc = 'Rosaai: Toggle OpenClaude',
+      desc = 'RosaAI: Toggle OpenClaude',
     },
     {
       '<leader>ag',
       function()
         require('rosavim.rosa_plugins.rosaai').toggle_with_picker 'gemini'
       end,
-      desc = 'Rosaai: Toggle Gemini',
+      desc = 'RosaAI: Toggle Gemini',
     },
   },
 }

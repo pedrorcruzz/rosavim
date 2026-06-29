@@ -1,4 +1,4 @@
---- Rosaai layout - Window positioning, sizing and theme border
+--- RosaAI layout - Window positioning, sizing and theme border
 --- Every position is a floating window pinned to an edge (or centered for
 --- `float`). Splits would have no border, so right/left/bottom are floats
 --- pinned to the corresponding edge — the active theme's `window` border

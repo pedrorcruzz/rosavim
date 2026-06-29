@@ -12,7 +12,32 @@ local function hex(n)
   return string.format('#%06x', n)
 end
 
-local ICON = '󰧱'
+local ICON_ROSA = '󰧱'
+local ICON_TERMINAL = ''
+local ICONS = { rosa = ICON_ROSA, terminal = ICON_TERMINAL }
+
+local function icon_visible()
+  local ok, toggles = pcall(require, 'rosavim.config.toggles')
+  if not ok then
+    return true
+  end
+  local v = toggles.get 'rosaterm_icon_visible'
+  if v == nil then
+    return true
+  end
+  return v
+end
+
+local function icon_glyph()
+  local ok, toggles = pcall(require, 'rosavim.config.toggles')
+  if not ok then
+    return ICON_ROSA
+  end
+  return ICONS[toggles.get 'rosaterm_icon_style'] or ICON_ROSA
+end
+
+M.icon_visible = icon_visible
+M.icon_glyph = icon_glyph
 
 function M.setup_hl()
   local normal = api.nvim_get_hl(0, { name = 'Normal' })
@@ -80,15 +105,28 @@ function M.autoinsert_enabled()
   return v
 end
 
+--- Display name in the chip: 'Rosaterm' when full toggle on, 'Terminal' when off
+function M.name_text()
+  local ok, toggles = pcall(require, 'rosavim.config.toggles')
+  if not ok then
+    return 'Rosaterm'
+  end
+  local v = toggles.get 'rosaterm_name_full'
+  if v == false then
+    return 'Terminal'
+  end
+  return 'Rosaterm'
+end
+
 local CLOCK = '󰥔'
 
 --- Inline segments: small chip with `󰧱 Rosaterm hh:mm`
 local function inline_segments()
-  local segs = {
-    { ' ', 'RosatermBarBracket' },
-    { ICON .. ' ', 'RosatermBarIcon' },
-    { 'Rosaterm', 'RosatermBarName' },
-  }
+  local segs = { { ' ', 'RosatermBarBracket' } }
+  if icon_visible() then
+    table.insert(segs, { icon_glyph() .. ' ', 'RosatermBarIcon' })
+  end
+  table.insert(segs, { M.name_text(), 'RosatermBarName' })
   if M.time_enabled() then
     table.insert(segs, { ' ', 'RosatermBarBracket' })
     table.insert(segs, { get_time(), 'RosatermBarTime' })
@@ -99,15 +137,18 @@ end
 
 --- Banner segments: full-width bar with name on left and time on right
 local function banner_segments(width)
-  local left_text = ' ' .. ICON .. ' Rosaterm'
+  local name = M.name_text()
+  local show_icon = icon_visible()
+  local icon = icon_glyph()
+  local left_text = show_icon and (' ' .. icon .. ' ' .. name) or (' ' .. name)
   local left_w = vim.api.nvim_strwidth(left_text)
 
-  local segs = {
-    { ' ', 'RosatermBarBracket' },
-    { ICON, 'RosatermBarIcon' },
-    { ' ', 'RosatermBarBracket' },
-    { 'Rosaterm', 'RosatermBarName' },
-  }
+  local segs = { { ' ', 'RosatermBarBracket' } }
+  if show_icon then
+    table.insert(segs, { icon, 'RosatermBarIcon' })
+    table.insert(segs, { ' ', 'RosatermBarBracket' })
+  end
+  table.insert(segs, { name, 'RosatermBarName' })
 
   if M.time_enabled() then
     local right_text = ' ' .. CLOCK .. ' ' .. get_time() .. ' '
@@ -147,6 +188,19 @@ function M.chip_plain(width)
     s = s .. seg[1]
   end
   return s
+end
+
+--- Winbar-format text (`%#HlGroup#text...`) so the chip can be rendered
+--- inline as the window's winbar instead of an overlay float — used for
+--- native splits where the overlay would clamp off-screen and misalign.
+function M.winbar_text(width)
+  local parts = {}
+  for _, seg in ipairs(M.chip_segments(width)) do
+    -- Escape % in segment text so it isn't interpreted as a statusline item
+    local safe = seg[1]:gsub('%%', '%%%%')
+    table.insert(parts, '%#' .. seg[2] .. '#' .. safe)
+  end
+  return table.concat(parts) .. '%*'
 end
 
 local CHIP_NS = api.nvim_create_namespace 'rosaterm_chip'

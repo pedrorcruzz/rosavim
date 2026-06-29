@@ -50,6 +50,11 @@ return {
       { '<leader>l', group = 'Tools', icon = ' ' },
       { '<leader>lq', group = 'Theme', icon = '' },
       { '<leader>lqd', group = 'Dashboard', icon = '' },
+      { '<leader>lqr', desc = 'Rosaterm: Select Theme', icon = '' },
+      { '<leader>lqa', desc = 'RosaAI: Select Theme', icon = ' ' },
+      { '<leader>lqp', desc = 'Picker Layout', icon = '󰠲' },
+      { '<leader>lqw', desc = 'Which-Key Preset', icon = '󰌌' },
+      { '<leader>lqb', desc = 'Which-Key Border', icon = '󰹞' },
       { '<leader>lp', desc = 'Rosadirs: Manage Dirs', icon = '' },
       { '<leader>lx', group = 'Virtual Environment', icon = ' ' },
       { '<leader>le', group = 'GrugFar', icon = '󰛔' },
@@ -60,9 +65,8 @@ return {
       { '<leader>lae', group = 'Editor', icon = '' },
       { '<leader>lal', group = 'LSP', icon = '' },
       { '<leader>lad', group = 'DBUI', icon = '󰆼' },
-      { '<leader>law', group = 'Which-Key', icon = '󰌌' },
       { '<leader>lat', group = 'Rosaterm', icon = '' },
-      { '<leader>laa', group = 'Rosaai', icon = ' ' },
+      { '<leader>laa', group = 'RosaAI', icon = ' ' },
       { '<leader>lau', group = 'Dropbar', icon = '󰜢 ' },
 
       -- Rosakit
@@ -167,7 +171,7 @@ return {
     -- { '<leader>gt', '<cmd>FzfLua git_stash<CR>', desc = 'Git: Stash' },
 
     --Window
-    -- Directional focus falls back to the Rosaai CLI float if there's no
+    -- Directional focus falls back to the RosaAI CLI float if there's no
     -- split in that direction (wincmd h/j/k/l skip floats by design).
     {
       '<leader>1',

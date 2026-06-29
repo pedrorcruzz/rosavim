@@ -1,4 +1,4 @@
---- Rosaai state - Tracks open terminal sessions per CLI tool
+--- RosaAI state - Tracks open terminal sessions per CLI tool
 --- A session lives across hide/show: the terminal buffer + job are kept
 --- alive so the chat history persists when the user toggles the window.
 local M = {}

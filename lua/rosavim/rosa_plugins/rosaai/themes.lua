@@ -1,4 +1,4 @@
---- Rosaai themes - Visual styles for the CLI window + chip
+--- RosaAI themes - Visual styles for the CLI window + chip
 --- `border` controls the chip overlay border; `window` controls the
 --- border of the float window itself (no effect on splits).
 local M = {}

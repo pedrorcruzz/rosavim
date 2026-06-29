@@ -64,7 +64,7 @@ return function()
   }):map '<leader>lasi'
 
   -- Picker Layout — uses vim.ui.select (rendered by snacks)
-  vim.keymap.set('n', '<leader>lasl', function()
+  vim.keymap.set('n', '<leader>lqp', function()
     local presets = {
       { name = 'default', icon = '󰠲 ' },
       { name = 'telescope', icon = '󰭎 ' },
@@ -130,7 +130,7 @@ return function()
   end, { desc = 'Picker Border' })
 
   -- Which-Key Preset — uses vim.ui.select (rendered by snacks)
-  vim.keymap.set('n', '<leader>lawp', function()
+  vim.keymap.set('n', '<leader>lqw', function()
     local presets = {
       { name = 'classic', icon = '󰌌 ' },
       { name = 'modern', icon = '󰏗 ' },
@@ -154,7 +154,7 @@ return function()
   end, { desc = 'Which-Key Preset' })
 
   -- Which-Key Border — uses vim.ui.select (rendered by snacks)
-  vim.keymap.set('n', '<leader>lawb', function()
+  vim.keymap.set('n', '<leader>lqb', function()
     local borders = {
       { name = 'none', icon = '󰹞 ' },
       { name = 'single', icon = '󰡎 ' },

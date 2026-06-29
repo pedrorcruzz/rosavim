@@ -1,4 +1,4 @@
---- Rosaai - Native AI CLI integration for Rosavim
+--- RosaAI - Native AI CLI integration for Rosavim
 --- One persistent terminal per supported CLI tool (claude, cursor-agent,
 --- openclaude, gemini, ...). Layout/theme are configurable through the
 --- shared toggles store and mirror the look-and-feel of rosaterm.

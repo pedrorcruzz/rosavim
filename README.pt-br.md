@@ -96,7 +96,7 @@ Rosavim oferece suporte completo (LSP, formatação, linting, testes e debug) pa
 ### IA
 
 - **GitHub Copilot** integrado ao autocompletion
-- **Rosaai** integração nativa com CLIs de IA (Claude, Cursor, OpenClaude, Gemini, ...) com janela temática, preview no editor e bordas rounded por orientação
+- **RosaAI** integração nativa com CLIs de IA (Claude, Cursor, OpenClaude, Gemini, ...) com janela temática, preview no editor e bordas rounded por orientação
 
 ### UI & Aparência
 
@@ -122,7 +122,7 @@ Rosavim oferece suporte completo (LSP, formatação, linting, testes e debug) pa
 ### Terminal
 
 - **Rosaterm** — Plugin de terminal próprio do Rosavim. Float e splits sem dependências externas. Float com múltiplas instâncias (cicla com `<C-j>`/`<C-k>`), splits abertos relativos à janela focada com divisão igual, e um chip de título customizável mostrando `󰧱 Rosaterm hh:mm`
-  - **4 temas de chip** selecionáveis em `<leader>lats`: `Bloom` (chip arredondado), `Petal` (sem borda), `Garland` (banner em largura cheia), `Stem` (texto + linha separadora)
+  - **4 temas de chip** selecionáveis em `<leader>lqr`: `Bloom` (chip arredondado), `Petal` (sem borda), `Garland` (banner em largura cheia), `Stem` (texto + linha separadora)
   - **Toggles persistentes** sob `<leader>lat`: esconder chip, esconder hora, modo insert ao abrir
 
 ### Ferramentas Extras
@@ -203,7 +203,7 @@ Na primeira execução, o **Lazy.nvim** instalará todos os plugins e o **Mason*
 │   │   └── snippets/                 # Snippets customizados
 │   ├── plugins/
 │   │   ├── env/                      # LSP, Mason, Treesitter, DAP, Lint, Format
-│   │   ├── ai/                       # Copilot, Rosaai
+│   │   ├── ai/                       # Copilot, RosaAI
 │   │   ├── ui/                       # Temas, statusline, dashboard
 │   │   ├── editor/                   # Terminal, navegação, Rosafile
 │   │   ├── coding/                   # Surround, multi-cursor, refactoring
@@ -256,7 +256,7 @@ Na primeira execução, o **Lazy.nvim** instalará todos os plugins e o **Mason*
 | `<S-x>` | Rosaterm: Terminal Horizontal |
 | `<leader>cii` | Rosaterm: Split Vertical |
 | `<leader>cie` | Rosaterm: Split Horizontal |
-| `<leader>lats` | Rosaterm: Selecionar Tema |
+| `<leader>lqr` | Rosaterm: Selecionar Tema |
 | `s` | Flash Jump |
 | `kj` | Sair do Insert Mode |
 

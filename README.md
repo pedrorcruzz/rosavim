@@ -96,7 +96,7 @@ Rosavim ships with full support (LSP, formatting, linting, testing, and debuggin
 ### AI
 
 - **GitHub Copilot** integrated into autocompletion
-- **Rosaai** native AI CLI integration (Claude, Cursor, OpenClaude, Gemini, ...) with themed window, in-editor preview prompt and per-orientation rounded borders
+- **RosaAI** native AI CLI integration (Claude, Cursor, OpenClaude, Gemini, ...) with themed window, in-editor preview prompt and per-orientation rounded borders
 
 ### UI & Appearance
 
@@ -122,7 +122,7 @@ Rosavim ships with full support (LSP, formatting, linting, testing, and debuggin
 ### Terminal
 
 - **Rosaterm** — Rosavim's built-in terminal plugin. Float and split terminals with no external dependencies. Multi-instance float (cycle with `<C-j>`/`<C-k>`), splits opened relative to the focused window with equal-divide, and a customizable title chip showing `󰧱 Rosaterm hh:mm`
-  - **4 chip themes** selectable in `<leader>lats`: `Bloom` (rounded chip), `Petal` (no border), `Garland` (full-width banner), `Stem` (text + separator line)
+  - **4 chip themes** selectable in `<leader>lqr`: `Bloom` (rounded chip), `Petal` (no border), `Garland` (full-width banner), `Stem` (text + separator line)
   - **Persistent toggles** under `<leader>lat`: hide chip, hide time, auto-insert on open
 
 ### Extra Tools
@@ -203,7 +203,7 @@ On the first launch, **Lazy.nvim** will install all plugins and **Mason** will s
 │   │   └── snippets/                 # Custom snippets
 │   ├── plugins/
 │   │   ├── env/                      # LSP, Mason, Treesitter, DAP, Lint, Format
-│   │   ├── ai/                       # Copilot, Rosaai
+│   │   ├── ai/                       # Copilot, RosaAI
 │   │   ├── ui/                       # Themes, statusline, dashboard
 │   │   ├── editor/                   # Terminal, navigation, Rosafile
 │   │   ├── coding/                   # Surround, multi-cursor, refactoring
@@ -256,7 +256,7 @@ On the first launch, **Lazy.nvim** will install all plugins and **Mason** will s
 | `<S-x>` | Rosaterm: Horizontal Terminal |
 | `<leader>cii` | Rosaterm: Vertical Split |
 | `<leader>cie` | Rosaterm: Horizontal Split |
-| `<leader>lats` | Rosaterm: Select Theme |
+| `<leader>lqr` | Rosaterm: Select Theme |
 | `s` | Flash Jump |
 | `kj` | Exit Insert Mode |
 

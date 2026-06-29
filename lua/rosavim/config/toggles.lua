@@ -35,7 +35,7 @@ local defaults = {
   whichkey_preset = 'modern',
   whichkey_border = 'single',
   explorer_right = false,
-  -- Rosaai
+  -- RosaAI
   rosaai_position = 'right',
   rosaai_size = 'default',
   rosaai_theme = 'garland',
@@ -55,6 +55,9 @@ local defaults = {
   rosaterm_autoinsert = true,
   rosaterm_vertical_border = false,
   rosaterm_horizontal_border = false,
+  rosaterm_name_full = true,
+  rosaterm_icon_visible = true,
+  rosaterm_icon_style = 'rosa', -- 'rosa' | 'terminal'
   -- Dropbar
   dropbar_compact = false, -- false = full path (16 segments), true = parent + filename only
   dropbar_path_preview = true,

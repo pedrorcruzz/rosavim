@@ -14,6 +14,57 @@ local resize_au = nil
 -- ensure_resize_au() before reposition_floats() is defined further down.
 local reposition_floats
 
+-- Per-window saved scrolloff before we inflated it for a horizontal float.
+-- Keyed by win id so we can restore exactly what each window had.
+local saved_scrolloff = {}
+
+-- Bump scrolloff on every editor (non-float, non-rosaterm) window to at
+-- least `target` rows. This is how horizontal pinned floats stay usable:
+-- nvim doesn't know the float covers the bottom of those windows, so we
+-- effectively reserve `target` rows for the float by stopping the cursor
+-- before it can fall behind it. Buffer can still be scrolled to view any
+-- line — cursor just parks above the float.
+local function inflate_scrolloff(target)
+  for _, win in ipairs(api.nvim_list_wins()) do
+    local ok, cfg = pcall(api.nvim_win_get_config, win)
+    if ok and (not cfg.relative or cfg.relative == '') then
+      local buf = api.nvim_win_get_buf(win)
+      if vim.bo[buf].filetype ~= 'rosaterm' then
+        if saved_scrolloff[win] == nil then
+          saved_scrolloff[win] = vim.wo[win].scrolloff
+        end
+        if vim.wo[win].scrolloff < target then
+          vim.wo[win].scrolloff = target
+        end
+      end
+    end
+  end
+end
+
+local function deflate_scrolloff()
+  for win, val in pairs(saved_scrolloff) do
+    if api.nvim_win_is_valid(win) then
+      pcall(function()
+        vim.wo[win].scrolloff = val
+      end)
+    end
+  end
+  saved_scrolloff = {}
+end
+
+-- Any horizontal pinned float still open?
+local function any_horizontal_float_open(terms)
+  for _, t in pairs(terms) do
+    if t.win and api.nvim_win_is_valid(t.win) and t.direction == 'horizontal' then
+      local ok, cfg = pcall(api.nvim_win_get_config, t.win)
+      if ok and cfg.relative and cfg.relative ~= '' then
+        return true
+      end
+    end
+  end
+  return false
+end
+
 --- Pick the winhl for the terminal window. Dark mode follows the theme's
 --- Normal bg (which is already dark). Light mode forces #000 — the shell
 --- prompt assumes a dark terminal, and a light bg makes light-on-light
@@ -40,6 +91,13 @@ local function close_chip(term)
     pcall(api.nvim_win_close, term.chip_win, true)
   end
   term.chip_win = nil
+  -- Also clear any winbar fallback the terminal window might have set.
+  if term.win and api.nvim_win_is_valid(term.win) then
+    pcall(function()
+      vim.wo[term.win].winbar = ''
+    end)
+  end
+  term._chip_mode = nil
 end
 
 local function open_chip(term)
@@ -56,25 +114,50 @@ local function open_chip(term)
   local outer_width = has_border and (win_width + 2) or win_width
   local outer_col = pos[2]
 
+  -- Fallback: when the terminal is a NATIVE split AND the chip overlay
+  -- would clamp off-screen (pos[1] too low for a 3-row chip above), use
+  -- the window's winbar to render the chip text inline. No rounded box,
+  -- but perfect alignment with no gap and no content coverage. This is
+  -- what fixes the vertical vsplit case where pos[1] = 0.
+  if not has_border and pos[1] < 3 then
+    pcall(api.nvim_win_close, term.chip_win or -1, true)
+    term.chip_win = nil
+    pcall(function()
+      vim.wo[term.win].winbar = bar.winbar_text(win_width)
+    end)
+    term._chip_mode = 'winbar'
+    return
+  end
+  -- Switching back to overlay mode? Clear any leftover winbar.
+  if term._chip_mode == 'winbar' then
+    pcall(function()
+      vim.wo[term.win].winbar = ''
+    end)
+    term._chip_mode = nil
+  end
+
   local width, col, row
+  -- Position the chip so its bottom border lands exactly on the float's
+  -- top border row (engraved look, zero gap). nvim_win_get_position
+  -- returns the float's FRAME top (= top border row), so chip outer
+  -- bottom must equal pos[1] → chip outer top = pos[1] - (outer_h - 1).
+  --   outer_h = content_rows + 2 (top + bottom border)
+  --     inline:  1 + 2 = 3 → row = pos[1] - 2
+  --     banner:  1 + 2 = 3 → row = pos[1] - 2
+  --     stem:    2 + 2 = 4 → row = pos[1] - 3
   if theme.layout == 'banner' then
-    -- Banner: span the float's full outer width so chip and float align.
     width = outer_width
     col = outer_col
     row = pos[1] - 2
   elseif theme.layout == 'stem' then
     width = outer_width
     col = outer_col
-    row = pos[1] - 2
+    row = pos[1] - 3
   else
-    -- Inline: small chip centered above the float. Sit one row above
-    -- the float's top border so the chip's bottom border crosses the
-    -- float's border (engraved tab look — chip body above, bottom
-    -- corners crossing into the terminal).
     local text = bar.chip_plain()
     width = vim.api.nvim_strwidth(text)
     col = outer_col + math.floor((outer_width - width) / 2)
-    row = pos[1] - 1
+    row = pos[1] - 2
   end
   if row < 0 then
     row = 0
@@ -137,6 +220,30 @@ local function reposition_all_chips()
   end
 end
 
+-- Debounce reposition: layout events (WinResized, WinNew, WinClosed) can
+-- fire many times in quick succession (interactive resizes, picker label
+-- floats opening, diff view spawning multiple windows). Coalesce into one
+-- reposition pass per ~16ms tick.
+local reposition_timer = nil
+local function schedule_reposition()
+  if reposition_timer then
+    pcall(function()
+      reposition_timer:stop()
+      reposition_timer:close()
+    end)
+  end
+  reposition_timer = vim.uv.new_timer()
+  reposition_timer:start(
+    16,
+    0,
+    vim.schedule_wrap(function()
+      reposition_timer = nil
+      reposition_floats()
+      reposition_all_chips()
+    end)
+  )
+end
+
 local function ensure_resize_au()
   if resize_au then
     return
@@ -144,20 +251,13 @@ local function ensure_resize_au()
   resize_au = api.nvim_create_augroup('RosatermSplitChip', { clear = true })
   api.nvim_create_autocmd({ 'WinResized' }, {
     group = resize_au,
-    callback = function()
-      vim.schedule(reposition_all_chips)
-    end,
+    callback = schedule_reposition,
   })
   api.nvim_create_autocmd({ 'VimResized' }, {
     group = resize_au,
-    callback = function()
-      vim.schedule(function()
-        reposition_floats()
-        reposition_all_chips()
-      end)
-    end,
+    callback = schedule_reposition,
   })
-  -- React to non-rosaterm window opens/closes (Snacks Explorer, Rosaai,
+  -- React to non-rosaterm window opens/closes (Snacks Explorer, RosaAI,
   -- etc) so the terminal float slides to respect the new layout. Events
   -- from the terminal's own chip overlays are filtered out to prevent
   -- the infinite WinNew → reposition → reopen-chip → WinNew loop.
@@ -170,10 +270,7 @@ local function ensure_resize_au()
           return
         end
       end
-      vim.schedule(function()
-        reposition_floats()
-        reposition_all_chips()
-      end)
+      schedule_reposition()
     end,
   })
   api.nvim_create_autocmd('WinClosed', {
@@ -188,6 +285,9 @@ local function ensure_resize_au()
           bar.detach(term.win)
           close_chip(term)
           term.win = nil
+          if not any_horizontal_float_open(terms) then
+            deflate_scrolloff()
+          end
           vim.schedule(function()
             reposition_floats()
             reposition_all_chips()
@@ -210,9 +310,32 @@ local function border_for(direction)
   return toggles.get 'rosaterm_vertical_border'
 end
 
+--- Sidebar filetypes that should ALWAYS count as side panels regardless
+--- of size (Snacks Explorer, Neotree, NvimTree, oil, etc.). Editor diff
+--- panes / vsplit halves are explicitly NOT sidebars even at 50% width.
+local SIDEBAR_FILETYPES = {
+  ['snacks_explorer'] = true,
+  ['snacks_picker_list'] = true,
+  ['snacks_picker_input'] = true,
+  ['snacks_layout_box'] = true,
+  ['neo-tree'] = true,
+  ['NvimTree'] = true,
+  ['oil'] = true,
+  ['Outline'] = true,
+  ['aerial'] = true,
+  ['dbui'] = true,
+  ['dbout'] = true,
+  ['Trouble'] = true,
+  ['trouble'] = true,
+  ['undotree'] = true,
+  ['diff'] = false, -- diff is part of the editing area, not a sidebar
+}
+
 --- Compute the editor "main area" rect, excluding left/right sidebars
---- (regular splits anchored to an edge) and other focusable floats
---- (Rosaai CLI, etc). Skips rosaterm windows so they don't constrain
+--- (regular splits anchored to an edge with a known sidebar filetype OR
+--- a window that's both narrow AND edge-anchored). Diff/vsplit editor
+--- panes are kept as part of the main area so a horizontal rosaterm
+--- spans across them. Skips rosaterm windows so they don't constrain
 --- themselves recursively.
 local function compute_main_area(skip_terms)
   local cols = vim.o.columns
@@ -243,19 +366,28 @@ local function compute_main_area(skip_terms)
         end
         local outer_col = pos[2]
         local right_edge = outer_col + outer_w
-        -- Anchored sidebars: a narrow window touching (or near) the
-        -- left/right edge counts as a side panel. Snacks Picker /
-        -- Explorer floats sit a cell or two inside the edge, so we
-        -- give a 2-col tolerance.
-        if outer_w < cols * 0.5 then
-          if outer_col <= 2 then
+        local touches_left = outer_col <= 2
+        local touches_right = right_edge >= cols - 2
+        -- Two ways to count as a sidebar:
+        --   1. Known sidebar filetype (Snacks Explorer, etc.) anchored to an edge
+        --   2. Narrow window (< 35% of total cols) anchored to an edge
+        -- Editor panes from :vsplit / diff view are ~50% each and must
+        -- NOT trigger #2, which is why the threshold is tight.
+        local is_known_sidebar = SIDEBAR_FILETYPES[ft] == true
+        local is_narrow_edge = outer_w < cols * 0.35
+        if (is_known_sidebar or is_narrow_edge) and (touches_left or touches_right) then
+          if touches_left then
             left = math.max(left, right_edge)
-          elseif right_edge >= cols - 2 then
+          else
             right = math.max(right, cols - outer_col)
           end
         end
       end
     end
+  end
+  -- Safety: never let sidebars eat more than 70% of the screen.
+  if left + right > cols * 0.7 then
+    left, right = 0, 0
   end
   return { col = left, row = 0, width = cols - left - right, height = lines }
 end
@@ -555,12 +687,14 @@ local function open_split(term)
     end
     term.win = api.nvim_open_win(term.buf, true, geom)
     vim.wo[term.win].winhl = term_winhl(true)
-    -- Vertical floats render the chip with its bottom border crossing
-    -- the float's top border (engraved). To stop that overlap from
-    -- covering the shell prompt at the top of the terminal, push the
-    -- content down by 1 row using an empty winbar.
-    if term.direction == 'vertical' then
-      vim.wo[term.win].winbar = ' '
+    -- (winbar workaround removed — chip now lands its bottom border on
+    -- the float's top border row, so it never covers content row 0.)
+    -- Horizontal pinned float covers the bottom rows of the editor.
+    -- Nvim doesn't know about it, so the cursor can fall behind it.
+    -- Inflate scrolloff on every editor window so the cursor parks
+    -- above the float — buffer still scrolls so you can reach any line.
+    if term.direction == 'horizontal' then
+      inflate_scrolloff(geom.height + 2 + 1) -- inner + border + 1 gap
     end
   else
     -- Native split mode (no border possible — preserves the historical look)

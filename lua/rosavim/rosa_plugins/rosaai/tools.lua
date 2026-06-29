@@ -1,4 +1,4 @@
---- Rosaai tools - Registry of supported AI CLI tools
+--- RosaAI tools - Registry of supported AI CLI tools
 --- Each tool declares its command, icon and the executable name used for
 --- availability detection. Only tools whose binary is in $PATH are surfaced.
 local M = {}

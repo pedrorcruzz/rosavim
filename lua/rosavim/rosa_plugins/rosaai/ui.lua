@@ -1,4 +1,4 @@
---- Rosaai ui - Pickers for theme / position / size / border
+--- RosaAI ui - Pickers for theme / position / size / border
 --- All four use vim.ui.select so they inherit the snacks picker layout
 --- the user has configured globally (<leader>lasl, <leader>lasb).
 local M = {}
@@ -33,7 +33,7 @@ function M.pick_theme()
     table.insert(items, { name = t.name, label = t.label, icon = t.icon .. ' ' })
   end
   pick {
-    prompt = 'Rosaai · select theme',
+    prompt = 'RosaAI · select theme',
     kind = 'rosaai_theme',
     items = items,
     current = function()
@@ -41,7 +41,7 @@ function M.pick_theme()
     end,
     on_select = function(item)
       themes.set(item.name)
-      Snacks.notify.info('Rosaai theme: ' .. item.name)
+      Snacks.notify.info('RosaAI theme: ' .. item.name)
     end,
   }
 end
@@ -49,7 +49,7 @@ end
 function M.pick_position()
   local layout = require 'rosavim.rosa_plugins.rosaai.layout'
   pick {
-    prompt = 'Rosaai · select position',
+    prompt = 'RosaAI · select position',
     kind = 'rosaai_position',
     items = layout.positions,
     current = function()
@@ -57,7 +57,7 @@ function M.pick_position()
     end,
     on_select = function(item)
       require('rosavim.config.toggles').set('rosaai_position', item.name)
-      Snacks.notify.info('Rosaai position: ' .. item.name)
+      Snacks.notify.info('RosaAI position: ' .. item.name)
       require('rosavim.rosa_plugins.rosaai').relayout()
     end,
   }
@@ -66,7 +66,7 @@ end
 function M.pick_size()
   local layout = require 'rosavim.rosa_plugins.rosaai.layout'
   pick {
-    prompt = 'Rosaai · select size',
+    prompt = 'RosaAI · select size',
     kind = 'rosaai_size',
     items = layout.sizes,
     current = function()
@@ -74,7 +74,7 @@ function M.pick_size()
     end,
     on_select = function(item)
       require('rosavim.config.toggles').set('rosaai_size', item.name)
-      Snacks.notify.info('Rosaai size: ' .. item.name)
+      Snacks.notify.info('RosaAI size: ' .. item.name)
       require('rosavim.rosa_plugins.rosaai').relayout()
     end,
   }

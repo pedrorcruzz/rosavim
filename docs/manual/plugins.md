@@ -167,7 +167,7 @@ Rosavim ships with its own built-in themes, stored in `lua/rosavim/rosa_themes/`
 |:-------|:------------|
 | [copilot.lua](https://github.com/zbirenbaum/copilot.lua) | GitHub Copilot integration |
 | [copilot-lualine](https://github.com/AndreM222/copilot-lualine) | Copilot status in the statusline |
-| Rosaai | Built-in native AI CLI integration (Claude, Cursor, OpenClaude, Gemini, ...) with themes, preview Ask AI and per-orientation rounded borders |
+| RosaAI | Built-in native AI CLI integration (Claude, Cursor, OpenClaude, Gemini, ...) with themes, preview Ask AI and per-orientation rounded borders |
 
 ---
 

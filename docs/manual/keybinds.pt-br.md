@@ -16,7 +16,7 @@
 - [Formatação & Code Actions](#formatação--code-actions)
 - [Refatoração](#refatoração)
 - [Terminal](#terminal)
-- [IA (Copilot & Rosaai)](#ia-copilot--rosaai)
+- [IA (Copilot & RosaAI)](#ia-copilot--rosaai)
 - [Operações de Arquivo](#operações-de-arquivo)
 - [Rosadirs (diretórios de Projects & Obsidian)](#rosadirs-diretórios-de-projects--obsidian)
 - [Rosapoon (Favoritos)](#rosapoon-favoritos)
@@ -282,7 +282,7 @@
 
 ---
 
-## IA (Copilot & Rosaai)
+## IA (Copilot & RosaAI)
 
 ### Copilot
 
@@ -296,13 +296,13 @@
 | n | `<leader>aii` | Alternar | `Space a i i` para alternar Copilot on/off (persistido) |
 | n | `<leader>aip` | Painel | `Space a i p` para abrir o painel de sugestões do Copilot |
 
-### Rosaai
+### RosaAI
 
 Integração nativa com CLIs de IA (Claude, Cursor, OpenClaude, Gemini etc.). Cada tool tem sua própria sessão persistente — trocar de tool ou de layout preserva o histórico. O popup de layout no `<leader>aa` só aparece na primeira vez; depois disso ele apenas alterna (toggle) o último layout.
 
 | Modo | Tecla | Ação | Exemplo |
 |:----:|:------|:-----|:--------|
-| n,t,i,x | `<C-.>` | Focar Rosaai | `Ctrl+.` para focar a janela do Rosaai |
+| n,t,i,x | `<C-.>` | Focar RosaAI | `Ctrl+.` para focar a janela do RosaAI |
 | n | `<leader>aa` | Toggle CLI (smart) | Primeira vez pergunta layout `v/h/f`; depois alterna o último layout |
 | x | `<leader>aa` | Ask AI (preview + prompt) | Selecione código, `Space a a` para abrir preview + caixa de prompt |
 | n | `<leader>av` | Abrir Vertical | Abre (ou esconde se já estiver vertical) na borda right/left |
@@ -418,11 +418,11 @@ Dentro do terminal do CLI: um `<Esc>` sai pro modo normal do nvim; `<Esc> <Esc>`
 | n | `<leader>lc` | Alternar Incline | `Space l c` para mostrar/ocultar o indicador flutuante de nome de arquivo |
 | n | `<leader>ls` | Alternar auto-save | `Space l s` para ativar/desativar salvamento automático |
 | n | `<leader>lm` | Toggle Image Preview | `Space l m` para alternar preview de imagem on/off (padrão: desativado) |
-| n | `<leader>lasl` | Picker Layout | `Space l a s l` para abrir popup de seleção de layout do picker |
+| n | `<leader>lqp` | Picker Layout | `Space l q p` para abrir popup de seleção de layout do picker |
 | n | `<leader>lasp` | Picker Preview | `Space l a s p` para alternar preview do picker on/off |
 | n | `<leader>lasb` | Picker Border | `Space l a s b` para abrir popup de seleção de borda do picker |
-| n | `<leader>lawp` | Which-Key Preset | `Space l a w p` para abrir popup de seleção de preset do which-key |
-| n | `<leader>lawb` | Which-Key Border | `Space l a w b` para abrir popup de seleção de borda do which-key |
+| n | `<leader>lqw` | Which-Key Preset | `Space l q w` para abrir popup de seleção de preset do which-key |
+| n | `<leader>lqb` | Which-Key Border | `Space l q b` para abrir popup de seleção de borda do which-key |
 | n | `<leader>uu` | Alternar Markview | `Space u t` para alternar renderização aprimorada de markdown |
 | n | `<leader>ua` | Preview de markdown | `Space u a` para abrir preview de markdown no navegador |
 | n | `<leader>zz` | Escolher símbolo da winbar | `Space z z` para escolher um símbolo da barra de breadcrumb |

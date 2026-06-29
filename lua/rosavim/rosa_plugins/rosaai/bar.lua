@@ -1,4 +1,4 @@
---- Rosaai bar - Title chip rendered on the top border of the CLI window
+--- RosaAI bar - Title chip rendered on the top border of the CLI window
 local M = {}
 
 local api = vim.api
@@ -66,16 +66,16 @@ end
 
 local function tool_label(tool_name)
   if not tool_name then
-    return 'Rosaai'
+    return 'RosaAI'
   end
   local ok, tools = pcall(require, 'rosavim.rosa_plugins.rosaai.tools')
   if ok then
     local t = tools.get(tool_name)
     if t then
-      return 'Rosaai · ' .. t.label
+      return 'RosaAI · ' .. t.label
     end
   end
-  return 'Rosaai'
+  return 'RosaAI'
 end
 
 local function inline_segments(tool_name)
