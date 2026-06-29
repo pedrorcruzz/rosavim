@@ -346,12 +346,17 @@ local function route_ask(msg, opts)
 end
 
 --- Smart toggle:
---- - open + matches → hide
+--- - open + matches + focused → hide
+--- - open + matches + not focused → focus it (saves a leaderm trip)
 --- - never opened any CLI before → show layout picker, then show
 --- - otherwise → reuse the last saved position (no picker)
 function M.toggle_with_picker(tool_name)
   if win_open() and (not tool_name or state.active == tool_name) then
-    M.hide()
+    if api.nvim_get_current_win() == state.win then
+      M.hide()
+    else
+      M.focus()
+    end
     return
   end
   -- Skip the picker once any session has ever been created.

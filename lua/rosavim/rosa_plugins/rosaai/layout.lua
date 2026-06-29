@@ -170,7 +170,7 @@ function M.open(buf, prev_win)
   vim.wo[win].number = false
   vim.wo[win].relativenumber = false
   vim.wo[win].signcolumn = 'no'
-  vim.wo[win].winhl = 'Normal:Normal,FloatBorder:FloatBorder'
+  vim.wo[win].winhl = 'Normal:Normal,FloatBorder:FloatBorder,WinBar:Normal,WinBarNC:Normal'
   vim.wo[win].winbar = ''
   return win, kind
 end

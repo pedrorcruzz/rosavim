@@ -80,8 +80,8 @@ local function set_groups()
     PmenuSel = { fg = colors.fg, bg = colors.bg, reverse = true },
     StatusLine = { fg = colors.border, bg = config.transparent and 'NONE' or (vim.o.background == 'dark' and '#525252' or bg), bold = true },
     StatusLineNC = { fg = colors.border, bg = config.transparent and 'NONE' or (vim.o.background == 'dark' and '#414141' or bg), bold = true },
-    StatusLineTerm = { fg = colors.border, bg = config.transparent and 'NONE' or (vim.o.background == 'dark' and '#525252' or bg), bold = true },
-    StatusLineTermNC = { fg = colors.border, bg = config.transparent and 'NONE' or (vim.o.background == 'dark' and '#414141' or bg), bold = true },
+    StatusLineTerm = { fg = colors.border, bg = config.transparent and 'NONE' or (vim.o.background == 'dark' and '#1A1A1A' or bg), bold = true },
+    StatusLineTermNC = { fg = colors.border, bg = config.transparent and 'NONE' or (vim.o.background == 'dark' and '#1A1A1A' or bg), bold = true },
     TabLineSel = { fg = colors.fg, bg = colors.bg, reverse = true },
     VisualNOS = { fg = colors.comment, bg = colors.bg, reverse = true },
 
@@ -267,7 +267,7 @@ local function set_groups()
 
     -- snacks picker
     SnacksPicker = { bg = sidebar },
-    SnacksPickerBorder = { fg = config.transparent and colors.border or (vim.o.background == 'dark' and '#303030' or '#C0C5D0'), bg = config.transparent and 'NONE' or (vim.o.background == 'dark' and '#767676' or '#DEE2EC') },
+    SnacksPickerBorder = { fg = config.transparent and '#4C4C4C' or (vim.o.background == 'dark' and '#303030' or '#C0C5D0'), bg = config.transparent and 'NONE' or (vim.o.background == 'dark' and '#767676' or '#DEE2EC') },
     SnacksPickerTitle = { fg = colors.fg, bg = sidebar },
     SnacksPickerInputTitle = { fg = colors.fg, bg = sidebar },
     SnacksPickerInput = { bg = sidebar },
@@ -353,7 +353,7 @@ local function set_groups()
     -- which-key
     WhichKey = { fg = colors.fg, bg = sidebar },
     WhichKeyNormal = { fg = colors.fg, bg = sidebar },
-    WhichKeyBorder = { fg = config.transparent and colors.border or (vim.o.background == 'dark' and '#303030' or '#C0C5D0'), bg = config.transparent and 'NONE' or (vim.o.background == 'dark' and '#767676' or '#DEE2EC') },
+    WhichKeyBorder = { fg = config.transparent and '#4C4C4C' or (vim.o.background == 'dark' and '#303030' or '#C0C5D0'), bg = config.transparent and 'NONE' or (vim.o.background == 'dark' and '#767676' or '#DEE2EC') },
     WhichKeyTitle = { fg = colors.fgAlt, bg = sidebar },
     WhichKeyGroup = { fg = colors.green },
     WhichKeyDesc = { fg = colors.fg },

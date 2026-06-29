@@ -157,7 +157,12 @@ local function show_current()
   state.geom = calc_geom()
   if not win_open() then
     state.win = api.nvim_open_win(term.buf, true, state.geom)
-    vim.wo[state.win].winhl = 'Normal:Normal,FloatBorder:FloatBorder'
+    local winhl = 'Normal:Normal,FloatBorder:FloatBorder'
+    if vim.o.background == 'light' then
+      api.nvim_set_hl(0, 'RosatermNormal', { bg = '#000000', fg = '#d4d0c8' })
+      winhl = 'Normal:RosatermNormal,FloatBorder:FloatBorder'
+    end
+    vim.wo[state.win].winhl = winhl
     vim.wo[state.win].winbar = ''
   else
     api.nvim_win_set_buf(state.win, term.buf)

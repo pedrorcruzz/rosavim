@@ -27,7 +27,7 @@ local function get_windows()
   local current = vim.api.nvim_get_current_win()
   for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
     local cfg = vim.api.nvim_win_get_config(win)
-    if cfg.relative == '' then
+    if cfg.relative == '' or cfg.focusable ~= false then
       table.insert(wins, { id = win, is_current = win == current })
     end
   end

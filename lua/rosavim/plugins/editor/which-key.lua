@@ -167,10 +167,36 @@ return {
     -- { '<leader>gt', '<cmd>FzfLua git_stash<CR>', desc = 'Git: Stash' },
 
     --Window
-    { '<leader>1', '<cmd>wincmd h<cr>', desc = 'Focus Left' },
-    { '<leader>2', '<cmd>wincmd l<cr>', desc = 'Focus Right' },
-    { '<leader>3', '<cmd>wincmd j<cr>', desc = 'Focus Down' },
-    { '<leader>4', '<cmd>wincmd k<cr>', desc = 'Focus Up' },
+    -- Directional focus falls back to the Rosaai CLI float if there's no
+    -- split in that direction (wincmd h/j/k/l skip floats by design).
+    {
+      '<leader>1',
+      function()
+        require('rosavim.config.focus').go 'h'
+      end,
+      desc = 'Focus Left',
+    },
+    {
+      '<leader>2',
+      function()
+        require('rosavim.config.focus').go 'l'
+      end,
+      desc = 'Focus Right',
+    },
+    {
+      '<leader>3',
+      function()
+        require('rosavim.config.focus').go 'j'
+      end,
+      desc = 'Focus Down',
+    },
+    {
+      '<leader>4',
+      function()
+        require('rosavim.config.focus').go 'k'
+      end,
+      desc = 'Focus Up',
+    },
     { '<leader>cq', '<cmd>vsplit<cr>', desc = 'Split Vertical' },
     { '<leader>ce', '<cmd>split<cr>', desc = 'Split Horizontal' },
     { '<leader>cC', '<cmd>only<cr>', desc = 'Close all Others' },
