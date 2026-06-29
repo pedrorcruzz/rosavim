@@ -33,6 +33,12 @@ function M.refresh_chips()
   split.refresh_all()
 end
 
+--- Forward resize_arrow to the split module so smart-splits can fall
+--- through to the rosaterm float when no native split changed.
+function M.resize_arrow(dir)
+  return split.resize_arrow(dir)
+end
+
 --- Reload open splits to apply a border-mode change. Pass 'vertical' or
 --- 'horizontal' to limit; nil reloads both.
 function M.reload_splits(direction)

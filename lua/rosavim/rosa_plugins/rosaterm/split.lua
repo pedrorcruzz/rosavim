@@ -453,49 +453,88 @@ reposition_floats = function()
   end
 end
 
+--- Apply a delta resize to a rosaterm float. dh = rows to add to height
+--- (positive grows up from bottom); dw = cols to add to width (positive
+--- grows left from right edge).
+local function resize_term(term, dh, dw)
+  if not term_win_is_open(term) then
+    return false
+  end
+  local cfg = api.nvim_win_get_config(term.win)
+  if not cfg.relative or cfg.relative == '' then
+    return false
+  end
+  local new_w = cfg.width + dw
+  local new_h = cfg.height + dh
+  if new_w < 10 or new_h < 3 then
+    return false
+  end
+  if term.direction == 'horizontal' and dh ~= 0 then
+    cfg.row = cfg.row - dh
+  end
+  if term.direction == 'vertical' and dw ~= 0 then
+    cfg.col = cfg.col - dw
+  end
+  cfg.width = new_w
+  cfg.height = new_h
+  pcall(api.nvim_win_set_config, term.win, cfg)
+  term.size = (term.direction == 'horizontal' and new_h or new_w) + 2
+  vim.schedule(reposition_all_chips)
+  return true
+end
+
+--- Find an open rosaterm float matching the given direction.
+local function find_term_by_direction(direction)
+  for _, t in pairs(terms) do
+    if term_win_is_open(t) and t.direction == direction then
+      local cfg = api.nvim_win_get_config(t.win)
+      if cfg.relative and cfg.relative ~= '' then
+        return t
+      end
+    end
+  end
+  return nil
+end
+
+--- Public: resize the rosaterm float matching an arrow direction. Called
+--- from smart-splits' fallback when no native split changed. dir = one of
+--- 'up', 'down', 'left', 'right'. Returns true if a terminal was resized.
+function M.resize_arrow(dir)
+  if dir == 'up' or dir == 'down' then
+    local t = find_term_by_direction 'horizontal'
+    if not t then
+      return false
+    end
+    return resize_term(t, dir == 'up' and 1 or -1, 0)
+  end
+  if dir == 'left' or dir == 'right' then
+    local t = find_term_by_direction 'vertical'
+    if not t then
+      return false
+    end
+    return resize_term(t, 0, dir == 'left' and 1 or -1)
+  end
+  return false
+end
+
 --- Buffer-local arrow-key resize for rosaterm floats. smart-splits doesn't
 --- handle floats; the arrows would otherwise be no-ops inside the terminal.
 local function setup_resize_keymaps(buf, term)
   local opts = { buffer = buf, silent = true, nowait = true }
-  local function resize(dh, dw)
-    if not term_win_is_open(term) then
-      return
-    end
-    local cfg = api.nvim_win_get_config(term.win)
-    if not cfg.relative or cfg.relative == '' then
-      return
-    end
-    local new_w = cfg.width + dw
-    local new_h = cfg.height + dh
-    if new_w < 10 or new_h < 3 then
-      return
-    end
-    if term.direction == 'horizontal' and dh ~= 0 then
-      cfg.row = cfg.row - dh
-    end
-    if term.direction == 'vertical' and dw ~= 0 then
-      cfg.col = cfg.col - dw
-    end
-    cfg.width = new_w
-    cfg.height = new_h
-    pcall(api.nvim_win_set_config, term.win, cfg)
-    term.size = (term.direction == 'horizontal' and new_h or new_w) + 2
-    vim.schedule(reposition_all_chips)
-  end
   for _, mode in ipairs { 'n', 't' } do
     if term.direction == 'horizontal' then
       vim.keymap.set(mode, '<Up>', function()
-        resize(1, 0)
+        resize_term(term, 1, 0)
       end, opts)
       vim.keymap.set(mode, '<Down>', function()
-        resize(-1, 0)
+        resize_term(term, -1, 0)
       end, opts)
     else
       vim.keymap.set(mode, '<Left>', function()
-        resize(0, 1)
+        resize_term(term, 0, 1)
       end, opts)
       vim.keymap.set(mode, '<Right>', function()
-        resize(0, -1)
+        resize_term(term, 0, -1)
       end, opts)
     end
   end

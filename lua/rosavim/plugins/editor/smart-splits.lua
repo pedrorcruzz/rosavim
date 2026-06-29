@@ -40,6 +40,10 @@ return {
     {
       '<left>',
       function()
+        local ok, rt = pcall(require, 'rosavim.rosa_plugins.rosaterm')
+        if ok and rt.resize_arrow 'left' then
+          return
+        end
         require('smart-splits').resize_left()
       end,
       desc = 'Resize left',
@@ -47,6 +51,10 @@ return {
     {
       '<down>',
       function()
+        local ok, rt = pcall(require, 'rosavim.rosa_plugins.rosaterm')
+        if ok and rt.resize_arrow 'down' then
+          return
+        end
         require('smart-splits').resize_down()
       end,
       desc = 'Resize down',
@@ -54,6 +62,10 @@ return {
     {
       '<up>',
       function()
+        local ok, rt = pcall(require, 'rosavim.rosa_plugins.rosaterm')
+        if ok and rt.resize_arrow 'up' then
+          return
+        end
         require('smart-splits').resize_up()
       end,
       desc = 'Resize up',
@@ -61,6 +73,10 @@ return {
     {
       '<right>',
       function()
+        local ok, rt = pcall(require, 'rosavim.rosa_plugins.rosaterm')
+        if ok and rt.resize_arrow 'right' then
+          return
+        end
         require('smart-splits').resize_right()
       end,
       desc = 'Resize right',
