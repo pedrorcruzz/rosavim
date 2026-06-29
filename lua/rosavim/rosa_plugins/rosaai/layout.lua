@@ -15,9 +15,9 @@ M.positions = {
 }
 
 M.sizes = {
-  { name = 'compact', label = 'Compact', icon = '󰍝 ', width = 50, height = 14, float = { wpct = 0.55, hpct = 0.55 } },
-  { name = 'default', label = 'Default', icon = '󰍡 ', width = 70, height = 20, float = { wpct = 0.70, hpct = 0.70 } },
-  { name = 'wide', label = 'Wide', icon = '󰍟 ', width = 90, height = 26, float = { wpct = 0.85, hpct = 0.80 } },
+  { name = 'compact', label = 'Compact', icon = '󰍝 ', width = 50, height = 14, float = { wpct = 0.70, hpct = 0.70 } },
+  { name = 'default', label = 'Default', icon = '󰍡 ', width = 70, height = 20, float = { wpct = 0.85, hpct = 0.85 } },
+  { name = 'wide', label = 'Wide', icon = '󰍟 ', width = 90, height = 26, float = { wpct = 0.95, hpct = 0.92 } },
 }
 
 local function tog_get(key, default)
