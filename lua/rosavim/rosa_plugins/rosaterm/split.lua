@@ -67,10 +67,10 @@ local function open_chip(term)
     col = outer_col
     row = pos[1] - 2
   else
-    -- Inline: small chip centered on the top border of the float. Sit
-    -- one row above the float's top border so the chip's bottom border
-    -- crosses the float's border (engraved tab look — chip body above,
-    -- bottom corners crossing into the terminal).
+    -- Inline: small chip centered above the float. Sit one row above
+    -- the float's top border so the chip's bottom border crosses the
+    -- float's border (engraved tab look — chip body above, bottom
+    -- corners crossing into the terminal).
     local text = bar.chip_plain()
     width = vim.api.nvim_strwidth(text)
     col = outer_col + math.floor((outer_width - width) / 2)
@@ -555,6 +555,13 @@ local function open_split(term)
     end
     term.win = api.nvim_open_win(term.buf, true, geom)
     vim.wo[term.win].winhl = term_winhl(true)
+    -- Vertical floats render the chip with its bottom border crossing
+    -- the float's top border (engraved). To stop that overlap from
+    -- covering the shell prompt at the top of the terminal, push the
+    -- content down by 1 row using an empty winbar.
+    if term.direction == 'vertical' then
+      vim.wo[term.win].winbar = ' '
+    end
   else
     -- Native split mode (no border possible — preserves the historical look)
     local in_terminal = vim.bo.filetype == 'rosaterm'
