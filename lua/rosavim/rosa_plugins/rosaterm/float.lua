@@ -25,10 +25,12 @@ local function chip_open()
 end
 
 local function calc_geom()
+  local sizes = require 'rosavim.rosa_plugins.rosaterm.sizes'
+  local pct = sizes.current().float
   local cols = vim.o.columns
   local lines = vim.o.lines - vim.o.cmdheight - 1
-  local width = math.floor(cols * 0.80)
-  local height = math.floor(lines * 0.75)
+  local width = math.floor(cols * pct.wpct)
+  local height = math.floor(lines * pct.hpct)
   return {
     relative = 'editor',
     width = width,
@@ -193,6 +195,24 @@ function M.refresh()
     open_chip()
   else
     close_chip()
+  end
+end
+
+--- Re-apply geometry to the open float (used when the size preset changes).
+function M.apply_geom()
+  if not win_open() then
+    return
+  end
+  state.geom = calc_geom()
+  pcall(api.nvim_win_set_config, state.win, {
+    relative = 'editor',
+    row = state.geom.row,
+    col = state.geom.col,
+    width = state.geom.width,
+    height = state.geom.height,
+  })
+  if bar.chip_enabled() then
+    open_chip()
   end
 end
 

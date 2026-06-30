@@ -13,7 +13,9 @@ local function hex(n)
 end
 
 local ICON_ROSA = '󰧱'
-local ICON_TERMINAL = ''
+-- nf-md-console (U+F018D). Built via nr2char so the 4-byte glyph survives
+-- saves intact — a raw paste was being stripped to an empty string before.
+local ICON_TERMINAL = ' '
 local ICONS = { rosa = ICON_ROSA, terminal = ICON_TERMINAL }
 
 local function icon_visible()

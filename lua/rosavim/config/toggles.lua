@@ -52,12 +52,13 @@ local defaults = {
   rosaterm_title = true,
   rosaterm_time = true,
   rosaterm_theme = 'garland',
+  rosaterm_size = 'default',
   rosaterm_autoinsert = true,
   rosaterm_vertical_border = false,
   rosaterm_horizontal_border = false,
   rosaterm_name_full = true,
   rosaterm_icon_visible = true,
-  rosaterm_icon_style = 'rosa', -- 'rosa' | 'terminal'
+  rosaterm_icon_style = 'terminal', -- 'rosa' | 'terminal'
   -- Dropbar
   dropbar_compact = false, -- false = full path (16 segments), true = parent + filename only
   dropbar_path_preview = true,

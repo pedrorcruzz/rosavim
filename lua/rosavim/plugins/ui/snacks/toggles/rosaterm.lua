@@ -78,7 +78,7 @@ return function()
   vim.keymap.set('n', '<leader>lats', function()
     local styles = {
       { name = 'rosa', glyph = '󰧱', label = 'Rosa' },
-      { name = 'terminal', glyph = '', label = 'Terminal' },
+      { name = 'terminal', glyph = '', label = 'Terminal' }, -- nf-md-console U+F018D
     }
     local current = toggles.get 'rosaterm_icon_style'
     vim.ui.select(styles, {
@@ -133,6 +133,11 @@ return function()
       end
     end,
   }):map '<leader>latB'
+
+  -- Size picker (popup): compact / default / wide — like RosaAI's <leader>laaz
+  vim.keymap.set('n', '<leader>latz', function()
+    require('rosavim.rosa_plugins.rosaterm').pick_size()
+  end, { desc = 'Rosaterm: Select Size' })
 
   -- Theme selector — uses vim.ui.select so it follows the snacks picker style
   vim.keymap.set('n', '<leader>lqr', function()

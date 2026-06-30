@@ -320,7 +320,7 @@ Integração nativa com CLIs de IA (Claude, Cursor, OpenClaude, Gemini etc.). Ca
 | n | `<leader>ao` | Alternar OpenClaude | Abrir/esconder `openclaude` |
 | n | `<leader>ag` | Alternar Gemini | Abrir/esconder `gemini` |
 
-Dentro do terminal do CLI: um `<Esc>` sai pro modo normal do nvim; `<Esc> <Esc>` em 300ms envia ESC literal pro CLI (cancela operação corrente).
+Dentro do terminal do CLI: um `<Esc>` sai pro modo normal do nvim; `<Esc> <Esc>` em 300ms envia ESC literal pro CLI (cancela operação corrente). No **modo normal**, as setas redimensionam a janela (vertical → largura, horizontal → altura, float → ambos os eixos, mantida centralizada); o tamanho persiste por posição até você escolher um preset de tamanho. No modo terminal/inserção as setas continuam livres pro próprio CLI. Com o RosaAI focado, o bloco de modo do lualine mostra `ROSAAI`.
 
 ---
 

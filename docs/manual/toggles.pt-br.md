@@ -149,6 +149,10 @@ Tamanhos RosaAI disponíveis: `compact`, `default`, `wide`
 | `<leader>latt` | Chip de título (mostrar/esconder) | Ativado |
 | `<leader>lath` | Relógio no chip (mostrar/esconder) | Ativado |
 | `<leader>lati` | Auto Insert ao abrir o terminal | Ativado |
+| `<leader>latn` | Nome exibido: `Rosaterm` vs `Terminal` | Rosaterm |
+| `<leader>latc` | Ícone do chip (mostrar/esconder) | Ativado |
+| `<leader>lats` | Picker de estilo do ícone (Rosa / Terminal) | Terminal |
+| `<leader>latz` | Picker de tamanho (compact / default / wide) | default |
 | `<leader>lqr` | Picker de tema (popup) — fica no grupo Theme | garland |
 | `<leader>latb` | Borda vertical (vsplit vira float pinado) | Desativado |
 | `<leader>latB` | Borda horizontal (split vira float pinado) | Desativado |

@@ -33,6 +33,31 @@ function M.refresh_chips()
   split.refresh_all()
 end
 
+--- Size picker (compact / default / wide) — mirrors RosaAI's <leader>laaz.
+--- Applies the chosen preset to every open split and the float live.
+function M.pick_size()
+  local sizes = require 'rosavim.rosa_plugins.rosaterm.sizes'
+  local current = sizes.current().name
+  vim.ui.select(sizes.list, {
+    prompt = 'Rosaterm · select size',
+    kind = 'rosaterm_size',
+    format_item = function(s)
+      local marker = s.name == current and ' ●' or ''
+      return s.icon .. s.label .. marker
+    end,
+  }, function(choice)
+    if not choice then
+      return
+    end
+    require('rosavim.config.toggles').set('rosaterm_size', choice.name)
+    split.apply_size()
+    float.apply_geom()
+    if _G.Snacks and Snacks.notify then
+      Snacks.notify.info('Rosaterm size: ' .. choice.label)
+    end
+  end)
+end
+
 --- Forward resize_arrow to the split module so smart-splits can fall
 --- through to the rosaterm float when no native split changed.
 function M.resize_arrow(dir)

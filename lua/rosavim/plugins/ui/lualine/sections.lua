@@ -6,7 +6,6 @@ M.sep = {
   -- mode = { left = '', right = '' },
   -- location = { left = '', right = '' },
 }
-
 function M.build(sep)
   return {
     lualine_a = {

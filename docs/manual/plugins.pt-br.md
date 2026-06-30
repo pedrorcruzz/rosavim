@@ -167,7 +167,7 @@ Rosavim vem com seus próprios temas built-in, armazenados em `lua/rosavim/rosa_
 |:-------|:----------|
 | [copilot.lua](https://github.com/zbirenbaum/copilot.lua) | Integração com GitHub Copilot |
 | [copilot-lualine](https://github.com/AndreM222/copilot-lualine) | Status do Copilot na statusline |
-| RosaAI | Integração nativa com CLIs de IA (Claude, Cursor, OpenClaude, Gemini, ...) com temas, Ask AI com preview e bordas rounded por orientação |
+| RosaAI | Integração nativa com CLIs de IA (Claude, Cursor, OpenClaude, Gemini, ...) com temas, Ask AI com preview, resize pelas setas e bordas rounded por orientação |
 
 ---
 

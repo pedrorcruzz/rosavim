@@ -320,7 +320,7 @@ Native AI CLI integration for Claude, Cursor, OpenClaude, Gemini and friends. Ea
 | n | `<leader>ao` | Toggle OpenClaude | Open/hide `openclaude` |
 | n | `<leader>ag` | Toggle Gemini | Open/hide `gemini` |
 
-Inside the CLI terminal: single `<Esc>` exits to nvim normal mode; double `<Esc>` within 300ms sends a literal `ESC` to the CLI (cancel current operation).
+Inside the CLI terminal: single `<Esc>` exits to nvim normal mode; double `<Esc>` within 300ms sends a literal `ESC` to the CLI (cancel current operation). In **normal mode** the arrow keys resize the window (vertical → width, horizontal → height, float → both axes, kept centered); the size persists per position until you pick a named size preset. The arrows stay free for the CLI itself while in terminal/insert mode. While RosaAI is focused, the lualine mode block shows `ROSAAI`.
 
 ---
 

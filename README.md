@@ -96,7 +96,7 @@ Rosavim ships with full support (LSP, formatting, linting, testing, and debuggin
 ### AI
 
 - **GitHub Copilot** integrated into autocompletion
-- **RosaAI** native AI CLI integration (Claude, Cursor, OpenClaude, Gemini, ...) with themed window, in-editor preview prompt and per-orientation rounded borders
+- **RosaAI** native AI CLI integration (Claude, Cursor, OpenClaude, Gemini, ...) with themed window, in-editor preview prompt, arrow-key resize (persisted per position) and per-orientation rounded borders
 
 ### UI & Appearance
 

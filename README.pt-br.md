@@ -96,7 +96,7 @@ Rosavim oferece suporte completo (LSP, formatação, linting, testes e debug) pa
 ### IA
 
 - **GitHub Copilot** integrado ao autocompletion
-- **RosaAI** integração nativa com CLIs de IA (Claude, Cursor, OpenClaude, Gemini, ...) com janela temática, preview no editor e bordas rounded por orientação
+- **RosaAI** integração nativa com CLIs de IA (Claude, Cursor, OpenClaude, Gemini, ...) com janela temática, preview no editor, resize pelas setas (persistido por posição) e bordas rounded por orientação
 
 ### UI & Aparência
 

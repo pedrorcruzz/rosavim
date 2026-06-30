@@ -432,7 +432,9 @@ local function compute_geom(term)
     local s_outer_h = s_h + b_pad
 
     if term.direction == 'vertical' and sibling.direction == 'horizontal' then
-      local v_w = math.min(term.size, math.floor(s_outer_w / 2))
+      -- Exactly half the sibling band — no term.size cap, which on wide
+      -- screens left the new pane narrower than its sibling.
+      local v_w = math.floor(s_outer_w / 2)
       if v_w < 10 or s_outer_w - v_w < 10 then
         return nil
       end
@@ -454,7 +456,7 @@ local function compute_geom(term)
         height = s_h,
       }
     elseif term.direction == 'horizontal' and sibling.direction == 'vertical' then
-      local h_h = math.min(term.size, math.floor(s_outer_h / 2))
+      local h_h = math.floor(s_outer_h / 2)
       if h_h < 4 or s_outer_h - h_h < 4 then
         return nil
       end
@@ -700,23 +702,26 @@ local function open_split(term)
   else
     -- Native split mode (no border possible — preserves the historical look)
     local in_terminal = vim.bo.filetype == 'rosaterm'
-    local prefix = in_terminal and 'rightbelow ' or 'botright '
-    local size = term.size
     if in_terminal then
-      if term.direction == 'horizontal' then
-        size = math.floor(api.nvim_win_get_height(0) / 2)
+      -- Split the focused terminal and force EXACTLY equal halves. nvim's
+      -- size-arg / default split can leave one side a column (or more) bigger;
+      -- we set the new window to floor(total/2) so both panels match.
+      local prev = api.nvim_get_current_win()
+      vim.cmd('rightbelow ' .. (term.direction == 'horizontal' and 'split' or 'vsplit'))
+      term.win = api.nvim_get_current_win()
+      if term.direction == 'vertical' then
+        local total = api.nvim_win_get_width(prev) + api.nvim_win_get_width(term.win)
+        pcall(api.nvim_win_set_width, term.win, math.floor(total / 2))
       else
-        size = math.floor(api.nvim_win_get_width(0) / 2)
+        local total = api.nvim_win_get_height(prev) + api.nvim_win_get_height(term.win)
+        pcall(api.nvim_win_set_height, term.win, math.floor(total / 2))
       end
-    end
-    local cmd
-    if term.direction == 'horizontal' then
-      cmd = prefix .. size .. 'split'
     else
-      cmd = prefix .. size .. 'vsplit'
+      -- Opening from a normal buffer: pin to the bottom/right at preset size.
+      local cmd = 'botright ' .. term.size .. (term.direction == 'horizontal' and 'split' or 'vsplit')
+      vim.cmd(cmd)
+      term.win = api.nvim_get_current_win()
     end
-    vim.cmd(cmd)
-    term.win = api.nvim_get_current_win()
   end
 
   vim.wo[term.win].number = false
@@ -790,13 +795,27 @@ function M.reload_all(filter_direction)
   end
 end
 
+--- Re-apply the current size preset to every rosaterm split. Open splits are
+--- reloaded so they pick up the new geometry; closed ones just update their
+--- stored size for the next open. Mirrors RosaAI's size picker.
+function M.apply_size()
+  local sizes = require 'rosavim.rosa_plugins.rosaterm.sizes'
+  for _, term in pairs(terms) do
+    term.size = sizes.for_direction(term.direction)
+  end
+  M.reload_all()
+end
+
 function M.toggle(id, direction, size, name)
   local term = terms[id]
   if not term then
+    -- Size is governed by the global size preset (<leader>latz). The legacy
+    -- `size` arg from callers is kept only for signature compatibility.
+    local sizes = require 'rosavim.rosa_plugins.rosaterm.sizes'
     term = {
       id = id,
       direction = direction,
-      size = size,
+      size = sizes.for_direction(direction),
       name = name or 'Terminal',
       buf = nil,
       job = nil,
