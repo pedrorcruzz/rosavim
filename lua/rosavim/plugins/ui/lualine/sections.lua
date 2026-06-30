@@ -13,6 +13,11 @@ function M.build(sep)
       {
         'mode',
         fmt = function(mode)
+          -- When focused on a RosaAI CLI terminal, brand the mode block
+          -- instead of showing NORMAL/INSERT/TERMINAL.
+          if vim.b.rosaai_cli then
+            return '  ROSAAI'
+          end
           return '󰧱 ' .. mode
         end,
         separator = sep.mode,

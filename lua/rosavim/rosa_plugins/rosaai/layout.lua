@@ -20,6 +20,20 @@ M.sizes = {
   { name = 'wide', label = 'Wide', icon = '󰍟 ', width = 90, height = 26, float = { wpct = 0.95, hpct = 0.92 } },
 }
 
+--- Runtime per-position size overrides set by interactive arrow resize.
+--- Each entry is { width, height } (inner cells). compute_geom only honors
+--- the axis the position actually resizes, so the other axis stays
+--- responsive to VimResized. Cleared when a named size preset is picked.
+M.overrides = {}
+
+function M.set_override(pos, width, height)
+  M.overrides[pos] = { width = width, height = height }
+end
+
+function M.clear_overrides()
+  M.overrides = {}
+end
+
 local function tog_get(key, default)
   local ok, toggles = pcall(require, 'rosavim.config.toggles')
   if not ok then
@@ -111,6 +125,7 @@ function M.compute_geom()
   local cols = vim.o.columns
   local lines = vim.o.lines - vim.o.cmdheight - 1
   local adj = border_adj(border)
+  local ov = M.overrides[pos]
 
   local base = {
     relative = 'editor',
@@ -119,12 +134,13 @@ function M.compute_geom()
   }
 
   if pos == 'float' then
-    local width = math.floor(cols * size.float.wpct)
-    local height = math.floor(lines * size.float.hpct)
-    base.width = width - adj
-    base.height = height - adj
-    base.row = math.floor((lines - height) / 2)
-    base.col = math.floor((cols - width) / 2)
+    -- Float resizes on both axes, so honor both override dimensions.
+    local width = ov and ov.width or (math.floor(cols * size.float.wpct) - adj)
+    local height = ov and ov.height or (math.floor(lines * size.float.hpct) - adj)
+    base.width = math.min(width, cols - adj)
+    base.height = math.min(height, lines - adj)
+    base.row = math.floor((lines - (base.height + adj)) / 2)
+    base.col = math.floor((cols - (base.width + adj)) / 2)
     return base, 'float'
   end
 
@@ -133,28 +149,26 @@ function M.compute_geom()
   local chip_room = M.chip_overlay_height()
 
   if pos == 'right' then
-    local width = size.width
-    base.width = width - adj
+    -- Vertical: only width is user-resizable; height tracks the editor.
+    base.width = ov and ov.width or (size.width - adj)
     base.height = lines - adj - chip_room
     base.row = chip_room
-    base.col = cols - width
+    base.col = cols - (base.width + adj)
     return base, 'right'
   end
 
   if pos == 'left' then
-    local width = size.width
-    base.width = width - adj
+    base.width = ov and ov.width or (size.width - adj)
     base.height = lines - adj - chip_room
     base.row = chip_room
     base.col = 0
     return base, 'left'
   end
 
-  -- bottom
-  local height = size.height
+  -- bottom — horizontal: only height is user-resizable; width spans editor.
   base.width = cols - adj
-  base.height = height - adj
-  base.row = lines - height
+  base.height = ov and ov.height or (size.height - adj)
+  base.row = lines - (base.height + adj)
   base.col = 0
   return base, 'bottom'
 end

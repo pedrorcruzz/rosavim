@@ -30,7 +30,7 @@ return {
     {
       '<leader>cii',
       function()
-        require('rosavim.rosa_plugins.rosaterm').toggle_vertical('v_ci', 80, 'Terminal')
+        require('rosavim.rosa_plugins.rosaterm').toggle_vertical('v_ci', 70, 'Terminal')
       end,
       desc = 'Rosaterm: Vertical Split',
     },

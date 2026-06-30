@@ -62,6 +62,12 @@ function M.relayout()
   cli.relayout()
 end
 
+--- Resize the active CLI float in an arrow direction ('up'/'down'/'left'/
+--- 'right'). Returns true if it handled the resize (used by smart-splits).
+function M.resize_arrow(dir)
+  return cli.resize_arrow(dir)
+end
+
 --- Whether any CLI buffer is currently visible (used by rosamaximize)
 function M.is_open()
   local state = require 'rosavim.rosa_plugins.rosaai.state'

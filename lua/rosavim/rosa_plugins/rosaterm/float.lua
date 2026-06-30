@@ -230,6 +230,44 @@ function M.new()
   end
 end
 
+--- Floats are tabpage-local: after switching tabs and back, the terminal
+--- cells are re-shown but never repainted, leaving the ghosted/overlapping
+--- look. Force a full repaint whenever a tab carrying any rosaterm window
+--- (float or bordered split) is entered. Filetype is reliably 'rosaterm'.
+local function rosaterm_visible_here()
+  for _, w in ipairs(api.nvim_tabpage_list_wins(0)) do
+    local b = api.nvim_win_get_buf(w)
+    if api.nvim_buf_is_valid(b) and vim.bo[b].filetype == 'rosaterm' then
+      return true
+    end
+  end
+  return false
+end
+
+local redraw_group = api.nvim_create_augroup('RosatermRedraw', { clear = true })
+api.nvim_create_autocmd('TabEnter', {
+  group = redraw_group,
+  callback = function()
+    if not rosaterm_visible_here() then
+      return
+    end
+    vim.schedule(function()
+      pcall(vim.cmd, 'redraw!')
+    end)
+  end,
+})
+api.nvim_create_autocmd('WinEnter', {
+  group = redraw_group,
+  callback = function()
+    local b = api.nvim_get_current_buf()
+    if api.nvim_buf_is_valid(b) and vim.bo[b].filetype == 'rosaterm' then
+      vim.schedule(function()
+        pcall(vim.cmd, 'redraw!')
+      end)
+    end
+  end,
+})
+
 --- Autocmd to clean up the chip if the main float window is closed externally
 api.nvim_create_autocmd('WinClosed', {
   group = api.nvim_create_augroup('RosatermFloatClose', { clear = true }),

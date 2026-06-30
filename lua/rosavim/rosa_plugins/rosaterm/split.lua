@@ -108,10 +108,12 @@ local function open_chip(term)
   local pos = api.nvim_win_get_position(term.win) -- { row, col }
   local win_width = api.nvim_win_get_width(term.win)
   local cfg = api.nvim_win_get_config(term.win)
-  -- Floats with border are 2 cells wider (and the position is the border
-  -- top-left, not the content); native splits don't have those extras.
   local has_border = cfg.relative ~= '' and cfg.border and cfg.border ~= 'none'
-  local outer_width = has_border and (win_width + 2) or win_width
+  -- Chip content spans the window's INNER width; the chip's own rounded
+  -- border then lands exactly on the window's border (engraved look),
+  -- matching rosaai. The previous (win_width + 2) double-counted the chip
+  -- border, leaving the banner 2 cells too wide and misaligned on the right.
+  local outer_width = win_width
   local outer_col = pos[2]
 
   -- Fallback: when the terminal is a NATIVE split AND the chip overlay
@@ -198,9 +200,8 @@ local function refresh_chip(term)
   local theme = themes.current()
   local width
   if term.win and api.nvim_win_is_valid(term.win) then
-    local cfg = api.nvim_win_get_config(term.win)
-    local has_border = cfg.relative ~= '' and cfg.border and cfg.border ~= 'none'
-    local outer = api.nvim_win_get_width(term.win) + (has_border and 2 or 0)
+    -- Inner window width — chip border supplies the +2 (see open_chip).
+    local outer = api.nvim_win_get_width(term.win)
     if theme.layout == 'banner' or theme.layout == 'stem' then
       width = outer
     else

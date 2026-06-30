@@ -24,7 +24,7 @@ function M.toggle_horizontal(id, size, name)
 end
 
 function M.toggle_vertical(id, size, name)
-  split.toggle(id or 'v_main', 'vertical', size or 80, name)
+  split.toggle(id or 'v_main', 'vertical', size or 70, name)
 end
 
 --- Re-evaluate chip visibility on float and all splits (called by toggles)

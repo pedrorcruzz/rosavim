@@ -74,6 +74,8 @@ function M.pick_size()
     end,
     on_select = function(item)
       require('rosavim.config.toggles').set('rosaai_size', item.name)
+      -- Picking a named preset resets any interactive arrow-resize override.
+      layout.clear_overrides()
       Snacks.notify.info('RosaAI size: ' .. item.name)
       require('rosavim.rosa_plugins.rosaai').relayout()
     end,

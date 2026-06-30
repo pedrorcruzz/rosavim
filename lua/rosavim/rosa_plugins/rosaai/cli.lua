@@ -146,6 +146,73 @@ local function refresh_chip()
   end
 end
 
+--- Live-resize the active CLI float by a width/height delta and persist the
+--- new size as a per-position override (so it survives hide/show/relayout).
+--- Geometry is recomputed through layout so the float stays pinned to its
+--- edge (or centered, for float) instead of drifting.
+local function resize_active(d_w, d_h)
+  if not win_open() then
+    return false
+  end
+  local cfg = api.nvim_win_get_config(state.win)
+  if not cfg.relative or cfg.relative == '' then
+    return false
+  end
+  local cols = vim.o.columns
+  local lines = vim.o.lines - vim.o.cmdheight - 1
+  local new_w = math.max(20, math.min(cols - 2, cfg.width + d_w))
+  local new_h = math.max(4, math.min(lines - 2, cfg.height + d_h))
+  if new_w == cfg.width and new_h == cfg.height then
+    return false
+  end
+  layout.set_override(layout.current_position(), new_w, new_h)
+  local geom = layout.compute_geom()
+  pcall(api.nvim_win_set_config, state.win, geom)
+  refresh_chip()
+  return true
+end
+
+--- Resize the active CLI float in an arrow direction, honoring the current
+--- layout: vertical (right/left) → width, horizontal (bottom) → height,
+--- float → both axes (kept centered). Returns true when it handled the
+--- resize, so smart-splits can fall through to native splits otherwise.
+function M.resize_arrow(dir)
+  if not win_open() then
+    return false
+  end
+  local pos = layout.current_position()
+  if pos == 'right' then
+    if dir == 'left' then
+      return resize_active(1, 0)
+    elseif dir == 'right' then
+      return resize_active(-1, 0)
+    end
+  elseif pos == 'left' then
+    if dir == 'right' then
+      return resize_active(1, 0)
+    elseif dir == 'left' then
+      return resize_active(-1, 0)
+    end
+  elseif pos == 'bottom' then
+    if dir == 'up' then
+      return resize_active(0, 1)
+    elseif dir == 'down' then
+      return resize_active(0, -1)
+    end
+  elseif pos == 'float' then
+    if dir == 'left' then
+      return resize_active(-2, 0)
+    elseif dir == 'right' then
+      return resize_active(2, 0)
+    elseif dir == 'up' then
+      return resize_active(0, 1)
+    elseif dir == 'down' then
+      return resize_active(0, -1)
+    end
+  end
+  return false
+end
+
 --- Show a CLI tool's terminal in the shared window. With no name,
 --- re-shows the last active session (or the first available tool).
 function M.show(name)
@@ -766,6 +833,24 @@ local function install_esc_handler(buf)
   end, opts)
 end
 
+--- Arrow-key resize, Normal mode only. Terminal mode keeps the arrows so
+--- the CLI's own navigation/history still works — press <Esc> to drop to
+--- Normal first, then the arrows resize the float (mirrors rosaterm).
+local function install_resize_keymaps(buf)
+  if vim.b[buf].rosaai_resize_installed then
+    return
+  end
+  vim.b[buf].rosaai_resize_installed = true
+
+  local opts = { buffer = buf, silent = true, nowait = true }
+  local dirs = { ['<Up>'] = 'up', ['<Down>'] = 'down', ['<Left>'] = 'left', ['<Right>'] = 'right' }
+  for key, dir in pairs(dirs) do
+    vim.keymap.set('n', key, function()
+      M.resize_arrow(dir)
+    end, opts)
+  end
+end
+
 api.nvim_create_autocmd('TermOpen', {
   group = api.nvim_create_augroup('RosaaiCliTerm', { clear = true }),
   callback = function(ev)
@@ -777,6 +862,69 @@ api.nvim_create_autocmd('TermOpen', {
         return
       end
       install_esc_handler(ev.buf)
+      install_resize_keymaps(ev.buf)
+    end)
+  end,
+})
+
+--- Whether the shared CLI window is on the current tabpage. Floats are
+--- tabpage-local, so after switching away and back the float is re-shown
+--- but its terminal cells are not repainted, leaving the overlapping/ghosted
+--- look. We force a full repaint on TabEnter to clear it.
+local function rosaai_visible_here()
+  if not win_open() then
+    return false
+  end
+  for _, w in ipairs(api.nvim_tabpage_list_wins(0)) do
+    if w == state.win then
+      return true
+    end
+  end
+  return false
+end
+
+local function force_repaint()
+  if not rosaai_visible_here() then
+    return
+  end
+  vim.schedule(function()
+    if not win_open() then
+      return
+    end
+    -- Re-pin the chip (it can desync after a tab switch), then repaint the
+    -- whole screen so stale terminal cells from the hidden tab are cleared.
+    refresh_chip()
+    pcall(vim.cmd, 'redraw!')
+  end)
+end
+
+local redraw_group = api.nvim_create_augroup('RosaaiRedraw', { clear = true })
+api.nvim_create_autocmd('TabEnter', {
+  group = redraw_group,
+  callback = force_repaint,
+})
+api.nvim_create_autocmd('WinEnter', {
+  group = redraw_group,
+  callback = function()
+    if win_open() and api.nvim_get_current_win() == state.win then
+      force_repaint()
+    end
+  end,
+})
+-- Reflow the float (and chip) when the editor itself is resized.
+api.nvim_create_autocmd('VimResized', {
+  group = redraw_group,
+  callback = function()
+    if not win_open() then
+      return
+    end
+    vim.schedule(function()
+      if not win_open() then
+        return
+      end
+      local geom = layout.compute_geom()
+      pcall(api.nvim_win_set_config, state.win, geom)
+      refresh_chip()
     end)
   end,
 })
