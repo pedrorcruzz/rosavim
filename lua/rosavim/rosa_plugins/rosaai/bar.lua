@@ -239,9 +239,30 @@ function M.detach(win)
   tracked[win] = nil
 end
 
---- Esc-hint winbar fragment showing the terminal escape shortcuts
+--- Esc-hint winbar fragment showing the terminal escape shortcuts.
+--- Uses dedicated hint groups instead of Comment/Normal so the bg tracks the
+--- window: when rosaai_dark_bg forces #000 in light mode, the hint blends in
+--- (Comment is NOT remapped by the window's winhl, so it would otherwise keep
+--- the theme's light bg and show light boxes around the keys).
 function M.esc_hint()
-  return '%#Comment#Esc%#Normal# → Normal  %#Comment#│%#Normal#  %#Comment#Esc Esc%#Normal# → Cancel CLI'
+  local term_bg = require 'rosavim.rosa_plugins.term_bg'
+  local text_fg, key_fg, bg
+  if term_bg.is_black('rosaai_dark_bg', false) then
+    -- Match RosaaiNormal (#000 bg / dim light fg) so the hint blends in.
+    text_fg, key_fg, bg = '#d4d0c8', '#7B8394', '#000000'
+  else
+    local normal = api.nvim_get_hl(0, { name = 'Normal' })
+    local comment = api.nvim_get_hl(0, { name = 'Comment' })
+    text_fg = hex(normal.fg)
+    key_fg = hex(comment.fg) or text_fg
+    bg = hex(normal.bg) -- nil → NONE (transparent / falls back to WinBar)
+  end
+  api.nvim_set_hl(0, 'RosaaiHintKey', { fg = key_fg, bg = bg })
+  api.nvim_set_hl(0, 'RosaaiHintText', { fg = text_fg, bg = bg })
+  -- Leading space lives inside RosaaiHintText so it picks up the hint bg —
+  -- otherwise that first cell uses WinBar (→ light Normal) and shows a light
+  -- sliver to the left of "Esc" when the bg is forced dark.
+  return '%#RosaaiHintText# %#RosaaiHintKey#Esc%#RosaaiHintText# → Normal  %#RosaaiHintKey#│%#RosaaiHintText#  %#RosaaiHintKey#Esc Esc%#RosaaiHintText# → Cancel CLI'
 end
 
 return M

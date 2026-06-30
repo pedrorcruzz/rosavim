@@ -70,4 +70,11 @@ function M.reload_splits(direction)
   split.reload_all(direction)
 end
 
+--- Re-apply the terminal bg on the open float + all splits (called when the
+--- rosaterm_dark_bg toggle <leader>latd flips).
+function M.refresh_bg()
+  float.refresh_bg()
+  split.reload_all()
+end
+
 return M

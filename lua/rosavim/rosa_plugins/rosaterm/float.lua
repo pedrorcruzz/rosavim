@@ -6,6 +6,7 @@ local M = {}
 local api = vim.api
 local bar = require 'rosavim.rosa_plugins.rosaterm.bar'
 local themes = require 'rosavim.rosa_plugins.rosaterm.themes'
+local term_bg = require 'rosavim.rosa_plugins.term_bg'
 
 local state = {
   terms = {},
@@ -159,12 +160,7 @@ local function show_current()
   state.geom = calc_geom()
   if not win_open() then
     state.win = api.nvim_open_win(term.buf, true, state.geom)
-    local winhl = 'Normal:Normal,FloatBorder:FloatBorder'
-    if vim.o.background == 'light' then
-      api.nvim_set_hl(0, 'RosatermNormal', { bg = '#000000', fg = '#d4d0c8' })
-      winhl = 'Normal:RosatermNormal,FloatBorder:FloatBorder'
-    end
-    vim.wo[state.win].winhl = winhl
+    vim.wo[state.win].winhl = term_bg.winhl('rosaterm_dark_bg', true, 'RosatermNormal', ',FloatBorder:FloatBorder')
     vim.wo[state.win].winbar = ''
   else
     api.nvim_win_set_buf(state.win, term.buf)
@@ -196,6 +192,15 @@ function M.refresh()
   else
     close_chip()
   end
+end
+
+--- Re-apply the terminal bg to the open float (used when rosaterm_dark_bg
+--- toggles). Dark mode is unaffected; only light mode flips #000 ↔ theme.
+function M.refresh_bg()
+  if not win_open() then
+    return
+  end
+  vim.wo[state.win].winhl = term_bg.winhl('rosaterm_dark_bg', true, 'RosatermNormal', ',FloatBorder:FloatBorder')
 end
 
 --- Re-apply geometry to the open float (used when the size preset changes).

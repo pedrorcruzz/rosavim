@@ -134,6 +134,23 @@ return function()
     end,
   }):map '<leader>latB'
 
+  -- Dark bg in light mode: on = force #000 (default), off = follow theme bg.
+  -- Only has a visible effect while background == 'light'.
+  Snacks.toggle({
+    name = 'Rosaterm Dark Background',
+    wk_desc = { enabled = 'Use theme bg ', disabled = 'Force dark bg ' },
+    get = function()
+      return toggles.get 'rosaterm_dark_bg'
+    end,
+    set = function(state)
+      toggles.set('rosaterm_dark_bg', state)
+      local ok, rosaterm = pcall(require, 'rosavim.rosa_plugins.rosaterm')
+      if ok then
+        rosaterm.refresh_bg()
+      end
+    end,
+  }):map '<leader>latd'
+
   -- Size picker (popup): compact / default / wide — like RosaAI's <leader>laaz
   vim.keymap.set('n', '<leader>latz', function()
     require('rosavim.rosa_plugins.rosaterm').pick_size()

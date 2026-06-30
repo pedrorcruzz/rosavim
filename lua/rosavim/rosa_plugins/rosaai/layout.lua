@@ -6,6 +6,7 @@
 local M = {}
 
 local api = vim.api
+local term_bg = require 'rosavim.rosa_plugins.term_bg'
 
 M.positions = {
   { name = 'right', label = 'Right', icon = '󰕴 ', desc = 'Pinned to the right edge' },
@@ -184,7 +185,9 @@ function M.open(buf, prev_win)
   vim.wo[win].number = false
   vim.wo[win].relativenumber = false
   vim.wo[win].signcolumn = 'no'
-  vim.wo[win].winhl = 'Normal:Normal,FloatBorder:FloatBorder,WinBar:Normal,WinBarNC:Normal'
+  -- Light mode: force #000 when rosaai_dark_bg is on (<leader>laad). Defaults
+  -- off, so the CLI follows the theme's light bg until the user opts in.
+  vim.wo[win].winhl = term_bg.winhl('rosaai_dark_bg', false, 'RosaaiNormal', ',FloatBorder:FloatBorder,WinBar:Normal,WinBarNC:Normal')
   vim.wo[win].winbar = ''
   return win, kind
 end

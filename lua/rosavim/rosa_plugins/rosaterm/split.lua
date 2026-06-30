@@ -6,6 +6,7 @@ local M = {}
 local api = vim.api
 local bar = require 'rosavim.rosa_plugins.rosaterm.bar'
 local themes = require 'rosavim.rosa_plugins.rosaterm.themes'
+local term_bg = require 'rosavim.rosa_plugins.term_bg'
 
 local terms = {}
 local resize_au = nil
@@ -66,16 +67,13 @@ local function any_horizontal_float_open(terms)
 end
 
 --- Pick the winhl for the terminal window. Dark mode follows the theme's
---- Normal bg (which is already dark). Light mode forces #000 — the shell
---- prompt assumes a dark terminal, and a light bg makes light-on-light
---- prompts unreadable.
+--- Normal bg (which is already dark). Light mode forces #000 by default —
+--- the shell prompt assumes a dark terminal, and a light bg makes
+--- light-on-light prompts unreadable. The rosaterm_dark_bg toggle
+--- (<leader>latd) lets the user opt back into the theme's light bg.
 local function term_winhl(border_on)
   local fb = border_on and ',FloatBorder:FloatBorder' or ''
-  if vim.o.background == 'light' then
-    api.nvim_set_hl(0, 'RosatermNormal', { bg = '#000000', fg = '#d4d0c8' })
-    return 'Normal:RosatermNormal' .. fb
-  end
-  return 'Normal:Normal' .. fb
+  return term_bg.winhl('rosaterm_dark_bg', true, 'RosatermNormal', fb)
 end
 
 local function term_win_is_open(term)

@@ -92,7 +92,7 @@ local function set_winbar(parent_win)
   if not parent_win or not api.nvim_win_is_valid(parent_win) then
     return
   end
-  vim.wo[parent_win].winbar = ' ' .. bar.esc_hint()
+  vim.wo[parent_win].winbar = bar.esc_hint()
 end
 
 --- Ensure a session exists for `name`; create buffer and start the CLI job
