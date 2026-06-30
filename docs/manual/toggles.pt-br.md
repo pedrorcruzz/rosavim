@@ -107,7 +107,7 @@ Bordas de which-key disponíveis: `none`, `single`, `double`, `shadow`
 |:-------|:-------|:-------|
 | `<leader>laat` | Chip de título (mostrar/esconder) | Ativado |
 | `<leader>laah` | Relógio no chip (mostrar/esconder) | Ativado |
-| `<leader>laai` | Auto Insert ao abrir o CLI | Ativado |
+| `<leader>laai` | Auto Insert ao abrir, focar ou enviar para o CLI | Ativado |
 | `<leader>laaf` | Auto Focus ao enviar mensagem | Ativado |
 | `<leader>lqa` | Picker de tema (popup) — fica no grupo Theme | garland |
 | `<leader>laap` | Picker de posição (popup) | right |

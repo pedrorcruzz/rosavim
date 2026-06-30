@@ -580,7 +580,9 @@ function M.send(opts)
     end
     if opts.focus ~= false and win_open() then
       api.nvim_set_current_win(state.win)
-      vim.cmd 'startinsert'
+      if bar.autoinsert_enabled() then
+        vim.cmd 'startinsert'
+      end
     end
   end, delay)
 end

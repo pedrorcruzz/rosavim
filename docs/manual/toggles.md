@@ -107,7 +107,7 @@ Available which-key borders: `none`, `single`, `double`, `shadow`
 |:---------|:-------|:--------|
 | `<leader>laat` | Title chip (show/hide) | On |
 | `<leader>laah` | Time in chip (show/hide) | On |
-| `<leader>laai` | Auto Insert when opening a CLI | On |
+| `<leader>laai` | Auto Insert when opening, focusing or sending to a CLI | On |
 | `<leader>laaf` | Auto Focus when sending a message | On |
 | `<leader>lqa` | Theme picker (popup) — under Theme group | garland |
 | `<leader>laap` | Position picker (popup) | right |
