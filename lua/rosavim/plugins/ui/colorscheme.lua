@@ -29,7 +29,7 @@ vim.keymap.set('n', '<leader>lqs', function()
   -- Only our own rosa colorschemes (not every installed scheme).
   local items = { 'rosamin', 'rosaesthetic' }
   vim.ui.select(items, {
-    prompt = 'Colorscheme · select',
+    prompt = 'Theme · select',
     kind = 'colorscheme',
     format_item = function(name)
       return name .. (name == current and ' ●' or '')
@@ -40,9 +40,9 @@ vim.keymap.set('n', '<leader>lqs', function()
     end
     ---@diagnostic disable-next-line: undefined-global
     pcall(vim.cmd.colorscheme, choice)
-    Snacks.notify.info('Colorscheme: ' .. choice)
+    Snacks.notify.info('Theme: ' .. choice)
   end)
-end, { desc = 'Search Colorscheme' })
+end, { desc = 'Select Theme' })
 
 -- Apply the default (or cached) colorscheme as soon as the rosa themes are
 -- ready. Runs once, defensively — covers the fresh-install case where no

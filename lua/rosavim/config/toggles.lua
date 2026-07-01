@@ -36,6 +36,7 @@ local defaults = {
   whichkey_preset = 'modern',
   whichkey_border = 'single',
   explorer_right = false,
+  explorer_preview = false,
   -- RosaAI
   rosaai_position = 'right',
   rosaai_size = 'default',

@@ -4,7 +4,7 @@ Rosavim foi feito para ser estendido. Este guia cobre temas, aparência e como f
 
 ## Índice
 
-- [Colorschemes](#colorschemes)
+- [Themes](#themes)
 - [Modo Dark & Light](#modo-dark--light)
 - [Transparência](#transparência)
 - [Diretórios (Projects & Obsidian)](#diretórios-projects--obsidian)
@@ -18,7 +18,7 @@ Rosavim foi feito para ser estendido. Este guia cobre temas, aparência e como f
 
 ---
 
-## Colorschemes
+## Themes
 
 Rosavim vem com dois temas customizados embutidos, ambos totalmente integrados ao toggle dark/light, à transparência e aos overrides do Rosavim:
 
@@ -27,13 +27,13 @@ Rosavim vem com dois temas customizados embutidos, ambos totalmente integrados a
 | **Rosamin** (padrão) | Minimal | Limpo e sem distrações, inspirado no min-theme |
 | **Rosaesthetic** | Quente | Estética terrosa com tons quentes e ricos |
 
-Os fontes ficam em `lua/rosavim/rosa_themes/` pra você ajustar as paletas diretamente. Outros colorschemes (qualquer um trazido pela LazyVim) ainda aparecem no picker, mas não compartilham os overrides do Rosavim.
+Os fontes ficam em `lua/rosavim/rosa_themes/` pra você ajustar as paletas diretamente. Outros themes (qualquer um trazido pela LazyVim) ainda aparecem no picker, mas não compartilham os overrides do Rosavim.
 
-### Trocando Colorschemes
+### Trocando Themes
 
 **Preview ao vivo:**
 ```
-<leader>lqs → Abre o seletor de colorschemes com preview ao vivo
+<leader>lqs → Abre o seletor de themes com preview ao vivo
 ```
 
 **Sua seleção é persistida automaticamente.** Rosavim salva sua escolha em cache e a restaura na próxima inicialização.
@@ -50,7 +50,7 @@ Alterne entre fundos escuro e claro:
 
 O modo de fundo é salvo em cache, sua preferência é lembrada entre sessões.
 
-A maioria dos colorschemes incluídos suporta variantes dark e light. A alternância muda a configuração `vim.o.background`, e o colorscheme ativo se adapta.
+A maioria dos themes incluídos suporta variantes dark e light. A alternância muda a configuração `vim.o.background`, e o theme ativo se adapta.
 
 ---
 
@@ -140,7 +140,7 @@ Rosavim usa **lualine.nvim** com uma configuração customizada mostrando:
 
 ### Alternar Tema do Lualine
 
-Alterne entre o tema default customizado e o tema `auto` do Lualine (que segue seu colorscheme):
+Alterne entre o tema default customizado e o tema `auto` do Lualine (que segue seu theme):
 
 ```
 <leader>lql → Alternar entre tema Default e Auto

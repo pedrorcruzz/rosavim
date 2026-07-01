@@ -398,7 +398,7 @@ Inside the CLI terminal: single `<Esc>` exits to nvim normal mode; double `<Esc>
 | Mode | Key | Action | Example |
 |:----:|:----|:-------|:--------|
 | n | `<leader>lqt` | Toggle dark/light | `Space l q t` to switch between dark and light mode |
-| n | `<leader>lqs` | Select colorscheme | `Space l q s` to pick one of our colorschemes (rosamin / rosaesthetic) |
+| n | `<leader>lqs` | Select theme | `Space l q s` to pick one of our themes (rosamin / rosaesthetic) |
 | n | `<leader>lqg` | Select lualine separator | `Space l q g` to pick a statusline separator preset (rounded / bar / arrow / slant) |
 | n | `<leader>lqe` | Toggle transparent | `Space l q e` to toggle background transparency |
 | n | `<leader>lqdt` | Toggle dashboard gif | `Space l q d t` to enable/disable the chafa gif (persisted, hot-reload) |

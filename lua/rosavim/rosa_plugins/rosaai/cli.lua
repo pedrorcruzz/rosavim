@@ -412,6 +412,46 @@ local function route_ask(msg, opts)
   end
 end
 
+--- Choose which CLI to act on, following the SAME rules as the ask flow
+--- (route_ask), minus the layout picker:
+---  - 0 alive sessions → pick from installed tools (or the only one)
+---  - 1 alive session  → use it, no picker
+---  - 2+ alive          → pick from the alive (open) ones
+--- Calls on_pick(name) with the chosen CLI. Used by the layout-open keys so
+--- they mirror <leader>aa instead of always defaulting to the first tool.
+local function select_cli_then(on_pick)
+  local alive = state.alive()
+  local count, only_name = 0, nil
+  for name, _ in pairs(alive) do
+    count = count + 1
+    only_name = name
+  end
+  if count == 0 then
+    local avail = tools.available()
+    if #avail == 0 then
+      vim.notify('RosaAI: no CLI tools installed', vim.log.levels.WARN)
+      return
+    end
+    if #avail == 1 then
+      on_pick(avail[1].name)
+    else
+      local items = {}
+      for _, t in ipairs(avail) do
+        table.insert(items, { name = t.name, tool = t })
+      end
+      pick_cli(items, on_pick)
+    end
+  elseif count == 1 then
+    on_pick(only_name)
+  else
+    local items = {}
+    for name, s in pairs(alive) do
+      table.insert(items, { name = name, tool = s.tool })
+    end
+    pick_cli(items, on_pick)
+  end
+end
+
 --- Smart toggle:
 --- - open + matches + focused → hide
 --- - open + matches + not focused → focus it (saves a leaderm trip)
@@ -426,18 +466,28 @@ function M.toggle_with_picker(tool_name)
     end
     return
   end
-  -- Skip the picker once any session has ever been created.
-  if next(state.sessions) ~= nil then
-    M.show(tool_name)
-    return
-  end
-  show_layout_picker(function(pos)
-    if not pos then
+  -- Show `name`, letting the user pick the layout on the very first open.
+  local function proceed(name)
+    if next(state.sessions) ~= nil then
+      M.show(name)
       return
     end
-    require('rosavim.config.toggles').set('rosaai_position', pos)
-    M.show(tool_name)
-  end)
+    show_layout_picker(function(pos)
+      if not pos then
+        return
+      end
+      require('rosavim.config.toggles').set('rosaai_position', pos)
+      M.show(name)
+    end)
+  end
+  -- Bare <leader>aa (no explicit tool) follows the ask flow's CLI selection:
+  -- prompt when none is open, pick among the open ones when several are.
+  -- Explicit per-tool toggles (<leader>ac, etc.) skip straight to their tool.
+  if tool_name then
+    proceed(tool_name)
+  else
+    select_cli_then(proceed)
+  end
 end
 
 --- Open (or hide) the CLI in a specific layout. Pressing the same direct
@@ -452,6 +502,22 @@ function M.show_in(position, tool_name)
   end
   toggles.set('rosaai_position', position)
   M.show(tool_name)
+end
+
+--- Open the CLI in a specific layout (vertical/horizontal/float), following
+--- the SAME CLI-selection logic as <leader>aa: prompt for a CLI when none is
+--- open, or pick among the open ones when several are. Pressing the same
+--- layout key while that layout is showing toggles it off. The layout is
+--- fixed by the key, so there is no layout picker here.
+function M.open_in_layout(position)
+  local toggles = require 'rosavim.config.toggles'
+  if win_open() and toggles.get 'rosaai_position' == position then
+    M.hide()
+    return
+  end
+  select_cli_then(function(name)
+    M.show_in(position, name)
+  end)
 end
 
 --- Focus the active CLI window (re-show it if hidden)
@@ -913,21 +979,88 @@ api.nvim_create_autocmd('WinEnter', {
     end
   end,
 })
--- Reflow the float (and chip) when the editor itself is resized.
+-- Reflow the float (and chip) to the current layout. For the bottom
+-- (horizontal) position, compute_geom tracks the editor main area, so this
+-- also slides/shrinks the float when a side panel (Snacks Explorer, etc.)
+-- opens or closes. `reflowing` guards the synchronous chip open/close events
+-- our own refresh_chip emits, and the geometry diff skips redundant churn —
+-- together these prevent the WinResized/WinNew feedback loop.
+local reflow_timer = nil
+local reflowing = false
+
+local function apply_layout()
+  if not win_open() then
+    return
+  end
+  local ok, cur = pcall(api.nvim_win_get_config, state.win)
+  if not ok then
+    return
+  end
+  local geom = layout.compute_geom()
+  if cur.width == geom.width and cur.height == geom.height and cur.col == geom.col and cur.row == geom.row then
+    return
+  end
+  reflowing = true
+  pcall(api.nvim_win_set_config, state.win, geom)
+  refresh_chip()
+  reflowing = false
+end
+
+local function schedule_reflow()
+  if reflow_timer then
+    pcall(function()
+      reflow_timer:stop()
+      reflow_timer:close()
+    end)
+  end
+  reflow_timer = vim.uv.new_timer()
+  reflow_timer:start(
+    16,
+    0,
+    vim.schedule_wrap(function()
+      reflow_timer = nil
+      apply_layout()
+    end)
+  )
+end
+
+-- Editor resize reflows every position (existing behavior).
 api.nvim_create_autocmd('VimResized', {
   group = redraw_group,
   callback = function()
-    if not win_open() then
+    if win_open() then
+      schedule_reflow()
+    end
+  end,
+})
+
+-- Smart resize for the horizontal (bottom) layout only: when another window
+-- is resized or opened/closed, re-anchor the float to the new main area.
+-- Events from our own float/chip are filtered to avoid a feedback loop.
+api.nvim_create_autocmd('WinResized', {
+  group = redraw_group,
+  callback = function()
+    if reflowing then
       return
     end
-    vim.schedule(function()
-      if not win_open() then
-        return
-      end
-      local geom = layout.compute_geom()
-      pcall(api.nvim_win_set_config, state.win, geom)
-      refresh_chip()
-    end)
+    if win_open() and layout.current_position() == 'bottom' then
+      schedule_reflow()
+    end
+  end,
+})
+api.nvim_create_autocmd({ 'WinNew', 'WinClosed' }, {
+  group = redraw_group,
+  callback = function(args)
+    if reflowing then
+      return
+    end
+    local w = tonumber(args.match) or args.win
+    if w == state.win or w == chip_win then
+      return
+    end
+    if win_open() and layout.current_position() == 'bottom' then
+      schedule_reflow()
+    end
   end,
 })
 

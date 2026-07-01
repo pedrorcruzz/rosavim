@@ -118,6 +118,70 @@ local function border_adj(border)
   return 2
 end
 
+--- Sidebar filetypes that always count as side panels regardless of width
+--- (Snacks Explorer, Neotree, oil, Trouble, ...). Editor vsplit/diff panes
+--- are explicitly NOT sidebars even at ~50% width. Mirrors rosaterm.
+local SIDEBAR_FILETYPES = {
+  ['snacks_explorer'] = true,
+  ['snacks_picker_list'] = true,
+  ['snacks_picker_input'] = true,
+  ['snacks_layout_box'] = true,
+  ['neo-tree'] = true,
+  ['NvimTree'] = true,
+  ['oil'] = true,
+  ['Outline'] = true,
+  ['aerial'] = true,
+  ['dbui'] = true,
+  ['dbout'] = true,
+  ['Trouble'] = true,
+  ['trouble'] = true,
+  ['undotree'] = true,
+}
+
+--- Compute the editor "main area" (col + width) for the current tabpage,
+--- excluding left/right side panels — a known sidebar filetype OR a narrow
+--- window anchored to an edge. The rosaai float and any non-focusable
+--- overlays (chips) are skipped so it never constrains itself. Used only by
+--- the bottom (horizontal) position so it slides/shrinks when a sidebar opens.
+function M.compute_main_area()
+  local cols = vim.o.columns
+  local left, right = 0, 0
+  for _, win in ipairs(api.nvim_tabpage_list_wins(0)) do
+    local ok, cfg = pcall(api.nvim_win_get_config, win)
+    if ok and cfg.focusable ~= false then
+      local buf = api.nvim_win_get_buf(win)
+      local ft = vim.bo[buf].filetype
+      if ft ~= 'rosaai' then
+        local pos = api.nvim_win_get_position(win)
+        local w = api.nvim_win_get_width(win)
+        local is_float = cfg.relative ~= ''
+        local outer_w = w
+        if is_float and cfg.border and cfg.border ~= 'none' then
+          outer_w = w + 2
+        end
+        local outer_col = pos[2]
+        local right_edge = outer_col + outer_w
+        local touches_left = outer_col <= 2
+        local touches_right = right_edge >= cols - 2
+        local is_known_sidebar = SIDEBAR_FILETYPES[ft] == true
+        local is_narrow_edge = outer_w < cols * 0.35
+        if (is_known_sidebar or is_narrow_edge) and (touches_left or touches_right) then
+          if touches_left then
+            left = math.max(left, right_edge)
+          else
+            right = math.max(right, cols - outer_col)
+          end
+        end
+      end
+    end
+  end
+  -- Safety: never let sidebars eat more than 70% of the screen.
+  if left + right > cols * 0.7 then
+    left, right = 0, 0
+  end
+  return { col = left, width = cols - left - right }
+end
+
 --- Compute the floating window options for the current position+size+theme
 function M.compute_geom()
   local pos = M.current_position()
@@ -166,11 +230,22 @@ function M.compute_geom()
     return base, 'left'
   end
 
-  -- bottom — horizontal: only height is user-resizable; width spans editor.
-  base.width = cols - adj
+  -- bottom — horizontal: only height is user-resizable; width spans the
+  -- editor MAIN AREA (excluding side panels like Snacks Explorer), so the
+  -- float shrinks and slides over when a sidebar opens/closes. Mirrors
+  -- rosaterm's horizontal pinned float.
+  local area = M.compute_main_area()
+  -- A left side panel is a native split, so there is a 1-col window
+  -- separator between it and the editor. nvim draws a float's LEFT border at
+  -- `col - 1`, so a bordered float placed at area.col would land its border
+  -- (and the chip's) one column INSIDE the panel. Nudge right by 1 so the
+  -- border sits on the separator and the content lines up with the editor.
+  -- No nudge when flush to the screen edge (area.col == 0).
+  local nudge = (adj > 0 and area.col > 0) and 1 or 0
+  base.width = area.width - adj
   base.height = ov and ov.height or (size.height - adj)
   base.row = lines - (base.height + adj)
-  base.col = 0
+  base.col = area.col + nudge
   return base, 'bottom'
 end
 

@@ -45,7 +45,7 @@ The orchestrator at `lua/rosavim/plugins/ui/snacks/toggles.lua` loads all module
 | `<leader>lqe` | Transparent | Off |
 | `<leader>lql` | Lualine Custom Theme (Auto/Default) | Default |
 | `<leader>lqg` | Lualine Separator (popup selector) | rounded |
-| `<leader>lqs` | Colorscheme picker (rosamin / rosaesthetic) | rosamin |
+| `<leader>lqs` | Theme picker (rosamin / rosaesthetic) | rosamin |
 | `<leader>ll` | Lualine (Statusline visibility) | On |
 
 Available lualine separators: `rounded`, `bar`, `arrow`, `slant`

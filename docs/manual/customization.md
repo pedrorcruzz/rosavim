@@ -4,7 +4,7 @@ Rosavim is designed to be extended. This guide covers themes, appearance, and ho
 
 ## Table of Contents
 
-- [Colorschemes](#colorschemes)
+- [Themes](#themes)
 - [Dark & Light Mode](#dark--light-mode)
 - [Transparency](#transparency)
 - [Directories (Projects & Obsidian)](#directories-projects--obsidian)
@@ -18,7 +18,7 @@ Rosavim is designed to be extended. This guide covers themes, appearance, and ho
 
 ---
 
-## Colorschemes
+## Themes
 
 Rosavim ships with two custom built-in themes, both fully integrated with the dark/light toggle, transparency, and Rosavim's overrides:
 
@@ -27,13 +27,13 @@ Rosavim ships with two custom built-in themes, both fully integrated with the da
 | **Rosamin** (default) | Minimal | Clean, distraction-free, inspired by min-theme |
 | **Rosaesthetic** | Warm | Earthy aesthetic with rich, warm tones |
 
-Sources live in `lua/rosavim/rosa_themes/` so you can tweak palettes directly. Other colorschemes (anything provided by LazyVim) can still be picked from the picker, but they won't share Rosavim's overrides.
+Sources live in `lua/rosavim/rosa_themes/` so you can tweak palettes directly. Other themes (anything provided by LazyVim) can still be picked from the picker, but they won't share Rosavim's overrides.
 
-### Switching Colorschemes
+### Switching Themes
 
 **Live preview:**
 ```
-<leader>lqs → Opens the colorscheme picker with live preview
+<leader>lqs → Opens the theme picker with live preview
 ```
 
 **Your selection is persisted automatically.** Rosavim caches your choice and restores it on next launch.
@@ -50,7 +50,7 @@ Toggle between dark and light backgrounds:
 
 The background mode is cached, your preference is remembered across sessions.
 
-Most included colorschemes support both dark and light variants. The toggle switches the `vim.o.background` setting, and the active colorscheme adapts accordingly.
+Most included themes support both dark and light variants. The toggle switches the `vim.o.background` setting, and the active theme adapts accordingly.
 
 ---
 
@@ -140,7 +140,7 @@ Rosavim uses **lualine.nvim** with a custom configuration showing:
 
 ### Toggle Lualine Theme
 
-Switch between the custom default theme and Lualine's `auto` theme (which follows your colorscheme):
+Switch between the custom default theme and Lualine's `auto` theme (which follows your theme):
 
 ```
 <leader>lql → Toggle between Default and Auto theme

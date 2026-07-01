@@ -45,7 +45,7 @@ O orquestrador em `lua/rosavim/plugins/ui/snacks/toggles.lua` carrega todos os m
 | `<leader>lqe` | Transparência | Desativado |
 | `<leader>lql` | Tema Custom do Lualine (Auto/Default) | Default |
 | `<leader>lqg` | Separador do Lualine (seletor popup) | rounded |
-| `<leader>lqs` | Picker de colorscheme (rosamin / rosaesthetic) | rosamin |
+| `<leader>lqs` | Picker de theme (rosamin / rosaesthetic) | rosamin |
 | `<leader>ll` | Lualine (visibilidade da Statusline) | Ativado |
 
 Separadores do Lualine disponíveis: `rounded`, `bar`, `arrow`, `slant`

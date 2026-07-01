@@ -102,6 +102,19 @@ return function()
     end,
   }):map '<leader>lasp'
 
+  -- Explorer Preview (default off). Separate from the picker preview above —
+  -- toggles the preview pane of the Snacks explorer source specifically.
+  Snacks.toggle({
+    name = 'Explorer Preview',
+    get = function()
+      return toggles.get 'explorer_preview'
+    end,
+    set = function(state)
+      toggles.set('explorer_preview', state)
+      Snacks.config.picker.sources.explorer.layout.preview = state
+    end,
+  }):map '<leader>lasP'
+
   -- Picker Border — uses vim.ui.select (rendered by snacks)
   vim.keymap.set('n', '<leader>lasb', function()
     local borders = {
@@ -123,8 +136,13 @@ return function()
       if not choice then
         return
       end
+      -- Two paths: (1) the picker layout's `config` hook (picker.lua) reads
+      -- `picker_border` live and rewrites the picker box borders; (2) the
+      -- vim.ui.select popups use `border = true`, which resolves to `winborder`,
+      -- so set it too to keep those popups in sync. The top-level
+      -- `Snacks.config.picker.layout.border` field is never consumed.
       toggles.set('picker_border', choice.name)
-      Snacks.config.picker.layout.border = choice.name
+      vim.o.winborder = choice.name
       Snacks.notify.info('Picker border: ' .. choice.name)
     end)
   end, { desc = 'Picker Border' })

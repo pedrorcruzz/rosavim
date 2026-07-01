@@ -110,7 +110,7 @@ Rosavim usa **treesitter nativo do Neovim 0.12+** — nenhum plugin necessário 
 | [markview.nvim](https://github.com/OXY2DEV/markview.nvim) | Renderização aprimorada de markdown no editor |
 | [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim) | Preview de markdown ao vivo no navegador |
 
-### Colorschemes
+### Themes
 
 Rosavim vem com seus próprios temas built-in, armazenados em `lua/rosavim/rosa_themes/`. Esses são os únicos temas totalmente customizáveis com dark/light mode, transparência e overrides. Outros temas disponíveis vêm do LazyVim.
 

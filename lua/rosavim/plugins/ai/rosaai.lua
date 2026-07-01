@@ -35,21 +35,21 @@ return {
     {
       '<leader>av',
       function()
-        require('rosavim.rosa_plugins.rosaai').show_in 'right'
+        require('rosavim.rosa_plugins.rosaai').open_in_layout 'right'
       end,
       desc = 'RosaAI: Open Vertical',
     },
     {
       '<leader>ah',
       function()
-        require('rosavim.rosa_plugins.rosaai').show_in 'bottom'
+        require('rosavim.rosa_plugins.rosaai').open_in_layout 'bottom'
       end,
       desc = 'RosaAI: Open Horizontal',
     },
     {
       '<leader>af',
       function()
-        require('rosavim.rosa_plugins.rosaai').show_in 'float'
+        require('rosavim.rosa_plugins.rosaai').open_in_layout 'float'
       end,
       desc = 'RosaAI: Open Float',
     },

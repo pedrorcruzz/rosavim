@@ -18,6 +18,10 @@ function M.show_in(position, name)
   cli.show_in(position, name)
 end
 
+function M.open_in_layout(position)
+  cli.open_in_layout(position)
+end
+
 function M.show(name)
   cli.show(name)
 end

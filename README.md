@@ -251,7 +251,7 @@ On the first launch, **Lazy.nvim** will install all plugins and **Mason** will s
 | `<leader>gt` | Toggle Git Blame (persistent) |
 | `<leader>ll` | Toggle Lualine (persistent) |
 | `<leader>lqt` | Toggle Dark/Light Mode |
-| `<leader>lqs` | Switch Colorscheme |
+| `<leader>lqs` | Switch Theme |
 | `<C-\>` / `<S-z>` | Rosaterm: Toggle Float |
 | `<S-x>` | Rosaterm: Horizontal Terminal |
 | `<leader>cii` | Rosaterm: Vertical Split |

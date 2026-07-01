@@ -4,7 +4,30 @@ return {
   enabled = true,
   hidden = toggles.get 'picker_hidden',
   ignored = toggles.get 'picker_ignored',
-  layout = { preset = toggles.get 'picker_layout', preview = toggles.get 'picker_preview', border = toggles.get 'picker_border' },
+  layout = {
+    preset = toggles.get 'picker_layout',
+    preview = toggles.get 'picker_preview',
+    -- Snacks only honours `border` per box inside the layout tree (a top-level
+    -- `border` field is ignored). So rewrite every visible box border (the ones
+    -- the presets set to `true`) to the chosen style. Read live on each open so
+    -- the <leader>lasb toggle takes effect without a restart.
+    config = function(layout)
+      local border = toggles.get 'picker_border'
+      local function walk(box)
+        if type(box) ~= 'table' then
+          return
+        end
+        if box.border == true then
+          box.border = border
+        end
+        for _, child in ipairs(box) do
+          walk(child)
+        end
+      end
+      walk(layout.layout)
+      return layout
+    end,
+  },
   sources = {
     files = {
       hidden = toggles.get 'picker_hidden',
@@ -14,7 +37,7 @@ return {
       finder = 'explorer',
       diagnostics = true,
       diagnostics_open = false,
-      layout = { layout = { position = toggles.get 'explorer_right' and 'right' or 'left', width = 34 }, preview = false },
+      layout = { layout = { position = toggles.get 'explorer_right' and 'right' or 'left', width = 34 }, preview = toggles.get 'explorer_preview' },
       focus = 'list',
       auto_close = false,
       git_untracked = true,

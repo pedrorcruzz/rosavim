@@ -7,8 +7,10 @@ vim.opt.lazyredraw = false
 
 vim.opt.fileencoding = 'utf-8'
 
--- Global floating window border (Neovim 0.12+)
-vim.opt.winborder = 'rounded'
+-- Global floating window border (Neovim 0.12+). Driven by the picker_border
+-- toggle (<leader>lasb) so vim.ui.select popups — which use `border = true`,
+-- resolving to `winborder` — stay in sync with the picker border style.
+vim.opt.winborder = require('rosavim.config.toggles').get 'picker_border'
 
 -- Auto root detection using vim.fs.root() (Neovim 0.12+)
 local root_cache = {}
