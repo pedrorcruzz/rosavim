@@ -398,7 +398,8 @@ Dentro do terminal do CLI: um `<Esc>` sai pro modo normal do nvim; `<Esc> <Esc>`
 | Modo | Tecla | Ação | Exemplo |
 |:----:|:------|:-----|:--------|
 | n | `<leader>lqt` | Alternar dark/light | `Space l q t` para alternar entre modo escuro e claro |
-| n | `<leader>lqs` | Buscar colorscheme | `Space l q s` para escolher um colorscheme da lista |
+| n | `<leader>lqs` | Selecionar colorscheme | `Space l q s` para escolher um dos nossos colorschemes (rosamin / rosaesthetic) |
+| n | `<leader>lqg` | Selecionar separador do lualine | `Space l q g` para escolher um preset de separador da statusline (rounded / bar / arrow / slant) |
 | n | `<leader>lqe` | Alternar transparência | `Space l q e` para alternar a transparência do fundo |
 | n | `<leader>lqdt` | Liga/desliga gif do dashboard | `Space l q d t` pra ativar/desativar o gif chafa (persistido, hot-reload) |
 | n | `<leader>lqds` | Buscar gif do dashboard | `Space l q d s` pra escolher uma imagem em `dashboard_img/` (persistido, hot-reload) |

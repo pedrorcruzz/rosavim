@@ -3,7 +3,7 @@ local sections = require 'rosavim.plugins.ui.lualine.sections'
 local toggles = require 'rosavim.config.toggles'
 
 local lualine_visible = toggles.get 'lualine'
-local sep = sections.sep
+local sep = sections.get_sep()
 
 local lualine_config = {
   options = {

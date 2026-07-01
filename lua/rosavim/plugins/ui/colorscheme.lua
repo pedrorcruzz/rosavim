@@ -20,9 +20,28 @@ vim.api.nvim_create_autocmd('ColorScheme', {
 
 -- Dark/Light and Transparent toggles moved to snacks/toggles.lua
 
+-- Colorscheme selector — same vim.ui.select popup style as the rosaterm/
+-- rosaai theme pickers (<leader>lqr / <leader>lqa) instead of the full
+-- Snacks.picker UI. Applying fires the ColorScheme autocmd, which persists
+-- the choice to the appearance cache.
 vim.keymap.set('n', '<leader>lqs', function()
-  ---@diagnostic disable-next-line: undefined-global
-  Snacks.picker.colorschemes()
+  local current = vim.g.colors_name
+  -- Only our own rosa colorschemes (not every installed scheme).
+  local items = { 'rosamin', 'rosaesthetic' }
+  vim.ui.select(items, {
+    prompt = 'Colorscheme · select',
+    kind = 'colorscheme',
+    format_item = function(name)
+      return name .. (name == current and ' ●' or '')
+    end,
+  }, function(choice)
+    if not choice then
+      return
+    end
+    ---@diagnostic disable-next-line: undefined-global
+    pcall(vim.cmd.colorscheme, choice)
+    Snacks.notify.info('Colorscheme: ' .. choice)
+  end)
 end, { desc = 'Search Colorscheme' })
 
 -- Apply the default (or cached) colorscheme as soon as the rosa themes are

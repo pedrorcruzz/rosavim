@@ -240,7 +240,7 @@ vim.api.nvim_create_autocmd('ColorScheme', {
         -- Refresh lualine to pick up new theme colors
         local theme_ok, theme = pcall(require, 'rosavim.plugins.ui.lualine.theme')
         local sections = require 'rosavim.plugins.ui.lualine.sections'
-        local sep = sections.sep
+        local sep = sections.get_sep()
         local use_custom = toggles.get 'lualine_theme'
         lualine.setup {
           options = {

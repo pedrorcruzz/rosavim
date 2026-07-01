@@ -68,7 +68,7 @@ return function()
       local theme = require 'rosavim.plugins.ui.lualine.theme'
       local lualine = require 'lualine'
       local sections = require 'rosavim.plugins.ui.lualine.sections'
-      local sep = sections.sep
+      local sep = sections.get_sep()
       local config = {
         options = {
           theme = state and theme.create() or 'auto',
@@ -83,4 +83,26 @@ return function()
       lualine.hide { unhide = toggles.get 'lualine' }
     end,
   }):map '<leader>lql'
+
+  -- Lualine separator preset selector (rounded / bar / arrow / slant).
+  -- Same vim.ui.select popup style as the rosaterm/rosaai theme pickers.
+  vim.keymap.set('n', '<leader>lqg', function()
+    local sections = require 'rosavim.plugins.ui.lualine.sections'
+    local current = toggles.get 'lualine_separator'
+    vim.ui.select(sections.presets, {
+      prompt = 'Lualine · select separator',
+      kind = 'lualine_separator',
+      format_item = function(p)
+        local marker = p.name == current and ' ●' or ''
+        return p.icon .. '  ' .. p.label .. marker
+      end,
+    }, function(choice)
+      if not choice then
+        return
+      end
+      toggles.set('lualine_separator', choice.name)
+      sections.reload()
+      Snacks.notify.info('Lualine separator: ' .. choice.label)
+    end)
+  end, { desc = 'Lualine: Select Separator' })
 end

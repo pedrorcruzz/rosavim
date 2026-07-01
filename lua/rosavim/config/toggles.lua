@@ -5,6 +5,7 @@ local cache_file = vim.fn.stdpath 'cache' .. '/rosavim-toggles'
 local defaults = {
   lualine = true,
   lualine_theme = true,
+  lualine_separator = 'rounded', -- rounded | bar | arrow | slant (<leader>lqg)
   dropbar = true,
   autosave = false,
   virtual_text_current_line = false,

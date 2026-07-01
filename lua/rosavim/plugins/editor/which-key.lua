@@ -52,6 +52,8 @@ return {
       { '<leader>lqd', group = 'Dashboard', icon = '' },
       { '<leader>lqr', desc = 'Rosaterm: Select Theme', icon = '' },
       { '<leader>lqa', desc = 'RosaAI: Select Theme', icon = ' ' },
+      { '<leader>lqg', desc = 'Lualine: Select Separator' },
+      { '<leader>lqs', desc = 'Search Colorscheme' },
       { '<leader>lqp', desc = 'Picker Layout', icon = '󰠲' },
       { '<leader>lqw', desc = 'Which-Key Preset', icon = '󰌌' },
       { '<leader>lqb', desc = 'Which-Key Border', icon = '󰹞' },

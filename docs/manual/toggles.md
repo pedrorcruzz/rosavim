@@ -44,7 +44,11 @@ The orchestrator at `lua/rosavim/plugins/ui/snacks/toggles.lua` loads all module
 | `<leader>lqt` | Light Mode (Dark/Light) | Dark |
 | `<leader>lqe` | Transparent | Off |
 | `<leader>lql` | Lualine Custom Theme (Auto/Default) | Default |
+| `<leader>lqg` | Lualine Separator (popup selector) | rounded |
+| `<leader>lqs` | Colorscheme picker (rosamin / rosaesthetic) | rosamin |
 | `<leader>ll` | Lualine (Statusline visibility) | On |
+
+Available lualine separators: `rounded`, `bar`, `arrow`, `slant`
 
 ### Plugins (`<leader>l`)
 
@@ -114,6 +118,7 @@ Available which-key borders: `none`, `single`, `double`, `shadow`
 | `<leader>laaz` | Size picker (popup) | default |
 | `<leader>laab` | Vertical border (right/left/float) | On |
 | `<leader>laaB` | Horizontal border (bottom) | On |
+| `<leader>laad` | Dark Background — force #000 in light mode (else theme bg) | Off |
 
 Available RosaAI themes: `bloom`, `petal`, `garland`, `stem`
 
@@ -156,6 +161,7 @@ Available RosaAI sizes: `compact`, `default`, `wide`
 | `<leader>lqr` | Theme picker (popup) — under Theme group | garland |
 | `<leader>latb` | Vertical border (vsplit becomes a pinned float) | Off |
 | `<leader>latB` | Horizontal border (split becomes a pinned float) | Off |
+| `<leader>latd` | Dark Background — force #000 in light mode (else theme bg) | On |
 
 Available rosaterm themes: `bloom`, `petal`, `garland`, `stem`
 

@@ -44,7 +44,11 @@ O orquestrador em `lua/rosavim/plugins/ui/snacks/toggles.lua` carrega todos os m
 | `<leader>lqt` | Modo Claro (Dark/Light) | Dark |
 | `<leader>lqe` | Transparência | Desativado |
 | `<leader>lql` | Tema Custom do Lualine (Auto/Default) | Default |
+| `<leader>lqg` | Separador do Lualine (seletor popup) | rounded |
+| `<leader>lqs` | Picker de colorscheme (rosamin / rosaesthetic) | rosamin |
 | `<leader>ll` | Lualine (visibilidade da Statusline) | Ativado |
+
+Separadores do Lualine disponíveis: `rounded`, `bar`, `arrow`, `slant`
 
 ### Plugins (`<leader>l`)
 
@@ -114,6 +118,7 @@ Bordas de which-key disponíveis: `none`, `single`, `double`, `shadow`
 | `<leader>laaz` | Picker de tamanho (popup) | default |
 | `<leader>laab` | Borda vertical (right/left/float) | Ativado |
 | `<leader>laaB` | Borda horizontal (bottom) | Ativado |
+| `<leader>laad` | Fundo Escuro — força #000 no modo claro (senão bg do tema) | Desativado |
 
 Temas RosaAI disponíveis: `bloom`, `petal`, `garland`, `stem`
 
@@ -156,6 +161,7 @@ Tamanhos RosaAI disponíveis: `compact`, `default`, `wide`
 | `<leader>lqr` | Picker de tema (popup) — fica no grupo Theme | garland |
 | `<leader>latb` | Borda vertical (vsplit vira float pinado) | Desativado |
 | `<leader>latB` | Borda horizontal (split vira float pinado) | Desativado |
+| `<leader>latd` | Fundo Escuro — força #000 no modo claro (senão bg do tema) | Ativado |
 
 Temas rosaterm disponíveis: `bloom`, `petal`, `garland`, `stem`
 
