@@ -46,7 +46,7 @@ local defaults = {
   rosaai_auto_focus = true,
   rosaai_vertical_border = true,
   rosaai_horizontal_border = true,
-  rosaai_dark_bg = false, -- light mode: false = theme bg, true = force #000 (<leader>laad)
+  rosaai_dark_bg = true, -- light mode: false = theme bg, true = force #000 (<leader>laad)
   git_blame = true,
   markview = true,
   image_preview = false,

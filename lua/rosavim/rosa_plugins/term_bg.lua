@@ -3,7 +3,7 @@
 --- makes light-on-light prompts unreadable. Each plugin owns a persistent
 --- toggle deciding whether to force a black bg in light mode:
 ---   - rosaterm → rosaterm_dark_bg (default on,  <leader>latd)
----   - rosaai   → rosaai_dark_bg   (default off, <leader>laad)
+---   - rosaai   → rosaai_dark_bg   (default on,  <leader>laad)
 --- Dark mode always follows the theme's Normal bg (already dark), so the
 --- toggle only has an effect while `background == 'light'`.
 local M = {}

@@ -118,7 +118,7 @@ Available which-key borders: `none`, `single`, `double`, `shadow`
 | `<leader>laaz` | Size picker (popup) | default |
 | `<leader>laab` | Vertical border (right/left/float) | On |
 | `<leader>laaB` | Horizontal border (bottom) | On |
-| `<leader>laad` | Dark Background — force #000 in light mode (else theme bg) | Off |
+| `<leader>laad` | Dark Background — force #000 in light mode (else theme bg) | On |
 
 Available RosaAI themes: `bloom`, `petal`, `garland`, `stem`
 
