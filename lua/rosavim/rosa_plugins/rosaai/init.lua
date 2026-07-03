@@ -34,6 +34,21 @@ function M.close()
   cli.close()
 end
 
+--- Pick one of the running CLIs and kill it (window + process + history).
+function M.close_pick()
+  cli.close_pick()
+end
+
+--- Kill every running CLI.
+function M.close_all()
+  cli.close_all()
+end
+
+--- Visual-pick a CLI window and minimize (hide) it, keeping its session alive.
+function M.minimize_pick()
+  cli.minimize_pick()
+end
+
 function M.focus()
   cli.focus()
 end
@@ -75,7 +90,7 @@ end
 --- Whether any CLI buffer is currently visible (used by rosamaximize)
 function M.is_open()
   local state = require 'rosavim.rosa_plugins.rosaai.state'
-  return state.win ~= nil and vim.api.nvim_win_is_valid(state.win)
+  return state.any_visible()
 end
 
 return M

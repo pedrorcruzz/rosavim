@@ -60,7 +60,28 @@ return {
       function()
         require('rosavim.rosa_plugins.rosaai').select()
       end,
-      desc = 'RosaAI: Select CLI',
+      desc = 'RosaAI: Select CLI + Layout',
+    },
+    {
+      '<leader>ad',
+      function()
+        require('rosavim.rosa_plugins.rosaai').close_pick()
+      end,
+      desc = 'RosaAI: Close a CLI',
+    },
+    {
+      '<leader>aD',
+      function()
+        require('rosavim.rosa_plugins.rosaai').close_all()
+      end,
+      desc = 'RosaAI: Close all CLIs',
+    },
+    {
+      '<leader>am',
+      function()
+        require('rosavim.rosa_plugins.rosaai').minimize_pick()
+      end,
+      desc = 'RosaAI: Minimize (pick)',
     },
     {
       '<leader>at',

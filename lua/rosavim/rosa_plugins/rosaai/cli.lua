@@ -12,32 +12,78 @@ local layout = require 'rosavim.rosa_plugins.rosaai.layout'
 local bar = require 'rosavim.rosa_plugins.rosaai.bar'
 local themes = require 'rosavim.rosa_plugins.rosaai.themes'
 
-local chip_win = nil
-local chip_buf = nil
+-- One chip overlay per layout slot: pos -> { win, buf }. Several CLIs can be
+-- visible at once, so each visible slot carries its own title chip.
+local chips = {}
 
 local function win_open()
   return state.win and api.nvim_win_is_valid(state.win)
 end
 
-local function chip_open()
-  return chip_win and api.nvim_win_is_valid(chip_win)
+--- Position of the currently focused window if it is a RosaAI slot, else nil.
+local function focused_pos()
+  return state.pos_of_win(api.nvim_get_current_win())
 end
 
-local function close_chip()
-  if chip_open() then
-    pcall(api.nvim_win_close, chip_win, true)
+local function chip_open(pos)
+  local c = chips[pos]
+  return c and c.win and api.nvim_win_is_valid(c.win)
+end
+
+local function close_chip(pos)
+  local c = chips[pos]
+  if c and c.win and api.nvim_win_is_valid(c.win) then
+    pcall(api.nvim_win_close, c.win, true)
   end
-  chip_win = nil
+  chips[pos] = nil
 end
 
---- Render or move the chip overlay on top of a floating CLI window
-local function open_chip(parent_win, tool_name)
+local function close_all_chips()
+  for pos, _ in pairs(chips) do
+    close_chip(pos)
+  end
+end
+
+--- Tear down a slot's window + chip and forget it (session is left untouched;
+--- callers that also want to kill the CLI call state.remove separately).
+local function teardown_slot(pos)
+  local sl = state.slots[pos]
+  if sl and sl.win then
+    bar.detach(sl.win)
+    if api.nvim_win_is_valid(sl.win) then
+      pcall(api.nvim_win_close, sl.win, true)
+    end
+    if state.win == sl.win then
+      state.win = nil
+    end
+  end
+  close_chip(pos)
+  state.clear_slot(pos)
+end
+
+--- Focus a slot's window and mark it as the compat-active session.
+local function focus_slot(pos)
+  local sl = state.slot(pos)
+  if not sl then
+    return false
+  end
+  api.nvim_set_current_win(sl.win)
+  state.win = sl.win
+  state.active = sl.name
+  if bar.autoinsert_enabled() then
+    vim.cmd 'startinsert'
+  end
+  return true
+end
+
+--- Render or move the chip overlay on top of a slot's floating CLI window
+local function open_chip(pos, parent_win, tool_name)
   if not parent_win or not api.nvim_win_is_valid(parent_win) then
     return
   end
   local cfg = api.nvim_win_get_config(parent_win)
   if not bar.chip_enabled() then
-    close_chip()
+    close_chip(pos)
     return
   end
 
@@ -61,16 +107,17 @@ local function open_chip(parent_win, tool_name)
   -- Engraved: bordered chip's bottom border lands on float's top border
   local row = math.max(0, cfg.row - rows_above)
 
-  if not chip_buf or not api.nvim_buf_is_valid(chip_buf) then
-    chip_buf = api.nvim_create_buf(false, true)
-    vim.bo[chip_buf].bufhidden = 'hide'
+  local c = chips[pos] or {}
+  if not c.buf or not api.nvim_buf_is_valid(c.buf) then
+    c.buf = api.nvim_create_buf(false, true)
+    vim.bo[c.buf].bufhidden = 'hide'
   end
-  bar.write_chip_buf(chip_buf, width, tool_name)
+  bar.write_chip_buf(c.buf, width, tool_name)
 
-  if chip_open() then
-    pcall(api.nvim_win_close, chip_win, true)
+  if c.win and api.nvim_win_is_valid(c.win) then
+    pcall(api.nvim_win_close, c.win, true)
   end
-  chip_win = api.nvim_open_win(chip_buf, false, {
+  c.win = api.nvim_open_win(c.buf, false, {
     relative = 'editor',
     row = row,
     col = col,
@@ -81,8 +128,9 @@ local function open_chip(parent_win, tool_name)
     focusable = false,
     zindex = 60,
   })
-  vim.wo[chip_win].winhl = 'Normal:Normal,FloatBorder:FloatBorder'
-  vim.wo[chip_win].winbar = ''
+  vim.wo[c.win].winhl = 'Normal:Normal,FloatBorder:FloatBorder'
+  vim.wo[c.win].winbar = ''
+  chips[pos] = c
 end
 
 --- Esc-hint winbar — renders inside the bordered window at the top.
@@ -120,19 +168,37 @@ local function ensure_session(name)
   return s
 end
 
+--- Whether the CLI panel is rendered on a dark background right now: dark
+--- colorscheme, or a light one with the rosaai_dark_bg override on (which
+--- forces the float bg to #000). We hand this to the child via COLORFGBG so
+--- TUIs that auto-theme by the terminal background (Cursor Agent shades its
+--- input box from it) pick dark instead of painting a light box.
+local function panel_is_dark()
+  if vim.o.background == 'dark' then
+    return true
+  end
+  local ok, term_bg = pcall(require, 'rosavim.rosa_plugins.term_bg')
+  return ok and term_bg.is_black('rosaai_dark_bg', true)
+end
+
 local function start_job(s)
   if s.started then
     return
   end
   local cmd = s.tool.cmd
+  -- COLORFGBG '15;0' = light fg on dark bg (→ app uses a dark theme);
+  -- '0;15' = the inverse for a genuinely light panel.
+  local colorfgbg = panel_is_dark() and '15;0' or '0;15'
   api.nvim_buf_call(s.buf, function()
     s.job = fn.termopen(cmd, {
+      env = { COLORFGBG = colorfgbg },
       on_exit = function()
         vim.schedule(function()
-          state.remove(s.tool.name)
-          if state.active == s.tool.name then
-            M.hide()
+          local pos = state.pos_of(s.tool.name)
+          if pos then
+            teardown_slot(pos)
           end
+          state.remove(s.tool.name)
         end)
       end,
     })
@@ -140,21 +206,33 @@ local function start_job(s)
   s.started = true
 end
 
-local function refresh_chip()
-  if state.active and chip_open() then
-    open_chip(state.win, state.active)
+--- Repaint the chip on a specific slot (or, with no arg, every visible slot).
+local function refresh_chip(pos)
+  if pos then
+    local sl = state.slot(pos)
+    if sl and chip_open(pos) then
+      open_chip(pos, sl.win, sl.name)
+    end
+    return
   end
+  state.each_slot(function(p, win, name)
+    if chip_open(p) then
+      open_chip(p, win, name)
+    end
+  end)
 end
 
---- Live-resize the active CLI float by a width/height delta and persist the
+--- Live-resize the focused CLI float by a width/height delta and persist the
 --- new size as a per-position override (so it survives hide/show/relayout).
 --- Geometry is recomputed through layout so the float stays pinned to its
 --- edge (or centered, for float) instead of drifting.
 local function resize_active(d_w, d_h)
-  if not win_open() then
+  local pos = focused_pos()
+  if not pos then
     return false
   end
-  local cfg = api.nvim_win_get_config(state.win)
+  local win = state.slot(pos).win
+  local cfg = api.nvim_win_get_config(win)
   if not cfg.relative or cfg.relative == '' then
     return false
   end
@@ -165,22 +243,22 @@ local function resize_active(d_w, d_h)
   if new_w == cfg.width and new_h == cfg.height then
     return false
   end
-  layout.set_override(layout.current_position(), new_w, new_h)
-  local geom = layout.compute_geom()
-  pcall(api.nvim_win_set_config, state.win, geom)
-  refresh_chip()
+  layout.set_override(pos, new_w, new_h)
+  local geom = layout.compute_geom(pos)
+  pcall(api.nvim_win_set_config, win, geom)
+  refresh_chip(pos)
   return true
 end
 
---- Resize the active CLI float in an arrow direction, honoring the current
+--- Resize the focused CLI float in an arrow direction, honoring its slot's
 --- layout: vertical (right/left) → width, horizontal (bottom) → height,
 --- float → both axes (kept centered). Returns true when it handled the
 --- resize, so smart-splits can fall through to native splits otherwise.
 function M.resize_arrow(dir)
-  if not win_open() then
+  local pos = focused_pos()
+  if not pos then
     return false
   end
-  local pos = layout.current_position()
   if pos == 'right' then
     if dir == 'left' then
       return resize_active(1, 0)
@@ -213,9 +291,12 @@ function M.resize_arrow(dir)
   return false
 end
 
---- Show a CLI tool's terminal in the shared window. With no name,
---- re-shows the last active session (or the first available tool).
-function M.show(name)
+--- Show a CLI tool's terminal in the given layout slot (defaults to the last
+--- configured position). Other slots stay visible, so several CLIs can share
+--- the screen. If the CLI is already visible in another slot it RELOCATES
+--- here; if the target slot holds a different CLI it REPLACES it (the
+--- replaced CLI's session stays alive and can be reopened later).
+function M.show(name, pos)
   if not name then
     name = state.active
   end
@@ -234,36 +315,62 @@ function M.show(name)
     return
   end
 
-  local prev = state.win
-  local win, kind = layout.open(s.buf, prev)
+  pos = pos or layout.current_position()
+
+  -- Relocate: if this CLI is already shown elsewhere, drop that slot first.
+  local prev_pos = state.pos_of(name)
+  if prev_pos and prev_pos ~= pos then
+    teardown_slot(prev_pos)
+  end
+
+  -- Replace: close the slot's current occupant window in place (its session
+  -- lives on). bar/chip of the occupant are dropped before we reuse the slot.
+  local occupant = state.slots[pos]
+  local prev_win = occupant and occupant.win
+  if occupant and occupant.win then
+    bar.detach(occupant.win)
+  end
+  close_chip(pos)
+
+  local win, kind = layout.open(s.buf, prev_win, pos)
+  state.set_slot(pos, win, name)
   state.win = win
   state.active = name
+  require('rosavim.config.toggles').set('rosaai_position', pos)
 
   if not s.started then
     start_job(s)
   end
 
   set_winbar(win)
-  open_chip(win, name)
-  bar.attach(win, s.buf, refresh_chip)
+  open_chip(pos, win, name)
+  bar.attach(win, s.buf, function()
+    refresh_chip(pos)
+  end)
 
   if bar.autoinsert_enabled() then
     vim.cmd 'startinsert'
   end
 end
 
---- Hide the active CLI window without killing the job (state.active is
---- preserved so the next bare M.show() can restore the same session).
-function M.hide()
-  close_chip()
-  if win_open() then
-    bar.detach(state.win)
-    pcall(api.nvim_win_close, state.win, true)
+--- Hide a slot without killing its job (defaults to the focused slot, else
+--- the compat-active session, else any single visible slot). The session is
+--- preserved so a later show restores it with history intact.
+function M.hide(pos)
+  pos = pos or focused_pos() or state.pos_of(state.active)
+  if not pos then
+    state.each_slot(function(p)
+      pos = pos or p
+    end)
   end
-  state.win = nil
+  if not pos then
+    return
+  end
+  teardown_slot(pos)
 end
 
---- Toggle the named CLI (or the most recent one if no name given)
+--- Toggle the named CLI (or the most recent one if no name given): hide its
+--- slot if visible, otherwise show it in its last/default position.
 function M.toggle(name)
   name = name or state.active
   if not name then
@@ -276,11 +383,12 @@ function M.toggle(name)
     name = avail[1].name
   end
 
-  if state.active == name and win_open() then
-    M.hide()
-    return
+  local pos = state.pos_of(name)
+  if pos then
+    M.hide(pos)
+  else
+    M.show(name)
   end
-  M.show(name)
 end
 
 --- Small popup that asks which layout to open the CLI in.
@@ -452,37 +560,37 @@ local function select_cli_then(on_pick)
   end
 end
 
---- Smart toggle:
---- - open + matches + focused → hide
---- - open + matches + not focused → focus it (saves a leaderm trip)
---- - never opened any CLI before → show layout picker, then show
---- - otherwise → reuse the last saved position (no picker)
+--- Smart toggle for <leader>aa (bare) and the per-tool keys (<leader>ac …):
+--- - CLI visible + focused    → hide its slot
+--- - CLI visible + not focused → focus it
+--- - CLI hidden but a session exists → reopen in its last position
+--- - very first open ever      → ask the layout once, then show
+--- Bare <leader>aa routes through select_cli_then, so with 2+ CLIs alive it
+--- pops the selector to choose which one to toggle.
 function M.toggle_with_picker(tool_name)
-  if win_open() and (not tool_name or state.active == tool_name) then
-    if api.nvim_get_current_win() == state.win then
-      M.hide()
-    else
-      M.focus()
-    end
-    return
-  end
-  -- Show `name`, letting the user pick the layout on the very first open.
   local function proceed(name)
-    if next(state.sessions) ~= nil then
-      M.show(name)
+    local pos = state.pos_of(name)
+    if pos then
+      if focused_pos() == pos then
+        M.hide(pos)
+      else
+        focus_slot(pos)
+      end
       return
     end
-    show_layout_picker(function(pos)
-      if not pos then
-        return
-      end
-      require('rosavim.config.toggles').set('rosaai_position', pos)
+    -- Not visible. On the very first open (no sessions at all) let the user
+    -- pick the layout once; afterwards just reuse the last position.
+    if next(state.sessions) == nil then
+      show_layout_picker(function(p)
+        if not p then
+          return
+        end
+        M.show(name, p)
+      end)
+    else
       M.show(name)
-    end)
+    end
   end
-  -- Bare <leader>aa (no explicit tool) follows the ask flow's CLI selection:
-  -- prompt when none is open, pick among the open ones when several are.
-  -- Explicit per-tool toggles (<leader>ac, etc.) skip straight to their tool.
   if tool_name then
     proceed(tool_name)
   else
@@ -490,43 +598,43 @@ function M.toggle_with_picker(tool_name)
   end
 end
 
---- Open (or hide) the CLI in a specific layout. Pressing the same direct
---- key while the CLI is already in that layout hides it (toggle).
---- Pressing a different direct key while open switches to the new layout.
+--- Show a CLI in a specific layout slot. Pressing this while that exact slot
+--- already shows this CLI (and is focused) toggles it off; otherwise it
+--- shows/replaces the slot, keeping every OTHER slot visible.
 function M.show_in(position, tool_name)
-  local toggles = require 'rosavim.config.toggles'
-  local current = toggles.get 'rosaai_position'
-  if win_open() and current == position and (not tool_name or state.active == tool_name) then
-    M.hide()
+  local sl = state.slot(position)
+  if sl and (not tool_name or sl.name == tool_name) and focused_pos() == position then
+    M.hide(position)
     return
   end
-  toggles.set('rosaai_position', position)
-  M.show(tool_name)
+  M.show(tool_name, position)
 end
 
---- Open the CLI in a specific layout (vertical/horizontal/float), following
---- the SAME CLI-selection logic as <leader>aa: prompt for a CLI when none is
---- open, or pick among the open ones when several are. Pressing the same
---- layout key while that layout is showing toggles it off. The layout is
---- fixed by the key, so there is no layout picker here.
+--- Open a CLI in a specific layout (vertical/horizontal/float), following the
+--- SAME CLI-selection logic as <leader>aa: prompt for a CLI when none is
+--- open, use the only one when just one is alive (migrate it here), or pick
+--- among the open ones when several are. Pressing the same layout key while
+--- that slot is showing toggles it off. Every other slot stays visible.
 function M.open_in_layout(position)
-  local toggles = require 'rosavim.config.toggles'
-  if win_open() and toggles.get 'rosaai_position' == position then
-    M.hide()
+  if state.slot(position) then
+    M.hide(position)
     return
   end
   select_cli_then(function(name)
-    M.show_in(position, name)
+    M.show(name, position)
   end)
 end
 
---- Focus the active CLI window (re-show it if hidden)
+--- Focus a visible CLI window (re-show the compat-active one if hidden)
 function M.focus()
-  if state.active and win_open() then
-    api.nvim_set_current_win(state.win)
-    if bar.autoinsert_enabled() then
-      vim.cmd 'startinsert'
-    end
+  local pos = state.pos_of(state.active)
+  if not pos then
+    state.each_slot(function(p)
+      pos = pos or p
+    end)
+  end
+  if pos then
+    focus_slot(pos)
     return
   end
   if state.active then
@@ -536,16 +644,85 @@ function M.focus()
   end
 end
 
---- Hide the window and drop the active session
+--- Hide the focused/active window and drop that one session (kills its job)
 function M.close()
-  local name = state.active
-  M.hide()
+  local pos = focused_pos() or state.pos_of(state.active)
+  local name = pos and state.slots[pos] and state.slots[pos].name or state.active
+  if pos then
+    teardown_slot(pos)
+  end
   if name then
     state.remove(name)
   end
 end
 
---- Picker: choose which CLI to open from the list of installed tools
+--- Kill a CLI for good: close its slot window and drop the session (buffer +
+--- job), losing its history. Used by <leader>ad / <leader>aD.
+function M.kill(name)
+  local pos = state.pos_of(name)
+  if pos then
+    teardown_slot(pos)
+  end
+  state.remove(name)
+end
+
+--- <leader>ad — pick one of the ALIVE CLIs (visible or hidden) and kill it.
+--- With a single alive CLI it kills straight away; with none it just warns.
+function M.close_pick()
+  local items = {}
+  for name, s in pairs(state.alive()) do
+    table.insert(items, { name = name, tool = s.tool })
+  end
+  if #items == 0 then
+    vim.notify('RosaAI: no CLI running', vim.log.levels.INFO)
+    return
+  end
+  if #items == 1 then
+    M.kill(items[1].name)
+    return
+  end
+  pick_cli(items, M.kill)
+end
+
+--- <leader>am — visual window picker (rosapick): the picked CLI slot is
+--- hidden (session kept alive), like <leader>aa does for the focused one.
+function M.minimize_pick()
+  if not state.any_visible() then
+    return
+  end
+  local rok, rosapick = pcall(require, 'rosavim.rosa_plugins.rosapick')
+  if not rok then
+    -- Fall back to hiding the focused/active slot if rosapick is unavailable.
+    M.hide()
+    return
+  end
+  local win = rosapick.select()
+  if not win then
+    return
+  end
+  local pos = state.pos_of_win(win)
+  if pos then
+    M.hide(pos)
+  end
+end
+
+--- <leader>aD — kill every alive CLI (all slots close, all history dropped).
+function M.close_all()
+  local names = {}
+  for name, _ in pairs(state.alive()) do
+    table.insert(names, name)
+  end
+  if #names == 0 then
+    vim.notify('RosaAI: no CLI running', vim.log.levels.INFO)
+    return
+  end
+  for _, name in ipairs(names) do
+    M.kill(name)
+  end
+end
+
+--- Picker: choose a CLI, then choose a layout slot to open it in (replacing
+--- whatever occupies that slot, even a different CLI). Wired to <leader>as.
 function M.select(opts)
   opts = opts or {}
   local avail = tools.available()
@@ -571,7 +748,12 @@ function M.select(opts)
     if not choice then
       return
     end
-    M.show(choice.tool.name)
+    show_layout_picker(function(pos)
+      if not pos then
+        return
+      end
+      M.show(choice.tool.name, pos)
+    end)
   end)
 end
 
@@ -844,29 +1026,26 @@ function M.ask_with_preview()
   })
 end
 
---- Re-render the chip overlay on the active window (called by toggles)
+--- Re-render the chip overlay on every visible slot (called by toggles)
 function M.refresh_chips()
-  if not win_open() then
-    return
-  end
-  if not state.active then
-    return
-  end
-  set_winbar(state.win)
-  open_chip(state.win, state.active)
+  state.each_slot(function(pos, win, name)
+    set_winbar(win)
+    open_chip(pos, win, name)
+  end)
 end
 
---- Re-open the active CLI in the new layout (called after position/size change)
---- Re-open the active CLI in the new layout. No-op when the window is
---- closed — switching theme/border/position should never open the CLI
---- on its own (user must trigger it explicitly via <leader>aa).
+--- Re-apply theme/size/border to every visible slot (called after a toggle
+--- change). Re-opens each CLI in its OWN position, leaving the set of visible
+--- slots unchanged. No-op when nothing is visible — toggles never open a CLI
+--- on their own (the user must trigger it via <leader>aa/av/ah/af).
 function M.relayout()
-  if not win_open() or not state.active then
-    return
+  local shown = {}
+  state.each_slot(function(pos, _, name)
+    table.insert(shown, { pos = pos, name = name })
+  end)
+  for _, sl in ipairs(shown) do
+    M.show(sl.name, sl.pos)
   end
-  local name = state.active
-  M.hide()
-  M.show(name)
 end
 
 --- Per-buffer Esc handler: single Esc → normal mode, double Esc within
@@ -935,16 +1114,30 @@ api.nvim_create_autocmd('TermOpen', {
   end,
 })
 
---- Whether the shared CLI window is on the current tabpage. Floats are
---- tabpage-local, so after switching away and back the float is re-shown
---- but its terminal cells are not repainted, leaving the overlapping/ghosted
---- look. We force a full repaint on TabEnter to clear it.
+--- Whether the win belongs to RosaAI (a slot or one of the chip overlays).
+local function is_our_win(w)
+  for _, sl in pairs(state.slots) do
+    if sl.win == w then
+      return true
+    end
+  end
+  for _, c in pairs(chips) do
+    if c.win == w then
+      return true
+    end
+  end
+  return false
+end
+
+--- Whether any RosaAI slot is on the current tabpage. Floats are tabpage-local,
+--- so after switching away and back they are re-shown but their terminal cells
+--- are not repainted, leaving a ghosted look. We force a repaint on TabEnter.
 local function rosaai_visible_here()
-  if not win_open() then
+  if not state.any_visible() then
     return false
   end
   for _, w in ipairs(api.nvim_tabpage_list_wins(0)) do
-    if w == state.win then
+    if state.pos_of_win(w) then
       return true
     end
   end
@@ -956,10 +1149,10 @@ local function force_repaint()
     return
   end
   vim.schedule(function()
-    if not win_open() then
+    if not state.any_visible() then
       return
     end
-    -- Re-pin the chip (it can desync after a tab switch), then repaint the
+    -- Re-pin every chip (they can desync after a tab switch), then repaint the
     -- whole screen so stale terminal cells from the hidden tab are cleared.
     refresh_chip()
     pcall(vim.cmd, 'redraw!')
@@ -974,12 +1167,12 @@ api.nvim_create_autocmd('TabEnter', {
 api.nvim_create_autocmd('WinEnter', {
   group = redraw_group,
   callback = function()
-    if win_open() and api.nvim_get_current_win() == state.win then
+    if focused_pos() then
       force_repaint()
     end
   end,
 })
--- Reflow the float (and chip) to the current layout. For the bottom
+-- Reflow every visible slot (and its chip) to its layout. For the bottom
 -- (horizontal) position, compute_geom tracks the editor main area, so this
 -- also slides/shrinks the float when a side panel (Snacks Explorer, etc.)
 -- opens or closes. `reflowing` guards the synchronous chip open/close events
@@ -989,20 +1182,22 @@ local reflow_timer = nil
 local reflowing = false
 
 local function apply_layout()
-  if not win_open() then
-    return
-  end
-  local ok, cur = pcall(api.nvim_win_get_config, state.win)
-  if not ok then
-    return
-  end
-  local geom = layout.compute_geom()
-  if cur.width == geom.width and cur.height == geom.height and cur.col == geom.col and cur.row == geom.row then
+  if not state.any_visible() then
     return
   end
   reflowing = true
-  pcall(api.nvim_win_set_config, state.win, geom)
-  refresh_chip()
+  state.each_slot(function(pos, win)
+    local ok, cur = pcall(api.nvim_win_get_config, win)
+    if not ok then
+      return
+    end
+    local geom = layout.compute_geom(pos)
+    if cur.width == geom.width and cur.height == geom.height and cur.col == geom.col and cur.row == geom.row then
+      return
+    end
+    pcall(api.nvim_win_set_config, win, geom)
+    refresh_chip(pos)
+  end)
   reflowing = false
 end
 
@@ -1024,26 +1219,26 @@ local function schedule_reflow()
   )
 end
 
--- Editor resize reflows every position (existing behavior).
+-- Editor resize reflows every slot (existing behavior).
 api.nvim_create_autocmd('VimResized', {
   group = redraw_group,
   callback = function()
-    if win_open() then
+    if state.any_visible() then
       schedule_reflow()
     end
   end,
 })
 
--- Smart resize for the horizontal (bottom) layout only: when another window
--- is resized or opened/closed, re-anchor the float to the new main area.
--- Events from our own float/chip are filtered to avoid a feedback loop.
+-- Smart resize for the horizontal (bottom) slot: when another window is
+-- resized or opened/closed, re-anchor it to the new main area. Events from our
+-- own floats/chips are filtered to avoid a feedback loop.
 api.nvim_create_autocmd('WinResized', {
   group = redraw_group,
   callback = function()
     if reflowing then
       return
     end
-    if win_open() and layout.current_position() == 'bottom' then
+    if state.slot 'bottom' then
       schedule_reflow()
     end
   end,
@@ -1055,10 +1250,10 @@ api.nvim_create_autocmd({ 'WinNew', 'WinClosed' }, {
       return
     end
     local w = tonumber(args.match) or args.win
-    if w == state.win or w == chip_win then
+    if w and is_our_win(w) then
       return
     end
-    if win_open() and layout.current_position() == 'bottom' then
+    if state.slot 'bottom' then
       schedule_reflow()
     end
   end,
@@ -1068,12 +1263,75 @@ api.nvim_create_autocmd('WinClosed', {
   group = api.nvim_create_augroup('RosaaiCliClose', { clear = true }),
   callback = function(args)
     local closed = tonumber(args.match)
-    if closed and closed == state.win then
-      bar.detach(state.win)
-      close_chip()
-      state.win = nil
+    if not closed then
+      return
+    end
+    -- A slot window closed externally (e.g. :q): forget that slot cleanly.
+    for pos, sl in pairs(state.slots) do
+      if sl.win == closed then
+        bar.detach(closed)
+        close_chip(pos)
+        state.clear_slot(pos)
+        if state.win == closed then
+          state.win = nil
+        end
+        break
+      end
     end
   end,
 })
+
+-- Nvim answers OSC 10/11 (terminal fg/bg color queries) from a default
+-- autocmd that keys off the 'background' option: a light colorscheme reports a
+-- WHITE background. TUIs like Cursor Agent query this to auto-theme, so on a
+-- light theme they paint a light input box even though our CLI float is forced
+-- dark (rosaai_dark_bg / <leader>laad). winhl can't change the OSC answer, and
+-- COLORFGBG is only a fallback the app uses when the query goes unanswered.
+-- So we replace Nvim's stock responder with one that reports DARK for our
+-- forced-dark CLI terminals, and preserves stock behavior for every other
+-- terminal (fg=white/bg=black when 'background' is dark, inverse when light).
+local function install_osc_color_override()
+  local ok, existing = pcall(api.nvim_get_autocmds, { event = 'TermRequest' })
+  if ok then
+    for _, au in ipairs(existing) do
+      if au.desc == 'Handles OSC foreground/background color requests' and au.id then
+        pcall(api.nvim_del_autocmd, au.id)
+      end
+    end
+  end
+  api.nvim_create_autocmd('TermRequest', {
+    group = api.nvim_create_augroup('RosaaiOscColor', { clear = true }),
+    desc = 'RosaAI OSC fg/bg response (dark for forced-dark CLI panels)',
+    callback = function(ev)
+      local channel = vim.bo[ev.buf].channel
+      if channel == 0 then
+        return
+      end
+      local seq = ev.data and ev.data.sequence
+      local fg_request = seq == '\027]10;?'
+      local bg_request = seq == '\027]11;?'
+      if not (fg_request or bg_request) then
+        return
+      end
+      -- Our CLI panels report dark whenever they render dark; any other
+      -- terminal keeps Nvim's stock 'background'-driven answer.
+      local dark
+      if vim.b[ev.buf].rosaai_cli then
+        dark = panel_is_dark()
+      else
+        dark = vim.o.background == 'dark'
+      end
+      local red, green, blue = 0, 0, 0
+      if (fg_request and dark) or (bg_request and not dark) then
+        red, green, blue = 65535, 65535, 65535
+      end
+      local command = fg_request and 10 or 11
+      local data = string.format('\027]%d;rgb:%04x/%04x/%04x%s', command, red, green, blue, ev.data.terminator)
+      pcall(api.nvim_chan_send, channel, data)
+    end,
+  })
+end
+
+install_osc_color_override()
 
 return M

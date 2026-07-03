@@ -59,8 +59,8 @@ end
 --- - vertical (right/left/float) → rosaai_vertical_border (<leader>laab)
 --- - horizontal (bottom)         → rosaai_horizontal_border (<leader>laaB)
 --- When the relevant toggle is off, force 'none' regardless of theme.
-function M.current_border()
-  local pos = M.current_position()
+function M.current_border(pos)
+  pos = pos or M.current_position()
   local key = pos == 'bottom' and 'rosaai_horizontal_border' or 'rosaai_vertical_border'
   if not tog_get(key, true) then
     return 'none'
@@ -146,12 +146,26 @@ local SIDEBAR_FILETYPES = {
 function M.compute_main_area()
   local cols = vim.o.columns
   local left, right = 0, 0
+  -- RosaAI vertical slots (right/left) are floats, so they don't reserve
+  -- editor columns on their own. Treat them as side panels here so the bottom
+  -- (horizontal) slot shrinks to sit BESIDE them instead of sliding under.
+  local rosaai_side = {}
+  local ok_state, state = pcall(require, 'rosavim.rosa_plugins.rosaai.state')
+  if ok_state then
+    for _, p in ipairs { 'right', 'left' } do
+      local sl = state.slot(p)
+      if sl then
+        rosaai_side[sl.win] = true
+      end
+    end
+  end
   for _, win in ipairs(api.nvim_tabpage_list_wins(0)) do
     local ok, cfg = pcall(api.nvim_win_get_config, win)
     if ok and cfg.focusable ~= false then
       local buf = api.nvim_win_get_buf(win)
       local ft = vim.bo[buf].filetype
-      if ft ~= 'rosaai' then
+      -- Skip our OWN horizontal/float slots, but keep vertical slots in play.
+      if ft ~= 'rosaai' or rosaai_side[win] then
         local pos = api.nvim_win_get_position(win)
         local w = api.nvim_win_get_width(win)
         local is_float = cfg.relative ~= ''
@@ -163,7 +177,8 @@ function M.compute_main_area()
         local right_edge = outer_col + outer_w
         local touches_left = outer_col <= 2
         local touches_right = right_edge >= cols - 2
-        local is_known_sidebar = SIDEBAR_FILETYPES[ft] == true
+        -- Our vertical slots always count as side panels regardless of width.
+        local is_known_sidebar = SIDEBAR_FILETYPES[ft] == true or rosaai_side[win] == true
         local is_narrow_edge = outer_w < cols * 0.35
         if (is_known_sidebar or is_narrow_edge) and (touches_left or touches_right) then
           if touches_left then
@@ -182,11 +197,12 @@ function M.compute_main_area()
   return { col = left, width = cols - left - right }
 end
 
---- Compute the floating window options for the current position+size+theme
-function M.compute_geom()
-  local pos = M.current_position()
+--- Compute the floating window options for a position+size+theme. When `pos`
+--- is omitted, uses the currently configured position (compat).
+function M.compute_geom(pos)
+  pos = pos or M.current_position()
   local size = size_spec()
-  local border = M.current_border()
+  local border = M.current_border(pos)
   local cols = vim.o.columns
   local lines = vim.o.lines - vim.o.cmdheight - 1
   local adj = border_adj(border)
@@ -249,9 +265,10 @@ function M.compute_geom()
   return base, 'bottom'
 end
 
---- Open (or reuse) the shared floating window for the given buffer
-function M.open(buf, prev_win)
-  local geom, kind = M.compute_geom()
+--- Open a floating window for the given buffer at `pos`. When `prev_win` is
+--- valid it is closed first (used to replace a slot's occupant in place).
+function M.open(buf, prev_win, pos)
+  local geom, kind = M.compute_geom(pos)
   if prev_win and api.nvim_win_is_valid(prev_win) then
     pcall(api.nvim_win_close, prev_win, true)
   end

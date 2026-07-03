@@ -6,14 +6,6 @@ local M = {}
 
 local cmd_for = { h = 'wincmd h', j = 'wincmd j', k = 'wincmd k', l = 'wincmd l' }
 
-local function rosaai_position()
-  local ok, layout = pcall(require, 'rosavim.rosa_plugins.rosaai.layout')
-  if not ok then
-    return nil
-  end
-  return layout.current_position()
-end
-
 local function rosaai_state()
   local ok, state = pcall(require, 'rosavim.rosa_plugins.rosaai.state')
   if not ok then
@@ -46,18 +38,24 @@ function M.go(dir)
     return
   end
 
-  local pos = rosaai_position()
-  if not pos or not position_matches(dir, pos) then
-    return
-  end
+  -- No split to move into that way — fall back to a RosaAI slot pinned on
+  -- that side, if one is open (so <leader>1..4 can reach the floats too).
   local state = rosaai_state()
-  if not state or not state.win or not vim.api.nvim_win_is_valid(state.win) then
+  if not state then
     return
   end
-  if state.win == before then
-    return
+  local target
+  state.each_slot(function(pos, win)
+    if win ~= before and position_matches(dir, pos) then
+      target = target or win
+    end
+  end)
+  if target then
+    pcall(vim.api.nvim_set_current_win, target)
+    if vim.bo[vim.api.nvim_win_get_buf(target)].buftype == 'terminal' then
+      vim.cmd 'startinsert'
+    end
   end
-  pcall(require('rosavim.rosa_plugins.rosaai').focus)
 end
 
 return M
