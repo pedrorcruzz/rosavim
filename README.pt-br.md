@@ -10,13 +10,9 @@
 [![Lua](https://img.shields.io/badge/Lua-2C2D72?style=for-the-badge&logo=lua&logoColor=white)](https://www.lua.org)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue?style=for-the-badge)](LICENSE)
 
----
-
 *Transforme seu terminal em uma IDE completa, sem complicações.*
 
-🇺🇸 **[English](README.md)** | 🇧🇷 **[Português](#o-que-é-rosavim)**
-
-[O que é Rosavim?](#o-que-é-rosavim) · [Temas Próprios](#temas-próprios) · [Documentação](#documentação) · [Linguagens](#linguagens--frameworks) · [Funcionalidades](#funcionalidades) · [Instalação](#instalação) · [Requisitos](#requisitos) · [Estrutura do Projeto](#estrutura-do-projeto) · [Atalhos Principais](#atalhos-principais)
+🇧🇷 **Português** · 🇺🇸 **[English](README.md)**
 
 | | |
 |:---:|:---:|
@@ -27,133 +23,11 @@
 
 ## O que é Rosavim?
 
-Rosavim é uma distribuição do Neovim pensada para desenvolvedores que querem um ambiente de desenvolvimento completo, rápido e bonito sem precisar gastar horas configurando do zero. Com suporte de primeira classe para as principais linguagens e frameworks do mercado, basta clonar e começar a codar.
+Rosavim é uma distribuição do Neovim para quem quer um ambiente completo, rápido e bonito sem gastar horas configurando do zero. Já vem com suporte de primeira classe para as principais linguagens e frameworks — basta clonar e começar a codar.
 
-Construída sobre o **Lazy.nvim**, Rosavim carrega plugins de forma inteligente, mantendo o startup rápido e a experiência fluida.
+Construída sobre o **Lazy.nvim**, carrega plugins de forma lazy para manter o startup rápido, e traz um conjunto de **plugins próprios "rosa"** (terminal, test runner, operações de arquivo, navegador de projeto e mais) para que a maior parte funcione de imediato.
 
-## Documentação
-
-Para guias detalhados e referências completas, confira o diretório [docs/manual](docs/manual/):
-
-- **[Instalação](docs/manual/installation.pt-br.md)** — Guia completo de instalação com troubleshooting
-- **[Atalhos](docs/manual/keybinds.pt-br.md)** — Referência completa de atalhos com exemplos de uso
-- **[Plugins](docs/manual/plugins.pt-br.md)** — Catálogo completo de plugins com descrições
-- **[Linguagens](docs/manual/languages.pt-br.md)** — Detalhes de suporte a linguagens e configuração
-- **[Debugging](docs/manual/debugging.pt-br.md)** — Configuração e uso de debug por linguagem
-- **[Customização](docs/manual/customization.pt-br.md)** — Temas, aparência e como estender o Rosavim
-- **[Toggles](docs/manual/toggles.pt-br.md)** — Persistência de toggles de interface entre sessões
-
-## Linguagens & Frameworks
-
-Rosavim oferece suporte completo (LSP, formatação, linting, testes e debug) para as principais stacks de desenvolvimento:
-
-| Linguagem | LSP | Formatter | Linter | Testes | Debug |
-|:----------|:---:|:---------:|:------:|:------:|:-----:|
-| **TypeScript / JavaScript** | vtsls | Biome / Prettier | ESLint / Biome | Jest / Vitest | — |
-| **React / JSX / TSX** | vtsls | Biome / Prettier | ESLint / Biome | Jest / Vitest | — |
-| **Go** | gopls | goimports | golangci-lint | gotestsum | Delve |
-| **Python** | Pyright | autopep8 | Mypy / Pylint | pytest | debugpy |
-| **Java** | JDTLS | google-java-format | Checkstyle | Gradle | Remote Attach |
-| **PHP / Laravel** | Intelephense | php-cs-fixer | phpcs | Pest | Xdebug |
-| **HTML / CSS** | Emmet + Tailwind CSS | Prettier | djlint | — | — |
-| **SQL** | sqlls | sql_formatter | — | — | — |
-| **Lua** | lua_ls | StyLua | — | — | — |
-| **JSON** | json_ls | Prettier | Biome | — | — |
-
-> **Não encontrou sua linguagem?** Rosavim usa o **Mason** como backbone de ferramentas — adicionar suporte a novas linguagens é tão simples quanto instalar o LSP server, formatter ou linter que você precisa. Rust, C/C++, Kotlin, Ruby, Elixir, Zig e muitas outras podem ser configuradas em minutos.
-
-## Funcionalidades
-
-### Editor Inteligente
-
-- **Autocompletion** via [blink.cmp](https://github.com/Saghen/blink.cmp) — engine de completion em Rust, extremamente rápido
-- **Snippets** com LuaSnip + friendly-snippets para produtividade máxima
-- **Treesitter Nativo** (Neovim 0.12+) para syntax highlighting preciso e indentação
-- **Format on Save** automático com conform.nvim
-- **Auto Save** ao perder foco da janela
-- **Toggles Persistentes** — todas as configurações de UI e autocmd são salvas entre sessões com toggle em runtime
-
-### Navegação & Busca
-
-- **Snacks Picker** para fuzzy finding de arquivos, grep, buffers e muito mais
-- **Flash.nvim** para movimentação rápida no código com labels visuais
-- **Rosapoon** para marcar e saltar entre arquivos frequentes (seleção visual para deletar, remoção em massa)
-- **Snacks Explorer** como file tree integrado
-- **Yazi** como file manager alternativo no terminal
-- **Rosapreview** para preview de definições LSP, type definitions, implementações e referências em janela flutuante — expanda para vsplit ou substitua a janela atual
-- **GrugFar** para search & replace avançado com ripgrep
-
-### Git
-
-- **Gitsigns** com indicadores de mudanças inline e git blame por linha
-- Integração com **lazygit** direto do editor
-
-### Debug & Testes
-
-- **DAP** (Debug Adapter Protocol) com UI visual, breakpoints e inspeção de variáveis inline
-- **Rosatest** — test runner nativo do Rosavim com popup de resultados, roda testes nearest/file/all e picker de arquivos de teste. Suporte para Go, Jest, Vitest, Pytest, Pest, PHPUnit e Java
-
-### IA
-
-- **GitHub Copilot** integrado ao autocompletion
-- **RosaAI** integração nativa com CLIs de IA (Claude, Cursor, OpenClaude, Gemini, ...) com janela temática, preview no editor, resize pelas setas (persistido por posição) e bordas rounded por orientação
-
-### UI & Aparência
-
-- **2 temas próprios** incluídos: **Rosamin** (padrão, inspirado no min-theme) e **Rosaesthetic**, ambos com dark/light mode, suporte a transparência e overrides customizáveis
-- Alternância entre **dark/light mode** com um atalho
-- **Modo transparente** para integrar com o wallpaper do terminal
-- **Dashboard** customizado com acesso rápido a projetos e arquivos recentes
-- **Lualine** com statusline informativa (modo, git, LSP, Copilot) — com presets de separador selecionáveis (rounded / bar / arrow / slant) via popup
-- **Bufferline** barra de abas de buffers com diagnósticos, pick e ordenação (com toggle)
-- **Dropbar** com breadcrumbs de navegação
-- **Incline** indicador flutuante de nome de arquivo por janela (com toggle)
-- **Noice.nvim** para mensagens e command line modernos
-- **Rosamaximize** — maximizador de janela nativo (`<leader>cm`). Alterna entre maximizar a janela atual e restaurar o layout completo
-
-### Gerenciamento de Arquivos
-
-- **Rosafile** — menu nativo de operações com arquivos (`<leader>x`). Crie, renomeie, duplique, delete arquivos e veja informações — tudo via popup
-
-### Ferramentas de Linguagem
-
-- **Rosakit** — Navegador de projeto com detecção de stack. Detecta automaticamente o stack (React, Next.js, Vue, Angular, Svelte, Nest.js, Express, Go, Django, FastAPI, Laravel, Spring) e mostra seções relevantes (components, controllers, models, routes, etc.) + ferramentas LSP. Suporta monorepos
-
-### Terminal
-
-- **Rosaterm** — Plugin de terminal próprio do Rosavim. Float e splits sem dependências externas. Float com múltiplas instâncias (cicla com `<C-j>`/`<C-k>`), splits abertos relativos à janela focada com divisão igual, e um chip de título customizável mostrando `󰧱 Rosaterm hh:mm`
-  - **4 temas de chip** selecionáveis em `<leader>lqr`: `Bloom` (chip arredondado), `Petal` (sem borda), `Garland` (banner em largura cheia), `Stem` (texto + linha separadora)
-  - **Toggles persistentes** sob `<leader>lat`: esconder chip, esconder hora, modo insert ao abrir
-
-### Ferramentas Extras
-
-- **Database Client** (vim-dadbod) com UI para queries SQL
-- **Obsidian** integração para notas e second brain
-- **Discord Presence** para mostrar o que você está editando
-
-> Essas são apenas as ferramentas que já vem inclusas. O sistema de plugins do Rosavim é modular — você pode facilmente adicionar, remover ou trocar plugins para adaptar ao seu workflow.
-
-## Temas Próprios
-
-Rosavim vem com seus próprios temas, totalmente integrados com os toggles de dark/light mode e transparência.
-
-### Rosamin (padrão)
-
-Tema minimal estético inspirado no min-theme. Limpo e focado.
-
-| Code (Dark) | Dashboard (Dark) | Code (Light) | Transparente |
-|:------------|:-----------------|:-------------|:-------------|
-| ![Rosamin Code Dark](assets/screenshots/rosamin_code_dark.png) | ![Rosamin Dashboard Dark](assets/screenshots/rosamin_dashboard_dark.png) | ![Rosamin Code Light](assets/screenshots/rosamin_code_light.png) | ![Rosamin Transparent](assets/screenshots/rosamin_transparent.png) |
-
-### Rosaesthetic
-
-Tema estético com tons quentes e terrosos.
-
-| Code (Dark) | Dashboard (Dark) | Code (Light) | Dashboard (Light) | Transparente |
-|:------------|:-----------------|:-------------|:-------------------|:-------------|
-| ![Rosaesthetic Code Dark](assets/screenshots/rosaaesthetic_code_dark.png) | ![Rosaesthetic Dashboard Dark](assets/screenshots/rosaaesthetic_dashboard_dark.png) | ![Rosaesthetic Code Light](assets/screenshots/rosaaesthetic_code_light.png) | ![Rosaesthetic Dashboard Light](assets/screenshots/rosaaesthetic_dashboard_light.png) | ![Rosaesthetic Transparent](assets/screenshots/rosaaesthetic_transparent.png) |
-
-## Instalação
+## Início Rápido
 
 ```bash
 # Faça backup da sua config atual (se houver)
@@ -166,11 +40,12 @@ git clone https://github.com/pedrorcruzz/rosavim.git ~/.config/nvim
 nvim
 ```
 
-Na primeira execução, o **Lazy.nvim** instalará todos os plugins e o **Mason** configurará os LSP servers, formatters, linters e adaptadores de debug.
+Na primeira execução, o **Lazy.nvim** instala os plugins e o **Mason** configura LSP servers, formatters, linters e adaptadores de debug.
 
-> Para um guia completo passo a passo (backup, dependências, troubleshooting), veja o **[Manual de Instalação](docs/manual/installation.pt-br.md)**.
+<details>
+<summary><b>Requisitos</b></summary>
 
-## Requisitos
+<br>
 
 | Dependência | Versão |
 |:------------|:-------|
@@ -181,86 +56,255 @@ Na primeira execução, o **Lazy.nvim** instalará todos os plugins e o **Mason*
 | [Nerd Font](https://www.nerdfonts.com/) | Qualquer |
 | [ripgrep](https://github.com/BurntSushi/ripgrep) | Qualquer |
 
-### Recomendado
+**Recomendado:** [lazygit](https://github.com/jesseduffield/lazygit) (UI de Git) · [yazi](https://github.com/sxyazi/yazi) (file manager) · [chafa](https://hpjansson.org/chafa/) (imagem do dashboard)
 
-- [lazygit](https://github.com/jesseduffield/lazygit) — UI de Git no terminal
-- [yazi](https://github.com/sxyazi/yazi) — File manager no terminal
-- [chafa](https://hpjansson.org/chafa/) — Imagens no terminal (usado no dashboard)
+Guia completo passo a passo (backup, dependências, troubleshooting): **[Manual de Instalação](docs/manual/installation.pt-br.md)**.
 
-## Estrutura do Projeto
+</details>
 
-```
-~/.config/nvim/
-├── init.lua                          # Ponto de entrada
-├── lua/rosavim/
-│   ├── init.lua                      # Bootstrap
-│   ├── config/
-│   │   ├── options.lua               # Opções do Neovim
-│   │   ├── keybinds.lua              # Mapeamentos globais
-│   │   ├── appearance.lua            # Tema, transparência, dark/light
-│   │   ├── autocmds.lua              # Autocommands
-│   │   ├── filetypes.lua             # Detecção de filetypes
-│   │   └── snippets/                 # Snippets customizados
-│   ├── plugins/
-│   │   ├── env/                      # LSP, Mason, Treesitter, DAP, Lint, Format
-│   │   ├── ai/                       # Copilot, RosaAI
-│   │   ├── ui/                       # Temas, statusline, dashboard
-│   │   ├── editor/                   # Terminal, navegação, Rosafile
-│   │   ├── coding/                   # Surround, multi-cursor, refactoring
-│   │   ├── language/                 # Suporte específico (Laravel, Java, etc.)
-│   │   └── test/                     # Rosatest, Rosakit
-│   ├── rosa_plugins/
-│   │   ├── rosatest/                 # Test runner nativo (Go, Jest, Vitest, Pytest, Pest, Java)
-│   │   ├── rosafile/                 # Operações de arquivos (criar, renomear, duplicar, deletar)
-│   │   ├── rosapick/                 # Seletor visual de janelas
-│   │   ├── rosapreview/              # Preview LSP em janelas flutuantes
-│   │   ├── rosamaximize/             # Maximizador de janela (maximizar/restaurar layout)
-│   │   ├── rosasave/                 # Salvamento automático com debounce
-│   │   ├── rosasweep/                # Varredor automático de buffers inativos
-│   │   ├── rosayank/                 # Histórico de yank com persistência (ring buffer)
-│   │   └── rosakit/                  # Navegador de projeto com detecção de stack
-│   └── rosa_themes/
-│       ├── rosamin/                  # Tema built-in: Rosamin (padrão, inspirado no min-theme)
-│       └── rosaesthetic/             # Tema built-in: Rosaesthetic (estético, tons quentes)
-├── lsp/                              # Configurações individuais de LSP
-└── assets/                           # Logo e recursos visuais
-```
+## Documentação
+
+Guias detalhados ficam em [`docs/manual`](docs/manual/):
+
+[Instalação](docs/manual/installation.pt-br.md) · [Atalhos](docs/manual/keybinds.pt-br.md) · [Plugins](docs/manual/plugins.pt-br.md) · [Linguagens](docs/manual/languages.pt-br.md) · [Debugging](docs/manual/debugging.pt-br.md) · [Customização](docs/manual/customization.pt-br.md) · [Toggles](docs/manual/toggles.pt-br.md)
+
+## Funcionalidades
+
+<details>
+<summary><b>Editor & Navegação</b></summary>
+
+<br>
+
+- **blink.cmp** — engine de completion em Rust, extremamente rápido
+- **Snippets** com LuaSnip + friendly-snippets
+- **Treesitter nativo** (Neovim 0.12+) para highlighting e indentação precisos
+- **Format on save** (conform.nvim) e **auto-save** ao perder o foco
+- **Snacks Picker** para fuzzy finding de arquivos, grep e buffers
+- **Flash.nvim** para navegação instantânea com labels visuais
+- **GrugFar** para search & replace no projeto inteiro (ripgrep)
+- **Toggles persistentes** — configurações de UI sobrevivem entre sessões
+
+</details>
+
+<details>
+<summary><b>Git, Debug & Testes</b></summary>
+
+<br>
+
+- **Gitsigns** — indicadores de mudança inline e blame por linha
+- Integração nativa com **lazygit**
+- **DAP** — debugger completo com UI, breakpoints e inspeção de variáveis inline
+- **Rosatest** — test runner próprio com popup de resultados: roda testes nearest / file / all. Suporta Go, Jest, Vitest, Pytest, Pest, PHPUnit e Java
+
+</details>
+
+<details>
+<summary><b>IA</b></summary>
+
+<br>
+
+- **GitHub Copilot** integrado ao completion
+- **RosaAI** — integração nativa com CLIs de IA (Claude, Cursor, Gemini, …) com janela temática, redimensionável e preview no editor
+
+</details>
+
+<details>
+<summary><b>UI & Aparência</b></summary>
+
+<br>
+
+- **2 temas próprios** — **Rosamin** (padrão, minimal) e **Rosaesthetic** (quente, terroso), ambos com dark/light mode e transparência
+- **Dashboard**, statusline **Lualine** (separadores selecionáveis), abas **Bufferline**, breadcrumbs **Dropbar**, nomes flutuantes **Incline** e **Noice** para mensagens modernas
+- Troca de **dark/light** e de **tema** com um atalho
+
+</details>
+
+<details>
+<summary><b>Plugins próprios "Rosa"</b></summary>
+
+<br>
+
+| Plugin | O que faz |
+|:-------|:----------|
+| **Rosaterm** | Terminais float & split nativos — sem dependências externas. Cicla floats, chip de título temático, toggles persistentes |
+| **Rosatest** | Test runner com popup de resultados (Go, Jest, Vitest, Pytest, Pest, PHPUnit, Java) |
+| **Rosakit** | Navegador de projeto com detecção automática de stack (React, Next, Vue, Angular, Svelte, Nest, Express, Go, Django, FastAPI, Laravel, Spring) — suporta monorepos |
+| **Rosafile** | Menu de operações de arquivo — criar, renomear, duplicar, deletar, info |
+| **Rosapreview** | Preview de LSP (definição, tipo, implementação, referências) em janela flutuante |
+| **Rosapoon** | Marca e salta entre arquivos frequentes, com escopo por repositório git |
+| **Rosadirs** | Gerencia diretórios de Projetos & vaults do Obsidian em runtime |
+| **Rosapick** | Seletor visual de janelas com labels de letra |
+| **Rosamaximize** | Maximiza a janela atual e restaura o layout completo |
+| **Rosayank** | Histórico de yank persistente (ring buffer) |
+| **Rosasave** | Auto-save com debounce |
+| **Rosasweep** | Fecha buffers inativos automaticamente |
+
+</details>
+
+<details>
+<summary><b>Extras</b></summary>
+
+<br>
+
+- **Database Client** (vim-dadbod) com UI para SQL
+- **Obsidian** integração para notas
+- **Discord Presence**
+
+> O sistema de plugins é modular — adicione, remova ou troque plugins para adaptar ao seu workflow.
+
+</details>
+
+## Linguagens & Frameworks
+
+Suporte completo (LSP, formatação, linting, testes e debug) para as principais stacks:
+
+<details>
+<summary><b>Ver tabela de suporte</b></summary>
+
+<br>
+
+| Linguagem | LSP | Formatter | Linter | Testes | Debug |
+|:----------|:---:|:---------:|:------:|:------:|:-----:|
+| **TypeScript / JavaScript** | vtsls | Biome / Prettier | Biome / eslint_d | Jest / Vitest | — |
+| **React / JSX / TSX** | vtsls | Biome / Prettier | Biome / eslint_d | Jest / Vitest | — |
+| **Go** | gopls | goimports | golangci-lint | gotestsum | Delve |
+| **Python** | Pyright | autopep8 | Mypy / Pylint | pytest | debugpy |
+| **Java** | JDTLS | google-java-format | Checkstyle | Gradle | Remote Attach |
+| **PHP / Laravel** | Intelephense | php-cs-fixer | phpcs | Pest | Xdebug |
+| **HTML / CSS** | Emmet + Tailwind | Prettier | djlint | — | — |
+| **SQL** | sqlls | sql_formatter | — | — | — |
+| **Lua** | lua_ls | StyLua | — | — | — |
+| **JSON** | json_ls | Prettier | Biome | — | — |
+
+</details>
+
+> **Não encontrou sua linguagem?** Rosavim usa o **Mason** como backbone de ferramentas — Rust, C/C++, Kotlin, Ruby, Elixir, Zig e muitas outras podem ser adicionadas em minutos.
+
+## Temas
+
+Rosavim vem com 2 temas próprios, totalmente integrados aos toggles de dark/light e transparência.
+
+<details>
+<summary><b>Rosamin</b> — minimal, limpo e focado (padrão)</summary>
+
+<br>
+
+| Code (Dark) | Dashboard (Dark) | Code (Light) | Transparente |
+|:------------|:-----------------|:-------------|:-------------|
+| ![Rosamin Code Dark](assets/screenshots/rosamin_code_dark.png) | ![Rosamin Dashboard Dark](assets/screenshots/rosamin_dashboard_dark.png) | ![Rosamin Code Light](assets/screenshots/rosamin_code_light.png) | ![Rosamin Transparent](assets/screenshots/rosamin_transparent.png) |
+
+</details>
+
+<details>
+<summary><b>Rosaesthetic</b> — tons quentes e terrosos</summary>
+
+<br>
+
+| Code (Dark) | Dashboard (Dark) | Code (Light) | Dashboard (Light) | Transparente |
+|:------------|:-----------------|:-------------|:------------------|:-------------|
+| ![Rosaesthetic Code Dark](assets/screenshots/rosaaesthetic_code_dark.png) | ![Rosaesthetic Dashboard Dark](assets/screenshots/rosaaesthetic_dashboard_dark.png) | ![Rosaesthetic Code Light](assets/screenshots/rosaaesthetic_code_light.png) | ![Rosaesthetic Dashboard Light](assets/screenshots/rosaaesthetic_dashboard_light.png) | ![Rosaesthetic Transparent](assets/screenshots/rosaaesthetic_transparent.png) |
+
+</details>
 
 ## Atalhos Principais
 
-> Leader key: `<Space>`
+> Leader: `<Space>` · Pressione `<leader>` a qualquer momento para abrir o **which-key** e explorar tudo.
 
+<details>
+<summary><b>Ver atalhos essenciais</b></summary>
+
+<br>
+
+**Arquivos & Navegação**
 | Atalho | Ação |
 |:-------|:-----|
-| `<leader>e` | File Explorer |
-| `<leader>y` | Yazi File Manager |
-| `<leader>fp` | Descobrir Projetos |
-| `<leader><space>` | Buscar Arquivos |
-| `<leader>sg` | Grep ao Vivo |
-| `<leader>lf` | Formatar Arquivo |
-| `<leader>nn` | Menu Rosatest |
-| `<leader>nf` | Rodar Testes do Arquivo |
-| `<leader>xx` | Menu Rosafile |
-| `gp` | Rosapreview Definição |
-| `<leader>kk` | Menu Rosakit |
-| `<leader>m` | Rosapick (Seletor de Janela) |
-| `<leader>cd` | Fechar Janela (Pick) |
-| `<leader>cm` | Rosamaximize |
-| `<leader>ds` | Iniciar/Continuar Debug |
-| `<leader>db` | Toggle Breakpoint |
-| `<leader>gt` | Toggle Git Blame (persistente) |
-| `<leader>ll` | Toggle Lualine (persistente) |
-| `<leader>lqt` | Alternar Dark/Light Mode |
-| `<leader>lqs` | Trocar Theme |
-| `<C-\>` / `<S-z>` | Rosaterm: Toggle Float |
-| `<S-x>` | Rosaterm: Terminal Horizontal |
-| `<leader>cii` | Rosaterm: Split Vertical |
-| `<leader>cie` | Rosaterm: Split Horizontal |
-| `<leader>lqr` | Rosaterm: Selecionar Tema |
-| `s` | Flash Jump |
-| `kj` | Sair do Insert Mode |
+| `<leader><space>` | Buscar arquivos |
+| `<leader>e` | File explorer |
+| `<leader>y` | Yazi file manager |
+| `<leader>;` | Dashboard |
+| `s` | Flash jump |
+| `<leader>oo` / `<leader>oe` | Rosapoon: pin / menu |
 
-> Pressione `<leader>` para abrir o **which-key** e explorar todos os atalhos disponíveis.
+**Busca & Código**
+| Atalho | Ação |
+|:-------|:-----|
+| `<leader>sg` | Grep ao vivo |
+| `<leader>sw` | Grep da palavra sob o cursor |
+| `<leader>lee` | Search & replace (GrugFar) |
+| `gd` / `gr` / `gI` | Definição / referências / implementação |
+| `gp` | Rosapreview definição |
+| `<leader>lf` | Formatar arquivo |
+| `<leader>xx` | Menu Rosafile |
+| `<leader>kk` | Menu Rosakit |
+
+**Git, Testes & Debug**
+| Atalho | Ação |
+|:-------|:-----|
+| `<leader>gg` | Lazygit |
+| `<leader>gt` | Toggle git blame |
+| `<leader>nn` | Menu Rosatest |
+| `<leader>nf` | Rodar testes do arquivo |
+| `<leader>ds` | Iniciar / continuar debug |
+| `<leader>db` | Toggle breakpoint |
+
+**Janelas, Terminal & IA**
+| Atalho | Ação |
+|:-------|:-----|
+| `<C-h/j/k/l>` | Mover entre splits |
+| `<leader>m` | Rosapick (seletor de janela) |
+| `<leader>cm` | Rosamaximize |
+| `<C-\>` / `<S-z>` | Rosaterm: toggle float |
+| `<S-x>` | Rosaterm: terminal horizontal |
+| `<leader>cii` / `<leader>cie` | Rosaterm: split vertical / horizontal |
+| `<leader>aa` | RosaAI: toggle CLI |
+
+**UI & Diversos**
+| Atalho | Ação |
+|:-------|:-----|
+| `<leader>lqt` | Alternar dark/light mode |
+| `<leader>lqs` | Trocar tema |
+| `<leader>lp` | Rosadirs (gerenciar diretórios) |
+| `<leader>ll` | Toggle statusline |
+| `kj` | Sair do insert mode |
+
+Referência completa: **[Manual de Atalhos](docs/manual/keybinds.pt-br.md)**.
+
+</details>
+
+## Estrutura do Projeto
+
+<details>
+<summary><b>Ver estrutura</b></summary>
+
+<br>
+
+```
+~/.config/nvim/
+├── init.lua                       # Ponto de entrada
+├── lua/rosavim/
+│   ├── init.lua                   # Bootstrap
+│   ├── config/                    # options, keybinds, appearance, autocmds, toggles, focus, snippets
+│   ├── plugins/
+│   │   ├── env/                   # LSP, Mason, Treesitter, DAP, lint, format, git
+│   │   ├── ai/                    # Copilot, RosaAI
+│   │   ├── ui/                    # temas, statusline, dashboard, bufferline, noice
+│   │   ├── editor/                # terminal, navegação, operações de arquivo, projetos
+│   │   ├── coding/                # flash, surround, multi-cursor, refactoring
+│   │   ├── language/              # específicos de linguagem (Laravel, Spring, Django, …)
+│   │   └── test/                  # Rosatest
+│   ├── rosa_plugins/              # plugins próprios (ver Funcionalidades)
+│   │   ├── rosaterm/  rosatest/  rosakit/  rosafile/
+│   │   ├── rosapreview/  rosapoon/  rosadirs/  rosapick/
+│   │   ├── rosamaximize/  rosayank/  rosasave/  rosasweep/
+│   │   └── rosaai/
+│   └── rosa_themes/
+│       ├── rosamin/               # tema padrão (minimal)
+│       └── rosaesthetic/          # tema quente e terroso
+├── lsp/                           # configs individuais de LSP
+└── assets/                        # logo e screenshots
+```
+
+</details>
 
 ---
 
