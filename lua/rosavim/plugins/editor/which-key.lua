@@ -69,6 +69,8 @@ return {
       { '<leader>lad', group = 'DBUI', icon = '󰆼' },
       { '<leader>lat', group = 'Rosaterm', icon = '' },
       { '<leader>laa', group = 'RosaAI', icon = ' ' },
+      { '<leader>lay', group = 'Yazi', icon = '󰇥 ' },
+      { '<leader>lag', group = 'Lazygit', icon = '󰊢 ' },
       { '<leader>lau', group = 'Dropbar', icon = '󰜢 ' },
 
       -- Rosakit

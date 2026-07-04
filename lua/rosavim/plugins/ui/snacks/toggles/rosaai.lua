@@ -103,10 +103,9 @@ return function()
     end,
   }):map '<leader>laaB'
 
-  -- Dark bg in light mode: on = force #000, off = follow theme bg. Only has a
-  -- visible effect while background == 'light'. Default off.
+  -- Dark bg in LIGHT mode: on = force #000 (default), off = follow theme bg.
   Snacks.toggle({
-    name = 'RosaAI Dark Background',
+    name = 'RosaAI Dark Background (Light Mode)',
     wk_desc = { enabled = 'Use theme bg ', disabled = 'Force dark bg ' },
     get = function()
       return toggles.get 'rosaai_dark_bg'
@@ -119,4 +118,20 @@ return function()
       end
     end,
   }):map '<leader>laad'
+
+  -- Dark bg in DARK mode: on = force #000, off = follow theme bg (default off).
+  Snacks.toggle({
+    name = 'RosaAI Dark Background (Dark Mode)',
+    wk_desc = { enabled = 'Use theme bg ', disabled = 'Force dark bg ' },
+    get = function()
+      return toggles.get 'rosaai_dark_bg_dm'
+    end,
+    set = function(state)
+      toggles.set('rosaai_dark_bg_dm', state)
+      local ok, rosaai = pcall(require, 'rosavim.rosa_plugins.rosaai')
+      if ok then
+        rosaai.relayout()
+      end
+    end,
+  }):map '<leader>laaD'
 end

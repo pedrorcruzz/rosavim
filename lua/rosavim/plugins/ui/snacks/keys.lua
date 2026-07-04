@@ -1,3 +1,10 @@
+-- Lazygit opens in a Snacks float; apply the force-black bg override
+-- (light/dark toggles: <leader>lagd / <leader>lagD) at open time.
+local function lazygit_opts()
+  local term_bg = require 'rosavim.rosa_plugins.term_bg'
+  return { win = { wo = { winhighlight = term_bg.float_winhl('lazygit_dark_bg', true, 'RosaLazygitNormal') } } }
+end
+
 local function pick_tabs()
   local current = vim.fn.tabpagenr()
   local items = {}
@@ -62,13 +69,13 @@ return {
   -- Git
   { '<leader>gb', function() Snacks.picker.git_branches() end, desc = 'Git Branches' },
   { '<leader>gl', function() Snacks.git.blame_line() end, desc = 'Git Blame Line' },
-  { '<leader>gc', function() Snacks.lazygit.log() end, desc = 'Git Log' },
+  { '<leader>gc', function() Snacks.lazygit.log(lazygit_opts()) end, desc = 'Git Log' },
   { '<leader>gL', function() Snacks.picker.git_log_line() end, desc = 'Git Log Line' },
   { '<leader>gs', function() Snacks.picker.git_status() end, desc = 'Git Status' },
   { '<leader>gS', function() Snacks.picker.git_stash() end, desc = 'Git Stash' },
   { '<leader>gd', function() Snacks.picker.git_diff() end, desc = 'Git Diff (Hunks)' },
   { '<leader>gf', function() Snacks.picker.git_log_file() end, desc = 'Git Log File' },
-  { '<leader>gg', function() Snacks.lazygit.open() end, desc = 'Lazygit' },
+  { '<leader>gg', function() Snacks.lazygit.open(lazygit_opts()) end, desc = 'Lazygit' },
 
   -- Grep
   { '<leader>sb', function() Snacks.picker.grep_buffers() end, desc = 'Grep Buffers' },

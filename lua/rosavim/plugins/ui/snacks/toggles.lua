@@ -17,6 +17,7 @@ require('rosavim.plugins.ui.snacks.toggles.autocmds')()
 require('rosavim.plugins.ui.snacks.toggles.dashboard_gif')()
 require('rosavim.plugins.ui.snacks.toggles.rosaterm')()
 require('rosavim.plugins.ui.snacks.toggles.rosaai')()
+require('rosavim.plugins.ui.snacks.toggles.yazigit')()
 require('rosavim.plugins.ui.snacks.toggles.dropbar')()
 
 -- Restore persisted states

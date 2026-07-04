@@ -47,7 +47,8 @@ local defaults = {
   rosaai_auto_focus = true,
   rosaai_vertical_border = true,
   rosaai_horizontal_border = true,
-  rosaai_dark_bg = true, -- light mode: false = theme bg, true = force #000 (<leader>laad)
+  rosaai_dark_bg = true, -- light mode: force #000 (<leader>laad)
+  rosaai_dark_bg_dm = false, -- dark mode: force #000 (<leader>laaD)
   git_blame = true,
   markview = true,
   image_preview = false,
@@ -62,7 +63,13 @@ local defaults = {
   rosaterm_name_full = true,
   rosaterm_icon_visible = true,
   rosaterm_icon_style = 'terminal', -- 'rosa' | 'terminal'
-  rosaterm_dark_bg = true, -- light mode: true = force #000, false = theme bg (<leader>latd)
+  rosaterm_dark_bg = true, -- light mode: force #000 (<leader>latd)
+  rosaterm_dark_bg_dm = false, -- dark mode: force #000 (<leader>latD)
+  -- Yazi / Lazygit background overrides (force #000, same light+dark scheme)
+  yazi_dark_bg = true, -- light mode: force #000 (<leader>layd)
+  yazi_dark_bg_dm = false, -- dark mode: force #000 (<leader>layD)
+  lazygit_dark_bg = true, -- light mode: force #000 (<leader>lagd)
+  lazygit_dark_bg_dm = false, -- dark mode: force #000 (<leader>lagD)
   -- Dropbar
   dropbar_compact = false, -- false = full path (16 segments), true = parent + filename only
   dropbar_path_preview = true,
