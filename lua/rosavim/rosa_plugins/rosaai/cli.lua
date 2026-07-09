@@ -11,10 +11,30 @@ local state = require 'rosavim.rosa_plugins.rosaai.state'
 local layout = require 'rosavim.rosa_plugins.rosaai.layout'
 local bar = require 'rosavim.rosa_plugins.rosaai.bar'
 local themes = require 'rosavim.rosa_plugins.rosaai.themes'
+local reserve = require 'rosavim.rosa_plugins.panel_reserve'
 
 -- One chip overlay per layout slot: pos -> { win, buf }. Several CLIs can be
 -- visible at once, so each visible slot carries its own title chip.
 local chips = {}
+
+-- Which axis each pinned position reserves against the editor. `float` is
+-- centered and can't park the cursor meaningfully, so it reserves nothing.
+local RESERVE_AXIS = { right = 'vertical', left = 'vertical', bottom = 'horizontal' }
+
+--- Re-derive the cursor-parking reservation for every layout slot from its
+--- live window geometry, so editor text/cursor never falls under a pinned
+--- CLI float: vertical slots reserve columns (sidescrolloff + nowrap),
+--- horizontal reserves rows (scrolloff). Batched so a slot swap never
+--- flickers wrap. Mirrors rosaterm.
+local function update_reservations()
+  reserve.batch(function()
+    for pos, axis in pairs(RESERVE_AXIS) do
+      local sl = state.slot(pos)
+      reserve.track('rosaai:' .. pos, sl and sl.win or nil, axis)
+    end
+    reserve.clear 'rosaai:float'
+  end)
+end
 
 local function win_open()
   return state.win and api.nvim_win_is_valid(state.win)
@@ -59,6 +79,7 @@ local function teardown_slot(pos)
   end
   close_chip(pos)
   state.clear_slot(pos)
+  update_reservations()
 end
 
 --- Focus a slot's window and mark it as the compat-active session.
@@ -247,6 +268,7 @@ local function resize_active(d_w, d_h)
   local geom = layout.compute_geom(pos)
   pcall(api.nvim_win_set_config, win, geom)
   refresh_chip(pos)
+  update_reservations()
   return true
 end
 
@@ -347,6 +369,7 @@ function M.show(name, pos)
   bar.attach(win, s.buf, function()
     refresh_chip(pos)
   end)
+  update_reservations()
 
   if bar.autoinsert_enabled() then
     vim.cmd 'startinsert'
@@ -1199,6 +1222,7 @@ local function apply_layout()
     refresh_chip(pos)
   end)
   reflowing = false
+  update_reservations()
 end
 
 local function schedule_reflow()
@@ -1275,6 +1299,7 @@ api.nvim_create_autocmd('WinClosed', {
         if state.win == closed then
           state.win = nil
         end
+        update_reservations()
         break
       end
     end

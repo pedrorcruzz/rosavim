@@ -184,7 +184,11 @@ function M.get(mode, transparent_background)
       -- a dark slate grey that's clearly legible on the light bg (~6:1) but
       -- still noticeably lighter than the #383A42 folders/files, so hidden
       -- items read as secondary instead of washing out to NonText grey.
-      SnacksPickerPathHidden = { fg = '#5C606B' },
+      SnacksPickerPathHidden = { fg = '#565A64' },
+      -- Ignored items (e.g. .git, macOS ._* files, anything gitignored) take
+      -- priority over "hidden" in snacks, so they need their own override or
+      -- they fall back to the theme's washed-out NonText grey.
+      SnacksPickerPathIgnored = { fg = '#565A64' },
 
       SnacksInputIcon = { fg = '#383A42' },
       SnacksInputTitle = { fg = '#1A1A1A' },

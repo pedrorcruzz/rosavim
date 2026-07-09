@@ -16,7 +16,7 @@ M.positions = {
 }
 
 M.sizes = {
-  { name = 'compact', label = 'Compact', icon = '󰍝 ', width = 50, height = 14, float = { wpct = 0.70, hpct = 0.70 } },
+  { name = 'compact', label = 'Compact', icon = '󰍝 ', width = 56, height = 14, float = { wpct = 0.74, hpct = 0.70 } },
   { name = 'default', label = 'Default', icon = '󰍡 ', width = 70, height = 20, float = { wpct = 0.85, hpct = 0.85 } },
   { name = 'wide', label = 'Wide', icon = '󰍟 ', width = 90, height = 26, float = { wpct = 0.95, hpct = 0.92 } },
 }

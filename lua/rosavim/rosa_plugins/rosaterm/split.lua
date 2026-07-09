@@ -7,6 +7,7 @@ local api = vim.api
 local bar = require 'rosavim.rosa_plugins.rosaterm.bar'
 local themes = require 'rosavim.rosa_plugins.rosaterm.themes'
 local term_bg = require 'rosavim.rosa_plugins.term_bg'
+local reserve = require 'rosavim.rosa_plugins.panel_reserve'
 
 local terms = {}
 local resize_au = nil
@@ -15,55 +16,22 @@ local resize_au = nil
 -- ensure_resize_au() before reposition_floats() is defined further down.
 local reposition_floats
 
--- Per-window saved scrolloff before we inflated it for a horizontal float.
--- Keyed by win id so we can restore exactly what each window had.
-local saved_scrolloff = {}
-
--- Bump scrolloff on every editor (non-float, non-rosaterm) window to at
--- least `target` rows. This is how horizontal pinned floats stay usable:
--- nvim doesn't know the float covers the bottom of those windows, so we
--- effectively reserve `target` rows for the float by stopping the cursor
--- before it can fall behind it. Buffer can still be scrolled to view any
--- line — cursor just parks above the float.
-local function inflate_scrolloff(target)
-  for _, win in ipairs(api.nvim_list_wins()) do
-    local ok, cfg = pcall(api.nvim_win_get_config, win)
-    if ok and (not cfg.relative or cfg.relative == '') then
-      local buf = api.nvim_win_get_buf(win)
-      if vim.bo[buf].filetype ~= 'rosaterm' then
-        if saved_scrolloff[win] == nil then
-          saved_scrolloff[win] = vim.wo[win].scrolloff
-        end
-        if vim.wo[win].scrolloff < target then
-          vim.wo[win].scrolloff = target
-        end
-      end
-    end
-  end
+local function term_win_is_open(term)
+  return term.win and api.nvim_win_is_valid(term.win)
 end
 
-local function deflate_scrolloff()
-  for win, val in pairs(saved_scrolloff) do
-    if api.nvim_win_is_valid(win) then
-      pcall(function()
-        vim.wo[win].scrolloff = val
-      end)
+-- Re-derive the cursor-parking reservation for every terminal from its live
+-- window geometry. A pinned horizontal float reserves rows (scrolloff), a
+-- pinned vertical float reserves columns (sidescrolloff + nowrap); native
+-- splits and closed terminals reserve nothing (real space / gone). Batched so
+-- swapping a slot never flickers the editor's wrap. Mirrors rosaai.
+local function update_reservations()
+  reserve.batch(function()
+    for _, t in pairs(terms) do
+      local win = term_win_is_open(t) and t.win or nil
+      reserve.track('rosaterm:' .. t.id, win, t.direction)
     end
-  end
-  saved_scrolloff = {}
-end
-
--- Any horizontal pinned float still open?
-local function any_horizontal_float_open(terms)
-  for _, t in pairs(terms) do
-    if t.win and api.nvim_win_is_valid(t.win) and t.direction == 'horizontal' then
-      local ok, cfg = pcall(api.nvim_win_get_config, t.win)
-      if ok and cfg.relative and cfg.relative ~= '' then
-        return true
-      end
-    end
-  end
-  return false
+  end)
 end
 
 --- Pick the winhl for the terminal window. Dark mode follows the theme's
@@ -74,10 +42,6 @@ end
 local function term_winhl(border_on)
   local fb = border_on and ',FloatBorder:FloatBorder' or ''
   return term_bg.winhl('rosaterm_dark_bg', true, 'RosatermNormal', fb)
-end
-
-local function term_win_is_open(term)
-  return term.win and api.nvim_win_is_valid(term.win)
 end
 
 local function chip_open(term)
@@ -235,6 +199,7 @@ local function schedule_reposition()
       reposition_timer = nil
       reposition_floats()
       reposition_all_chips()
+      update_reservations()
     end)
   )
 end
@@ -280,9 +245,7 @@ local function ensure_resize_au()
           bar.detach(term.win)
           close_chip(term)
           term.win = nil
-          if not any_horizontal_float_open(terms) then
-            deflate_scrolloff()
-          end
+          update_reservations()
           vim.schedule(function()
             reposition_floats()
             reposition_all_chips()
@@ -608,6 +571,7 @@ local function resize_term(term, dh, dw)
   cfg.height = new_h
   pcall(api.nvim_win_set_config, term.win, cfg)
   term.size = (term.direction == 'horizontal' and new_h or new_w) + 2
+  update_reservations()
   vim.schedule(reposition_all_chips)
   return true
 end
@@ -689,13 +653,10 @@ local function open_split(term)
     vim.wo[term.win].winhl = term_winhl(true)
     -- (winbar workaround removed — chip now lands its bottom border on
     -- the float's top border row, so it never covers content row 0.)
-    -- Horizontal pinned float covers the bottom rows of the editor.
-    -- Nvim doesn't know about it, so the cursor can fall behind it.
-    -- Inflate scrolloff on every editor window so the cursor parks
-    -- above the float — buffer still scrolls so you can reach any line.
-    if term.direction == 'horizontal' then
-      inflate_scrolloff(geom.height + 2 + 1) -- inner + border + 1 gap
-    end
+    -- A pinned float covers editor cells nvim doesn't know about, so the
+    -- cursor could fall behind it. update_reservations() (end of this fn)
+    -- reserves the panel's rows (horizontal) or columns (vertical) so the
+    -- cursor parks before it — the buffer still scrolls to reach any cell.
   else
     -- Native split mode (no border possible — preserves the historical look)
     local in_terminal = vim.bo.filetype == 'rosaterm'
@@ -759,6 +720,10 @@ local function open_split(term)
   end)
   setup_resize_keymaps(term.buf, term)
   ensure_resize_au()
+
+  -- Float mode parks the cursor before the panel; native split reserves real
+  -- space (track() clears the claim). Covers both branches above.
+  update_reservations()
 
   if bar.autoinsert_enabled() then
     vim.cmd 'startinsert'

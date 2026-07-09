@@ -4,7 +4,7 @@
 local M = {}
 
 M.list = {
-  { name = 'compact', label = 'Compact', icon = '󰍝 ', vertical = 50, horizontal = 14, float = { wpct = 0.70, hpct = 0.70 } },
+  { name = 'compact', label = 'Compact', icon = '󰍝 ', vertical = 56, horizontal = 14, float = { wpct = 0.74, hpct = 0.70 } },
   { name = 'default', label = 'Default', icon = '󰍡 ', vertical = 70, horizontal = 20, float = { wpct = 0.85, hpct = 0.85 } },
   { name = 'wide', label = 'Wide', icon = '󰍟 ', vertical = 90, horizontal = 26, float = { wpct = 0.95, hpct = 0.92 } },
 }
