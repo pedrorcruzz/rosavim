@@ -26,14 +26,6 @@ M.list = {
     border = 'rounded',
     layout = 'banner',
   },
-  {
-    name = 'stem',
-    label = 'Stem',
-    icon = '󱦬',
-    desc = 'Full-width text with a thin line below — no box',
-    border = 'none',
-    layout = 'stem',
-  },
 }
 
 --- Get the currently selected theme (falls back to first one)

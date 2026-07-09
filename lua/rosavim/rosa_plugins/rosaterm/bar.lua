@@ -221,36 +221,16 @@ local function apply_segs(buf, row, segs)
 end
 
 --- Write the chip text + colored extmarks to the given buffer.
---- For stem layout, writes a second row with a `─` separator line.
 function M.write_chip_buf(buf, width)
   if not buf or not api.nvim_buf_is_valid(buf) then
     return
   end
   api.nvim_buf_clear_namespace(buf, CHIP_NS, 0, -1)
 
-  local ok, themes = pcall(require, 'rosavim.rosa_plugins.rosaterm.themes')
-  local theme = ok and themes.current() or nil
-
-  if theme and theme.layout == 'stem' then
-    local segs = banner_segments(width or 0)
-    local text = ''
-    for _, seg in ipairs(segs) do
-      text = text .. seg[1]
-    end
-    local sep = string.rep('─', width or 0)
-    api.nvim_buf_set_lines(buf, 0, -1, false, { text, sep })
-    apply_segs(buf, 0, segs)
-    api.nvim_buf_set_extmark(buf, CHIP_NS, 1, 0, {
-      end_row = 1,
-      end_col = #sep,
-      hl_group = 'RosatermBarBracket',
-    })
-  else
-    local segs = M.chip_segments(width)
-    local text = M.chip_plain(width)
-    api.nvim_buf_set_lines(buf, 0, -1, false, { text })
-    apply_segs(buf, 0, segs)
-  end
+  local segs = M.chip_segments(width)
+  local text = M.chip_plain(width)
+  api.nvim_buf_set_lines(buf, 0, -1, false, { text })
+  apply_segs(buf, 0, segs)
 end
 
 local function ensure_timer()

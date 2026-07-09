@@ -95,12 +95,6 @@ local function open_chip()
     width = state.geom.width
     col = state.geom.col
     row = state.geom.row - 2
-  elseif theme.layout == 'stem' then
-    -- Stem: borderless 2-row chip. Row 0 = text (above float), row 1 = `─`
-    -- separator on the float's top border row.
-    width = state.geom.width
-    col = state.geom.col
-    row = state.geom.row - 1
   else
     -- Inline: small chip centered. Bordered uses 3 rows so subtract 1.
     width = vim.api.nvim_strwidth(bar.chip_plain())
@@ -122,7 +116,7 @@ local function open_chip()
     row = row,
     col = col,
     width = width,
-    height = theme.layout == 'stem' and 2 or 1,
+    height = 1,
     style = 'minimal',
     border = theme.border,
     focusable = false,
@@ -145,7 +139,7 @@ local function refresh_chip()
   end
   local theme = themes.current()
   local width
-  if theme.layout == 'banner' or theme.layout == 'stem' then
+  if theme.layout == 'banner' then
     width = state.geom and state.geom.width or 0
   else
     width = vim.api.nvim_strwidth(bar.chip_plain())

@@ -141,23 +141,19 @@ local function open_chip(term)
   -- top border row (engraved look, zero gap). nvim_win_get_position
   -- returns the float's FRAME top (= top border row), so chip outer
   -- bottom must equal pos[1] → chip outer top = pos[1] - (outer_h - 1).
-  --   outer_h = content_rows + 2 (top + bottom border)
-  --     inline:  1 + 2 = 3 → row = pos[1] - 2
-  --     banner:  1 + 2 = 3 → row = pos[1] - 2
-  --     stem:    2 + 2 = 4 → row = pos[1] - 3
+  --   banner: bordered, 1 content row → outer_h = 3 → row = pos[1] - 2
+  --   inline: mirrors the float exactly so the chip sits ON the border
+  --     line (not above it). Bloom (rounded) borders 3 rows → -1; Petal
+  --     (borderless) is a single engraved row → -0.
   if theme.layout == 'banner' then
     width = outer_width
     col = outer_col
     row = pos[1] - 2
-  elseif theme.layout == 'stem' then
-    width = outer_width
-    col = outer_col
-    row = pos[1] - 3
   else
     local text = bar.chip_plain()
     width = vim.api.nvim_strwidth(text)
     col = outer_col + math.floor((outer_width - width) / 2)
-    row = pos[1] - 2
+    row = pos[1] - (theme.border == 'none' and 0 or 1)
   end
   if row < 0 then
     row = 0
@@ -181,7 +177,7 @@ local function open_chip(term)
     row = row,
     col = col,
     width = width,
-    height = theme.layout == 'stem' and 2 or 1,
+    height = 1,
     style = 'minimal',
     border = theme.border,
     focusable = false,
@@ -200,7 +196,7 @@ local function refresh_chip(term)
   if term.win and api.nvim_win_is_valid(term.win) then
     -- Inner window width — chip border supplies the +2 (see open_chip).
     local outer = api.nvim_win_get_width(term.win)
-    if theme.layout == 'banner' or theme.layout == 'stem' then
+    if theme.layout == 'banner' then
       width = outer
     else
       width = vim.api.nvim_strwidth(bar.chip_plain())
