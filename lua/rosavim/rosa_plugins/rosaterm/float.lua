@@ -126,7 +126,7 @@ local function open_chip()
     style = 'minimal',
     border = theme.border,
     focusable = false,
-    zindex = 60,
+    zindex = 49,
   })
   vim.wo[state.chip_win].winhl = 'Normal:Normal,FloatBorder:FloatBorder'
   vim.wo[state.chip_win].winbar = ''
@@ -159,7 +159,10 @@ local function show_current()
 
   state.geom = calc_geom()
   if not win_open() then
-    state.win = api.nvim_open_win(term.buf, true, state.geom)
+    -- Sit below the RosaAI float (main 50 / chip 60) so the AI window
+    -- always overlays rosaterm when both are open. zindex is create-only,
+    -- so setting it here (not on state.geom) survives later resizes.
+    state.win = api.nvim_open_win(term.buf, true, vim.tbl_extend('force', state.geom, { zindex = 45 }))
     vim.wo[state.win].winhl = term_bg.winhl('rosaterm_dark_bg', true, 'RosatermNormal', ',FloatBorder:FloatBorder')
     vim.wo[state.win].winbar = ''
   else

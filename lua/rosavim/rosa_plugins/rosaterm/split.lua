@@ -185,7 +185,7 @@ local function open_chip(term)
     style = 'minimal',
     border = theme.border,
     focusable = false,
-    zindex = 60,
+    zindex = 49,
   })
   vim.wo[term.chip_win].winhl = 'Normal:Normal,FloatBorder:FloatBorder'
   vim.wo[term.chip_win].winbar = ''
@@ -686,7 +686,10 @@ local function open_split(term)
     if not geom then
       return
     end
-    term.win = api.nvim_open_win(term.buf, true, geom)
+    -- Below the RosaAI float (main 50 / chip 60) so the AI window overlays
+    -- this pinned terminal float when both are open. zindex is create-only,
+    -- so set it on the open geom without mutating the cached geometry.
+    term.win = api.nvim_open_win(term.buf, true, vim.tbl_extend('force', geom, { zindex = 45 }))
     vim.wo[term.win].winhl = term_winhl(true)
     -- (winbar workaround removed — chip now lands its bottom border on
     -- the float's top border row, so it never covers content row 0.)
