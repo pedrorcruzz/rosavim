@@ -8,6 +8,12 @@ function M.get(mode, transparent_background)
       Normal = { fg = '#383A42', bg = '#FAFAFA' },
       EndOfBuffer = { fg = '#FAFAFA', bg = 'none' },
       NormalFloat = { bg = '#F0F0F0' },
+      -- Completion/popup menu selection: the theme default (bgOption #EDEDED) is
+      -- nearly identical to the float bg #F0F0F0, making the selected row
+      -- invisible. Use a light-blue so the highlighted item clearly stands out.
+      -- blink.cmp's BlinkCmpMenuSelection links to PmenuSel.
+      Pmenu = { bg = '#F0F0F0', fg = '#383A42' },
+      PmenuSel = { bg = '#C9DFF5', fg = '#1A1A1A' },
       VertSplit = { fg = '#D0D0D0' },
       WinSeparator = { fg = '#D0D0D0' },
       Visual = { bg = '#D6E4F0' },
@@ -170,6 +176,15 @@ function M.get(mode, transparent_background)
       SnacksPickerToggle = { fg = '#383A42', bg = '#F0F0F0' },
       SnacksPicker = { bg = '#F5F5F5' },
       SnacksPickerBorder = { fg = '#D0D0D0', bg = '#F5F5F5' },
+      -- Explorer folders share the same dark fg as files (#383A42) so the tree
+      -- reads as one flat color instead of blue folders vs dark files.
+      SnacksPickerDirectory = { fg = '#383A42' },
+      SnacksPickerFile = { fg = '#383A42' },
+      -- Hidden files/dirs (and everything under a hidden dir, e.g. .config):
+      -- a dark slate grey that's clearly legible on the light bg (~6:1) but
+      -- still noticeably lighter than the #383A42 folders/files, so hidden
+      -- items read as secondary instead of washing out to NonText grey.
+      SnacksPickerPathHidden = { fg = '#5C606B' },
 
       SnacksInputIcon = { fg = '#383A42' },
       SnacksInputTitle = { fg = '#1A1A1A' },
@@ -218,15 +233,16 @@ function M.get(mode, transparent_background)
       GitSignsCurrentLineBlame = { fg = '#B0B0B0' },
 
       -- mini.icons (override links to Function/Diagnostic* which would otherwise turn icons purple/yellow)
-      MiniIconsAzure = { fg = '#0184BC', bg = 'none' },
-      MiniIconsBlue = { fg = '#0184BC', bg = 'none' },
-      MiniIconsCyan = { fg = '#0A9396', bg = 'none' },
-      MiniIconsPurple = { fg = '#7C3AED', bg = 'none' },
-      MiniIconsRed = { fg = '#E45649', bg = 'none' },
-      MiniIconsGreen = { fg = '#50A14F', bg = 'none' },
-      MiniIconsOrange = { fg = '#f29718', bg = 'none' },
-      MiniIconsYellow = { fg = '#C18401', bg = 'none' },
-      MiniIconsGrey = { fg = '#909090', bg = 'none' },
+      -- Match the dark variant so icon colors are identical across light/dark.
+      MiniIconsAzure = { fg = '#79b8ff', bg = 'none' },
+      MiniIconsBlue = { fg = '#64BAFF', bg = 'none' },
+      MiniIconsCyan = { fg = '#7DD3FC', bg = 'none' },
+      MiniIconsPurple = { fg = '#b392f0', bg = 'none' },
+      MiniIconsRed = { fg = '#F67582', bg = 'none' },
+      MiniIconsGreen = { fg = '#A0D6A0', bg = 'none' },
+      MiniIconsOrange = { fg = '#FFA868', bg = 'none' },
+      MiniIconsYellow = { fg = '#FFD580', bg = 'none' },
+      MiniIconsGrey = { fg = '#9C9EA4', bg = 'none' },
     }
   end
   return {
@@ -434,6 +450,15 @@ function M.get(mode, transparent_background)
     -- SnacksPicker = { bg = '#1A1A1A' },
     SnacksPicker = { bg = transparent_background and 'none' or '#1A1A1A' },
     SnacksPickerBorder = { fg = '#323232', bg = transparent_background and 'none' or '#1A1A1A' },
+    -- Explorer folders share the same fg as files (#abb2bf) so the tree reads as
+    -- one flat color instead of the near-white Directory blue vs grey files.
+    SnacksPickerDirectory = { fg = '#abb2bf' },
+    SnacksPickerFile = { fg = '#abb2bf' },
+    -- Hidden files/dirs (and everything under a hidden dir, e.g. .config): a
+    -- dimmer grey that's clearly visible on the dark bg but distinct from the
+    -- #abb2bf folders/files, so hidden items read as secondary without washing
+    -- out to NonText grey.
+    SnacksPickerPathHidden = { fg = '#8b929c' },
 
     SnacksInputIcon = { fg = '#abb2bf' }, --#ff657e
     SnacksInputTitle = { fg = '#ffffff' },

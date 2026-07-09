@@ -88,12 +88,12 @@ return {
       end,
       {
         section = 'header',
-        indent = 60,
+        indent = 58,
         enabled = function()
           return not (vim.o.columns < 135)
         end,
       },
-      { section = 'rosavim_startup', indent = 59 },
+      { section = 'rosavim_startup', indent = 60 },
       {
         pane = 1,
         { padding = 0 },
