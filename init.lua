@@ -1,3 +1,15 @@
+-- Silencia a depreciação `client.supports_method` (vem de plugins, não do config)
+do
+  local original = vim.deprecate
+  ---@diagnostic disable-next-line: duplicate-set-field
+  vim.deprecate = function(name, ...)
+    if name == 'client.supports_method' then
+      return
+    end
+    return original(name, ...)
+  end
+end
+
 require 'rosavim'
 require 'rosavim.config.keybinds'
 require 'rosavim.config.autocmds'

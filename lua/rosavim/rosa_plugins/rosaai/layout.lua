@@ -51,8 +51,57 @@ function M.current_position()
   return tog_get('rosaai_position', 'right')
 end
 
-function M.current_size()
-  return tog_get('rosaai_size', 'default')
+--- Sizes are configured INDEPENDENTLY per display mode. Positions map to a
+--- mode: float → float, right/left → vertical, bottom → horizontal. So a
+--- vertical (right/left) panel can be Compact while the centered float is Wide.
+local SIZE_MODES = { 'float', 'vertical', 'horizontal' }
+local POS_MODE = { right = 'vertical', left = 'vertical', bottom = 'horizontal', float = 'float' }
+
+function M.mode_for(pos)
+  return POS_MODE[pos or M.current_position()] or 'vertical'
+end
+
+local function skey(mode)
+  return 'rosaai_size_' .. mode
+end
+
+--- Seed per-mode size toggles once from the legacy `rosaai_size`. Idempotent.
+local size_migrated = false
+local function migrate_sizes()
+  if size_migrated then
+    return
+  end
+  size_migrated = true
+  local ok, toggles = pcall(require, 'rosavim.config.toggles')
+  if not ok then
+    return
+  end
+  local legacy = toggles.get 'rosaai_size' or 'default'
+  for _, mode in ipairs(SIZE_MODES) do
+    if toggles.get(skey(mode)) == nil then
+      toggles.set(skey(mode), legacy)
+    end
+  end
+end
+
+--- Current preset name for a mode ('float'|'vertical'|'horizontal').
+function M.size_name(mode)
+  migrate_sizes()
+  return tog_get(skey(mode), 'default')
+end
+
+--- Persist a mode's preset.
+function M.set_size(mode, name)
+  migrate_sizes()
+  local ok, toggles = pcall(require, 'rosavim.config.toggles')
+  if ok then
+    toggles.set(skey(mode), name)
+  end
+end
+
+--- Current preset name for a position (via its mode). Compat name kept.
+function M.current_size(pos)
+  return M.size_name(M.mode_for(pos))
 end
 
 --- Float window border. Per-orientation toggles:
@@ -100,8 +149,8 @@ function M.chip_overlay_height()
   return has_border and (total - 1) or total
 end
 
-local function size_spec()
-  local name = M.current_size()
+local function size_spec(pos)
+  local name = M.current_size(pos)
   for _, s in ipairs(M.sizes) do
     if s.name == name then
       return s
@@ -201,7 +250,7 @@ end
 --- is omitted, uses the currently configured position (compat).
 function M.compute_geom(pos)
   pos = pos or M.current_position()
-  local size = size_spec()
+  local size = size_spec(pos)
   local border = M.current_border(pos)
   local cols = vim.o.columns
   local lines = vim.o.lines - vim.o.cmdheight - 1

@@ -65,18 +65,20 @@ end
 
 function M.pick_size()
   local layout = require 'rosavim.rosa_plugins.rosaai.layout'
-  pick {
-    prompt = 'RosaAI · select size',
-    kind = 'rosaai_size',
-    items = layout.sizes,
-    current = function()
-      return layout.current_size()
+  require('rosavim.rosa_plugins.size_popup').open {
+    title = ' RosaAI · Size ',
+    name = 'RosaAI',
+    list = layout.sizes,
+    get = function(mode)
+      return layout.size_name(mode)
     end,
-    on_select = function(item)
-      require('rosavim.config.toggles').set('rosaai_size', item.name)
-      -- Picking a named preset resets any interactive arrow-resize override.
+    set = function(mode, name)
+      layout.set_size(mode, name)
+    end,
+    apply = function()
+      -- Picking a named preset resets any interactive arrow-resize override,
+      -- then re-lay every open slot with its per-mode size.
       layout.clear_overrides()
-      Snacks.notify.info('RosaAI size: ' .. item.name)
       require('rosavim.rosa_plugins.rosaai').relayout()
     end,
   }

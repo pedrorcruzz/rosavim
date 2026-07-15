@@ -27,7 +27,7 @@ end
 
 local function calc_geom()
   local sizes = require 'rosavim.rosa_plugins.rosaterm.sizes'
-  local pct = sizes.current().float
+  local pct = sizes.get('float').float
   local cols = vim.o.columns
   local lines = vim.o.lines - vim.o.cmdheight - 1
   local width = math.floor(cols * pct.wpct)
