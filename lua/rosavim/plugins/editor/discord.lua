@@ -29,7 +29,12 @@ return {
       reading_text = 'Reading %s',
       workspace_text = 'Working on %s',
       line_number_text = 'Line %s out of %s',
-      terminal_text = 'Using Terminal',
+      terminal_text = function()
+        if vim.bo.filetype == 'rosaai' then
+          return 'Using RosaAI'
+        end
+        return 'Using Terminal'
+      end,
     }
   end,
 }
