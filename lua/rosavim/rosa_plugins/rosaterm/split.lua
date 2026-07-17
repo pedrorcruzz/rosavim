@@ -289,6 +289,21 @@ local SIDEBAR_FILETYPES = {
   ['diff'] = false, -- diff is part of the editing area, not a sidebar
 }
 
+--- Transient popup floats (completion menu/docs, signature, hover) must never
+--- be mistaken for a side panel: they anchor to the cursor and are focusable,
+--- so a narrow completion menu near the left edge would otherwise shrink and
+--- slide the horizontal rosaterm every keystroke. Skip anything cursor-anchored
+--- or carrying a known completion-popup filetype.
+local POPUP_FILETYPES = {
+  ['blink-cmp-menu'] = true,
+  ['blink-cmp-documentation'] = true,
+  ['blink-cmp-signature'] = true,
+}
+
+local function is_transient_popup(cfg, ft)
+  return cfg.relative == 'cursor' or POPUP_FILETYPES[ft] == true
+end
+
 --- Compute the editor "main area" rect, excluding left/right sidebars
 --- (regular splits anchored to an edge with a known sidebar filetype OR
 --- a window that's both narrow AND edge-anchored). Diff/vsplit editor
@@ -314,7 +329,7 @@ local function compute_main_area(skip_terms)
       local buf = api.nvim_win_get_buf(win)
       local ft = vim.bo[buf].filetype
       local is_rosaterm = ft == 'rosaterm'
-      if not is_rosaterm and cfg.focusable ~= false then
+      if not is_rosaterm and cfg.focusable ~= false and not is_transient_popup(cfg, ft) then
         local pos = api.nvim_win_get_position(win)
         local w = api.nvim_win_get_width(win)
         local is_float = cfg.relative ~= ''

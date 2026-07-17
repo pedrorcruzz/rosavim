@@ -187,6 +187,21 @@ local SIDEBAR_FILETYPES = {
   ['undotree'] = true,
 }
 
+--- Transient popup floats (completion menu/docs, signature, hover) must never
+--- be mistaken for a side panel: they anchor to the cursor and are focusable,
+--- so a narrow completion menu near the left edge would otherwise shrink and
+--- slide the horizontal panel every keystroke. Skip anything cursor-anchored
+--- or carrying a known completion-popup filetype.
+local POPUP_FILETYPES = {
+  ['blink-cmp-menu'] = true,
+  ['blink-cmp-documentation'] = true,
+  ['blink-cmp-signature'] = true,
+}
+
+local function is_transient_popup(cfg, ft)
+  return cfg.relative == 'cursor' or POPUP_FILETYPES[ft] == true
+end
+
 --- Compute the editor "main area" (col + width) for the current tabpage,
 --- excluding left/right side panels — a known sidebar filetype OR a narrow
 --- window anchored to an edge. The rosaai float and any non-focusable
@@ -214,7 +229,8 @@ function M.compute_main_area()
       local buf = api.nvim_win_get_buf(win)
       local ft = vim.bo[buf].filetype
       -- Skip our OWN horizontal/float slots, but keep vertical slots in play.
-      if ft ~= 'rosaai' or rosaai_side[win] then
+      -- Never let a completion/hover popup masquerade as a side panel.
+      if (ft ~= 'rosaai' or rosaai_side[win]) and not is_transient_popup(cfg, ft) then
         local pos = api.nvim_win_get_position(win)
         local w = api.nvim_win_get_width(win)
         local is_float = cfg.relative ~= ''
