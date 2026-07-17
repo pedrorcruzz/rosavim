@@ -7,6 +7,12 @@ vim.opt.lazyredraw = false
 
 vim.opt.fileencoding = 'utf-8'
 
+-- Window/terminal title: mostra "projeto — arquivo" no titulo da janela.
+-- Como o Rosavim faz auto-root (chdir p/ raiz do projeto), o getcwd() = projeto.
+-- Serve p/ o window-picker do AeroSpace (alt-o) diferenciar cada terminal.
+vim.opt.title = true
+vim.opt.titlestring = '%{fnamemodify(getcwd(), ":t")}%( — %t%)'
+
 -- Global floating window border (Neovim 0.12+). Driven by the picker_border
 -- toggle (<leader>lasb) so vim.ui.select popups — which use `border = true`,
 -- resolving to `winborder` — stay in sync with the picker border style.
