@@ -108,6 +108,23 @@ vim.api.nvim_create_autocmd({ 'FocusLost', 'BufLeave' }, {
   end,
 })
 
+-- Auto-reload buffers changed on disk (RosaAI, git, external edits)
+local autoread_group = vim.api.nvim_create_augroup('kickstart-autoread', { clear = true })
+
+vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'WinEnter', 'CursorHold', 'CursorHoldI', 'TermLeave' }, {
+  group = autoread_group,
+  callback = function()
+    if not toggles.get 'autoread' then
+      return
+    end
+    -- Skip special buffers (terminals, prompts, non-file buffers)
+    if vim.bo.buftype ~= '' or vim.fn.mode() == 'c' then
+      return
+    end
+    vim.cmd 'silent! checktime'
+  end,
+})
+
 -- Rosaterm
 function _G.set_terminal_keymaps()
   local opts = { buffer = 0 }

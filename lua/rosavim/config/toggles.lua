@@ -18,6 +18,7 @@ local defaults = {
   wrap = false,
   -- Autocmd toggles
   lastpos = false,
+  autoread = true, -- reload buffers changed on disk (RosaAI, git, etc.) on focus/idle
   dotenv_syntax = true,
   no_auto_comment = true,
   autosave_focuslost = true,
