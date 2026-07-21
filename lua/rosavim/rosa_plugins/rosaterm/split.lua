@@ -329,7 +329,10 @@ local function compute_main_area(skip_terms)
       local buf = api.nvim_win_get_buf(win)
       local ft = vim.bo[buf].filetype
       local is_rosaterm = ft == 'rosaterm'
-      if not is_rosaterm and cfg.focusable ~= false and not is_transient_popup(cfg, ft) then
+      -- panel_reserve spacers are invisible layout-only reservations pinned
+      -- under a float; never let one masquerade as a side panel.
+      local is_spacer = ft == 'rosa_spacer'
+      if not is_rosaterm and not is_spacer and cfg.focusable ~= false and not is_transient_popup(cfg, ft) then
         local pos = api.nvim_win_get_position(win)
         local w = api.nvim_win_get_width(win)
         local is_float = cfg.relative ~= ''

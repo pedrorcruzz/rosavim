@@ -229,8 +229,9 @@ function M.compute_main_area()
       local buf = api.nvim_win_get_buf(win)
       local ft = vim.bo[buf].filetype
       -- Skip our OWN horizontal/float slots, but keep vertical slots in play.
-      -- Never let a completion/hover popup masquerade as a side panel.
-      if (ft ~= 'rosaai' or rosaai_side[win]) and not is_transient_popup(cfg, ft) then
+      -- Never let a completion/hover popup or a panel_reserve spacer (invisible
+      -- layout-only reservation pinned under a float) masquerade as a side panel.
+      if (ft ~= 'rosaai' or rosaai_side[win]) and ft ~= 'rosa_spacer' and not is_transient_popup(cfg, ft) then
         local pos = api.nvim_win_get_position(win)
         local w = api.nvim_win_get_width(win)
         local is_float = cfg.relative ~= ''
