@@ -107,7 +107,7 @@ Rosavim usa **treesitter nativo do Neovim 0.12+** — nenhum plugin necessário 
 | [which-key.nvim](https://github.com/folke/which-key.nvim) | Exibe atalhos disponíveis em um popup |
 | [nvim-highlight-colors](https://github.com/brenoprata10/nvim-highlight-colors) | Destaca códigos de cores com sua cor real |
 | [mini.icons](https://github.com/echasnovski/mini.icons) | Ícones de tipo de arquivo |
-| [markview.nvim](https://github.com/OXY2DEV/markview.nvim) | Renderização aprimorada de markdown no editor |
+| [render-markdown.nvim](https://github.com/meanderingprogrammer/render-markdown.nvim) | Renderização aprimorada de markdown no editor |
 | [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim) | Preview de markdown ao vivo no navegador |
 
 ### Themes

@@ -310,7 +310,7 @@ Native AI CLI integration for Claude, Cursor, OpenClaude, Gemini and friends. Ea
 | n | `<leader>af` | Open Float | Opens (or hides if already float) as a centered floating window |
 | n | `<leader>as` | Select CLI | Pick from the list of CLIs whose binary is installed |
 | n,x | `<leader>at` | Send `{this}` | Send the current cursor reference (`@file:line`) |
-| n | `<leader>aF` | Send `{file}` | Send the whole file reference (`@file`) |
+| n | `<leader>al` | Send `{file}` | Send the whole file reference (`@file`) |
 | x | `<leader>av` | Send selection | Send the visual selection range (`@file:start-end`) |
 | n,x | `<leader>ap` | Select prompt | Pick from built-in prompt templates (explain / review / refactor / ...) |
 | n | `<leader>ac` | Toggle Claude | Open/hide Claude (`claude`) |
@@ -399,6 +399,7 @@ Inside the CLI terminal: single `<Esc>` exits to nvim normal mode; double `<Esc>
 |:----:|:----|:-------|:--------|
 | n | `<leader>lqt` | Toggle dark/light | `Space l q t` to switch between dark and light mode |
 | n | `<leader>lqs` | Select theme | `Space l q s` to pick one of our themes (rosamin / rosavintage) |
+| n | `<leader>lqm` | Select Render Markdown theme | `Space l q m` to pick the render-markdown preset (none / lazy / obsidian) |
 | n | `<leader>lqg` | Select lualine separator | `Space l q g` to pick a statusline separator preset (rounded / bar / arrow / slant) |
 | n | `<leader>lqe` | Toggle transparent | `Space l q e` to toggle background transparency |
 | n | `<leader>lqdt` | Toggle dashboard gif | `Space l q d t` to enable/disable the chafa gif (persisted, hot-reload) |
@@ -424,7 +425,7 @@ Inside the CLI terminal: single `<Esc>` exits to nvim normal mode; double `<Esc>
 | n | `<leader>lasb` | Picker Border | `Space l a s b` to open a popup to select picker border style |
 | n | `<leader>lqw` | Which-Key Preset | `Space l q w` to open a popup to select which-key preset |
 | n | `<leader>lqb` | Which-Key Border | `Space l q b` to open a popup to select which-key border style |
-| n | `<leader>uu` | Toggle Markview | `Space u t` to toggle enhanced markdown rendering |
+| n | `<leader>uu` | Toggle Render Markdown | `Space u t` to toggle enhanced markdown rendering |
 | n | `<leader>ua` | Markdown preview | `Space u a` to open markdown preview in the browser |
 | n | `<leader>zz` | Pick winbar symbol | `Space z z` to pick a symbol from the breadcrumb bar |
 

@@ -52,6 +52,7 @@ return {
       { '<leader>lqd', group = 'Dashboard', icon = '' },
       { '<leader>lqr', desc = 'Rosaterm: Select Theme', icon = '' },
       { '<leader>lqa', desc = 'RosaAI: Select Theme', icon = ' ' },
+      { '<leader>lqm', desc = 'Render Markdown: Select Theme', icon = '' },
       { '<leader>lqg', desc = 'Lualine: Select Separator' },
       { '<leader>lqc', group = 'TODO', icon = '󱩽 ' },
       { '<leader>lqs', desc = 'Select Theme' },

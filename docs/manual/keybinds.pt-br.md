@@ -310,7 +310,7 @@ Integração nativa com CLIs de IA (Claude, Cursor, OpenClaude, Gemini etc.). Ca
 | n | `<leader>af` | Abrir Float | Abre (ou esconde se já estiver float) como janela flutuante central |
 | n | `<leader>as` | Selecionar CLI | Escolhe entre os CLIs cujo binário está instalado |
 | n,x | `<leader>at` | Enviar `{this}` | Envia referência do cursor (`@file:linha`) |
-| n | `<leader>aF` | Enviar `{file}` | Envia referência do arquivo inteiro (`@file`) |
+| n | `<leader>al` | Enviar `{file}` | Envia referência do arquivo inteiro (`@file`) |
 | x | `<leader>av` | Enviar seleção | Envia o range visual (`@file:início-fim`) |
 | n,x | `<leader>ap` | Selecionar prompt | Escolhe entre templates pré-definidos (explain / review / refactor / ...) |
 | n | `<leader>ac` | Alternar Claude | Abrir/esconder Claude (`claude`) |
@@ -399,6 +399,7 @@ Dentro do terminal do CLI: um `<Esc>` sai pro modo normal do nvim; `<Esc> <Esc>`
 |:----:|:------|:-----|:--------|
 | n | `<leader>lqt` | Alternar dark/light | `Space l q t` para alternar entre modo escuro e claro |
 | n | `<leader>lqs` | Selecionar theme | `Space l q s` para escolher um dos nossos themes (rosamin / rosavintage) |
+| n | `<leader>lqm` | Selecionar tema do Render Markdown | `Space l q m` para escolher o preset do render-markdown (none / lazy / obsidian) |
 | n | `<leader>lqg` | Selecionar separador do lualine | `Space l q g` para escolher um preset de separador da statusline (rounded / bar / arrow / slant) |
 | n | `<leader>lqe` | Alternar transparência | `Space l q e` para alternar a transparência do fundo |
 | n | `<leader>lqdt` | Liga/desliga gif do dashboard | `Space l q d t` pra ativar/desativar o gif chafa (persistido, hot-reload) |
@@ -424,7 +425,7 @@ Dentro do terminal do CLI: um `<Esc>` sai pro modo normal do nvim; `<Esc> <Esc>`
 | n | `<leader>lasb` | Picker Border | `Space l a s b` para abrir popup de seleção de borda do picker |
 | n | `<leader>lqw` | Which-Key Preset | `Space l q w` para abrir popup de seleção de preset do which-key |
 | n | `<leader>lqb` | Which-Key Border | `Space l q b` para abrir popup de seleção de borda do which-key |
-| n | `<leader>uu` | Alternar Markview | `Space u t` para alternar renderização aprimorada de markdown |
+| n | `<leader>uu` | Alternar Render Markdown | `Space u t` para alternar renderização aprimorada de markdown |
 | n | `<leader>ua` | Preview de markdown | `Space u a` para abrir preview de markdown no navegador |
 | n | `<leader>zz` | Escolher símbolo da winbar | `Space z z` para escolher um símbolo da barra de breadcrumb |
 

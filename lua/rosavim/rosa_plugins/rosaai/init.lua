@@ -61,6 +61,10 @@ function M.send(opts)
   cli.send(opts)
 end
 
+function M.send_ref(opts)
+  cli.send_ref(opts)
+end
+
 function M.prompt()
   cli.prompt()
 end

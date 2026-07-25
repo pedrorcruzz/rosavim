@@ -28,13 +28,13 @@ end
 if toggles.get 'dim' then
   Snacks.toggle.dim():set(true)
 end
-if not toggles.get 'markview' then
+if not toggles.get 'render_markdown' then
   vim.api.nvim_create_autocmd('FileType', {
     pattern = 'markdown',
     once = true,
     callback = function()
       vim.schedule(function()
-        vim.cmd 'Markview Disable'
+        vim.cmd 'RenderMarkdown disable'
       end)
     end,
   })

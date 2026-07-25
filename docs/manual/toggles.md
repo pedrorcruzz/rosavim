@@ -14,7 +14,7 @@ Toggle definitions are organized in modular files under `lua/rosavim/plugins/ui/
 | Module | Toggles |
 |:-------|:--------|
 | `options.lua` | Vim options (wrap, relative number, line number, indent, dim, spell) |
-| `plugins.lua` | Plugin toggles (Rosasave, Incline, TSContext, Copilot, Bufferline, Dropbar, Markview, Rosamaximize, Image Preview) |
+| `plugins.lua` | Plugin toggles (Rosasave, Incline, TSContext, Copilot, Bufferline, Dropbar, Render Markdown, Rosamaximize, Image Preview) |
 | `appearance.lua` | Theme toggles (Dark/Light, Transparent, Lualine, Lualine Theme) |
 | `autocmds.lua` | Tools toggles (Snacks, Which-Key, AI, Editor, LSP, DBUI) |
 
@@ -59,7 +59,8 @@ Available lualine separators: `rounded`, `bar`, `arrow`, `slant`
 | `<leader>lc` | Incline (floating filename) | On |
 | `<leader>lb` | Bufferline (buffer tabs) | On |
 | `<leader>lu` | Dropbar (breadcrumbs) | On |
-| `<leader>uu` | Markview (enhanced markdown rendering) | On |
+| `<leader>uu` | Render Markdown (enhanced markdown rendering) | On |
+| `<leader>lqm` | Render Markdown theme (popup: none / lazy / obsidian) | none |
 | `<leader>lm` | Image Preview (hover image preview) | Off |
 | `<leader>cm` | Rosamaximize (maximize/restore window) | Off |
 

@@ -885,6 +885,21 @@ function M.send(opts)
   end
 end
 
+--- Send a file/line reference (<leader>al / <leader>at). Follows the SAME
+--- CLI + layout selection as <leader>aa (route_ask): pick a CLI and layout
+--- when nothing is open, reuse the single alive one, or pick among several.
+--- The reference is WRITTEN to the CLI without submitting, so the user
+--- reviews and presses <CR> themselves (mirrors the visual ask preview).
+function M.send_ref(opts)
+  opts = opts or {}
+  local ctx = capture_ctx()
+  local msg = expand(opts.msg or '', ctx)
+  if msg == '' then
+    return
+  end
+  route_ask(msg, { submit = false })
+end
+
 --- Built-in prompt templates the user can pick from
 M.prompts = {
   { name = 'explain', icon = '󰋽 ', label = 'Explain', msg = 'Explain {this} in detail.' },

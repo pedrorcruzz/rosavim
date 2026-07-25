@@ -51,7 +51,8 @@ local defaults = {
   rosaai_dark_bg = true, -- light mode: force #000 (<leader>laad)
   rosaai_dark_bg_dm = false, -- dark mode: force #000 (<leader>laaD)
   git_blame = true,
-  markview = true,
+  render_markdown = true,
+  render_markdown_theme = 'none', -- none | lazy | obsidian (<leader>lqm)
   image_preview = false,
   -- Todo Comments
   todo_comments = true,

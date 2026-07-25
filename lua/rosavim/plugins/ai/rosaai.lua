@@ -86,15 +86,15 @@ return {
     {
       '<leader>at',
       function()
-        require('rosavim.rosa_plugins.rosaai').send { msg = '{this}' }
+        require('rosavim.rosa_plugins.rosaai').send_ref { msg = '{this}' }
       end,
       mode = { 'x', 'n' },
       desc = 'RosaAI: Send This',
     },
     {
-      '<leader>aF',
+      '<leader>al',
       function()
-        require('rosavim.rosa_plugins.rosaai').send { msg = '{file}' }
+        require('rosavim.rosa_plugins.rosaai').send_ref { msg = '{file}' }
       end,
       desc = 'RosaAI: Send File',
     },

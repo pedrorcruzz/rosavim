@@ -124,24 +124,59 @@ return function()
     end,
   }):map '<leader>lb'
 
-  -- Markview
+  -- Render Markdown
   Snacks.toggle({
-    name = 'Markview',
+    name = 'Render Markdown',
     get = function()
-      return toggles.get 'markview'
+      return toggles.get 'render_markdown'
     end,
     set = function(state)
-      toggles.set('markview', state)
-      if not package.loaded['markview'] then
-        require('lazy').load { plugins = { 'markview.nvim' } }
+      toggles.set('render_markdown', state)
+      if not package.loaded['render-markdown'] then
+        require('lazy').load { plugins = { 'render-markdown.nvim' } }
       end
       if state then
-        vim.cmd 'Markview Enable'
+        vim.cmd 'RenderMarkdown enable'
       else
-        vim.cmd 'Markview Disable'
+        vim.cmd 'RenderMarkdown disable'
       end
     end,
   }):map '<leader>uu'
+
+  -- Render Markdown theme (preset) picker — lives under <leader>lq (Theme group)
+  vim.keymap.set('n', '<leader>lqm', function()
+    local presets = {
+      { name = 'none', label = 'None (default)' },
+      { name = 'lazy', label = 'Lazy' },
+      { name = 'obsidian', label = 'Obsidian' },
+    }
+    local current = toggles.get 'render_markdown_theme'
+    vim.ui.select(presets, {
+      prompt = 'Render Markdown · select theme',
+      kind = 'render_markdown_theme',
+      format_item = function(t)
+        local marker = t.name == current and ' ●' or ''
+        return t.label .. marker
+      end,
+    }, function(choice)
+      if not choice then
+        return
+      end
+      toggles.set('render_markdown_theme', choice.name)
+      if not package.loaded['render-markdown'] then
+        require('lazy').load { plugins = { 'render-markdown.nvim' } }
+      end
+      local rm = require 'render-markdown'
+      -- Rebuild config from the new preset, then honor the on/off toggle.
+      -- setup() resets the internal enabled flag, so re-apply it explicitly.
+      rm.setup { preset = choice.name }
+      rm.disable()
+      if toggles.get 'render_markdown' then
+        rm.enable()
+      end
+      Snacks.notify.info('Render Markdown theme: ' .. choice.label)
+    end)
+  end, { desc = 'Render Markdown: Select Theme' })
 
   -- Image Preview
   Snacks.toggle({
