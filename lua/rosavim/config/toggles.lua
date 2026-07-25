@@ -53,6 +53,10 @@ local defaults = {
   git_blame = true,
   markview = true,
   image_preview = false,
+  -- Todo Comments
+  todo_comments = true,
+  todo_comments_bg = true,
+  todo_comments_fg = false,
   -- Rosaterm
   rosaterm_title = true,
   rosaterm_time = true,

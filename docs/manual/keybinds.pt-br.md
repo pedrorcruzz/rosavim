@@ -477,6 +477,9 @@ Dentro do terminal do CLI: um `<Esc>` sai pro modo normal do nvim; `<Esc> <Esc>`
 | n | `<leader>fti` | Buscar INFO | `Space f t i` para encontrar todos os comentários INFO |
 | n | `<leader>fth` | Buscar HACK | `Space f t h` para encontrar todos os comentários HACK |
 | n | `<leader>ftw` | Buscar WARN | `Space f t w` para encontrar todos os comentários WARN |
+| n | `<leader>lh` | Ligar/desligar plugin | `Space l h` para ativar/desativar o todo-comments por completo (persiste) |
+| n | `<leader>lqcb` | Alternar fundo | `Space l q c b` para alternar o chip de fundo colorido (persiste) |
+| n | `<leader>lqcf` | Alternar texto | `Space l q c f` para colorir o texto em vez do fundo (persiste) |
 
 ---
 

@@ -63,6 +63,16 @@ Available lualine separators: `rounded`, `bar`, `arrow`, `slant`
 | `<leader>lm` | Image Preview (hover image preview) | Off |
 | `<leader>cm` | Rosamaximize (maximize/restore window) | Off |
 
+### Todo Comments (`<leader>lh` / `<leader>lqc`)
+
+| Shortcut | Toggle | Default |
+|:---------|:-------|:--------|
+| `<leader>lh` | Todo Comments plugin (on/off) | On |
+| `<leader>lqcb` | Background highlight (colored chip) | On |
+| `<leader>lqcf` | Foreground highlight (colored text) | Off |
+
+`<leader>lh` disables the whole plugin (no highlights or signs). Background and foreground are mutually exclusive — enabling one turns the other off. With both off, keywords still work (jump `]t` / `[t`, search `<leader>ft*`) but show no colors.
+
 ### AI (`<leader>ai`)
 
 | Shortcut | Toggle | Default |

@@ -26,6 +26,7 @@ vim.lsp.enable {
   'jdtls',
   'sqlls',
   'lua_ls',
+  'marksman',
 }
 
 return {
@@ -59,6 +60,7 @@ return {
         'jdtls',
         'sqlls',
         'lua-language-server',
+        'marksman',
         -- Formatters
         'stylua',
         'superhtml',

@@ -477,6 +477,9 @@ Inside the CLI terminal: single `<Esc>` exits to nvim normal mode; double `<Esc>
 | n | `<leader>fti` | Find INFO | `Space f t i` to find all INFO comments |
 | n | `<leader>fth` | Find HACK | `Space f t h` to find all HACK comments |
 | n | `<leader>ftw` | Find WARN | `Space f t w` to find all WARN comments |
+| n | `<leader>lh` | Toggle plugin | `Space l h` to enable/disable todo-comments entirely (persists) |
+| n | `<leader>lqcb` | Toggle background | `Space l q c b` to toggle the colored background chip (persists) |
+| n | `<leader>lqcf` | Toggle foreground | `Space l q c f` to color the text instead of the background (persists) |
 
 ---
 

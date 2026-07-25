@@ -813,6 +813,32 @@ local function capture_ctx()
   return ctx
 end
 
+local function when_ready(name, cb)
+  local interval, min_ms, max_ms = 100, 500, 8000
+  local elapsed, last, stable = 0, nil, 0
+  local function tick()
+    local s = state.get(name)
+    if not s or not s.job or not (s.buf and api.nvim_buf_is_valid(s.buf)) then
+      return
+    end
+    local joined = table.concat(api.nvim_buf_get_lines(s.buf, 0, -1, false), '\n')
+    local rendered = joined:gsub('%s+', '') ~= ''
+    if rendered and joined == last then
+      stable = stable + 1
+    else
+      stable = 0
+    end
+    last = joined
+    elapsed = elapsed + interval
+    if (rendered and stable >= 1 and elapsed >= min_ms) or elapsed >= max_ms then
+      cb()
+    else
+      vim.defer_fn(tick, interval)
+    end
+  end
+  vim.defer_fn(tick, interval)
+end
+
 --- Send a message to the active CLI's terminal (opens it if not visible)
 function M.send(opts)
   opts = opts or {}
@@ -831,12 +857,8 @@ function M.send(opts)
   local prev = state.get(name)
   local fresh = not (prev and prev.started)
   M.show(name)
-  -- A cold-started CLI hasn't enabled bracketed-paste mode yet; if we
-  -- send immediately the bytes leak into its boot banner AND get re-read
-  -- once the input handler attaches, so the message shows up twice. Wait
-  -- long enough for the prompt to come up before sending.
-  local delay = fresh and 1500 or 80
-  vim.defer_fn(function()
+
+  local function deliver()
     local s = state.get(name)
     if not s or not s.job then
       return
@@ -844,7 +866,6 @@ function M.send(opts)
     local submit = opts.submit ~= false
     local cr = submit and '\r' or ''
     if msg:find '\n' then
-      -- Bracketed paste so CLIs treat embedded newlines as one input
       fn.chansend(s.job, '\27[200~' .. msg .. '\27[201~' .. cr)
     else
       fn.chansend(s.job, msg .. cr)
@@ -855,7 +876,13 @@ function M.send(opts)
         vim.cmd 'startinsert'
       end
     end
-  end, delay)
+  end
+
+  if fresh then
+    when_ready(name, deliver)
+  else
+    vim.defer_fn(deliver, 80)
+  end
 end
 
 --- Built-in prompt templates the user can pick from

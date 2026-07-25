@@ -23,6 +23,15 @@ return {
   config = function(_, opts)
     require('todo-comments').setup(opts)
 
+    local rosatodo = require 'rosavim.rosa_plugins.rosatodo'
+    vim.api.nvim_create_autocmd('ColorScheme', {
+      group = vim.api.nvim_create_augroup('RosavimTodoFg', { clear = true }),
+      callback = function()
+        vim.schedule(rosatodo.force_fg)
+      end,
+    })
+    rosatodo.restore()
+
     -- folders treated as third-party / generated code — TODOs inside them
     -- should not be highlighted in the editor nor appear in :TodoTrouble etc.
     local excluded_dirs = {
@@ -89,10 +98,10 @@ return {
         alt = { 'FIXME', 'BUG', 'FIXIT', 'ISSUE' }, -- a set of other keywords that all map to this FIX keywords
         -- signs = false, -- configure signs for some keywords individually
       },
-      TODO = { icon = ' ', color = 'info' },
+      TODO = { icon = ' ', color = '#3CBBFF' },
       HACK = { icon = ' ', color = 'warning' },
       WARN = { icon = ' ', color = 'warning', alt = { 'WARNING', 'XXX' } },
-      PERF = { icon = ' ', alt = { 'OPTIM', 'PERFORMANCE', 'OPTIMIZE' } },
+      PERF = { icon = ' ', color = '#7C3AED', alt = { 'OPTIM', 'PERFORMANCE', 'OPTIMIZE' } },
       NOTE = { icon = ' ', color = 'hint', alt = { 'INFO' } },
       TEST = { icon = '⏲ ', color = 'test', alt = { 'TESTING', 'PASSED', 'FAILED' } },
     },
@@ -120,12 +129,12 @@ return {
     -- list of named colors where we try to extract the guifg from the
     -- list of highlight groups or use the hex color if hl not found as a fallback
     colors = {
-      error = { 'DiagnosticError', 'ErrorMsg', '#DC2626' },
-      warning = { 'DiagnosticWarn', 'WarningMsg', '#FBBF24' },
-      info = { 'DiagnosticInfo', '#2563EB' },
-      hint = { 'DiagnosticHint', '#10B981' },
-      default = { 'Identifier', '#7C3AED' },
-      test = { 'Identifier', '#FF00FF' },
+      error = { '#DC2626' },
+      warning = { '#FBBF24' },
+      info = { '#2563EB' },
+      hint = { '#10B981' },
+      default = { '#7C3AED' },
+      test = { '#FF00FF' },
     },
     search = {
       command = 'rg',

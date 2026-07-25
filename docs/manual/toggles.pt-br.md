@@ -63,6 +63,16 @@ Separadores do Lualine disponíveis: `rounded`, `bar`, `arrow`, `slant`
 | `<leader>lm` | Image Preview (preview de imagem hover) | Desativado |
 | `<leader>cm` | Rosamaximize (maximizar/restaurar janela) | Desativado |
 
+### Todo Comments (`<leader>lh` / `<leader>lqc`)
+
+| Atalho | Toggle | Padrão |
+|:-------|:-------|:-------|
+| `<leader>lh` | Plugin Todo Comments (ligar/desligar) | Ativado |
+| `<leader>lqcb` | Destaque no fundo (chip colorido) | Ativado |
+| `<leader>lqcf` | Destaque no texto (texto colorido) | Desativado |
+
+`<leader>lh` desativa o plugin inteiro (sem destaques nem sinais). Fundo e texto são mutuamente exclusivos — ligar um desliga o outro. Com os dois desligados as keywords continuam funcionando (jump `]t` / `[t`, busca `<leader>ft*`) mas sem cores.
+
 ### IA (`<leader>ai`)
 
 | Atalho | Toggle | Padrão |

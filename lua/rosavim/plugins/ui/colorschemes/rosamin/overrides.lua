@@ -156,15 +156,6 @@ function M.get(mode, transparent_background)
       TelescopePromptBorder = { fg = '#C0C0C0' },
       TelescopeResultsBorder = { fg = '#C0C0C0' },
 
-      TodoBgTODO = { bg = '#0184BC', fg = '#FFFFFF', bold = true },
-      TodoBgNOTE = { bg = '#7C3AED', fg = '#FFFFFF', bold = true },
-      TodoBgWARN = { bg = '#C18401', fg = '#FFFFFF', bold = true },
-      TodoBgFIX = { bg = '#E45649', fg = '#FFFFFF', bold = true },
-      TodoFgTODO = { fg = '#0184BC' },
-      TodoFgNOTE = { fg = '#7C3AED' },
-      TodoFgWARN = { fg = '#C18401' },
-      TodoFgFIX = { fg = '#E45649' },
-
       DiagnosticWarn = { fg = '#C18401' },
       DiagnosticInfo = { fg = '#0184BC' },
       DiagnosticHint = { fg = '#7C3AED' },
@@ -427,18 +418,6 @@ function M.get(mode, transparent_background)
     TelescopePreviewBorder = { fg = '#4c4c4c' },
     TelescopePromptBorder = { fg = '#4c4c4c' },
     TelescopeResultsBorder = { fg = '#4c4c4c' },
-
-    --todo
-    TodoBgTODO = { bg = '#64baff', fg = '#111111', bold = true },
-    TodoBgNOTE = { bg = '#c18efe', fg = '#111111', bold = true },
-    TodoBgWARN = { bg = '#ffa868', fg = '#111111', bold = true },
-    TodoBgFIX = { bg = '#F67582', fg = '#111111', bold = true },
-    TodoFgTODO = { fg = '#64baff' },
-    TodoFgNOTE = { fg = '#c18efe' },
-    TodoFgWARN = { fg = '#ffa868' },
-    TodoFgFIX = { fg = '#F67582' },
-    -- todobghack = { bg = '#c18efe', fg = '#111111', bold = true },
-    -- todofghack = { fg = '#c18efe' },
 
     --diagnostic
     -- diagnosticerror = { fg = '#be5046' },
