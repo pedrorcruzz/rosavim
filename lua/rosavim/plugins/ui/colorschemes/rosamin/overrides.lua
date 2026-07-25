@@ -269,6 +269,8 @@ function M.get(mode, transparent_background)
     FloatBorder = { fg = '#4c4c4c' }, --#4c4c4c
     Border = { fg = '#4c4c4c' },
     FloatShadow = { fg = '#4c4c4c' },
+    BlinkCmpMenuBorder = { bg = transparent_background and 'none' or '#1F1F1F', fg = '#4c4c4c' },
+    BlinkCmpDocBorder = { bg = transparent_background and 'none' or '#1F1F1F', fg = '#4c4c4c' },
     Search = { bg = transparent_background and 'none' or '#606060', fg = '#abb2bf' },
     IncSearch = { bg = transparent_background and 'none' or '#606060', fg = '#F67582' },
     AvanteInlineHint = { fg = '#606060', bg = 'none' }, --#abb2bf
