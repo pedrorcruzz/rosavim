@@ -138,12 +138,14 @@ local function inline_segments()
 end
 
 --- Banner segments: full-width bar with name on left and time on right
+local GLYPH_EXTRA = 1
+
 local function banner_segments(width)
   local name = M.name_text()
   local show_icon = icon_visible()
   local icon = icon_glyph()
   local left_text = show_icon and (' ' .. icon .. ' ' .. name) or (' ' .. name)
-  local left_w = vim.api.nvim_strwidth(left_text)
+  local left_w = vim.api.nvim_strwidth(left_text) + (show_icon and GLYPH_EXTRA or 0)
 
   local segs = { { ' ', 'RosatermBarBracket' } }
   if show_icon then
@@ -154,7 +156,7 @@ local function banner_segments(width)
 
   if M.time_enabled() then
     local right_text = ' ' .. CLOCK .. ' ' .. get_time() .. ' '
-    local right_w = vim.api.nvim_strwidth(right_text)
+    local right_w = vim.api.nvim_strwidth(right_text) + GLYPH_EXTRA
     local pad = width - left_w - right_w
     if pad < 1 then
       pad = 1

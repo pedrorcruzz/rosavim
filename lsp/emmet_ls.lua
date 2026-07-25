@@ -8,7 +8,7 @@ return {
     'vue',
     'blade',
     'heex',
-    'eelixr',
+    'eelixir',
   },
   root_markers = { '.git' },
 }
