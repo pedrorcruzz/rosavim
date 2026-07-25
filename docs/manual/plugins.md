@@ -117,7 +117,7 @@ Rosavim ships with its own built-in themes, stored in `lua/rosavim/rosa_themes/`
 | Theme | Description |
 |:------|:------------|
 | **Rosamin** (built-in, default) | Minimal aesthetic theme inspired by min-theme — dark/light mode, transparency, custom overrides |
-| **Rosaesthetic** (built-in) | Earthy, warm aesthetic theme — dark/light mode, transparency, custom overrides |
+| **Rosavintage** (built-in) | Earthy, warm aesthetic theme — dark/light mode, transparency, custom overrides |
 
 ---
 

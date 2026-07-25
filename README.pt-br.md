@@ -16,8 +16,8 @@
 
 | | |
 |:---:|:---:|
-| ![Rosamin Dashboard Dark](assets/screenshots/rosamin_dashboard_dark.png) | ![Rosaesthetic Dashboard Light](assets/screenshots/rosaaesthetic_dashboard_light.png) |
-| ![Rosamin Code Dark](assets/screenshots/rosamin_code_dark.png) | ![Rosaesthetic Code Light](assets/screenshots/rosaaesthetic_code_light.png) |
+| ![Rosamin Dashboard Dark](assets/screenshots/rosamin_dashboard_dark.png) | ![Rosavintage Dashboard Light](assets/screenshots/rosavintage_dashboard_light.png) |
+| ![Rosamin Code Dark](assets/screenshots/rosamin_code_dark.png) | ![Rosavintage Code Light](assets/screenshots/rosavintage_code_light.png) |
 
 </div>
 
@@ -113,7 +113,7 @@ Guias detalhados ficam em [`docs/manual`](docs/manual/):
 
 <br>
 
-- **2 temas próprios** — **Rosamin** (padrão, minimal) e **Rosaesthetic** (quente, terroso), ambos com dark/light mode e transparência
+- **2 temas próprios** — **Rosamin** (padrão, minimal) e **Rosavintage** (quente, terroso), ambos com dark/light mode e transparência
 - **Dashboard**, statusline **Lualine** (separadores selecionáveis), abas **Bufferline**, breadcrumbs **Dropbar**, nomes flutuantes **Incline** e **Noice** para mensagens modernas
 - Troca de **dark/light** e de **tema** com um atalho
 
@@ -168,7 +168,7 @@ Suporte completo (LSP, formatação, linting, testes e debug) para as principais
 | **TypeScript / JavaScript** | vtsls | Biome / Prettier | Biome / eslint_d | Jest / Vitest | — |
 | **React / JSX / TSX** | vtsls | Biome / Prettier | Biome / eslint_d | Jest / Vitest | — |
 | **Go** | gopls | goimports | golangci-lint | gotestsum | Delve |
-| **Python** | Pyright | autopep8 | Mypy / Pylint | pytest | debugpy |
+| **Python** | basedpyright | autopep8 | Mypy / Pylint | pytest | debugpy |
 | **Java** | JDTLS | google-java-format | Checkstyle | Gradle | Remote Attach |
 | **PHP / Laravel** | Intelephense | php-cs-fixer | phpcs | Pest | Xdebug |
 | **HTML / CSS** | Emmet + Tailwind | Prettier | djlint | — | — |
@@ -196,13 +196,13 @@ Rosavim vem com 2 temas próprios, totalmente integrados aos toggles de dark/lig
 </details>
 
 <details>
-<summary><b>Rosaesthetic</b> — tons quentes e terrosos</summary>
+<summary><b>Rosavintage</b> — tons quentes e terrosos</summary>
 
 <br>
 
 | Code (Dark) | Dashboard (Dark) | Code (Light) | Dashboard (Light) | Transparente |
 |:------------|:-----------------|:-------------|:------------------|:-------------|
-| ![Rosaesthetic Code Dark](assets/screenshots/rosaaesthetic_code_dark.png) | ![Rosaesthetic Dashboard Dark](assets/screenshots/rosaaesthetic_dashboard_dark.png) | ![Rosaesthetic Code Light](assets/screenshots/rosaaesthetic_code_light.png) | ![Rosaesthetic Dashboard Light](assets/screenshots/rosaaesthetic_dashboard_light.png) | ![Rosaesthetic Transparent](assets/screenshots/rosaaesthetic_transparent.png) |
+| ![Rosavintage Code Dark](assets/screenshots/rosavintage_code_dark.png) | ![Rosavintage Dashboard Dark](assets/screenshots/rosavintage_dashboard_dark.png) | ![Rosavintage Code Light](assets/screenshots/rosavintage_code_light.png) | ![Rosavintage Dashboard Light](assets/screenshots/rosavintage_dashboard_light.png) | ![Rosavintage Transparent](assets/screenshots/rosavintage_transparent.png) |
 
 </details>
 
@@ -299,7 +299,7 @@ Referência completa: **[Manual de Atalhos](docs/manual/keybinds.pt-br.md)**.
 │   │   └── rosaai/
 │   └── rosa_themes/
 │       ├── rosamin/               # tema padrão (minimal)
-│       └── rosaesthetic/          # tema quente e terroso
+│       └── rosavintage/          # tema quente e terroso
 ├── lsp/                           # configs individuais de LSP
 └── assets/                        # logo e screenshots
 ```

@@ -452,9 +452,9 @@ function M.get(mode, transparent_background)
     SnacksNotifierBorderError = { fg = '#F67582' },
     SnacksNotifierTitleInfo = { fg = '#ffffff' },
 
-    SnacksPickerTitle = { fg = '#ffffff', bg = '#323232' },
-    SnacksPickerInputTitle = { fg = '#abb2bf', bg = '#1A1A1A' }, --explorer 202020 or 1A1A1A
-    SnacksPickerToggle = { fg = '#abb2bf', bg = '#1A1A1A' },
+    SnacksPickerTitle = { fg = '#ffffff', bg = transparent_background and 'none' or '#323232' },
+    SnacksPickerInputTitle = { fg = '#abb2bf', bg = transparent_background and 'none' or '#1A1A1A' }, --explorer 202020 or 1A1A1A
+    SnacksPickerToggle = { fg = '#abb2bf', bg = transparent_background and 'none' or '#1A1A1A' },
 
     -- SnacksPicker = { bg = '#1A1A1A' },
     SnacksPicker = { bg = transparent_background and 'none' or '#1A1A1A' },

@@ -62,7 +62,7 @@ Rosavim fornece um ambiente de desenvolvimento completo para muitas linguagens p
 
 | Componente | Ferramenta |
 |:-----------|:-----------|
-| **LSP** | [Pyright](https://github.com/microsoft/pyright) — Type checker e language server rápido |
+| **LSP** | [basedpyright](https://github.com/DetachHead/basedpyright) — fork do Pyright com inlay hints, semantic highlighting e features totalmente open-source |
 | **Formatter** | autopep8 |
 | **Linter** | Mypy (verificação de tipos), Pylint (análise de código) |
 | **Testes** | pytest (via Rosatest) |
@@ -223,9 +223,22 @@ return {
 }
 ```
 
-O Neovim 0.12+ detecta automaticamente configurações LSP no diretório `lsp/`.
+O Neovim carrega automaticamente os arquivos de config do diretório `lsp/`, mas **não** os inicia sozinho.
 
-### 3. Adicionar um Formatter (opcional)
+### 3. Habilitar o Server
+
+Adicione o nome do server à lista `vim.lsp.enable { ... }` em `lua/rosavim/plugins/env/lsp/mason.lua` (o nome precisa bater com o arquivo `lsp/<nome>.lua`):
+
+```lua
+vim.lsp.enable {
+  -- ... servers existentes
+  "rust_analyzer",
+}
+```
+
+Sem esse passo o server **não** anexa — criar só o arquivo `lsp/<nome>.lua` não basta.
+
+### 4. Adicionar um Formatter (opcional)
 
 Edite `lua/rosavim/plugins/env/conform.lua` e adicione seu formatter à tabela `formatters_by_ft`:
 
@@ -233,7 +246,7 @@ Edite `lua/rosavim/plugins/env/conform.lua` e adicione seu formatter à tabela `
 rust = { "rustfmt" },
 ```
 
-### 4. Adicionar um Linter (opcional)
+### 5. Adicionar um Linter (opcional)
 
 Edite `lua/rosavim/plugins/env/lint.lua` e adicione seu linter:
 
@@ -241,9 +254,9 @@ Edite `lua/rosavim/plugins/env/lint.lua` e adicione seu linter:
 rust = { "clippy" },
 ```
 
-### 5. Adicionar ao Auto-Install do Mason (opcional)
+### 6. Adicionar ao Auto-Install do Mason (opcional)
 
-Edite `lua/rosavim/plugins/env/mason.lua` para auto-instalar as ferramentas:
+Edite `lua/rosavim/plugins/env/lsp/mason.lua` para auto-instalar as ferramentas:
 
 ```lua
 ensure_installed = {

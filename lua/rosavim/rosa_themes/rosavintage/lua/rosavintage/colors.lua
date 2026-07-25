@@ -1,4 +1,4 @@
-local config = require 'rosaesthetic.config'
+local config = require 'rosavintage.config'
 
 local colors = {}
 

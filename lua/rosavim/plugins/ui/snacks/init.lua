@@ -65,7 +65,7 @@ return {
     toggle = { enabled = true },
     lazygit = {
       enabled = true,
-      -- Theme-independent lazygit look (identical across rosamin/rosaesthetic).
+      -- Theme-independent lazygit look (identical across rosamin/rosavintage).
       -- See rosa_plugins/lazygit_theme for why we decouple from syntax groups.
       theme = require('rosavim.rosa_plugins.lazygit_theme').theme,
     },

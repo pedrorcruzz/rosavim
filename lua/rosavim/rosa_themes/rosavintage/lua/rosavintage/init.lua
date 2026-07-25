@@ -1,8 +1,8 @@
-local config = require 'rosaesthetic.config'
+local config = require 'rosavintage.config'
 local M = {}
 
 local function set_terminal_colors()
-  local colors = require 'rosaesthetic.colors'
+  local colors = require 'rosavintage.colors'
   if vim.o.background == 'light' then
     vim.g.terminal_color_0 = '#d3d2ce'
     vim.g.terminal_color_1 = '#834742'
@@ -43,8 +43,8 @@ local function set_terminal_colors()
 end
 
 local function set_groups()
-  local colors = require 'rosaesthetic.colors'
-  local utils = require 'rosaesthetic.utils'
+  local colors = require 'rosavintage.colors'
+  local utils = require 'rosavintage.utils'
   local bg = config.transparent and 'NONE' or colors.bg
   local sidebar = config.transparent and 'NONE' or colors.bgSidebar
   local bl_bg = (config.transparent or vim.o.background == 'dark') and '#000000' or colors.bgDark
@@ -391,7 +391,7 @@ end
 
 function M.colorscheme()
   if vim.version().minor < 8 then
-    vim.notify('Neovim 0.8+ is required for rosaesthetic colorscheme', vim.log.levels.ERROR, { title = 'Rosaesthetic' })
+    vim.notify('Neovim 0.8+ is required for rosavintage colorscheme', vim.log.levels.ERROR, { title = 'Rosavintage' })
     return
   end
 
@@ -408,10 +408,10 @@ function M.colorscheme()
 
   vim.g.VM_theme_set_by_colorscheme = true
   vim.o.termguicolors = true
-  vim.g.colors_name = 'rosaesthetic'
+  vim.g.colors_name = 'rosavintage'
 
   -- Clear cached color module so it re-evaluates vim.o.background
-  package.loaded['rosaesthetic.colors'] = nil
+  package.loaded['rosavintage.colors'] = nil
 
   set_terminal_colors()
   set_groups()

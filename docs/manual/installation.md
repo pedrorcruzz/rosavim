@@ -35,7 +35,7 @@ Mason downloads LSP servers, formatters, linters, and debuggers — but it relie
 | Runtime | Needed for | Why |
 |:--------|:-----------|:----|
 | **Node.js + npm** | vtsls, tailwindcss, emmet-ls, intelephense, json-lsp, sqlls, prettierd, eslint_d, biome, sql-formatter, blade-formatter, php-debug-adapter | Most language servers and JS tools are npm packages |
-| **Python 3 + pip** | pyright, autopep8, mypy, djlint, debugpy | Python tooling installs via pip |
+| **Python 3 + pip** | basedpyright, autopep8, mypy, djlint, debugpy | Python tooling installs via pip |
 | **Go** | gopls, goimports, go-debug-adapter | Built from source via `go install` |
 | **Java (JDK 17+)** | jdtls, google-java-format, java-debug-adapter | Java tooling requires a JDK |
 | **unzip / wget / curl** | Pre-built binaries (lua-language-server, stylua, etc.) | Used to download and extract releases |

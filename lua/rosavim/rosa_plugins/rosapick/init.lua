@@ -13,7 +13,7 @@ local function get_hl_color(group, attr)
 end
 
 local function setup_highlights()
-  local bg = get_hl_color('Normal', 'bg') or 0x1c1c1c
+  local bg = get_hl_color('Normal', 'bg')
   local fg = get_hl_color('Normal', 'fg') or 0xa0a0a0
   local border_fg = get_hl_color('FloatBorder', 'fg') or get_hl_color('Comment', 'fg') or 0x3a3a3a
 

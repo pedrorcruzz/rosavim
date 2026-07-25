@@ -27,7 +27,7 @@ vim.api.nvim_create_autocmd('ColorScheme', {
 vim.keymap.set('n', '<leader>lqs', function()
   local current = vim.g.colors_name
   -- Only our own rosa colorschemes (not every installed scheme).
-  local items = { 'rosamin', 'rosaesthetic' }
+  local items = { 'rosamin', 'rosavintage' }
   vim.ui.select(items, {
     prompt = 'Theme · select',
     kind = 'colorscheme',

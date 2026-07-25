@@ -1,5 +1,5 @@
-local colors = require 'rosaesthetic.colors'
-local config = require 'rosaesthetic.config'
+local colors = require 'rosavintage.colors'
+local config = require 'rosavintage.config'
 local M = {}
 
 local bg = config.transparent and 'NONE' or colors.bg

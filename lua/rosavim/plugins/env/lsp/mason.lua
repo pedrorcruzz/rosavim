@@ -3,16 +3,15 @@ if not vim.env.PATH:find(mason_bin, 1, true) then
   vim.env.PATH = mason_bin .. ':' .. vim.env.PATH
 end
 
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+local ok, blink = pcall(require, 'blink.cmp')
+if ok then
+  capabilities = blink.get_lsp_capabilities(capabilities)
+end
+
 vim.lsp.config('*', {
-  capabilities = {
-    textDocument = {
-      completion = {
-        completionItem = {
-          snippetSupport = true,
-        },
-      },
-    },
-  },
+  capabilities = capabilities,
 })
 
 -- Ativa todos os servers (configs em lsp/*.lua)
@@ -20,7 +19,7 @@ vim.lsp.enable {
   'vtsls',
   'tailwindcss',
   'emmet_ls',
-  'pyright',
+  'basedpyright',
   'intelephense',
   'jsonls',
   'gopls',
@@ -53,7 +52,7 @@ return {
         'vtsls',
         'tailwindcss-language-server',
         'emmet-ls',
-        'pyright',
+        'basedpyright',
         'intelephense',
         'json-lsp',
         'gopls',

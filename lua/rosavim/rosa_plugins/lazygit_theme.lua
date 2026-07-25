@@ -3,7 +3,7 @@
 --- Snacks derives the lazygit theme from Neovim highlight groups (MatchParen,
 --- FloatBorder, Function, Identifier, Special, Visual, DiagnosticError, ...).
 --- Those groups are *syntax* colors, so they differ between rosamin and
---- rosaesthetic — which made lazygit look inconsistent (rosaesthetic dark used
+--- rosavintage — which made lazygit look inconsistent (rosavintage dark used
 --- red/gold accents and a light-blue selection instead of rosamin's neutral
 --- look). Overriding them per-theme would wreck code highlighting in the editor.
 ---

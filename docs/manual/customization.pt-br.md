@@ -25,7 +25,7 @@ Rosavim vem com dois temas customizados embutidos, ambos totalmente integrados a
 | Tema | Estilo | Descrição |
 |:-----|:-------|:----------|
 | **Rosamin** (padrão) | Minimal | Limpo e sem distrações, inspirado no min-theme |
-| **Rosaesthetic** | Quente | Estética terrosa com tons quentes e ricos |
+| **Rosavintage** | Quente | Estética terrosa com tons quentes e ricos |
 
 Os fontes ficam em `lua/rosavim/rosa_themes/` pra você ajustar as paletas diretamente. Outros themes (qualquer um trazido pela LazyVim) ainda aparecem no picker, mas não compartilham os overrides do Rosavim.
 

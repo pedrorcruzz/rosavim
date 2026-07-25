@@ -4,7 +4,7 @@
 --- bg" override. Each consumer owns TWO persistent toggles:
 ---   - <key>      → force #000 in LIGHT mode (default on)
 ---   - <key>_dm   → force #000 in DARK  mode (default off)
---- so users can opt the dark themes (rosamin dark, rosaesthetic dark) into a
+--- so users can opt the dark themes (rosamin dark, rosavintage dark) into a
 --- pure-black bg too, independently from light mode.
 ---   - rosaterm → rosaterm_dark_bg / rosaterm_dark_bg_dm (<leader>latd / <leader>latD)
 ---   - rosaai   → rosaai_dark_bg   / rosaai_dark_bg_dm   (<leader>laad / <leader>laaD)
