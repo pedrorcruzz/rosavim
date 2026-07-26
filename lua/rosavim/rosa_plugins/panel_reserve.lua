@@ -230,7 +230,14 @@ local function ensure_spacer(rows)
   local cur = api.nvim_get_current_win()
   without_events(function()
     api.nvim_set_current_win(base)
-    vim.cmd(split_cmd)
+    if not pcall(vim.cmd, split_cmd) then
+      -- Not enough room (E36): skip this reservation cycle rather than letting
+      -- the error bubble up through the autocmd that triggered it.
+      if api.nvim_win_is_valid(cur) then
+        api.nvim_set_current_win(cur)
+      end
+      return
+    end
     spacer.win = api.nvim_get_current_win()
     api.nvim_win_set_buf(spacer.win, spacer.buf)
     style_spacer_win(spacer.win, 'horizontal')
@@ -278,7 +285,14 @@ local function ensure_vspacer(side, cols)
   local cur = api.nvim_get_current_win()
   without_events(function()
     api.nvim_set_current_win(base)
-    vim.cmd(modifier .. ' ' .. cols .. 'vsplit')
+    if not pcall(vim.cmd, modifier .. ' ' .. cols .. 'vsplit') then
+      -- Not enough room (E36): skip this reservation cycle rather than letting
+      -- the error bubble up through the autocmd that triggered it.
+      if api.nvim_win_is_valid(cur) then
+        api.nvim_set_current_win(cur)
+      end
+      return
+    end
     vs.win = api.nvim_get_current_win()
     api.nvim_win_set_buf(vs.win, buf)
     style_spacer_win(vs.win, 'vertical')

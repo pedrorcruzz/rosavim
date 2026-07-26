@@ -338,6 +338,10 @@ function M.open(buf, prev_win, pos)
   if prev_win and api.nvim_win_is_valid(prev_win) then
     pcall(api.nvim_win_close, prev_win, true)
   end
+  -- Layout-aware layering: the centered float is the "bigger, on top" tier (55)
+  -- and overlays any edge-pinned window (rosaai right/left/bottom or a rosaterm
+  -- split, 45); yazi/lazygit (70) stay above everything. zindex is create-only.
+  geom.zindex = (pos == 'float') and 55 or 45
   local win = api.nvim_open_win(buf, true, geom)
 
   vim.wo[win].number = false

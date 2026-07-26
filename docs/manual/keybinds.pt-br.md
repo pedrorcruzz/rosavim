@@ -319,8 +319,38 @@ Integração nativa com CLIs de IA (Claude, Cursor, OpenClaude, Gemini etc.). Ca
 | n | `<leader>aU` | Alternar Cursor YOLO | Abrir/esconder `cursor-agent --yolo` |
 | n | `<leader>ao` | Alternar OpenClaude | Abrir/esconder `openclaude` |
 | n | `<leader>ag` | Alternar Gemini | Abrir/esconder `gemini` |
+| n | `<leader>ar` | Revisar Mudanças da IA | `Space a r` para abrir/alternar a revisão das edições pendentes da IA (diffs inline verde/vermelho + painel de visão geral) |
+| n | `<leader>ab` | Marcar Baseline do Review | `Space a b` para definir manualmente o ponto "antes" com que o review compara |
 
 Dentro do terminal do CLI: um `<Esc>` sai pro modo normal do nvim; `<Esc> <Esc>` em 300ms envia ESC literal pro CLI (cancela operação corrente). No **modo normal**, as setas redimensionam a janela (vertical → largura, horizontal → altura, float → ambos os eixos, mantida centralizada); o tamanho persiste por posição até você escolher um preset de tamanho. No modo terminal/inserção as setas continuam livres pro próprio CLI. Com o RosaAI focado, o bloco de modo do lualine mostra `ROSAAI`.
+
+#### Revisar Mudanças da IA
+
+`<leader>ar` abre uma revisão estilo Cursor/VSCode das edições de arquivo que o RosaAI fez em disco, comparando com um snapshot de baseline capturado automaticamente quando você abriu o CLI. As mudanças aparecem como diffs inline verde/vermelho, e um painel flutuante de visão geral lista cada arquivo alterado para você aceitar (keep) ou rejeitar (reject) cada hunk.
+
+**No painel de visão geral:**
+
+| Modo | Tecla | Ação | Exemplo |
+|:----:|:------|:-----|:--------|
+| n | `j` / `k` | Mover para baixo / cima | Navegar entre os arquivos listados |
+| n | `<CR>` | Ir para o hunk | Abrir o arquivo e saltar para a mudança sob o cursor |
+| n | `a` | Aceitar arquivo | Aceitar todas as mudanças do arquivo selecionado |
+| n | `r` | Rejeitar arquivo | Descartar todas as mudanças do arquivo selecionado |
+| n | `A` | Aceitar tudo | Aceitar todas as mudanças pendentes de todos os arquivos |
+| n | `R` | Rejeitar tudo | Descartar todas as mudanças pendentes de todos os arquivos |
+| n | `q` / `<Esc>` | Fechar painel | Fechar o painel de visão geral |
+
+**Em um buffer sob revisão:**
+
+| Modo | Tecla | Ação | Exemplo |
+|:----:|:------|:-----|:--------|
+| n | `]h` | Próximo hunk | Saltar para a próxima mudança da IA no arquivo |
+| n | `[h` | Hunk anterior | Saltar para a mudança anterior da IA no arquivo |
+| n | `<leader>ak` | Aceitar hunk | Aceitar a mudança sob o cursor |
+| n | `<leader>ax` | Rejeitar hunk | Descartar a mudança sob o cursor |
+| n | `<leader>aK` | Aceitar tudo | Aceitar todas as mudanças do arquivo |
+| n | `<leader>aX` | Rejeitar tudo | Descartar todas as mudanças do arquivo |
+| n | `<leader>ar` | Reabrir painel | Reabrir o painel flutuante de visão geral |
 
 ---
 

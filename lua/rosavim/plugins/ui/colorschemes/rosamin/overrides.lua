@@ -304,9 +304,11 @@ function M.get(mode, transparent_background)
     ['@markup.italic.markdown_inline'] = { fg = '#DAB8FF', italic = true },
     ['@markup.strikethrough.markdown_inline'] = { fg = '#727272', strikethrough = true },
     ['@markup.raw.markdown_inline'] = { fg = '#FFB86C', bg = '#2A2A2A' },
-    ['@markup.raw.block.markdown'] = { bg = '#2F2F2F' },
-    ['@markup.raw.block'] = { bg = '#2F2F2F' },
+    ['@markup.raw.block.markdown'] = { bg = '#0A0A0A' },
+    ['@markup.raw.block'] = { bg = '#0A0A0A' },
     ['@markup.raw.delimiter.markdown'] = { fg = '#606060' },
+    -- Also style render-markdown's code block bg to match the treesitter block.
+    RenderMarkdownCode = { bg = '#0A0A0A' },
     ['@markup.link.markdown_inline'] = { fg = '#64BAFF' },
     ['@markup.link.label.markdown_inline'] = { fg = '#C18EFE', underline = true },
     ['@markup.link.url.markdown_inline'] = { fg = '#6B737C', italic = true, underline = true },

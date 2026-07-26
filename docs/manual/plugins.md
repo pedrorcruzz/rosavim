@@ -169,6 +169,8 @@ Rosavim ships with its own built-in themes, stored in `lua/rosavim/rosa_themes/`
 | [copilot-lualine](https://github.com/AndreM222/copilot-lualine) | Copilot status in the statusline |
 | RosaAI | Built-in native AI CLI integration (Claude, Cursor, OpenClaude, Gemini, ...) with themes, preview Ask AI, arrow-key resize and per-orientation rounded borders |
 
+**Review AI Changes** — RosaAI can review the file edits the AI CLI makes on disk, hunk by hunk. When you open a CLI it takes a snapshot baseline; afterwards `<leader>ar` shows every touched file as green/red inline diffs (Cursor/VSCode-style) plus a floating overview panel, letting you keep or reject each individual hunk. It is built on gitsigns and works independently of your git history.
+
 ---
 
 ## Language-Specific

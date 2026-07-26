@@ -319,8 +319,38 @@ Native AI CLI integration for Claude, Cursor, OpenClaude, Gemini and friends. Ea
 | n | `<leader>aU` | Toggle Cursor YOLO | Open/hide `cursor-agent --yolo` |
 | n | `<leader>ao` | Toggle OpenClaude | Open/hide `openclaude` |
 | n | `<leader>ag` | Toggle Gemini | Open/hide `gemini` |
+| n | `<leader>ar` | Review AI Changes | `Space a r` to open/toggle the review of pending AI edits (green/red inline diffs + overview panel) |
+| n | `<leader>ab` | Mark Review Baseline | `Space a b` to manually set the "before" point the review compares against |
 
 Inside the CLI terminal: single `<Esc>` exits to nvim normal mode; double `<Esc>` within 300ms sends a literal `ESC` to the CLI (cancel current operation). In **normal mode** the arrow keys resize the window (vertical → width, horizontal → height, float → both axes, kept centered); the size persists per position until you pick a named size preset. The arrows stay free for the CLI itself while in terminal/insert mode. While RosaAI is focused, the lualine mode block shows `ROSAAI`.
+
+#### Review AI Changes
+
+`<leader>ar` opens a Cursor/VSCode-style review of the file edits RosaAI made on disk, comparing against a snapshot baseline taken automatically when you opened the CLI. Changes show as green/red inline diffs, and a floating overview panel lists every touched file so you can keep or reject each hunk.
+
+**In the overview panel:**
+
+| Mode | Key | Action | Example |
+|:----:|:----|:-------|:--------|
+| n | `j` / `k` | Move down / up | Move between the listed files |
+| n | `<CR>` | Jump to hunk | Open the file and jump to the change under the cursor |
+| n | `a` | Keep file | Accept all changes in the selected file |
+| n | `r` | Reject file | Discard all changes in the selected file |
+| n | `A` | Keep all | Accept every pending change across all files |
+| n | `R` | Reject all | Discard every pending change across all files |
+| n | `q` / `<Esc>` | Close panel | Close the overview panel |
+
+**In a reviewed buffer:**
+
+| Mode | Key | Action | Example |
+|:----:|:----|:-------|:--------|
+| n | `]h` | Next hunk | Jump to the next AI change in the file |
+| n | `[h` | Previous hunk | Jump to the previous AI change in the file |
+| n | `<leader>ak` | Keep hunk | Accept the change under the cursor |
+| n | `<leader>ax` | Reject hunk | Discard the change under the cursor |
+| n | `<leader>aK` | Keep all | Accept every change in the file |
+| n | `<leader>aX` | Reject all | Discard every change in the file |
+| n | `<leader>ar` | Reopen panel | Reopen the floating overview panel |
 
 ---
 

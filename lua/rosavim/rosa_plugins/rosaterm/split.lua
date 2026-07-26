@@ -145,7 +145,7 @@ local function open_chip(term)
     style = 'minimal',
     border = theme.border,
     focusable = false,
-    zindex = 49,
+    zindex = 46,
   })
   vim.wo[term.chip_win].winhl = 'Normal:Normal,FloatBorder:FloatBorder'
   vim.wo[term.chip_win].winbar = ''
@@ -204,6 +204,45 @@ local function schedule_reposition()
   )
 end
 
+--- Whether any rosaterm window is currently open (float or native split).
+local function any_term_open()
+  for _, t in pairs(terms) do
+    if term_win_is_open(t) then
+      return true
+    end
+  end
+  return false
+end
+
+-- A foreign floating window (notify toast, picker, cmdline popup) drawn over a
+-- pinned terminal float leaves ghosted terminal cells when it closes — Nvim
+-- does not repaint the cells it covered, so the panel shows a stale black block
+-- until it is focused. Repaint proactively when such a float closes while a
+-- terminal is open. Debounced so a burst of closes coalesces into one redraw.
+local repaint_timer = nil
+local function schedule_repaint()
+  if not any_term_open() then
+    return
+  end
+  if repaint_timer then
+    pcall(function()
+      repaint_timer:stop()
+      repaint_timer:close()
+    end)
+  end
+  repaint_timer = vim.uv.new_timer()
+  repaint_timer:start(
+    30,
+    0,
+    vim.schedule_wrap(function()
+      repaint_timer = nil
+      if any_term_open() then
+        pcall(vim.cmd, 'redraw!')
+      end
+    end)
+  )
+end
+
 local function ensure_resize_au()
   if resize_au then
     return
@@ -227,6 +266,20 @@ local function ensure_resize_au()
       local w = tonumber(args.match) or args.win
       for _, t in pairs(terms) do
         if t.win == w or t.chip_win == w then
+          return
+        end
+      end
+      -- A foreign float closing over a pinned terminal leaves ghosted cells;
+      -- repaint so the panel never stays half-blank until it is focused.
+      if args.event == 'WinClosed' then
+        schedule_repaint()
+      end
+      -- Floating windows (notify toasts, pickers, chips) don't change the
+      -- split-based editor area, so they must not trigger a reposition (which
+      -- re-runs the reservation and can crush the panel / raise E36).
+      if w and api.nvim_win_is_valid(w) then
+        local ok, cfg = pcall(api.nvim_win_get_config, w)
+        if ok and cfg.relative and cfg.relative ~= '' then
           return
         end
       end
@@ -664,9 +717,9 @@ local function open_split(term)
     if not geom then
       return
     end
-    -- Below the RosaAI float (main 50 / chip 60) so the AI window overlays
-    -- this pinned terminal float when both are open. zindex is create-only,
-    -- so set it on the open geom without mutating the cached geometry.
+    -- Edge-pinned tier (45): a centered float (rosaterm/rosaai float, 55) always
+    -- overlays this pinned terminal, and yazi/lazygit (70) stay on top of all.
+    -- zindex is create-only, so set it on the open geom without mutating cache.
     term.win = api.nvim_open_win(term.buf, true, vim.tbl_extend('force', geom, { zindex = 45 }))
     vim.wo[term.win].winhl = term_winhl(true)
     -- (winbar workaround removed — chip now lands its bottom border on

@@ -124,6 +124,7 @@ Bordas de which-key disponíveis: `none`, `single`, `double`, `shadow`
 | `<leader>laah` | Relógio no chip (mostrar/esconder) | Ativado |
 | `<leader>laai` | Auto Insert ao abrir, focar ou enviar para o CLI | Ativado |
 | `<leader>laaf` | Auto Focus ao enviar mensagem | Ativado |
+| `<leader>laar` | Auto Review — abre o painel de review automaticamente após a IA terminar de editar arquivos | Desativado |
 | `<leader>lqa` | Picker de tema (popup) — fica no grupo Theme | garland |
 | `<leader>laap` | Picker de posição (popup) | right |
 | `<leader>laaz` | Picker de tamanho (popup) | default |

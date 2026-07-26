@@ -12,6 +12,7 @@ local layout = require 'rosavim.rosa_plugins.rosaai.layout'
 local bar = require 'rosavim.rosa_plugins.rosaai.bar'
 local themes = require 'rosavim.rosa_plugins.rosaai.themes'
 local reserve = require 'rosavim.rosa_plugins.panel_reserve'
+local snapshot = require 'rosavim.rosa_plugins.rosaai.snapshot'
 
 -- One chip overlay per layout slot: pos -> { win, buf }. Several CLIs can be
 -- visible at once, so each visible slot carries its own title chip.
@@ -147,7 +148,9 @@ local function open_chip(pos, parent_win, tool_name)
     style = 'minimal',
     border = chip_border,
     focusable = false,
-    zindex = 60,
+    -- Chip rides just above its own window's tier: float 56 (window 55),
+    -- pinned 46 (window 45). Both stay below yazi/lazygit (70).
+    zindex = (pos == 'float') and 56 or 46,
   })
   vim.wo[c.win].winhl = 'Normal:Normal,FloatBorder:FloatBorder'
   vim.wo[c.win].winbar = ''
@@ -225,6 +228,17 @@ local function start_job(s)
     })
   end)
   s.started = true
+  -- Snapshot the working tree before the AI starts editing, so the review can
+  -- diff exactly what changed this session. No-op if a baseline is already
+  -- active (kept until the review is resolved). Skipped when the Review feature
+  -- is disabled (git stays opt-in).
+  pcall(function()
+    local tok, toggles = pcall(require, 'rosavim.config.toggles')
+    if tok and toggles.get 'rosaai_review' == false then
+      return
+    end
+    snapshot.ensure()
+  end)
 end
 
 --- Repaint the chip on a specific slot (or, with no arg, every visible slot).
@@ -367,9 +381,15 @@ function M.show(name, pos)
   set_winbar(win)
   open_chip(pos, win, name)
   bar.attach(win, s.buf, function()
+    pcall(function()
+      require('rosavim.rosa_plugins.rosaai.review').refresh_pending()
+    end)
     refresh_chip(pos)
   end)
   update_reservations()
+  pcall(function()
+    require('rosavim.rosa_plugins.rosaai.review').refresh_pending()
+  end)
 
   if bar.autoinsert_enabled() then
     vim.cmd 'startinsert'
@@ -1285,6 +1305,36 @@ local function schedule_reflow()
   )
 end
 
+-- A foreign floating window (notify toast, picker, cmdline popup) drawn over a
+-- pinned CLI terminal leaves ghosted terminal cells when it closes — Nvim does
+-- not repaint the cells the float covered, so the panel shows a stale black
+-- block until it is focused (WinEnter → force_repaint). Repaint proactively
+-- whenever such a float closes while a slot is visible. Debounced so a burst of
+-- closes coalesces into one redraw.
+local repaint_timer = nil
+local function schedule_repaint()
+  if not state.any_visible() then
+    return
+  end
+  if repaint_timer then
+    pcall(function()
+      repaint_timer:stop()
+      repaint_timer:close()
+    end)
+  end
+  repaint_timer = vim.uv.new_timer()
+  repaint_timer:start(
+    30,
+    0,
+    vim.schedule_wrap(function()
+      repaint_timer = nil
+      if state.any_visible() then
+        pcall(vim.cmd, 'redraw!')
+      end
+    end)
+  )
+end
+
 -- Editor resize reflows every slot (existing behavior).
 api.nvim_create_autocmd('VimResized', {
   group = redraw_group,
@@ -1319,6 +1369,20 @@ api.nvim_create_autocmd({ 'WinNew', 'WinClosed' }, {
     if w and is_our_win(w) then
       return
     end
+    -- A foreign float closing over a pinned CLI terminal leaves ghosted cells;
+    -- repaint so the panel never stays half-blank until it is focused.
+    if args.event == 'WinClosed' then
+      schedule_repaint()
+    end
+    -- Floating windows (notify toasts, pickers, chips) don't change the
+    -- split-based editor area, so they must not trigger a bottom-panel reflow
+    -- (which re-runs the reservation and can crush the panel / raise E36).
+    if w and api.nvim_win_is_valid(w) then
+      local ok, cfg = pcall(api.nvim_win_get_config, w)
+      if ok and cfg.relative and cfg.relative ~= '' then
+        return
+      end
+    end
     if state.slot 'bottom' then
       schedule_reflow()
     end
@@ -1345,6 +1409,24 @@ api.nvim_create_autocmd('WinClosed', {
         break
       end
     end
+  end,
+})
+
+-- Auto-review: leaving a CLI window is a natural "the AI turn is done, let me
+-- look at my code" moment, so give the review a chance to auto-open then.
+-- notify_ai_edit is a no-op unless the rosaai_auto_review toggle is on; it
+-- debounces and only opens when the AI actually changed files vs the baseline.
+api.nvim_create_autocmd('WinLeave', {
+  group = api.nvim_create_augroup('RosaaiAutoReview', { clear = true }),
+  callback = function(ev)
+    if not vim.b[ev.buf].rosaai_cli then
+      return
+    end
+    pcall(function()
+      local review = require 'rosavim.rosa_plugins.rosaai.review'
+      review.refresh_pending()
+      review.notify_ai_edit()
+    end)
   end,
 })
 

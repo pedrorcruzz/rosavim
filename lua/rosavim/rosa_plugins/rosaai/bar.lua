@@ -27,6 +27,14 @@ function M.setup_hl()
   api.nvim_set_hl(0, 'RosaaiBarTool', { fg = '#7B8394', italic = true })
   api.nvim_set_hl(0, 'RosaaiBarTime', { fg = '#7B8394' })
   api.nvim_set_hl(0, 'RosaaiBarBracket', { fg = border_fg })
+
+  local review_fg = '#f9e2af'
+  local okp, palette = pcall(require, 'rosavim.rosa_plugins.palette')
+  if okp then
+    local p = palette.get()
+    review_fg = p.yellow or p.pink or review_fg
+  end
+  api.nvim_set_hl(0, 'RosaaiBarReview', { fg = review_fg, bold = true })
 end
 
 vim.api.nvim_create_autocmd('ColorScheme', {
@@ -64,6 +72,39 @@ function M.autoinsert_enabled()
   return tog_get('rosaai_autoinsert', true)
 end
 
+--- Master Review toggle (default true). Gates the pending-review badge.
+function M.review_enabled()
+  return tog_get('rosaai_review', true)
+end
+
+--- Whether the pending-review count badge is shown (default true).
+function M.badge_enabled()
+  return tog_get('rosaai_review_badge', true)
+end
+
+local REVIEW_ICON = '󰈈'
+
+--- The pending-review badge text (icon + count), or nil when it should not
+--- show: feature off, badge hidden, a review already open, or nothing pending.
+--- Reads the cached count from review.lua synchronously.
+local function pending_badge()
+  if not M.review_enabled() or not M.badge_enabled() then
+    return nil
+  end
+  local ok, review = pcall(require, 'rosavim.rosa_plugins.rosaai.review')
+  if not ok then
+    return nil
+  end
+  if review.is_open and review.is_open() then
+    return nil
+  end
+  local n = review.pending_count and review.pending_count() or 0
+  if not n or n <= 0 then
+    return nil
+  end
+  return REVIEW_ICON .. ' ' .. n
+end
+
 local function tool_label(tool_name)
   if not tool_name then
     return 'RosaAI'
@@ -88,13 +129,22 @@ local function inline_segments(tool_name)
     table.insert(segs, { ' ', 'RosaaiBarBracket' })
     table.insert(segs, { get_time(), 'RosaaiBarTime' })
   end
+  local badge = pending_badge()
+  if badge then
+    table.insert(segs, { '  ', 'RosaaiBarBracket' })
+    table.insert(segs, { badge, 'RosaaiBarReview' })
+  end
   table.insert(segs, { ' ', 'RosaaiBarBracket' })
   return segs
 end
 
 local function banner_segments(width, tool_name)
   local label = tool_label(tool_name)
+  local badge = pending_badge()
   local left_text = ' ' .. ICON .. '  ' .. label
+  if badge then
+    left_text = left_text .. '  ' .. badge
+  end
   local left_w = vim.api.nvim_strwidth(left_text)
 
   local segs = {
@@ -103,6 +153,10 @@ local function banner_segments(width, tool_name)
     { '  ', 'RosaaiBarBracket' },
     { label, 'RosaaiBarName' },
   }
+  if badge then
+    table.insert(segs, { '  ', 'RosaaiBarBracket' })
+    table.insert(segs, { badge, 'RosaaiBarReview' })
+  end
 
   if M.time_enabled() then
     local right_text = ' ' .. CLOCK .. ' ' .. get_time() .. ' '

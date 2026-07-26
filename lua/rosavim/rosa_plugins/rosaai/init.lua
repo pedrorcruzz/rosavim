@@ -97,4 +97,44 @@ function M.is_open()
   return state.any_visible()
 end
 
+--- Open/toggle the review of pending AI changes (keep/reject per hunk, diffed
+--- against the session baseline snapshot).
+function M.review()
+  require('rosavim.rosa_plugins.rosaai.review').toggle()
+end
+
+--- Manually (re)mark the review baseline — the "before" snapshot the review
+--- diffs against. Normally captured automatically when a CLI opens.
+function M.mark_baseline()
+  require('rosavim.rosa_plugins.rosaai.snapshot').mark(function(sha)
+    if sha then
+      vim.notify('RosaAI: review baseline marked', vim.log.levels.INFO)
+    else
+      vim.notify('RosaAI: could not mark baseline (not a git repo?)', vim.log.levels.WARN)
+    end
+  end)
+end
+
+--- Create or remove the global review keybinds (<leader>ar / <leader>ab) based
+--- on the master `rosaai_review` toggle, so they disappear from which-key when
+--- the feature is off. Called at startup and whenever the toggle flips.
+function M.apply_review_keymaps()
+  local toggles = require 'rosavim.config.toggles'
+  local on = toggles.get 'rosaai_review'
+  if on == nil then
+    on = true
+  end
+  if on then
+    vim.keymap.set('n', '<leader>ar', function()
+      require('rosavim.rosa_plugins.rosaai').review()
+    end, { desc = 'RosaAI: Review AI Changes' })
+    vim.keymap.set('n', '<leader>ab', function()
+      require('rosavim.rosa_plugins.rosaai').mark_baseline()
+    end, { desc = 'RosaAI: Mark Review Baseline' })
+  else
+    pcall(vim.keymap.del, 'n', '<leader>ar')
+    pcall(vim.keymap.del, 'n', '<leader>ab')
+  end
+end
+
 return M

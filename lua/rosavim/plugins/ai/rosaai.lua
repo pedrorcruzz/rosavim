@@ -3,6 +3,23 @@ return {
   dir = vim.fn.stdpath 'config' .. '/lua/rosavim/rosa_plugins/rosaai',
   name = 'rosaai',
   lazy = true,
+  -- Register the review keybinds at startup based on the master `rosaai_review`
+  -- toggle, so <leader>ar / <leader>ab exist (and show in which-key) when the
+  -- feature is on and are absent when it is off. The RHS is lazy (requires the
+  -- module only on press), so this does not defeat lazy-loading. Runtime flips
+  -- go through rosaai.apply_review_keymaps() from the toggle's set().
+  init = function()
+    local ok, toggles = pcall(require, 'rosavim.config.toggles')
+    if ok and toggles.get 'rosaai_review' == false then
+      return
+    end
+    vim.keymap.set('n', '<leader>ar', function()
+      require('rosavim.rosa_plugins.rosaai').review()
+    end, { desc = 'RosaAI: Review AI Changes' })
+    vim.keymap.set('n', '<leader>ab', function()
+      require('rosavim.rosa_plugins.rosaai').mark_baseline()
+    end, { desc = 'RosaAI: Mark Review Baseline' })
+  end,
   keys = {
     { '<leader>a', '', desc = '+ai', mode = { 'n', 'v' } },
     {
@@ -114,6 +131,10 @@ return {
       mode = { 'n', 'x' },
       desc = 'RosaAI: Select Prompt',
     },
+
+    -- Review keybinds (<leader>ar / <leader>ab) are registered dynamically by
+    -- rosaai.apply_review_keymaps() so the master `rosaai_review` toggle can
+    -- hide them from which-key when the feature is off.
 
     -- Per-tool toggles
     {

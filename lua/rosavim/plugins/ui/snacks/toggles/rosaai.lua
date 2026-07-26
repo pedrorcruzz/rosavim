@@ -56,6 +56,62 @@ return function()
     end,
   }):map '<leader>laaf'
 
+  -- Master switch for the whole Review feature (keybinds, badge, auto-open).
+  -- When off, <leader>ar / <leader>ab are removed (hidden from which-key) and
+  -- no baseline is captured.
+  Snacks.toggle({
+    name = 'RosaAI Review',
+    wk_desc = { enabled = 'Disable ', disabled = 'Enable ' },
+    get = function()
+      return toggles.get 'rosaai_review'
+    end,
+    set = function(state)
+      toggles.set('rosaai_review', state)
+      local ok, rosaai = pcall(require, 'rosavim.rosa_plugins.rosaai')
+      if ok then
+        rosaai.apply_review_keymaps()
+      end
+      local rok, review = pcall(require, 'rosavim.rosa_plugins.rosaai.review')
+      if rok then
+        if not state and review.is_open() then
+          review.close()
+        end
+        review.refresh_pending()
+      end
+      if ok and rosaai.refresh_chips then
+        rosaai.refresh_chips()
+      end
+    end,
+  }):map '<leader>laaR'
+
+  -- Auto-open the review panel after the AI edits files
+  Snacks.toggle({
+    name = 'RosaAI Auto Review',
+    wk_desc = { enabled = 'Disable ', disabled = 'Enable ' },
+    get = function()
+      return toggles.get 'rosaai_auto_review'
+    end,
+    set = function(state)
+      toggles.set('rosaai_auto_review', state)
+    end,
+  }):map '<leader>laar'
+
+  -- Show the pending-review count badge on the CLI chip
+  Snacks.toggle({
+    name = 'RosaAI Review Badge',
+    wk_desc = { enabled = 'Hide ', disabled = 'Show ' },
+    get = function()
+      return toggles.get 'rosaai_review_badge'
+    end,
+    set = function(state)
+      toggles.set('rosaai_review_badge', state)
+      local ok, rosaai = pcall(require, 'rosavim.rosa_plugins.rosaai')
+      if ok then
+        rosaai.refresh_chips()
+      end
+    end,
+  }):map '<leader>laac'
+
   -- Theme picker (popup) — lives under <leader>lq (Theme group)
   vim.keymap.set('n', '<leader>lqa', function()
     require('rosavim.rosa_plugins.rosaai.ui').pick_theme()
