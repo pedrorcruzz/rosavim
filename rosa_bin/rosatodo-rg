@@ -8,6 +8,8 @@
 WL=(
   --glob '**/[Tt][Oo][Dd][Oo].[Mm][Dd]'
   --glob '**/[Tt][Oo][Dd][Oo][Ss].[Mm][Dd]'
+  --glob '**/[Tt][Oo][Dd][Oo][Ll][Ii][Ss][Tt].[Mm][Dd]'
+  --glob '**/[Tt][Oo][Dd][Oo]-[Ll][Ii][Ss][Tt].[Mm][Dd]'
   --glob '**/[Tt][Aa][Ss][Kk].[Mm][Dd]'
   --glob '**/[Tt][Aa][Ss][Kk][Ss].[Mm][Dd]'
   --glob '**/[Tt][Aa][Rr][Ee][Ff][Aa].[Mm][Dd]'

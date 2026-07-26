@@ -7,15 +7,20 @@ local KEYWORDS = { 'TODO', 'FIX', 'HACK', 'WARN', 'PERF', 'NOTE', 'TEST' }
 -- Personal task files that should surface in the todo listings even when they
 -- are git-ignored. Matched case-insensitively (todo.md, TODO.md, Tarefas.md …).
 -- Single source of truth for both the Snacks picker and the :TodoTrouble search.
-M.allowed_names = { 'todo', 'todos', 'task', 'tasks', 'tarefa', 'tarefas' }
+M.allowed_names = { 'todo', 'todos', 'todolist', 'todo-list', 'task', 'tasks', 'tarefa', 'tarefas' }
 
--- Turn a lowercase name into a case-insensitive ripgrep glob char class,
--- e.g. 'todo' -> '[Tt][Oo][Dd][Oo]'.
+-- Turn a name into a case-insensitive ripgrep glob char class, wrapping only
+-- letters (e.g. 'todo-list' -> '[Tt][Oo][Dd][Oo]-[Ll][Ii][Ss][Tt]'); any
+-- non-letter such as '-' is kept literal.
 local function charclass(name)
   local out = {}
   for i = 1, #name do
     local c = name:sub(i, i)
-    out[#out + 1] = '[' .. c:upper() .. c:lower() .. ']'
+    if c:match '%a' then
+      out[#out + 1] = '[' .. c:upper() .. c:lower() .. ']'
+    else
+      out[#out + 1] = c
+    end
   end
   return table.concat(out)
 end
