@@ -27,7 +27,13 @@ local function get_windows()
   local current = vim.api.nvim_get_current_win()
   for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
     local cfg = vim.api.nvim_win_get_config(win)
-    if cfg.relative == '' or cfg.focusable ~= false then
+    local buf = vim.api.nvim_win_get_buf(win)
+    -- panel_reserve spacers are invisible native splits pinned UNDER a RosaAI/
+    -- rosaterm float; their label would overlap the float's and picking one
+    -- bounces focus straight back (panel_reserve's WinEnter guard), so the CLI
+    -- would never receive focus. Skip them.
+    local is_spacer = vim.bo[buf].filetype == 'rosa_spacer'
+    if not is_spacer and (cfg.relative == '' or cfg.focusable ~= false) then
       table.insert(wins, { id = win, is_current = win == current })
     end
   end
@@ -123,6 +129,11 @@ function M.pick()
   local win = M.select()
   if win then
     vim.api.nvim_set_current_win(win)
+    -- Entering a CLI/terminal slot: drop straight into insert so it's ready
+    -- to type, matching focus.go() and RosaAI's focus_slot.
+    if vim.bo[vim.api.nvim_win_get_buf(win)].buftype == 'terminal' then
+      vim.cmd 'startinsert'
+    end
   end
 end
 
