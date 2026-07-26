@@ -48,6 +48,36 @@ return {
     todo_comments = {
       hidden = false,
       ignored = false,
+      -- Two-pass finder: pass 1 is the normal grep (respects .gitignore); pass 2
+      -- disables .gitignore but whitelists only the allowed task-file names
+      -- (todo/task/tarefas, any case) so those git-ignored files still surface.
+      -- Results are merged and de-duplicated by their "file:line:col:text" key.
+      finder = function(opts, ctx)
+        local grep = require('snacks.picker.source.grep').grep
+        local rosatodo = require 'rosavim.rosa_plugins.rosatodo'
+        local opts2 = vim.tbl_extend('force', opts, {
+          ignored = true, -- --no-ignore
+          exclude = {}, -- excludes are folded into args (after the whitelist)
+          args = rosatodo.pass2_args(opts.exclude),
+        })
+        local pass1 = grep(opts, ctx)
+        local pass2 = grep(opts2, ctx)
+        return function(cb)
+          local seen = {}
+          local function dedup(item)
+            local key = item.text
+            if key ~= nil then
+              if seen[key] then
+                return
+              end
+              seen[key] = true
+            end
+            cb(item)
+          end
+          pass1(dedup)
+          pass2(dedup)
+        end
+      end,
       exclude = {
         '**/node_modules/**',
         '**/bower_components/**',

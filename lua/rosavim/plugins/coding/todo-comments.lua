@@ -21,9 +21,15 @@ return {
   },
   dependencies = { 'nvim-lua/plenary.nvim' },
   config = function(_, opts)
+    local rosatodo = require 'rosavim.rosa_plugins.rosatodo'
+
+    -- Route :TodoTrouble/:TodoQuickFix/:TodoLocList through our rg wrapper so
+    -- git-ignored task files (todo/task/tarefas, any case) still show up while
+    -- the rest of the tree keeps honouring .gitignore.
+    opts.search.command = rosatodo.rg_wrapper()
+
     require('todo-comments').setup(opts)
 
-    local rosatodo = require 'rosavim.rosa_plugins.rosatodo'
     vim.api.nvim_create_autocmd('ColorScheme', {
       group = vim.api.nvim_create_augroup('RosavimTodoFg', { clear = true }),
       callback = function()

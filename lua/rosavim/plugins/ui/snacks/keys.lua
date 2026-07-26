@@ -2,7 +2,9 @@
 -- (light/dark toggles: <leader>lagd / <leader>lagD) at open time.
 local function lazygit_opts()
   local term_bg = require 'rosavim.rosa_plugins.term_bg'
-  return { win = { wo = { winhighlight = term_bg.float_winhl('lazygit_dark_bg', true, 'RosaLazygitNormal') } } }
+  -- zindex 70 keeps lazygit above the RosaAI/rosaterm floats (chips top out at
+  -- 60), so a pinned panel can't bleed over the full-screen lazygit window.
+  return { win = { zindex = 70, wo = { winhighlight = term_bg.float_winhl('lazygit_dark_bg', true, 'RosaLazygitNormal') } } }
 end
 
 local function pick_tabs()

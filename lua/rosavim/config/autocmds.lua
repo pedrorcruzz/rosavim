@@ -125,6 +125,52 @@ vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'WinEnter', 'CursorHold
   end,
 })
 
+-- Live reload while parked in a terminal (e.g. the RosaAI CLI): the event autocmd
+-- above already covers normal editing via CursorHold, but CursorHold never fires
+-- while focused on a terminal buffer, so a visible file split wouldn't refresh as
+-- the CLI writes to disk. This timer fills only that gap.
+-- `checktime` just stats files and never touches buffers with unsaved changes.
+local autoread_interval = 1000 -- ms
+local autoread_timer = vim.uv.new_timer()
+if autoread_timer then
+  autoread_timer:start(
+    autoread_interval,
+    autoread_interval,
+    vim.schedule_wrap(function()
+      if not toggles.get 'autoread' then
+        return
+      end
+      -- Only act while focused on a non-file buffer (terminal/prompt). When you're
+      -- in a normal buffer, CursorHold already reloads all buffers on idle.
+      if vim.bo.buftype == '' then
+        return
+      end
+      -- ...and only if a normal file buffer is actually on screen to refresh.
+      local has_file_win = false
+      for _, win in ipairs(vim.api.nvim_list_wins()) do
+        local buf = vim.api.nvim_win_get_buf(win)
+        if vim.bo[buf].buftype == '' and vim.api.nvim_buf_get_name(buf) ~= '' then
+          has_file_win = true
+          break
+        end
+      end
+      if has_file_win then
+        vim.cmd 'silent! checktime'
+      end
+    end)
+  )
+
+  vim.api.nvim_create_autocmd('VimLeavePre', {
+    group = autoread_group,
+    callback = function()
+      if autoread_timer and not autoread_timer:is_closing() then
+        autoread_timer:stop()
+        autoread_timer:close()
+      end
+    end,
+  })
+end
+
 -- Rosaterm
 function _G.set_terminal_keymaps()
   local opts = { buffer = 0 }
