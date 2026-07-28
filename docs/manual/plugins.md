@@ -145,7 +145,8 @@ Rosavim ships with its own built-in themes, stored in `lua/rosavim/rosa_themes/`
 | [outline.nvim](https://github.com/hedyhli/outline.nvim) | Code outline sidebar |
 | Rosapick (built-in) | Visual window picker with floating labels |
 | [smart-splits.nvim](https://github.com/mrjones2014/smart-splits.nvim) | Smart window navigation and resizing |
-| Rosamaximize (built-in) | Window maximizer — toggle to maximize current window and restore the layout |
+| Rosamaximize (built-in) | Window maximizer (`<leader>cm`) — maximizes the current window and restores the layout, showing a `max` badge on the buffer and a lualine indicator (configurable via `<leader>lam`) |
+| Rosazen (built-in) | Distraction-free mode (`<leader>lz`) — maximizes and centers the current window and strips all UI chrome (statusline, bufferline, numbers, dropbar, incline). Floating tools (Rosaterm/RosaAI/Yazi/Lazygit) still open on top; persists across sessions |
 | Rosasave (built-in) | Automatic file saving with debounce and toggle persistence |
 | Rosasweep (built-in) | Automatically close inactive buffers after a configurable timeout |
 | [toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim) | Floating and split terminal emulator |

@@ -80,7 +80,7 @@ Available lualine separators: `rounded`, `bar`, `arrow`, `slant`
 |:---------|:-------|:--------|
 | `<leader>aii` | Copilot | Off |
 
-> **Zen Mode** (`<leader>lz`) is intentionally **not** persisted, it resets on each session.
+> **Rosazen** (`<leader>lz`) — the built-in distraction-free mode — **is** persisted: if it was active when you quit, it re-enters automatically on the next launch.
 
 ---
 
@@ -176,6 +176,19 @@ Available RosaAI sizes: `compact`, `default`, `wide`
 | `<leader>latd` | Dark Background — force #000 in light mode (else theme bg) | On |
 
 Available rosaterm themes: `bloom`, `petal`, `garland`, `stem`
+
+### Rosamaximize (`<leader>lam`)
+
+When you maximize a window with `<leader>cm`, Rosamaximize shows a floating `max` badge in the top-right of the buffer and a matching `max` indicator on the lualine. This group controls how that indicator looks.
+
+| Shortcut | Toggle | Default |
+|:---------|:-------|:--------|
+| `<leader>laml` | Lualine indicator (show/hide) | On |
+| `<leader>lamb` | Buffer badge (show/hide) | On |
+| `<leader>lamn` | Display: `max` text vs icon only | On (text) |
+| `<leader>lams` | Border picker (none / rounded / straight) | rounded |
+
+Available rosamaximize borders: `none`, `rounded`, `single` (straight)
 
 ---
 

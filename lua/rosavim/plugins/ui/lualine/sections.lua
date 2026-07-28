@@ -97,6 +97,20 @@ function M.build(sep)
     },
     lualine_x = {
       {
+        function()
+          local ok, rm = pcall(require, 'rosavim.rosa_plugins.rosamaximize')
+          return ok and rm.lualine_label() or ''
+        end,
+        cond = function()
+          local ok, rm = pcall(require, 'rosavim.rosa_plugins.rosamaximize')
+          return ok and rm.lualine_visible()
+        end,
+        color = function()
+          local fg = vim.o.background == 'light' and '#000000' or '#A3AAB8'
+          return { fg = fg, gui = 'bold' }
+        end,
+      },
+      {
         'diagnostics',
         symbols = {
           error = ' ',

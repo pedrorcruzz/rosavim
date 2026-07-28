@@ -4,6 +4,62 @@
 local M = {}
 
 local state = nil
+local indicator = nil
+
+local function opt(key)
+  local ok, toggles = pcall(require, 'rosavim.config.toggles')
+  if not ok then
+    return true
+  end
+  return toggles.get(key)
+end
+
+local function hide_indicator()
+  if indicator then
+    if indicator.win and vim.api.nvim_win_is_valid(indicator.win) then
+      vim.api.nvim_win_close(indicator.win, true)
+    end
+    if indicator.buf and vim.api.nvim_buf_is_valid(indicator.buf) then
+      vim.api.nvim_buf_delete(indicator.buf, { force = true })
+    end
+    indicator = nil
+  end
+end
+
+local function show_indicator()
+  hide_indicator()
+  if opt 'rosamaximize_badge' == false then
+    return
+  end
+  local fg = vim.o.background == 'light' and '#000000' or '#A3AAB8'
+  vim.api.nvim_set_hl(0, 'RosamaximizeZoom', { fg = fg })
+  local text = opt 'rosamaximize_name' == false and '▍ 󰊓  ' or '▍ max  󰊓  '
+  local buf = vim.api.nvim_create_buf(false, true)
+  vim.bo[buf].bufhidden = 'wipe'
+  vim.api.nvim_buf_set_lines(buf, 0, -1, false, { text })
+  local border = opt 'rosamaximize_border' or 'rounded'
+  local win = vim.api.nvim_open_win(buf, false, {
+    relative = 'editor',
+    anchor = 'NE',
+    row = 1,
+    col = vim.o.columns,
+    width = vim.api.nvim_strwidth(text),
+    height = 1,
+    focusable = false,
+    style = 'minimal',
+    border = border,
+    noautocmd = true,
+    zindex = 50,
+  })
+  vim.wo[win].winhighlight = 'NormalFloat:RosamaximizeZoom,FloatBorder:RosamaximizeZoom'
+  indicator = { win = win, buf = buf }
+end
+
+local function refresh_statusline()
+  pcall(function()
+    require('lualine').refresh()
+  end)
+end
 
 -- #TODO: This is a bit hacky but it works for now. The main issue is that mksession doesn't handle the snacks explorer or rosaai windows well — they end up taking up space in the layout and causing weirdness when restored. To work around this, we manually snapshot and restore the layout, filtering out any special windows. This way we can maximize just the "real" buffers and then restore everything else afterward.
 
@@ -101,11 +157,12 @@ function M.is_maximized()
   return state ~= nil
 end
 
-function M.maximize()
+function M.maximize(opts)
   if state then
     return
   end
 
+  opts = opts or {}
   local had_explorer = explorer_is_open()
   local had_rosaai = rosaai_is_open()
 
@@ -131,15 +188,23 @@ function M.maximize()
     tree = tree,
     had_explorer = had_explorer,
     had_rosaai = had_rosaai,
+    indicator = opts.indicator ~= false,
   }
 
-  vim.cmd 'only'
+  vim.cmd 'silent! only'
+
+  if state.indicator then
+    show_indicator()
+    refresh_statusline()
+  end
 end
 
 function M.restore()
   if not state then
     return
   end
+
+  hide_indicator()
 
   local s = state
   state = nil
@@ -196,6 +261,8 @@ function M.restore()
   if focus_win and vim.api.nvim_win_is_valid(focus_win) then
     vim.api.nvim_set_current_win(focus_win)
   end
+
+  refresh_statusline()
 end
 
 function M.toggle()
@@ -204,6 +271,26 @@ function M.toggle()
   else
     M.maximize()
   end
+end
+
+--- Text shown on the lualine indicator, honoring the name/icon toggle.
+function M.lualine_label()
+  return opt 'rosamaximize_name' == false and '󰊓' or '󰊓 max'
+end
+
+--- Whether the lualine indicator should render right now.
+function M.lualine_visible()
+  return M.is_maximized() and opt 'rosamaximize_lualine' ~= false
+end
+
+--- Re-render the badge and statusline to reflect the current toggle states.
+function M.refresh()
+  if M.is_maximized() then
+    show_indicator()
+  else
+    hide_indicator()
+  end
+  refresh_statusline()
 end
 
 return M

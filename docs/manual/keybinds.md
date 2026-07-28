@@ -148,7 +148,7 @@
 | n | `<leader>2` | Focus right window | `Space 2` to jump to the right window |
 | n | `<leader>3` | Focus bottom window | `Space 3` to jump to the bottom window |
 | n | `<leader>4` | Focus top window | `Space 4` to jump to the top window |
-| n | `<leader>cm` | Rosamaximize | `Space c m` to maximize the current window or restore the layout |
+| n | `<leader>cm` | Rosamaximize | `Space c m` to maximize the current window or restore the layout (shows a `max` badge + lualine indicator) |
 | n | `<leader>m` | Pick a window | `Space m` to visually pick which window to focus |
 
 ---
@@ -438,7 +438,7 @@ Inside the CLI terminal: single `<Esc>` exits to nvim normal mode; double `<Esc>
 | n | `<leader>lw` | Toggle wrap | `Space l w` to toggle line wrapping |
 | n | `<leader>lg` | Toggle relative numbers | `Space l g` to toggle relative line numbers |
 | n | `<leader>ln` | Toggle line numbers | `Space l n` to toggle line numbers on/off |
-| n | `<leader>lz` | Toggle zen mode | `Space l z` to enter distraction-free zen mode |
+| n | `<leader>lz` | Toggle Rosazen | `Space l z` to toggle Rosazen — distraction-free mode (maximizes + centers the window, hides UI chrome; persists across sessions) |
 | n | `<leader>li` | Toggle indent guides | `Space l i` to toggle indent guide lines |
 | n | `<leader>lk` | Toggle dim | `Space l k` to dim inactive code |
 | n | `<leader>ll` | Toggle lualine | `Space l l` to show/hide the statusline |
@@ -450,6 +450,10 @@ Inside the CLI terminal: single `<Esc>` exits to nvim normal mode; double `<Esc>
 | n | `<leader>lc` | Toggle Incline | `Space l c` to show/hide the floating filename indicator |
 | n | `<leader>ls` | Toggle auto-save | `Space l s` to enable/disable auto-save |
 | n | `<leader>lm` | Toggle Image Preview | `Space l m` to toggle persistent image preview on/off (default: off) |
+| n | `<leader>laml` | Rosamaximize lualine indicator | `Space l a m l` to show/hide the `max` indicator on the lualine |
+| n | `<leader>lamb` | Rosamaximize buffer badge | `Space l a m b` to show/hide the floating `max` badge on the buffer |
+| n | `<leader>lamn` | Rosamaximize name/icon | `Space l a m n` to switch between the `max` text and icon-only |
+| n | `<leader>lams` | Rosamaximize border | `Space l a m s` to open a popup to select the badge border (none / rounded / straight) |
 | n | `<leader>lqp` | Picker Layout | `Space l q p` to open a popup to select picker layout preset |
 | n | `<leader>lasp` | Picker Preview | `Space l a s p` to toggle picker preview on/off |
 | n | `<leader>lasb` | Picker Border | `Space l a s b` to open a popup to select picker border style |

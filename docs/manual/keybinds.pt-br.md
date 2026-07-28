@@ -148,7 +148,7 @@
 | n | `<leader>2` | Focar janela direita | `Space 2` para ir para a janela da direita |
 | n | `<leader>3` | Focar janela inferior | `Space 3` para ir para a janela de baixo |
 | n | `<leader>4` | Focar janela superior | `Space 4` para ir para a janela de cima |
-| n | `<leader>cm` | Rosamaximize | `Space c m` para maximizar a janela atual ou restaurar o layout |
+| n | `<leader>cm` | Rosamaximize | `Space c m` para maximizar a janela atual ou restaurar o layout (mostra um badge `max` + indicador na lualine) |
 | n | `<leader>m` | Escolher uma janela | `Space m` para escolher visualmente qual janela focar |
 
 ---
@@ -438,7 +438,7 @@ Dentro do terminal do CLI: um `<Esc>` sai pro modo normal do nvim; `<Esc> <Esc>`
 | n | `<leader>lw` | Alternar wrap | `Space l w` para alternar quebra de linha |
 | n | `<leader>lg` | Alternar números relativos | `Space l g` para alternar números de linha relativos |
 | n | `<leader>ln` | Alternar números de linha | `Space l n` para ativar/desativar números de linha |
-| n | `<leader>lz` | Alternar modo zen | `Space l z` para entrar no modo zen sem distrações |
+| n | `<leader>lz` | Alternar Rosazen | `Space l z` para alternar o Rosazen — modo sem distrações (maximiza + centraliza a janela, esconde a UI; persiste entre sessões) |
 | n | `<leader>li` | Alternar guias de indentação | `Space l i` para alternar linhas guia de indentação |
 | n | `<leader>lk` | Alternar dim | `Space l k` para escurecer código inativo |
 | n | `<leader>ll` | Alternar lualine | `Space l l` para mostrar/ocultar a statusline |
@@ -450,6 +450,10 @@ Dentro do terminal do CLI: um `<Esc>` sai pro modo normal do nvim; `<Esc> <Esc>`
 | n | `<leader>lc` | Alternar Incline | `Space l c` para mostrar/ocultar o indicador flutuante de nome de arquivo |
 | n | `<leader>ls` | Alternar auto-save | `Space l s` para ativar/desativar salvamento automático |
 | n | `<leader>lm` | Toggle Image Preview | `Space l m` para alternar preview de imagem on/off (padrão: desativado) |
+| n | `<leader>laml` | Indicador na lualine (Rosamaximize) | `Space l a m l` para mostrar/esconder o indicador `max` na lualine |
+| n | `<leader>lamb` | Badge no buffer (Rosamaximize) | `Space l a m b` para mostrar/esconder o badge flutuante `max` no buffer |
+| n | `<leader>lamn` | Nome/ícone (Rosamaximize) | `Space l a m n` para alternar entre o texto `max` e só o ícone |
+| n | `<leader>lams` | Borda (Rosamaximize) | `Space l a m s` para abrir um popup e escolher a borda do badge (none / rounded / reta) |
 | n | `<leader>lqp` | Picker Layout | `Space l q p` para abrir popup de seleção de layout do picker |
 | n | `<leader>lasp` | Picker Preview | `Space l a s p` para alternar preview do picker on/off |
 | n | `<leader>lasb` | Picker Border | `Space l a s b` para abrir popup de seleção de borda do picker |

@@ -134,7 +134,8 @@ Guias detalhados ficam em [`docs/manual`](docs/manual/):
 | **Rosapoon** | Marca e salta entre arquivos frequentes, com escopo por repositório git |
 | **Rosadirs** | Gerencia diretórios de Projetos & vaults do Obsidian em runtime |
 | **Rosapick** | Seletor visual de janelas com labels de letra |
-| **Rosamaximize** | Maximiza a janela atual e restaura o layout completo |
+| **Rosamaximize** | Maximiza a janela atual e restaura o layout completo — com um badge `max` e um indicador na lualine (configurável via `<leader>lam`) |
+| **Rosazen** | Modo sem distrações — maximiza e centraliza a janela atual, esconde toda a UI, mantém as ferramentas flutuantes (Rosaterm/RosaAI/Yazi/Lazygit) usáveis, e persiste entre sessões |
 | **Rosayank** | Histórico de yank persistente (ring buffer) |
 | **Rosasave** | Auto-save com debounce |
 | **Rosasweep** | Fecha buffers inativos automaticamente |
@@ -253,6 +254,7 @@ Rosavim vem com 2 temas próprios, totalmente integrados aos toggles de dark/lig
 | `<C-h/j/k/l>` | Mover entre splits |
 | `<leader>m` | Rosapick (seletor de janela) |
 | `<leader>cm` | Rosamaximize |
+| `<leader>lz` | Rosazen (modo sem distrações) |
 | `<C-\>` / `<S-z>` | Rosaterm: toggle float |
 | `<S-x>` | Rosaterm: terminal horizontal |
 | `<leader>cii` / `<leader>cie` | Rosaterm: split vertical / horizontal |
@@ -295,7 +297,7 @@ Referência completa: **[Manual de Atalhos](docs/manual/keybinds.pt-br.md)**.
 │   ├── rosa_plugins/              # plugins próprios (ver Funcionalidades)
 │   │   ├── rosaterm/  rosatest/  rosakit/  rosafile/
 │   │   ├── rosapreview/  rosapoon/  rosadirs/  rosapick/
-│   │   ├── rosamaximize/  rosayank/  rosasave/  rosasweep/
+│   │   ├── rosamaximize/  rosazen/  rosayank/  rosasave/  rosasweep/
 │   │   └── rosaai/
 │   └── rosa_themes/
 │       ├── rosamin/               # tema padrão (minimal)

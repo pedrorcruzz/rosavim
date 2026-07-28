@@ -74,6 +74,7 @@ return {
       { '<leader>lay', group = 'Yazi', icon = '󰇥 ' },
       { '<leader>lag', group = 'Lazygit', icon = '󰊢 ' },
       { '<leader>lau', group = 'Dropbar', icon = '󰜢 ' },
+      { '<leader>lam', group = 'Rosamaximize', icon = '󰊓 ' },
 
       -- Rosakit
       { '<leader>k', group = 'Rosakit', icon = ' ' },

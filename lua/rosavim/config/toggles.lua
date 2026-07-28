@@ -53,6 +53,13 @@ local defaults = {
   rosaai_review = true, -- master switch for the Review feature (<leader>laaR)
   rosaai_auto_review = false, -- auto-open the AI-changes review (<leader>laar)
   rosaai_review_badge = true, -- show the pending-review count on the chip (<leader>laac)
+  -- Rosamaximize
+  rosamaximize_lualine = true, -- show the zoom indicator on lualine (<leader>laml)
+  rosamaximize_badge = true, -- show the floating zoom badge on the buffer (<leader>lamb)
+  rosamaximize_name = true, -- show the "max" text (true) or icon only (false) (<leader>lamn)
+  rosamaximize_border = 'rounded', -- badge border: none | rounded | single (<leader>lams)
+  -- Rosazen (distraction-free mode) — persisted across sessions (<leader>lz)
+  rosazen = false,
   git_blame = true,
   render_markdown = true,
   render_markdown_theme = 'none', -- none | lazy | obsidian (<leader>lqm)

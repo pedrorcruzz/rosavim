@@ -4,7 +4,9 @@ return function(persist_toggle)
   persist_toggle(Snacks.toggle.option('wrap', { name = 'Wrap' }), 'wrap'):map '<leader>lw'
   persist_toggle(Snacks.toggle.option('relativenumber', { name = 'Relative Number' }), 'relativenumber'):map '<leader>lg'
   persist_toggle(Snacks.toggle.line_number(), 'linenumber'):map '<leader>ln'
-  Snacks.toggle.zen():map '<leader>lz'
+  vim.keymap.set('n', '<leader>lz', function()
+    require('rosavim.rosa_plugins.rosazen').toggle()
+  end, { desc = 'Toggle Rosazen' })
   persist_toggle(Snacks.toggle.indent(), 'indent'):map '<leader>li'
   persist_toggle(Snacks.toggle.dim(), 'dim'):map '<leader>lk'
 

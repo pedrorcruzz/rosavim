@@ -133,5 +133,21 @@ return {
         require 'rosavim.plugins.ui.snacks.toggles'
       end,
     })
+
+    -- Restore Rosazen early (on VimEnter, not VeryLazy) so it doesn't pop in
+    -- 1-2s after startup when you open a file.
+    vim.api.nvim_create_autocmd('VimEnter', {
+      once = true,
+      callback = function()
+        local ok, toggles = pcall(require, 'rosavim.config.toggles')
+        if ok and toggles.get 'rosazen' then
+          vim.schedule(function()
+            pcall(function()
+              require('rosavim.rosa_plugins.rosazen').on()
+            end)
+          end)
+        end
+      end,
+    })
   end,
 }
