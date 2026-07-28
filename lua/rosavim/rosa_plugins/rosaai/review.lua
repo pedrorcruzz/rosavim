@@ -36,6 +36,7 @@ local snapshot = require 'rosavim.rosa_plugins.rosaai.snapshot'
 
 local panel_ns = api.nvim_create_namespace 'rosareview_panel'
 local chip_ns = api.nvim_create_namespace 'rosareview_chip'
+local prompt_ns = api.nvim_create_namespace 'rosareview_prompt'
 
 --- Active review state, or nil when the review is closed. Shape:
 ---   { files = { { file, bufnr, total, resolved = { [sig] = 'keep'|'reject' } } },
@@ -62,6 +63,7 @@ local debounce_timer = nil
 -- Forward declarations (defined further down, referenced earlier).
 local update_chip, close_chip, open_panel, close_panel, render_panel
 local after_action, finalize, install_buffer_keymaps, remove_buffer_keymaps
+local compute_matches, cur_file_index, sync_list_cursor
 
 -- ---------------------------------------------------------------------------
 -- Dependencies / small utilities
@@ -661,12 +663,111 @@ end
 -- ---------------------------------------------------------------------------
 
 close_panel = function()
-  if S and S.panel and S.panel.win and api.nvim_win_is_valid(S.panel.win) then
-    pcall(api.nvim_win_close, S.panel.win, true)
+  -- May be called while the search input still has insert-mode focus.
+  pcall(vim.cmd, 'stopinsert')
+  if not S or not S.panel then
+    return
   end
-  if S and S.panel then
-    S.panel.win = nil
+  local p = S.panel
+  local function shut(w)
+    if w and api.nvim_win_is_valid(w) then
+      pcall(api.nvim_win_close, w, true)
+    end
   end
+  -- Close the children before the container they are anchored to.
+  if p.prompt then
+    shut(p.prompt.win)
+    p.prompt = nil
+  end
+  shut(p.win)
+  p.win = nil
+  if p.container then
+    shut(p.container.win)
+    p.container = nil
+  end
+end
+
+--- The git-status bucket of a review entry, used by the status filter: a new
+--- (untracked) file is 'added', anything else the review tracks is 'modified'.
+local function entry_status(e)
+  return e.is_new and 'added' or 'modified'
+end
+
+--- Recompute S.panel.matches (a list of indices into S.files) from the current
+--- status filter AND search query, and clamp the selection into range. Files are
+--- first narrowed to the active status (nil = all), then, when a query is set,
+--- fuzzy-matched on their path (via matchfuzzy, so "revlua" finds
+--- "…/rosaai/review.lua") and ranked by score; an empty query keeps natural order.
+compute_matches = function()
+  if not S or not S.panel then
+    return
+  end
+  local files = S.files
+  local q = S.panel.query or ''
+  local sf = S.panel.status_filter -- nil = all, else 'added' / 'modified'
+
+  -- Candidates after the status filter, in natural order.
+  local cand = {}
+  for i, e in ipairs(files) do
+    if not sf or entry_status(e) == sf then
+      cand[#cand + 1] = i
+    end
+  end
+
+  local out = {}
+  if q == '' then
+    out = cand
+  else
+    local items = {}
+    for _, i in ipairs(cand) do
+      items[#items + 1] = { idx = i, path = fn.fnamemodify(files[i].file, ':.') }
+    end
+    local ok, matched = pcall(fn.matchfuzzy, items, q, { key = 'path' })
+    if ok and matched then
+      for _, m in ipairs(matched) do
+        out[#out + 1] = m.idx
+      end
+    else
+      -- Fallback for any matchfuzzy hiccup: case-insensitive substring.
+      local needle = q:lower()
+      for _, i in ipairs(cand) do
+        if fn.fnamemodify(files[i].file, ':.'):lower():find(needle, 1, true) then
+          out[#out + 1] = i
+        end
+      end
+    end
+  end
+  S.panel.matches = out
+  local n = #out
+  if n == 0 then
+    S.panel.sel = 0
+  else
+    S.panel.sel = math.max(1, math.min(S.panel.sel or 1, n))
+  end
+end
+
+--- The S.files index currently selected in the (possibly filtered) panel, or nil
+--- when nothing matches. All panel actions resolve their target through this so
+--- keep/reject/jump act on the right file regardless of the active filter.
+cur_file_index = function()
+  if not (S and S.panel) then
+    return nil
+  end
+  return (S.panel.matches or {})[S.panel.sel or 0]
+end
+
+--- Keep the selected row visible by parking the list window's cursor on it, so
+--- the view scrolls when there are more files than fit on screen.
+sync_list_cursor = function()
+  if not (S and S.panel and S.panel.win and api.nvim_win_is_valid(S.panel.win)) then
+    return
+  end
+  local sel = S.panel.sel or 0
+  if sel < 1 then
+    return
+  end
+  local line = math.min(sel + 1, api.nvim_buf_line_count(S.panel.buf))
+  pcall(api.nvim_win_set_cursor, S.panel.win, { line, 0 })
 end
 
 render_panel = function()
@@ -677,6 +778,8 @@ render_panel = function()
   if not buf or not api.nvim_buf_is_valid(buf) then
     return
   end
+  compute_matches()
+  local matches = S.panel.matches
   local sel = S.panel.sel or 1
   local pad = '  '
   local lines, hls = {}, {}
@@ -687,20 +790,26 @@ render_panel = function()
   end
 
   add ''
-  for i, e in ipairs(S.files) do
-    local name = fn.fnamemodify(e.file, ':t')
-    local total = math.max(e.total, resolved_count(e))
-    local done = resolved_count(e)
-    local marker = (i == sel) and '▸ ' or '  '
-    local name_col = name .. string.rep(' ', math.max(1, 20 - #name))
-    local hunks_txt = e.is_new and 'new file' or string.format('%d hunk%s', total, total == 1 and '' or 's')
-    local prog = string.format('(%d/%d)', done, total)
-    local line = pad .. marker .. name_col .. hunks_txt .. '   ' .. prog
-    local row = add(line)
-    local name_start = #pad + #marker
-    table.insert(hls, { (i == sel) and 'RosaReviewTitle' or 'RosaReviewText', row, name_start, name_start + #name })
-    local complete = total > 0 and done >= total
-    table.insert(hls, { complete and 'RosaReviewKept' or 'RosaReviewDim', row, #line - #prog, -1 })
+  if #matches == 0 then
+    local row = add(pad .. '  no files match')
+    table.insert(hls, { 'RosaReviewDim', row, 0, -1 })
+  else
+    for pos, fi in ipairs(matches) do
+      local e = S.files[fi]
+      local name = fn.fnamemodify(e.file, ':t')
+      local total = math.max(e.total, resolved_count(e))
+      local done = resolved_count(e)
+      local marker = (pos == sel) and '▸ ' or '  '
+      local name_col = name .. string.rep(' ', math.max(1, 20 - #name))
+      local hunks_txt = e.is_new and 'new file' or string.format('%d hunk%s', total, total == 1 and '' or 's')
+      local prog = string.format('(%d/%d)', done, total)
+      local line = pad .. marker .. name_col .. hunks_txt .. '   ' .. prog
+      local row = add(line)
+      local name_start = #pad + #marker
+      table.insert(hls, { (pos == sel) and 'RosaReviewTitle' or 'RosaReviewText', row, name_start, name_start + #name })
+      local complete = total > 0 and done >= total
+      table.insert(hls, { complete and 'RosaReviewKept' or 'RosaReviewDim', row, #line - #prog, -1 })
+    end
   end
   add ''
 
@@ -711,6 +820,7 @@ render_panel = function()
   for _, h in ipairs(hls) do
     pcall(api.nvim_buf_add_highlight, buf, panel_ns, h[1], h[2], h[3], h[4])
   end
+  sync_list_cursor()
 end
 
 --- Jump to a file's first unresolved hunk in a normal window; close the panel
@@ -746,36 +856,114 @@ open_panel = function()
     return
   end
   S.panel.sel = S.panel.sel or 1
+  -- Start each session unfiltered; the search box and `f` drive this from here.
+  S.panel.query = ''
+  S.panel.status_filter = nil
 
-  local width = 56
-  local height = math.max(4, math.min(#S.files + 2, vim.o.lines - 4))
-  local row = math.floor((vim.o.lines - height) / 2)
-  local col = math.floor((vim.o.columns - width) / 2)
+  -- The RosaAI robot glyph (same one which-key shows for the RosaAI group),
+  -- built from its codepoint so the title bytes never get mangled on edits.
+  local title_icon = vim.fn.nr2char(0xee0d)
 
-  local buf = api.nvim_create_buf(false, true)
-  vim.bo[buf].bufhidden = 'wipe'
-
+  local width = math.min(78, math.max(62, math.floor(vim.o.columns * 0.5)))
   local ok, themes = pcall(require, 'rosavim.rosa_plugins.rosaai.themes')
   local win_border = ok and themes.current().window or 'rounded'
   if not win_border or win_border == 'none' then
     win_border = 'rounded'
   end
 
-  local win = api.nvim_open_win(buf, true, {
+  -- Layout: an outer container carries the "general" border, the title and the
+  -- key-hint footer. Inside it sit two children — the scrollable file list on
+  -- top and a search input WITH ITS OWN border at the bottom. Because the list
+  -- lives in its own window, it scrolls within its band and never slides under
+  -- the input; the input box stays visually distinct.
+  local list_h = math.max(10, math.min(#S.files + 3, vim.o.lines - 11))
+  local input_h = 3 -- bordered single line: top border + text + bottom border
+  local hint_row = list_h + input_h -- one text row below the input box
+  local inner_h = hint_row + 1
+  local row = math.floor((vim.o.lines - inner_h) / 2)
+  local col = math.floor((vim.o.columns - width) / 2)
+
+  -- Outer container (the general border). Not focusable — it is a frame only.
+  local cbuf = api.nvim_create_buf(false, true)
+  vim.bo[cbuf].bufhidden = 'wipe'
+  local cwin = api.nvim_open_win(cbuf, false, {
     relative = 'editor',
     width = width,
-    height = height,
+    height = inner_h,
     row = row,
     col = col,
     style = 'minimal',
     border = win_border,
-    title = { { '  RosaAI Review ', 'Title' } },
+    title = { { ' ' .. title_icon .. '  RosaAI Review ', 'RosaReviewTitle' } },
     title_pos = 'center',
-    footer = ' ↵ jump · a keep · r reject · A/R all · q close ',
-    footer_pos = 'center',
+    focusable = false,
     zindex = 50,
   })
-  vim.wo[win].winhl = 'Normal:Normal,FloatBorder:RosaReviewBorder,FloatTitle:RosaReviewTitle,FloatFooter:RosaReviewDim'
+  vim.wo[cwin].winhl = 'Normal:Normal,FloatBorder:RosaReviewBorder,FloatTitle:RosaReviewTitle'
+  S.panel.container = { buf = cbuf, win = cwin }
+
+  -- Key hints as real buffer text on the container's bottom row (below the
+  -- input box), keys highlighted. More reliable than a border footer sitting
+  -- under a child float, which does not render dependably.
+  do
+    local segs = {
+      { '↵', 'RosaReviewKey' },
+      { ' jump', 'RosaReviewDim' },
+      { '  ', 'RosaReviewDim' },
+      { 'e', 'RosaReviewKey' },
+      { ' keep', 'RosaReviewDim' },
+      { '  ', 'RosaReviewDim' },
+      { 'r', 'RosaReviewKey' },
+      { ' reject', 'RosaReviewDim' },
+      { '  ', 'RosaReviewDim' },
+      { 'p', 'RosaReviewKey' },
+      { ' preview', 'RosaReviewDim' },
+      { '  ', 'RosaReviewDim' },
+      { 'f', 'RosaReviewKey' },
+      { ' filter', 'RosaReviewDim' },
+      { '  ', 'RosaReviewDim' },
+      { 'A/R', 'RosaReviewKey' },
+      { '  ', 'RosaReviewDim' },
+      { 'q', 'RosaReviewKey' },
+      { ' close', 'RosaReviewDim' },
+    }
+    local text = ''
+    for _, s in ipairs(segs) do
+      text = text .. s[1]
+    end
+    local pad = math.max(0, math.floor((width - api.nvim_strwidth(text)) / 2))
+    local hint_lines = {}
+    for i = 1, inner_h do
+      hint_lines[i] = ''
+    end
+    hint_lines[hint_row + 1] = string.rep(' ', pad) .. text
+    vim.bo[cbuf].modifiable = true
+    api.nvim_buf_set_lines(cbuf, 0, -1, false, hint_lines)
+    vim.bo[cbuf].modifiable = false
+    local c = pad
+    for _, s in ipairs(segs) do
+      local ec = c + #s[1]
+      pcall(api.nvim_buf_add_highlight, cbuf, panel_ns, s[2], hint_row, c, ec)
+      c = ec
+    end
+  end
+
+  -- File list: borderless child pinned to the top of the container. Focus lives
+  -- here by default; NORMAL-mode navigation drives it.
+  local buf = api.nvim_create_buf(false, true)
+  vim.bo[buf].bufhidden = 'wipe'
+  local win = api.nvim_open_win(buf, true, {
+    relative = 'win',
+    win = cwin,
+    row = 0,
+    col = 0,
+    width = width,
+    height = list_h,
+    style = 'minimal',
+    border = 'none',
+    zindex = 51,
+  })
+  vim.wo[win].winhl = 'Normal:Normal'
   vim.wo[win].number = false
   vim.wo[win].relativenumber = false
   vim.wo[win].signcolumn = 'no'
@@ -786,9 +974,177 @@ open_panel = function()
 
   local kopts = { buffer = buf, silent = true, nowait = true }
   local function move(delta)
-    S.panel.sel = math.max(1, math.min(#S.files, (S.panel.sel or 1) + delta))
+    local n = #(S.panel.matches or {})
+    if n == 0 then
+      return
+    end
+    S.panel.sel = math.max(1, math.min(n, (S.panel.sel or 1) + delta))
     render_panel()
   end
+
+  -- Reposition the whole panel to a new left column. Children are relative='win'
+  -- floats that do NOT follow the container automatically, so re-anchor each by
+  -- re-setting its config. Used to slide the panel left while a preview docks on
+  -- the right, then slide it back to `col` (its centered home) when done.
+  local function place_panel(ccol)
+    local p = S.panel
+    if not (p and p.container and api.nvim_win_is_valid(p.container.win)) then
+      return
+    end
+    pcall(api.nvim_win_set_config, p.container.win, {
+      relative = 'editor',
+      row = row,
+      col = ccol,
+      width = width,
+      height = inner_h,
+    })
+    if p.win and api.nvim_win_is_valid(p.win) then
+      pcall(api.nvim_win_set_config, p.win, {
+        relative = 'win',
+        win = p.container.win,
+        row = 0,
+        col = 0,
+        width = width,
+        height = list_h,
+      })
+    end
+    if p.prompt and p.prompt.win and api.nvim_win_is_valid(p.prompt.win) then
+      pcall(api.nvim_win_set_config, p.prompt.win, {
+        relative = 'win',
+        win = p.container.win,
+        row = list_h,
+        col = 3,
+        width = width - 6,
+        height = 1,
+      })
+    end
+  end
+
+  -- Status filter cycled by `f`: all → added → modified → all. The active bucket
+  -- is shown as a badge in the container title.
+  local STATUS_FILTERS = { false, 'added', 'modified' }
+  local function set_title()
+    if not (S.panel.container and api.nvim_win_is_valid(S.panel.container.win)) then
+      return
+    end
+    local sf = S.panel.status_filter
+    local base = ' ' .. title_icon .. '  RosaAI Review'
+    local text = sf and (base .. ' · ' .. sf .. ' ') or (base .. ' ')
+    pcall(api.nvim_win_set_config, S.panel.container.win, {
+      title = { { text, 'RosaReviewTitle' } },
+      title_pos = 'center',
+    })
+  end
+  local function cycle_filter()
+    local cur = S.panel.status_filter or false
+    local idx = 1
+    for i, v in ipairs(STATUS_FILTERS) do
+      if v == cur then
+        idx = i
+      end
+    end
+    local nxt = STATUS_FILTERS[(idx % #STATUS_FILTERS) + 1]
+    S.panel.status_filter = nxt or nil
+    S.panel.sel = 1
+    set_title()
+    render_panel()
+  end
+
+  -- Search input: its own bordered box in the reserved bottom rows, centered
+  -- inside the container with a small margin on each side.
+  local pbuf = api.nvim_create_buf(false, true)
+  vim.bo[pbuf].bufhidden = 'wipe'
+  local pwin = api.nvim_open_win(pbuf, false, {
+    relative = 'win',
+    win = cwin,
+    -- With a border, this row positions the box's TOP border, so list_h sits it
+    -- flush under the (borderless) list; its bottom border lands at list_h+2,
+    -- leaving row list_h+3 (hint_row) free for the key hints.
+    row = list_h,
+    col = 3,
+    width = width - 6,
+    height = 1,
+    style = 'minimal',
+    border = win_border,
+    title = { { ' search (a or /) ', 'RosaReviewDim' } },
+    title_pos = 'left',
+    zindex = 52,
+  })
+  vim.wo[pwin].winhl = 'Normal:Normal,FloatBorder:RosaReviewBorder'
+  S.panel.prompt = { buf = pbuf, win = pwin }
+
+  -- Redraw the left search glyph and (when empty) a dimmed placeholder. The
+  -- glyph is inline virtual text pinned left of the typed text, so reading the
+  -- buffer line always yields just the query.
+  local function redraw_prompt()
+    local q = api.nvim_buf_get_lines(pbuf, 0, 1, false)[1] or ''
+    api.nvim_buf_clear_namespace(pbuf, prompt_ns, 0, -1)
+    pcall(api.nvim_buf_set_extmark, pbuf, prompt_ns, 0, 0, {
+      virt_text = { { ' ❯ ', 'RosaReviewKey' } },
+      virt_text_pos = 'inline',
+      right_gravity = false,
+    })
+    if q == '' then
+      pcall(api.nvim_buf_set_extmark, pbuf, prompt_ns, 0, 0, {
+        virt_text = { { 'type to filter files…', 'RosaReviewDim' } },
+        virt_text_pos = 'inline',
+      })
+    end
+  end
+
+  -- Re-filter live as the query changes.
+  api.nvim_create_autocmd({ 'TextChangedI', 'TextChanged', 'TextChangedP' }, {
+    buffer = pbuf,
+    callback = function()
+      if not (S and S.panel) then
+        return
+      end
+      S.panel.query = api.nvim_buf_get_lines(pbuf, 0, 1, false)[1] or ''
+      -- A fresh query re-ranks the list; snap the selection back to the top.
+      S.panel.sel = 1
+      redraw_prompt()
+      render_panel()
+    end,
+  })
+
+  --- Focus the search input and drop into insert to start filtering.
+  local function open_prompt()
+    if not (S.panel.prompt and api.nvim_win_is_valid(S.panel.prompt.win)) then
+      return
+    end
+    api.nvim_set_current_win(S.panel.prompt.win)
+    vim.cmd 'startinsert!'
+  end
+
+  --- Leave the search input and hand focus back to the list in normal mode
+  --- (the filter stays applied).
+  local function focus_list()
+    pcall(vim.cmd, 'stopinsert')
+    if S.panel.win and api.nvim_win_is_valid(S.panel.win) then
+      api.nvim_set_current_win(S.panel.win)
+    end
+  end
+
+  local popts = { buffer = pbuf, silent = true, nowait = true }
+  vim.keymap.set('i', '<CR>', function()
+    focus_list()
+    jump_to(cur_file_index())
+  end, popts)
+  vim.keymap.set('i', '<Esc>', focus_list, popts)
+  vim.keymap.set('i', '<C-c>', close_panel, popts)
+  -- Move the selection without leaving the input, Telescope-style.
+  for _, lhs in ipairs { '<Down>', '<C-j>', '<C-n>' } do
+    vim.keymap.set('i', lhs, function()
+      move(1)
+    end, popts)
+  end
+  for _, lhs in ipairs { '<Up>', '<C-k>', '<C-p>' } do
+    vim.keymap.set('i', lhs, function()
+      move(-1)
+    end, popts)
+  end
+
+  -- --- List navigation (NORMAL mode) ---------------------------------------
   vim.keymap.set('n', 'j', function()
     move(1)
   end, kopts)
@@ -801,14 +1157,73 @@ open_panel = function()
   vim.keymap.set('n', '<Up>', function()
     move(-1)
   end, kopts)
+  -- Enter the search input from the list (a / i / are all shortcuts into it).
+  vim.keymap.set('n', 'i', open_prompt, kopts)
+  vim.keymap.set('n', 'a', open_prompt, kopts)
+  vim.keymap.set('n', '/', open_prompt, kopts)
   vim.keymap.set('n', '<CR>', function()
-    jump_to(S.panel.sel or 1)
+    jump_to(cur_file_index())
   end, kopts)
-  vim.keymap.set('n', 'a', function()
-    keep_file(S.panel.sel or 1)
+  vim.keymap.set('n', 'e', function()
+    keep_file(cur_file_index())
   end, kopts)
   vim.keymap.set('n', 'r', function()
-    reject_file(S.panel.sel or 1)
+    reject_file(cur_file_index())
+  end, kopts)
+  -- Preview the selected file's changes in a rosapreview float, jumped to its
+  -- first unresolved hunk — glance at the diff without leaving the panel. The
+  -- panel slides to the left edge and the preview docks filling the whole right
+  -- side (never covering the review); closing the preview slides the panel back
+  -- to center. On a terminal too narrow to fit both, it stays centered and uses
+  -- rosapreview's default centered float instead.
+  vim.keymap.set('n', 'p', function()
+    local i = cur_file_index()
+    local e = i and S.files[i]
+    if not e then
+      return
+    end
+    local target = unresolved_of(e)[1] or get_hunks_of(e.bufnr)[1]
+    local line = target and (hunk_range(target)) or 1
+
+    local gap = 3
+    -- Preview matches the panel's height and top, and is capped in width so it
+    -- reads as a companion beside the panel (not a giant that dwarfs it). The
+    -- panel + preview PAIR is then centered on screen together.
+    local pv_width = math.min(vim.o.columns - 4 - width - gap, 96)
+    local pv_h = inner_h
+    local pv_row = row
+
+    local geom, docked
+    if pv_width >= 30 then
+      local total = width + gap + pv_width
+      local start_col = math.max(2, math.floor((vim.o.columns - total) / 2))
+      place_panel(start_col)
+      geom = { row = pv_row, col = start_col + width + gap, width = pv_width, height = pv_h }
+      docked = true
+    end
+
+    local pok, rp = pcall(require, 'rosavim.rosa_plugins.rosapreview')
+    if not (pok and rp.file) then
+      if docked then
+        place_panel(col)
+      end
+      return
+    end
+    local pv = rp.file(e.file, line, geom)
+    -- Recenter the panel once the preview closes.
+    if docked and pv then
+      api.nvim_create_autocmd('WinClosed', {
+        pattern = tostring(pv),
+        once = true,
+        callback = function()
+          vim.schedule(function()
+            place_panel(col)
+          end)
+        end,
+      })
+    elseif docked and not pv then
+      place_panel(col)
+    end
   end, kopts)
   vim.keymap.set('n', 'A', function()
     M.keep_all()
@@ -816,9 +1231,13 @@ open_panel = function()
   vim.keymap.set('n', 'R', function()
     M.reject_all()
   end, kopts)
+  -- Cycle the status filter (all → added → modified).
+  vim.keymap.set('n', 'f', cycle_filter, kopts)
+  vim.keymap.set('i', '<C-f>', cycle_filter, popts)
   vim.keymap.set('n', 'q', close_panel, kopts)
   vim.keymap.set('n', '<Esc>', close_panel, kopts)
 
+  redraw_prompt()
   render_panel()
 end
 

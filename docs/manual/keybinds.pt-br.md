@@ -326,19 +326,33 @@ Dentro do terminal do CLI: um `<Esc>` sai pro modo normal do nvim; `<Esc> <Esc>`
 
 #### Revisar Mudanças da IA
 
-`<leader>ar` abre uma revisão estilo Cursor/VSCode das edições de arquivo que o RosaAI fez em disco, comparando com um snapshot de baseline capturado automaticamente quando você abriu o CLI. As mudanças aparecem como diffs inline verde/vermelho, e um painel flutuante de visão geral lista cada arquivo alterado para você aceitar (keep) ou rejeitar (reject) cada hunk.
+`<leader>ar` abre uma revisão estilo Cursor/VSCode das edições de arquivo que o RosaAI fez em disco, comparando com um snapshot de baseline capturado automaticamente quando você abriu o CLI. As mudanças aparecem como diffs inline verde/vermelho, e um painel flutuante de visão geral lista cada arquivo alterado para você aceitar (keep) ou rejeitar (reject) cada hunk. O painel tem uma caixa de busca embutida pra filtrar a lista por fuzzy, um filtro `f` pra restringir por status do git, e um preview `p` que mostra o diff do arquivo num float do rosapreview ao lado do painel.
 
-**No painel de visão geral:**
+**No painel de visão geral (modo normal):**
 
 | Modo | Tecla | Ação | Exemplo |
 |:----:|:------|:-----|:--------|
-| n | `j` / `k` | Mover para baixo / cima | Navegar entre os arquivos listados |
+| n | `j` / `k` (ou `↓`/`↑`) | Mover para baixo / cima | Navegar entre os arquivos listados |
+| n | `a` / `i` / `/` | Buscar arquivos | Entra na caixa de busca e filtra a lista por fuzzy conforme você digita |
 | n | `<CR>` | Ir para o hunk | Abrir o arquivo e saltar para a mudança sob o cursor |
-| n | `a` | Aceitar arquivo | Aceitar todas as mudanças do arquivo selecionado |
+| n | `e` | Aceitar arquivo | Aceitar todas as mudanças do arquivo selecionado |
 | n | `r` | Rejeitar arquivo | Descartar todas as mudanças do arquivo selecionado |
+| n | `p` | Preview | Abre o diff do arquivo selecionado num float do rosapreview ao lado do painel |
+| n | `f` | Filtrar por status | Cicla a lista: all → added → modified (mostrado no título) |
 | n | `A` | Aceitar tudo | Aceitar todas as mudanças pendentes de todos os arquivos |
 | n | `R` | Rejeitar tudo | Descartar todas as mudanças pendentes de todos os arquivos |
 | n | `q` / `<Esc>` | Fechar painel | Fechar o painel de visão geral |
+
+**Na caixa de busca (modo insert):**
+
+| Modo | Tecla | Ação | Exemplo |
+|:----:|:------|:-----|:--------|
+| i | *(digitar)* | Filtrar | Filtra a lista por fuzzy ao vivo conforme você digita |
+| i | `↓`/`↑`, `<C-j>`/`<C-k>`, `<C-n>`/`<C-p>` | Mover seleção | Move o arquivo destacado sem sair da caixa |
+| i | `<CR>` | Ir para o arquivo | Salta para o arquivo selecionado |
+| i | `<C-f>` | Filtrar por status | Cicla o filtro de status sem sair da caixa |
+| i | `<Esc>` | Voltar pra lista | Volta pra lista em modo normal (mantém o filtro) |
+| i | `<C-c>` | Fechar painel | Fecha o painel inteiro |
 
 **Em um buffer sob revisão:**
 

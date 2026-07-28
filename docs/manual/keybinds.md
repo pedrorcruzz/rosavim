@@ -326,19 +326,33 @@ Inside the CLI terminal: single `<Esc>` exits to nvim normal mode; double `<Esc>
 
 #### Review AI Changes
 
-`<leader>ar` opens a Cursor/VSCode-style review of the file edits RosaAI made on disk, comparing against a snapshot baseline taken automatically when you opened the CLI. Changes show as green/red inline diffs, and a floating overview panel lists every touched file so you can keep or reject each hunk.
+`<leader>ar` opens a Cursor/VSCode-style review of the file edits RosaAI made on disk, comparing against a snapshot baseline taken automatically when you opened the CLI. Changes show as green/red inline diffs, and a floating overview panel lists every touched file so you can keep or reject each hunk. The panel has a built-in search box to fuzzy-filter the list, an `f` filter to narrow by git status, and a `p` preview that shows a file's diff in a rosapreview float beside the panel.
 
-**In the overview panel:**
+**In the overview panel (normal mode):**
 
 | Mode | Key | Action | Example |
 |:----:|:----|:-------|:--------|
-| n | `j` / `k` | Move down / up | Move between the listed files |
+| n | `j` / `k` (or `↓`/`↑`) | Move down / up | Move between the listed files |
+| n | `a` / `i` / `/` | Search files | Enter the search box and fuzzy-filter the list as you type |
 | n | `<CR>` | Jump to hunk | Open the file and jump to the change under the cursor |
-| n | `a` | Keep file | Accept all changes in the selected file |
+| n | `e` | Keep file | Accept all changes in the selected file |
 | n | `r` | Reject file | Discard all changes in the selected file |
+| n | `p` | Preview | Open the selected file's diff in a rosapreview float beside the panel |
+| n | `f` | Filter by status | Cycle the list: all → added → modified (shown in the title) |
 | n | `A` | Keep all | Accept every pending change across all files |
 | n | `R` | Reject all | Discard every pending change across all files |
 | n | `q` / `<Esc>` | Close panel | Close the overview panel |
+
+**In the search box (insert mode):**
+
+| Mode | Key | Action | Example |
+|:----:|:----|:-------|:--------|
+| i | *(type)* | Filter | Fuzzy-filter the file list live as you type |
+| i | `↓`/`↑`, `<C-j>`/`<C-k>`, `<C-n>`/`<C-p>` | Move selection | Move the highlighted file without leaving the box |
+| i | `<CR>` | Jump | Jump to the selected file |
+| i | `<C-f>` | Filter by status | Cycle the status filter without leaving the box |
+| i | `<Esc>` | Back to list | Return to the list in normal mode (keeps the filter) |
+| i | `<C-c>` | Close panel | Close the whole panel |
 
 **In a reviewed buffer:**
 

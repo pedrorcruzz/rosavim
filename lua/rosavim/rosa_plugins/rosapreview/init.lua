@@ -45,17 +45,20 @@ local function float_keymap(bufnr, win, mode, lhs, rhs, desc)
   })
 end
 
---- Open a floating window showing the given URI at the given range
-local function open_float(uri, range)
+--- Open a floating window showing the given URI at the given range. `geom`
+--- optionally overrides the placement/size ({ row, col, width, height }) so a
+--- caller can dock the float somewhere specific (e.g. beside another panel);
+--- when omitted the float is centered at the configured size, as before.
+local function open_float(uri, range, geom)
   setup_highlights()
 
   local bufnr = vim.uri_to_bufnr(uri)
   vim.fn.bufload(bufnr)
 
-  local width = math.min(config.width, vim.o.columns - 4)
-  local height = math.min(config.height, vim.o.lines - 6)
-  local row = math.floor((vim.o.lines - height) / 2)
-  local col = math.floor((vim.o.columns - width) / 2)
+  local width = (geom and geom.width) or math.min(config.width, vim.o.columns - 4)
+  local height = (geom and geom.height) or math.min(config.height, vim.o.lines - 6)
+  local row = (geom and geom.row) or math.floor((vim.o.lines - height) / 2)
+  local col = (geom and geom.col) or math.floor((vim.o.columns - width) / 2)
 
   local filename = vim.fn.fnamemodify(vim.uri_to_fname(uri), ':~:.')
   local lnum = range and ((range.start.line or 0) + 1) or nil
@@ -138,6 +141,8 @@ local function open_float(uri, range)
       end
     end,
   })
+
+  return win
 end
 
 --- Make an LSP request and open the result in a float
@@ -195,6 +200,23 @@ end
 
 function M.references()
   lsp_preview 'textDocument/references'
+end
+
+--- Open the styled preview float directly for a file path, optionally jumped to
+--- a 1-based line. Reuses the same float as the LSP previews, so callers (e.g.
+--- RosaAI review's `p`) get identical look, keymaps (q close, expand, replace)
+--- and any highlights already attached to the file's buffer (like gitsigns).
+--- `geom` optionally docks the float ({ row, col, width, height }).
+function M.file(path, line, geom)
+  if not path or path == '' then
+    return
+  end
+  local uri = vim.uri_from_fname(path)
+  local range
+  if line and line > 0 then
+    range = { start = { line = line - 1, character = 0 } }
+  end
+  return open_float(uri, range, geom)
 end
 
 function M.close_all()

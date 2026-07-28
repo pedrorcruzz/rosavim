@@ -92,35 +92,72 @@ local function is_editing_win(win)
   return vim.bo[buf].buftype == ''
 end
 
---- Center the editing window with side padding, but ONLY when a single real
---- file window is focused. Skips the dashboard and other special/non-file
---- buffers (they center themselves) and split layouts. Runs on enter and on
---- buffer changes, so opening a file from the dashboard gets centered too.
+--- A live padding window still doing its job: valid AND still showing a spacer
+--- buffer. A pad window that got a file opened into it (e.g. after :bdelete
+--- closed the real file window) is valid but no longer a pad.
+local function is_real_pad(w)
+  if not vim.api.nvim_win_is_valid(w) then
+    return false
+  end
+  return vim.bo[vim.api.nvim_win_get_buf(w)].filetype == 'rosa_spacer'
+end
+
+--- Center the editing window with side padding — reconciled, not set once. When
+--- exactly one real file window is focused, ensure two healthy pads flank it,
+--- rebuilding if the layout got broken (a pad closed, or a file opened into a
+--- pad). Skips the dashboard and genuine split layouts.
 local function ensure_padding()
   if not active or not saved then
     return
   end
+  local win = vim.api.nvim_get_current_win()
+  if not is_editing_win(win) then
+    return -- focused on a float/pad/special buffer; leave the layout alone
+  end
+
+  local files = 0
+  for _, w in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+    if is_editing_win(w) then
+      files = files + 1
+    end
+  end
+  if files ~= 1 then
+    return -- a real split layout is open; don't force centering
+  end
+
+  local healthy = 0
   if saved.pads then
     for _, w in ipairs(saved.pads) do
-      if vim.api.nvim_win_is_valid(w) then
-        return -- already padded
+      if is_real_pad(w) then
+        healthy = healthy + 1
       end
     end
   end
-  local win = vim.api.nvim_get_current_win()
-  if not is_editing_win(win) then
+  if healthy == 2 then
     return
   end
-  local reals = 0
-  for _, w in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
-    if vim.api.nvim_win_get_config(w).relative == '' then
-      reals = reals + 1
+
+  -- Broken/missing: drop any stale real pads and rebuild fresh around the file.
+  -- Suppress events so the rebuild's vsplits don't re-enter ensure_padding while
+  -- saved.pads is mid-update (which would nest rebuilds and corrupt the pads).
+  local ei = vim.o.eventignore
+  vim.o.eventignore = 'all'
+  pcall(function()
+    if saved.pads then
+      for _, w in ipairs(saved.pads) do
+        if is_real_pad(w) then
+          pcall(vim.api.nvim_win_close, w, true)
+        end
+      end
     end
-  end
-  if reals ~= 1 then
-    return -- a split layout is open; don't force centering
-  end
-  saved.pads = add_padding(win)
+    -- A file opened INTO a pad inherits its winfixwidth; clear it or the new
+    -- pads get squeezed to a sliver as they split around the fixed-width file.
+    pcall(function()
+      vim.wo[win].winfixwidth = false
+    end)
+    saved.pads = add_padding(win)
+  end)
+  vim.o.eventignore = ei
 end
 
 --- Hide lualine using its own API so it stops redrawing the statusline.
@@ -287,6 +324,12 @@ function M.on()
   -- Mark active BEFORE centering — ensure_padding() bails out when inactive
   active = true
 
+  -- Drop any docked-CLI vertical spacer first so ensure_padding sees a single
+  -- real window (the zen pad reserves that space instead).
+  pcall(function()
+    require('rosavim.rosa_plugins.panel_reserve').refresh()
+  end)
+
   -- Center the editing window with side padding (skipped on the dashboard;
   -- re-applied automatically when you open a real file)
   ensure_padding()
@@ -362,6 +405,11 @@ function M.off()
   -- Rebuild the original layout (reopens explorer/rosaai if they were open)
   pcall(function()
     require('rosavim.rosa_plugins.rosamaximize').restore()
+  end)
+
+  -- Recreate any side-CLI vertical spacer now that the zen pads are gone.
+  pcall(function()
+    require('rosavim.rosa_plugins.panel_reserve').refresh()
   end)
 end
 

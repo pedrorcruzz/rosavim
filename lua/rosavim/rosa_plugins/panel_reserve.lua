@@ -339,6 +339,14 @@ local function apply()
     end
   end
 
+  -- In rosazen the side pads already reserve the columns a docked CLI floats
+  -- over, so a vertical spacer would only shrink the file — skip it while zen is
+  -- active. (Bottom/horizontal still reserves; there is no bottom pad.)
+  local zok, zen = pcall(require, 'rosavim.rosa_plugins.rosazen')
+  if zok and zen.is_active and zen.is_active() then
+    left_cols, right_cols = 0, 0
+  end
+
   -- Vertical spacers first, so the bottom spacer sees them as side panels and
   -- confines itself beside them (belowright) instead of spanning underneath.
   ensure_vspacer('right', right_cols)
@@ -427,6 +435,12 @@ function M.batch(fn)
   if not ok then
     error(err)
   end
+end
+
+--- Re-apply every active reservation (rosazen calls this on toggle so the
+--- vertical-spacer skip takes effect immediately).
+function M.refresh()
+  apply()
 end
 
 --- Restore every option we changed, drop all spacers, and forget saved values.
