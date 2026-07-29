@@ -22,7 +22,7 @@ return {
       function()
         require('rosavim.rosa_plugins.rosaterm').toggle_float()
       end,
-      mode = { 'n', 'i', 'v', 't' },
+      mode = { 'n' },
       desc = 'Rosaterm: Toggle Float',
     },
     {
@@ -33,7 +33,7 @@ return {
         end
         require('rosavim.rosa_plugins.rosaterm').toggle_horizontal('h_main', 17, 'Terminal')
       end,
-      mode = { 'n', 't' },
+      mode = { 'n' },
       desc = 'Rosaterm: Horizontal',
     },
     {
