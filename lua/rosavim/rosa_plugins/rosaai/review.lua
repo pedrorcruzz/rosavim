@@ -65,6 +65,22 @@ local update_chip, close_chip, open_panel, close_panel, render_panel
 local after_action, finalize, install_buffer_keymaps, remove_buffer_keymaps
 local compute_matches, cur_file_index, sync_list_cursor
 
+-- Two review flavors sharing one engine: 'ai' (baseline snapshot, AI-only) and
+-- 'git' (base HEAD, every change). Only branding + base + filtering differ.
+local MODES = {
+  ai = { title = 'RosaAI Review', icon = vim.fn.nr2char(0xee0d), gap = '  ', prefix = 'RosaAI', needs_base = true, filter = true },
+  git = { title = 'Git Review', icon = vim.fn.nr2char(0xe702), gap = ' ', prefix = 'Git', needs_base = false, filter = false },
+}
+local active_mode = 'ai' -- mode of the review currently opening/open
+local function mode_cfg()
+  return MODES[(S and S.mode) or active_mode] or MODES.ai
+end
+
+-- AI-only filter: when active, get_hunks_of drops hunks whose added lines were
+-- not part of the AI's frozen result. ai_lines_by_buf[bufnr] is that line set.
+local filter_ai = false
+local ai_lines_by_buf = {}
+
 -- ---------------------------------------------------------------------------
 -- Dependencies / small utilities
 -- ---------------------------------------------------------------------------
@@ -222,17 +238,48 @@ local function hunk_contains(h, line)
   return line >= s and line <= e
 end
 
+--- A hunk is the AI's if every line it adds is a line the AI produced. Pure
+--- deletions or a buffer with no captured set are kept (fail open).
+local function is_ai_hunk(bufnr, h)
+  local set = ai_lines_by_buf[bufnr]
+  if not set then
+    return true
+  end
+  local a = h.added or {}
+  local count = a.count or 0
+  if count == 0 then
+    return true
+  end
+  local lines = api.nvim_buf_get_lines(bufnr, a.start - 1, a.start - 1 + count, false)
+  for _, ln in ipairs(lines) do
+    if not set[ln] then
+      return false
+    end
+  end
+  return true
+end
+
 --- All hunks gitsigns currently reports for `bufnr` (against the review base).
+--- In AI mode this is filtered to the hunks the AI authored.
 local function get_hunks_of(bufnr)
   local gs = gitsigns()
   if not gs then
     return {}
   end
   local ok, hunks = pcall(gs.get_hunks, bufnr)
-  if ok and hunks then
+  if not (ok and hunks) then
+    return {}
+  end
+  if not filter_ai then
     return hunks
   end
-  return {}
+  local out = {}
+  for _, h in ipairs(hunks) do
+    if is_ai_hunk(bufnr, h) then
+      out[#out + 1] = h
+    end
+  end
+  return out
 end
 
 --- Hunks in a file that have not yet been kept or rejected.
@@ -411,7 +458,7 @@ update_chip = function()
   end
 
   local segs = {
-    { ' RosaAI Review · hunk ', 'RosaReviewDim' },
+    { ' ' .. mode_cfg().title .. ' · hunk ', 'RosaReviewDim' },
     { string.format('%d/%d', idx, total), 'RosaReviewText' },
     { ' · kept ', 'RosaReviewDim' },
     { tostring(kept), 'RosaReviewKept' },
@@ -557,7 +604,7 @@ local function reject_current()
   if entry.is_new then
     delete_new_file(entry)
     entry.resolved.__file__ = 'reject'
-    notify 'RosaAI: discarded new file'
+    notify(mode_cfg().prefix .. ': discarded new file')
     after_action()
     return
   end
@@ -579,7 +626,7 @@ local function reject_current()
     after_action()
   end))
   if not ok then
-    notify('RosaAI: could not reject hunk', vim.log.levels.WARN)
+    notify(mode_cfg().prefix .. ': could not reject hunk', vim.log.levels.WARN)
   end
 end
 
@@ -651,7 +698,7 @@ after_action = function()
   if all_resolved() then
     vim.schedule(function()
       if S and all_resolved() then
-        notify 'RosaAI: review complete'
+        notify(mode_cfg().prefix .. ': review complete')
         M.close()
       end
     end)
@@ -860,9 +907,9 @@ open_panel = function()
   S.panel.query = ''
   S.panel.status_filter = nil
 
-  -- The RosaAI robot glyph (same one which-key shows for the RosaAI group),
-  -- built from its codepoint so the title bytes never get mangled on edits.
-  local title_icon = vim.fn.nr2char(0xee0d)
+  -- Per-mode glyph (RosaAI robot / git), built from its codepoint so the title
+  -- bytes never get mangled on edits.
+  local title_icon = mode_cfg().icon
 
   local width = math.min(78, math.max(62, math.floor(vim.o.columns * 0.5)))
   local ok, themes = pcall(require, 'rosavim.rosa_plugins.rosaai.themes')
@@ -876,7 +923,7 @@ open_panel = function()
   -- top and a search input WITH ITS OWN border at the bottom. Because the list
   -- lives in its own window, it scrolls within its band and never slides under
   -- the input; the input box stays visually distinct.
-  local list_h = math.max(10, math.min(#S.files + 3, vim.o.lines - 11))
+  local list_h = math.max(13, math.min(#S.files + 3, vim.o.lines - 11))
   local input_h = 3 -- bordered single line: top border + text + bottom border
   local hint_row = list_h + input_h -- one text row below the input box
   local inner_h = hint_row + 1
@@ -894,7 +941,7 @@ open_panel = function()
     col = col,
     style = 'minimal',
     border = win_border,
-    title = { { ' ' .. title_icon .. '  RosaAI Review ', 'RosaReviewTitle' } },
+    title = { { ' ' .. title_icon .. mode_cfg().gap .. mode_cfg().title .. ' ', 'RosaReviewTitle' } },
     title_pos = 'center',
     focusable = false,
     zindex = 50,
@@ -1028,7 +1075,7 @@ open_panel = function()
       return
     end
     local sf = S.panel.status_filter
-    local base = ' ' .. title_icon .. '  RosaAI Review'
+    local base = ' ' .. title_icon .. mode_cfg().gap .. mode_cfg().title
     local text = sf and (base .. ' · ' .. sf .. ' ') or (base .. ' ')
     pcall(api.nvim_win_set_config, S.panel.container.win, {
       title = { { text, 'RosaReviewTitle' } },
@@ -1186,12 +1233,9 @@ open_panel = function()
     local line = target and (hunk_range(target)) or 1
 
     local gap = 3
-    -- Preview matches the panel's height and top, and is capped in width so it
-    -- reads as a companion beside the panel (not a giant that dwarfs it). The
-    -- panel + preview PAIR is then centered on screen together.
     local pv_width = math.min(vim.o.columns - 4 - width - gap, 96)
-    local pv_h = inner_h
-    local pv_row = row
+    local pv_h = math.min(inner_h + 14, vim.o.lines - 4)
+    local pv_row = math.max(1, row - math.floor((pv_h - inner_h) / 2))
 
     local geom, docked
     if pv_width >= 30 then
@@ -1209,7 +1253,15 @@ open_panel = function()
       end
       return
     end
-    local pv = rp.file(e.file, line, geom)
+    local pv = rp.file(e.file, line, geom, { close_only = true })
+    if pv then
+      pcall(vim.cmd, 'redraw')
+      vim.defer_fn(function()
+        if api.nvim_win_is_valid(pv) then
+          pcall(vim.cmd, 'redraw')
+        end
+      end, 80)
+    end
     -- Recenter the panel once the preview closes.
     if docked and pv then
       api.nvim_create_autocmd('WinClosed', {
@@ -1331,12 +1383,13 @@ finalize = function(entries)
     end
     restore_gitsigns()
     opening = false
-    notify 'RosaAI: no AI changes to review'
+    notify(mode_cfg().prefix .. (mode_cfg().filter and ': no AI changes to review' or ': no changes to review'))
     return
   end
 
   S = {
     files = entries,
+    mode = active_mode,
     source_win = nil,
     chip = {},
     panel = {},
@@ -1374,8 +1427,8 @@ local function needs_git_popup()
     '',
     "  This folder isn't a git repository.",
     '',
-    '  RosaAI Review compares your files against git',
-    '  to show what the AI changed, so it needs a repo.',
+    '  ' .. mode_cfg().title .. ' compares your files against git,',
+    '  so it needs a repo to run.',
     '',
     '  Optional: run  git init  here to enable it.',
     '',
@@ -1401,7 +1454,7 @@ local function needs_git_popup()
     col = math.floor((vim.o.columns - width) / 2),
     style = 'minimal',
     border = border,
-    title = { { ' RosaAI Review · needs Git ', 'RosaReviewTitle' } },
+    title = { { ' ' .. mode_cfg().title .. ' · needs Git ', 'RosaReviewTitle' } },
     title_pos = 'center',
     footer = ' q · close ',
     footer_pos = 'center',
@@ -1425,37 +1478,67 @@ local function needs_git_popup()
   end
 end
 
---- Full review flow. No-op (with a friendly notify/popup) when there is no
---- git repo, no baseline, or nothing changed.
-function M.open()
-  if S or opening then
+--- Full review flow for `mode` ('ai'|'git'). No-op (friendly notify/popup)
+--- when there is no git repo, no base, or nothing changed.
+local function open(mode)
+  mode = mode or 'ai'
+  local cfg = MODES[mode]
+  if S then
+    if S.mode ~= mode then
+      notify(cfg.prefix .. ': close the other review first')
+    end
     return
   end
-  if not review_enabled() then
+  if opening then
     return
   end
+  if cfg.filter and not review_enabled() then
+    return
+  end
+  active_mode = mode
   local gs = gitsigns()
   if not gs then
-    notify('RosaAI: gitsigns is not installed', vim.log.levels.WARN)
+    notify(cfg.prefix .. ': gitsigns is not installed', vim.log.levels.WARN)
     return
   end
-  -- The review is git-based. Outside a repo there is nothing to diff, so show
-  -- a clear popup (git stays opt-in — we never init a repo for the user).
+  -- git-based: outside a repo there is nothing to diff (git stays opt-in).
   if not snapshot.has_git() then
     needs_git_popup()
     return
   end
-  local sha = snapshot.current()
-  if not sha then
-    notify 'RosaAI: no review baseline yet (open a CLI first)'
-    return
+  -- Base to diff against: AI uses the frozen snapshot, git uses HEAD.
+  local sha
+  if cfg.needs_base then
+    sha = snapshot.current()
+    if not sha then
+      notify 'RosaAI: no review baseline yet (open a CLI first)'
+      return
+    end
+  else
+    sha = 'HEAD'
   end
 
-  opening = true
-  snapshot.changed_files(function(files)
+  filter_ai = cfg.filter
+  ai_lines_by_buf = {}
+
+  local function on_files(files)
+    -- AI mode: keep only files the AI touched this cycle (frozen at turn end);
+    -- no capture yet → fall back to all changed files.
+    if cfg.filter then
+      local ai = snapshot.ai_paths()
+      if next(ai) then
+        local kept = {}
+        for _, f in ipairs(files or {}) do
+          if ai[f.path] then
+            kept[#kept + 1] = f
+          end
+        end
+        files = kept
+      end
+    end
     if not files or #files == 0 then
       opening = false
-      notify 'RosaAI: no AI changes to review'
+      notify(cfg.prefix .. (cfg.filter and ': no AI changes to review' or ': no changes to review'))
       return
     end
 
@@ -1519,6 +1602,18 @@ function M.open()
           end)
         end
         entries[#entries + 1] = { file = path, bufnr = b, total = 0, resolved = {}, is_new = f.new or false }
+        -- AI mode: build the membership set of the AI's frozen file lines so
+        -- get_hunks_of can drop hunks the AI did not author.
+        if cfg.filter then
+          local ai = snapshot.ai_content_of(path)
+          if ai then
+            local set = {}
+            for _, ln in ipairs(ai) do
+              set[ln] = true
+            end
+            ai_lines_by_buf[b] = set
+          end
+        end
       end
 
       pcall(gs.toggle_linehl, true)
@@ -1572,11 +1667,27 @@ function M.open()
       if not ok then
         opening = false
         restore_gitsigns()
-        notify('RosaAI: failed to set diff base', vim.log.levels.WARN)
+        notify(cfg.prefix .. ': failed to set diff base', vim.log.levels.WARN)
       end
     end
     apply_base()
-  end)
+  end
+
+  opening = true
+  if cfg.needs_base then
+    snapshot.changed_files(on_files)
+  else
+    snapshot.changed_files_vs(sha, on_files)
+  end
+end
+
+--- Public entry points: RosaAI review (AI-only) and Git review (all changes).
+function M.open()
+  open 'ai'
+end
+
+function M.open_git()
+  open 'git'
 end
 
 --- Full teardown: revert the diff base, turn highlights off, remove keymaps
@@ -1585,6 +1696,7 @@ end
 --- reviewable again within the same CLI session.
 function M.close()
   local gs = gitsigns()
+  local mode = (S and S.mode) or 'ai'
   -- Gate any fast reopen until this teardown's git activity has fully settled:
   -- both the base reset AND the re-baseline's `git stash create` write, which
   -- pokes the .git dir and makes gitsigns' gitdir watcher re-diff the buffers
@@ -1617,30 +1729,45 @@ function M.close()
   restore_gitsigns()
   S = nil
   opening = false
-  -- Re-baseline to the current state so the next AI turn on these files is
-  -- reviewable again (previously this dropped the baseline, which made a
-  -- second edit to a just-kept file show up as "no baseline yet"). Clear the
-  -- reopen gate only after the stash-create write has landed and gitsigns'
-  -- watcher has had a moment to process it.
-  snapshot.mark(function()
-    vim.defer_fn(function()
-      base_reset_pending = false
-      -- Recompute the pending badge now that the baseline moved (usually 0).
-      M.refresh_pending()
-    end, 400)
-  end)
+  filter_ai = false
+  ai_lines_by_buf = {}
+  -- Only the AI review owns a baseline. Re-baseline to the current state so the
+  -- next AI turn on these files is reviewable again (previously this dropped the
+  -- baseline, which made a second edit to a just-kept file show up as "no
+  -- baseline yet"). Clear the reopen gate only after the stash-create write has
+  -- landed and gitsigns' watcher has had a moment to process it.
+  if mode == 'ai' then
+    snapshot.mark(function()
+      vim.defer_fn(function()
+        base_reset_pending = false
+        -- Recompute the pending badge now that the baseline moved (usually 0).
+        M.refresh_pending()
+      end, 400)
+    end)
+  else
+    base_reset_pending = false
+  end
   -- Safety net so the gate never sticks if the callback never fires.
   vim.defer_fn(function()
     base_reset_pending = false
   end, 3000)
 end
 
---- Open if closed, else close.
+--- Open if closed, else close. AI review and Git review each toggle their mode;
+--- toggling one while the other is open is a no-op (with a notify from open).
 function M.toggle()
-  if S then
+  if S and S.mode == 'ai' then
     M.close()
   else
     M.open()
+  end
+end
+
+function M.toggle_git()
+  if S and S.mode == 'git' then
+    M.close()
+  else
+    M.open_git()
   end
 end
 
@@ -1654,7 +1781,7 @@ function M.keep_all()
   if not S then
     return
   end
-  notify 'RosaAI: kept all AI changes'
+  notify(mode_cfg().prefix .. ': kept all changes')
   M.close()
 end
 
@@ -1677,7 +1804,7 @@ function M.reject_all()
       n = n + 1
     end
   end
-  notify(string.format('RosaAI: discarded %d file%s', n, n == 1 and '' or 's'))
+  notify(string.format('%s: discarded %d file%s', mode_cfg().prefix, n, n == 1 and '' or 's'))
   M.close()
 end
 

@@ -202,6 +202,7 @@
 | n | `<leader>gd` | Diff do git (hunks) | `Space g d` para navegar diff hunks |
 | n | `<leader>gf` | Log do git (arquivo) | `Space g f` para ver o log do git para o arquivo atual |
 | n | `<leader>gL` | Log do git (linha) | `Space g Shift+l` para ver o log do git para a linha atual |
+| n | `<leader>gr` | Git Review | `Space g r` para abrir/alternar uma revisão keep/reject de **todas** as mudanças vs `HEAD` (mesmo painel do review da IA) |
 
 ---
 
@@ -319,14 +320,16 @@ Integração nativa com CLIs de IA (Claude, Cursor, OpenClaude, Gemini etc.). Ca
 | n | `<leader>aU` | Alternar Cursor YOLO | Abrir/esconder `cursor-agent --yolo` |
 | n | `<leader>ao` | Alternar OpenClaude | Abrir/esconder `openclaude` |
 | n | `<leader>ag` | Alternar Gemini | Abrir/esconder `gemini` |
-| n | `<leader>ar` | Revisar Mudanças da IA | `Space a r` para abrir/alternar a revisão das edições pendentes da IA (diffs inline verde/vermelho + painel de visão geral) |
+| n | `<leader>ar` | Revisar Mudanças da IA | `Space a r` para abrir/alternar a revisão das edições **só da IA** (diffs inline verde/vermelho + painel de visão geral) |
 | n | `<leader>ab` | Marcar Baseline do Review | `Space a b` para definir manualmente o ponto "antes" com que o review compara |
 
 Dentro do terminal do CLI: um `<Esc>` sai pro modo normal do nvim; `<Esc> <Esc>` em 300ms envia ESC literal pro CLI (cancela operação corrente). No **modo normal**, as setas redimensionam a janela (vertical → largura, horizontal → altura, float → ambos os eixos, mantida centralizada); o tamanho persiste por posição até você escolher um preset de tamanho. No modo terminal/inserção as setas continuam livres pro próprio CLI. Com o RosaAI focado, o bloco de modo do lualine mostra `ROSAAI`.
 
 #### Revisar Mudanças da IA
 
-`<leader>ar` abre uma revisão estilo Cursor/VSCode das edições de arquivo que o RosaAI fez em disco, comparando com um snapshot de baseline capturado automaticamente quando você abriu o CLI. As mudanças aparecem como diffs inline verde/vermelho, e um painel flutuante de visão geral lista cada arquivo alterado para você aceitar (keep) ou rejeitar (reject) cada hunk. O painel tem uma caixa de busca embutida pra filtrar a lista por fuzzy, um filtro `f` pra restringir por status do git, e um preview `p` que mostra o diff do arquivo num float do rosapreview ao lado do painel.
+`<leader>ar` abre uma revisão estilo Cursor/VSCode das edições de arquivo que o RosaAI fez em disco, comparando com um snapshot de baseline capturado automaticamente quando você abriu o CLI. Ele mostra **só as mudanças da própria IA**: o resultado da IA é congelado no fim de cada turno, então edições que você faz depois ficam de fora do painel (o único caso ambíguo é uma edição sua exatamente em cima de um hunk da IA). As mudanças aparecem como diffs inline verde/vermelho, e um painel flutuante de visão geral lista cada arquivo alterado para você aceitar (keep) ou rejeitar (reject) cada hunk. O painel tem uma caixa de busca embutida pra filtrar a lista por fuzzy, um filtro `f` pra restringir por status do git, e um preview `p` que mostra o diff do arquivo num float do rosapreview ao lado do painel.
+
+Quer revisar **tudo** no repositório (suas edições incluídas), não só as da IA? Use `<leader>gr` (**Git Review**) — o mesmo painel e as mesmas teclas, mas comparando contra o `HEAD`.
 
 **No painel de visão geral (modo normal):**
 

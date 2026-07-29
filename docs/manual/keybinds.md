@@ -202,6 +202,7 @@
 | n | `<leader>gd` | Git diff (hunks) | `Space g d` to browse diff hunks |
 | n | `<leader>gf` | Git log (file) | `Space g f` to see the git log for the current file |
 | n | `<leader>gL` | Git log (line) | `Space g Shift+l` to see the git log for the current line |
+| n | `<leader>gr` | Git Review | `Space g r` to open/toggle a keep/reject review of **all** changes vs `HEAD` (same panel as the AI review) |
 
 ---
 
@@ -319,14 +320,16 @@ Native AI CLI integration for Claude, Cursor, OpenClaude, Gemini and friends. Ea
 | n | `<leader>aU` | Toggle Cursor YOLO | Open/hide `cursor-agent --yolo` |
 | n | `<leader>ao` | Toggle OpenClaude | Open/hide `openclaude` |
 | n | `<leader>ag` | Toggle Gemini | Open/hide `gemini` |
-| n | `<leader>ar` | Review AI Changes | `Space a r` to open/toggle the review of pending AI edits (green/red inline diffs + overview panel) |
+| n | `<leader>ar` | Review AI Changes | `Space a r` to open/toggle the review of **AI-only** edits (green/red inline diffs + overview panel) |
 | n | `<leader>ab` | Mark Review Baseline | `Space a b` to manually set the "before" point the review compares against |
 
 Inside the CLI terminal: single `<Esc>` exits to nvim normal mode; double `<Esc>` within 300ms sends a literal `ESC` to the CLI (cancel current operation). In **normal mode** the arrow keys resize the window (vertical → width, horizontal → height, float → both axes, kept centered); the size persists per position until you pick a named size preset. The arrows stay free for the CLI itself while in terminal/insert mode. While RosaAI is focused, the lualine mode block shows `ROSAAI`.
 
 #### Review AI Changes
 
-`<leader>ar` opens a Cursor/VSCode-style review of the file edits RosaAI made on disk, comparing against a snapshot baseline taken automatically when you opened the CLI. Changes show as green/red inline diffs, and a floating overview panel lists every touched file so you can keep or reject each hunk. The panel has a built-in search box to fuzzy-filter the list, an `f` filter to narrow by git status, and a `p` preview that shows a file's diff in a rosapreview float beside the panel.
+`<leader>ar` opens a Cursor/VSCode-style review of the file edits RosaAI made on disk, comparing against a snapshot baseline taken automatically when you opened the CLI. It shows **only the AI's own changes**: the AI's result is frozen at the end of each turn, so edits you make yourself afterwards are filtered out of the panel (a manual edit landing exactly on top of an AI hunk is the one ambiguous case). Changes show as green/red inline diffs, and a floating overview panel lists every touched file so you can keep or reject each hunk. The panel has a built-in search box to fuzzy-filter the list, an `f` filter to narrow by git status, and a `p` preview that shows a file's diff in a rosapreview float beside the panel.
+
+Want to review **everything** in the repo (your edits included), not just the AI's? Use `<leader>gr` (**Git Review**) — the exact same panel and keys, but diffed against `HEAD`.
 
 **In the overview panel (normal mode):**
 

@@ -78,6 +78,7 @@ return {
   { '<leader>gd', function() Snacks.picker.git_diff() end, desc = 'Git Diff (Hunks)' },
   { '<leader>gf', function() Snacks.picker.git_log_file() end, desc = 'Git Log File' },
   { '<leader>gg', function() Snacks.lazygit.open(lazygit_opts()) end, desc = 'Lazygit' },
+  { '<leader>gr', function() require('rosavim.rosa_plugins.rosaai.review').toggle_git() end, desc = 'Git Review' },
 
   -- Grep
   { '<leader>sb', function() Snacks.picker.grep_buffers() end, desc = 'Grep Buffers' },

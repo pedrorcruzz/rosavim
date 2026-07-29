@@ -1423,6 +1423,9 @@ api.nvim_create_autocmd('WinLeave', {
       return
     end
     pcall(function()
+      -- Freeze the AI's result now (turn boundary, before the user edits) so
+      -- the review can tell AI changes from later manual ones.
+      snapshot.capture_ai()
       local review = require 'rosavim.rosa_plugins.rosaai.review'
       review.refresh_pending()
       review.notify_ai_edit()

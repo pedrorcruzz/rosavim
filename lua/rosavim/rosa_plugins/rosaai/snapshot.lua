@@ -18,6 +18,7 @@ local fn = vim.fn
 
 local root_cache = nil -- cached absolute path of the git worktree root
 local baseline = nil -- active baseline commit SHA, or nil
+local ai_content = nil -- map abs path -> lines, the AI's result frozen at turn end
 
 --- Trim surrounding whitespace/newlines from git output; nil-safe.
 local function trim(s)
@@ -93,6 +94,8 @@ local function capture(cb)
     cb(nil)
     return
   end
+  -- A fresh baseline starts a new AI cycle, so any frozen AI result is stale.
+  ai_content = nil
   git({ 'git', 'stash', 'create' }, function(sha)
     if sha then
       baseline = sha
@@ -129,17 +132,13 @@ function M.clear()
   baseline = nil
 end
 
---- Call `cb(list)` where `list` is an array of `{ path = <abs>, new = <bool> }`
---- for every file that differs between the baseline SHA and the current working
---- tree. Combines tracked changes (`git diff --name-only <sha>`, new=false) with
---- untracked new files (`git ls-files --others --exclude-standard`, new=true).
---- De-duplicated and filtered to existing regular files. `new` matters to the
---- review: gitsigns cannot hunk-diff an untracked file, so those are reviewed
---- whole-file (keep the file, or delete it). Calls cb({}) when no baseline/repo.
-function M.changed_files(cb)
+--- cb(list) with `{ path = <abs>, new = <bool> }` for every file differing
+--- between `base` (any git ref) and the working tree: tracked changes plus
+--- untracked new files (new=true). De-duped, existing regular files only.
+local function changed_vs(base, cb)
   cb = cb or function() end
   local root = M.repo_root()
-  if not baseline or not root then
+  if not base or not root then
     cb({})
     return
   end
@@ -164,8 +163,8 @@ function M.changed_files(cb)
     end
   end
 
-  -- Tracked changes vs the baseline SHA, then untracked new files.
-  git({ 'git', 'diff', '--name-only', baseline, '--' }, function(diff_out)
+  -- Tracked changes vs the base ref, then untracked new files.
+  git({ 'git', 'diff', '--name-only', base, '--' }, function(diff_out)
     collect(diff_out, false)
     git({ 'git', 'ls-files', '--others', '--exclude-standard' }, function(others_out)
       collect(others_out, true)
@@ -173,6 +172,59 @@ function M.changed_files(cb)
         cb(list)
       end)
     end)
+  end)
+end
+
+--- Changed files vs the active AI baseline (RosaAI Review). cb({}) with none.
+function M.changed_files(cb)
+  changed_vs(baseline, cb)
+end
+
+--- Changed files vs an arbitrary git ref (e.g. 'HEAD' for the Git Review).
+function M.changed_files_vs(base, cb)
+  changed_vs(base, cb)
+end
+
+--- Drop the frozen AI result.
+function M.clear_ai()
+  ai_content = nil
+end
+
+--- The AI-result lines captured for `path`, or nil if none was frozen.
+function M.ai_content_of(path)
+  return ai_content and ai_content[path] or nil
+end
+
+--- Set of absolute paths the AI touched (frozen at the last capture_ai).
+function M.ai_paths()
+  local set = {}
+  if ai_content then
+    for p in pairs(ai_content) do
+      set[p] = true
+    end
+  end
+  return set
+end
+
+--- Freeze the AI's result: read from disk the current content of every file
+--- changed vs the baseline (so untracked new files are captured too). Called
+--- at the AI-turn boundary, before the user edits. Replaces prior capture.
+function M.capture_ai(cb)
+  cb = cb or function() end
+  if not baseline or not M.repo_root() then
+    cb(nil)
+    return
+  end
+  M.changed_files(function(files)
+    local map = {}
+    for _, f in ipairs(files) do
+      local ok, lines = pcall(fn.readfile, f.path)
+      if ok and lines then
+        map[f.path] = lines
+      end
+    end
+    ai_content = map
+    cb(map)
   end)
 end
 

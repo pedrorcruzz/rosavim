@@ -20,8 +20,16 @@ local function setup_highlights()
   vim.api.nvim_set_hl(0, 'RosapreviewFooterKey', { fg = p.key, bold = true })
 end
 
---- Build styled footer with highlighted keys
-local function build_footer()
+--- Build styled footer with highlighted keys. When `close_only` is set the
+--- footer shows just `q close` (vsplit/replace omitted).
+local function build_footer(close_only)
+  if close_only then
+    return {
+      { ' ', 'RosapreviewFooter' },
+      { 'q', 'RosapreviewFooterKey' },
+      { ' close ', 'RosapreviewFooter' },
+    }
+  end
   return {
     { ' ', 'RosapreviewFooter' },
     { 'q', 'RosapreviewFooterKey' },
@@ -49,7 +57,8 @@ end
 --- optionally overrides the placement/size ({ row, col, width, height }) so a
 --- caller can dock the float somewhere specific (e.g. beside another panel);
 --- when omitted the float is centered at the configured size, as before.
-local function open_float(uri, range, geom)
+local function open_float(uri, range, geom, opts)
+  opts = opts or {}
   setup_highlights()
 
   local bufnr = vim.uri_to_bufnr(uri)
@@ -76,7 +85,7 @@ local function open_float(uri, range, geom)
       { title_text .. ' ', 'RosapreviewTitle' },
     },
     title_pos = 'center',
-    footer = build_footer(),
+    footer = build_footer(opts.close_only),
     footer_pos = 'center',
     zindex = 50,
   })
@@ -110,23 +119,25 @@ local function open_float(uri, range, geom)
     end
   end, 'Rosapreview: Close')
 
-  -- <leader>Q to expand to vsplit
-  float_keymap(bufnr, win, 'n', '<leader>Q', function()
-    vim.api.nvim_win_close(win, true)
-    vim.cmd('vsplit | buffer ' .. bufnr)
-    if range then
-      pcall(vim.api.nvim_win_set_cursor, 0, { (range.start.line or 0) + 1, range.start.character or 0 })
-    end
-  end, 'Rosapreview: Expand Vsplit')
+  if not opts.close_only then
+    -- <leader>Q to expand to vsplit
+    float_keymap(bufnr, win, 'n', '<leader>Q', function()
+      vim.api.nvim_win_close(win, true)
+      vim.cmd('vsplit | buffer ' .. bufnr)
+      if range then
+        pcall(vim.api.nvim_win_set_cursor, 0, { (range.start.line or 0) + 1, range.start.character or 0 })
+      end
+    end, 'Rosapreview: Expand Vsplit')
 
-  -- <leader>M to replace current window
-  float_keymap(bufnr, win, 'n', '<leader>M', function()
-    vim.api.nvim_win_close(win, true)
-    vim.cmd('buffer ' .. bufnr)
-    if range then
-      pcall(vim.api.nvim_win_set_cursor, 0, { (range.start.line or 0) + 1, range.start.character or 0 })
-    end
-  end, 'Rosapreview: Replace Window')
+    -- <leader>M to replace current window
+    float_keymap(bufnr, win, 'n', '<leader>M', function()
+      vim.api.nvim_win_close(win, true)
+      vim.cmd('buffer ' .. bufnr)
+      if range then
+        pcall(vim.api.nvim_win_set_cursor, 0, { (range.start.line or 0) + 1, range.start.character or 0 })
+      end
+    end, 'Rosapreview: Replace Window')
+  end
 
   -- Clean up tracking on close
   vim.api.nvim_create_autocmd('WinClosed', {
@@ -207,7 +218,7 @@ end
 --- RosaAI review's `p`) get identical look, keymaps (q close, expand, replace)
 --- and any highlights already attached to the file's buffer (like gitsigns).
 --- `geom` optionally docks the float ({ row, col, width, height }).
-function M.file(path, line, geom)
+function M.file(path, line, geom, opts)
   if not path or path == '' then
     return
   end
@@ -216,7 +227,7 @@ function M.file(path, line, geom)
   if line and line > 0 then
     range = { start = { line = line - 1, character = 0 } }
   end
-  return open_float(uri, range, geom)
+  return open_float(uri, range, geom, opts)
 end
 
 function M.close_all()
