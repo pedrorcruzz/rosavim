@@ -22,13 +22,17 @@ M.sizes = {
 }
 
 --- Runtime per-position size overrides set by interactive arrow resize.
---- Each entry is { width, height } (inner cells). compute_geom only honors
---- the axis the position actually resizes, so the other axis stays
---- responsive to VimResized. Cleared when a named size preset is picked.
+--- Each entry is { width, height } in inner cells, plus { wfrac, hfrac } — the
+--- same size as a fraction of the window at set time. Edge-pinned positions
+--- (right/left/bottom) apply the absolute cells so a side panel keeps its
+--- column/row count; the centered float applies the FRACTION so it re-scales
+--- proportionally on VimResized instead of freezing at the size it had in a
+--- smaller window. compute_geom only honors the axis the position resizes, so
+--- the other axis stays responsive. Cleared when a named size preset is picked.
 M.overrides = {}
 
-function M.set_override(pos, width, height)
-  M.overrides[pos] = { width = width, height = height }
+function M.set_override(pos, width, height, wfrac, hfrac)
+  M.overrides[pos] = { width = width, height = height, wfrac = wfrac, hfrac = hfrac }
 end
 
 function M.clear_overrides()
@@ -281,9 +285,18 @@ function M.compute_geom(pos)
   }
 
   if pos == 'float' then
-    -- Float resizes on both axes, so honor both override dimensions.
-    local width = ov and ov.width or (math.floor(cols * size.float.wpct) - adj)
-    local height = ov and ov.height or (math.floor(lines * size.float.hpct) - adj)
+    -- Float resizes on both axes. An interactive override is stored as a
+    -- FRACTION of the window (not absolute cells) so the centered float keeps
+    -- re-scaling with the editor on VimResized instead of freezing at the size
+    -- it had in a smaller window.
+    local width, height
+    if ov then
+      width = math.floor(cols * (ov.wfrac or size.float.wpct))
+      height = math.floor(lines * (ov.hfrac or size.float.hpct))
+    else
+      width = math.floor(cols * size.float.wpct) - adj
+      height = math.floor(lines * size.float.hpct) - adj
+    end
     base.width = math.min(width, cols - adj)
     base.height = math.min(height, lines - adj)
     base.row = math.floor((lines - (base.height + adj)) / 2)

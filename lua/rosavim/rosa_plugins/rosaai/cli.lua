@@ -278,7 +278,10 @@ local function resize_active(d_w, d_h)
   if new_w == cfg.width and new_h == cfg.height then
     return false
   end
-  layout.set_override(pos, new_w, new_h)
+  -- Store the size as a fraction of the window too: the float applies the
+  -- fraction so it re-scales on VimResized, while edge slots keep the absolute
+  -- cells (compute_geom ignores the fraction for right/left/bottom).
+  layout.set_override(pos, new_w, new_h, new_w / cols, new_h / lines)
   local geom = layout.compute_geom(pos)
   pcall(api.nvim_win_set_config, win, geom)
   refresh_chip(pos)
