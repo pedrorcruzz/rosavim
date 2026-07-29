@@ -829,6 +829,8 @@ render_panel = function()
   local matches = S.panel.matches
   local sel = S.panel.sel or 1
   local pad = '  '
+  local width = (S.panel and S.panel.width) or 62
+  local right_margin = 3
   local lines, hls = {}, {}
 
   local function add(line)
@@ -847,15 +849,24 @@ render_panel = function()
       local total = math.max(e.total, resolved_count(e))
       local done = resolved_count(e)
       local marker = (pos == sel) and '▸ ' or '  '
-      local name_col = name .. string.rep(' ', math.max(1, 20 - #name))
       local hunks_txt = e.is_new and 'new file' or string.format('%d hunk%s', total, total == 1 and '' or 's')
       local prog = string.format('(%d/%d)', done, total)
-      local line = pad .. marker .. name_col .. hunks_txt .. '   ' .. prog
+      local sep = '  ·  '
+      local left = pad .. marker .. name
+      local right = hunks_txt .. sep .. prog
+      -- Flex space-between: name hugs the left, the meta block (hunks · progress)
+      -- is right-anchored to the panel edge, filling the middle with spaces so no
+      -- dead gap is left dangling after the counter.
+      local gap = math.max(2, width - right_margin - api.nvim_strwidth(left) - api.nvim_strwidth(right))
+      local line = left .. string.rep(' ', gap) .. right
       local row = add(line)
       local name_start = #pad + #marker
       table.insert(hls, { (pos == sel) and 'RosaReviewTitle' or 'RosaReviewText', row, name_start, name_start + #name })
+      local right_start = #left + gap
+      local prog_start = #line - #prog
+      table.insert(hls, { 'RosaReviewDim', row, right_start, prog_start })
       local complete = total > 0 and done >= total
-      table.insert(hls, { complete and 'RosaReviewKept' or 'RosaReviewDim', row, #line - #prog, -1 })
+      table.insert(hls, { complete and 'RosaReviewKept' or 'RosaReviewDim', row, prog_start, -1 })
     end
   end
   add ''
@@ -1018,6 +1029,7 @@ open_panel = function()
 
   S.panel.buf = buf
   S.panel.win = win
+  S.panel.width = width
 
   local kopts = { buffer = buf, silent = true, nowait = true }
   local function move(delta)
