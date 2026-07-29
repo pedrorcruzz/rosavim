@@ -934,7 +934,7 @@ open_panel = function()
   -- top and a search input WITH ITS OWN border at the bottom. Because the list
   -- lives in its own window, it scrolls within its band and never slides under
   -- the input; the input box stays visually distinct.
-  local list_h = math.max(16, math.min(#S.files + 3, vim.o.lines - 11))
+  local list_h = math.max(15, math.min(#S.files + 3, vim.o.lines - 11))
   local input_h = 3 -- bordered single line: top border + text + bottom border
   local hint_row = list_h + input_h -- one text row below the input box
   local inner_h = hint_row + 1
