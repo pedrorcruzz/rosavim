@@ -103,7 +103,25 @@ return {
     { '<leader>w', '<cmd>w!<cr>', desc = 'Save' },
     { '<leader>W', '<cmd>noa w<cr>', desc = 'Save Without Formatter' },
     { '<leader>h', '<cmd>nohlsearch<cr>', desc = 'No Highlight' },
-    { '<leader>q', '<cmd>confirm q<cr>', desc = 'Exit' },
+    {
+      '<leader>q',
+      function()
+        -- Quit the current window, but if it's the only *real* editing window
+        -- (the rest are floats or rosazen padding spacers), quit Neovim instead
+        -- of leaving the user stranded on the empty pads.
+        local reals = 0
+        for _, w in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+          if vim.api.nvim_win_get_config(w).relative == '' then
+            local buf = vim.api.nvim_win_get_buf(w)
+            if vim.bo[buf].buftype == '' and vim.bo[buf].filetype ~= 'rosa_spacer' then
+              reals = reals + 1
+            end
+          end
+        end
+        vim.cmd(reals <= 1 and 'confirm qall' or 'confirm q')
+      end,
+      desc = 'Exit',
+    },
     -- TSContext, Lualine Theme toggles moved to snacks/toggles.lua
     { '<leader>fp', '<cmd>NeovimProjectDiscover<cr>', desc = 'Discover Projects' },
 
