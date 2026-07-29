@@ -934,7 +934,7 @@ open_panel = function()
   -- top and a search input WITH ITS OWN border at the bottom. Because the list
   -- lives in its own window, it scrolls within its band and never slides under
   -- the input; the input box stays visually distinct.
-  local list_h = math.max(13, math.min(#S.files + 3, vim.o.lines - 11))
+  local list_h = math.max(16, math.min(#S.files + 3, vim.o.lines - 11))
   local input_h = 3 -- bordered single line: top border + text + bottom border
   local hint_row = list_h + input_h -- one text row below the input box
   local inner_h = hint_row + 1
@@ -1113,6 +1113,8 @@ open_panel = function()
   -- inside the container with a small margin on each side.
   local pbuf = api.nvim_create_buf(false, true)
   vim.bo[pbuf].bufhidden = 'wipe'
+  -- No autocompletion in the search box: blink.cmp respects this per-buffer flag.
+  vim.b[pbuf].completion = false
   local pwin = api.nvim_open_win(pbuf, false, {
     relative = 'win',
     win = cwin,
@@ -1246,7 +1248,7 @@ open_panel = function()
 
     local gap = 3
     local pv_width = math.min(vim.o.columns - 4 - width - gap, 96)
-    local pv_h = math.min(inner_h + 14, vim.o.lines - 4)
+    local pv_h = math.min(inner_h + 18, vim.o.lines - 4)
     local pv_row = math.max(1, row - math.floor((pv_h - inner_h) / 2))
 
     local geom, docked
