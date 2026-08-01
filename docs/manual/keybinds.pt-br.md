@@ -458,6 +458,8 @@ Quer revisar **tudo** no repositório (suas edições incluídas), não só as d
 | n | `<leader>lz` | Alternar Rosazen | `Space l z` para alternar o Rosazen — modo sem distrações (maximiza + centraliza a janela, esconde a UI; persiste entre sessões) |
 | n | `<leader>li` | Alternar guias de indentação | `Space l i` para alternar linhas guia de indentação |
 | n | `<leader>lk` | Alternar dim | `Space l k` para escurecer código inativo |
+| n | `<leader>ly` | Alternar formato do cursor | `Space l y` — ativado por padrão (cursor em bloco no modo normal); desative para uma barra vertical fina (`ver25`) em todos os modos |
+| n | `<leader>lY` | Alternar faixa da linha | `Space l Y` para mostrar/ocultar o destaque da linha atual (ativado por padrão) |
 | n | `<leader>ll` | Alternar lualine | `Space l l` para mostrar/ocultar a statusline |
 | n | `<leader>lu` | Alternar dropbar | `Space l u` para mostrar/ocultar a barra de breadcrumb |
 | v | `an` | Selecionar nó pai | No modo visual, expande a seleção para o nó pai do treesitter |

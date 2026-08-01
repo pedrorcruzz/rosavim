@@ -111,8 +111,6 @@ vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 -- Preview substitutions live, as you type!
 vim.opt.inccommand = 'split'
 
--- Show which line your cursor is on
-vim.opt.cursorline = true
 vim.opt.cursorcolumn = false
 
 -- Minimal number of screen lines to keep above and below the cursor.
@@ -127,3 +125,5 @@ vim.opt.spelllang = toggles.get 'spelllang'
 vim.opt.wrap = toggles.get 'wrap'
 vim.opt.relativenumber = toggles.get 'relativenumber'
 vim.opt.number = toggles.get 'linenumber'
+
+require('rosavim.config.cursor').setup()

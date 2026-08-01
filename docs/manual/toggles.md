@@ -13,7 +13,7 @@ Toggle definitions are organized in modular files under `lua/rosavim/plugins/ui/
 
 | Module | Toggles |
 |:-------|:--------|
-| `options.lua` | Vim options (wrap, relative number, line number, indent, dim, spell) |
+| `options.lua` | Vim options (wrap, relative number, line number, indent, dim, spell, cursor shape, cursor line) |
 | `plugins.lua` | Plugin toggles (Rosasave, Incline, TSContext, Copilot, Bufferline, Dropbar, Render Markdown, Rosamaximize, Image Preview) |
 | `appearance.lua` | Theme toggles (Dark/Light, Transparent, Lualine, Lualine Theme) |
 | `autocmds.lua` | Tools toggles (Snacks, Which-Key, AI, Editor, LSP, DBUI) |
@@ -33,9 +33,13 @@ The orchestrator at `lua/rosavim/plugins/ui/snacks/toggles.lua` loads all module
 | `<leader>lw` | Word Wrap | Off |
 | `<leader>li` | Indent Guide | On |
 | `<leader>lk` | Dimming | Off |
+| `<leader>ly` | Cursor Shape (block ↔ thin bar) | On (block) |
+| `<leader>lY` | Cursor Line (current-line highlight) | On |
 | `<leader>ld` | Last Cursor Position | Off |
 | `<leader>ljj` | Spell Check | Off |
 | `<leader>ljp` / `<leader>lje` | Spell Language (pt/en) | en |
+
+`<leader>ly` is **On** by default (block cursor in normal mode, the Neovim native look). Turn it **off** to make the cursor a thin vertical bar (`ver25`) in every mode, so normal mode looks like insert. `<leader>lY` is **On** by default (the line the cursor sits on is highlighted); turn it off to remove that highlight.
 
 ### Appearance (`<leader>lq`)
 

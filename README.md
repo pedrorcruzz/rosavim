@@ -267,6 +267,8 @@ Rosavim ships with 2 built-in themes, fully integrated with dark/light and trans
 | `<leader>lqs` | Switch theme |
 | `<leader>lp` | Rosadirs (manage project dirs) |
 | `<leader>ll` | Toggle statusline |
+| `<leader>ly` | Toggle cursor shape (block ↔ thin bar) |
+| `<leader>lY` | Toggle current-line highlight |
 | `kj` | Exit insert mode |
 
 Full reference: **[Keybindings Manual](docs/manual/keybinds.md)**.

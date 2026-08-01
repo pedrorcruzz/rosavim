@@ -16,6 +16,8 @@ local defaults = {
   indent = true,
   dim = false,
   wrap = false,
+  cursor_block = true,
+  cursorline = true,
   -- Autocmd toggles
   lastpos = false,
   autoread = true, -- reload buffers changed on disk (RosaAI, git, etc.) on focus/idle

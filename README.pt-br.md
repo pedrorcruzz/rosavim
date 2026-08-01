@@ -267,6 +267,8 @@ Rosavim vem com 2 temas próprios, totalmente integrados aos toggles de dark/lig
 | `<leader>lqs` | Trocar tema |
 | `<leader>lp` | Rosadirs (gerenciar diretórios) |
 | `<leader>ll` | Toggle statusline |
+| `<leader>ly` | Alternar formato do cursor (bloco ↔ barra fina) |
+| `<leader>lY` | Alternar faixa da linha atual |
 | `kj` | Sair do insert mode |
 
 Referência completa: **[Manual de Atalhos](docs/manual/keybinds.pt-br.md)**.

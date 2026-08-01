@@ -13,7 +13,7 @@ As definições de toggles são organizadas em arquivos modulares em `lua/rosavi
 
 | Módulo | Toggles |
 |:-------|:--------|
-| `options.lua` | Opções do Vim (wrap, número relativo, número de linha, indentação, dim, ortografia) |
+| `options.lua` | Opções do Vim (wrap, número relativo, número de linha, indentação, dim, ortografia, formato do cursor, faixa da linha) |
 | `plugins.lua` | Toggles de plugins (Rosasave, Incline, TSContext, Copilot, Bufferline, Dropbar, Render Markdown, Rosamaximize, Image Preview) |
 | `appearance.lua` | Toggles de tema (Dark/Light, Transparência, Lualine, Tema do Lualine) |
 | `autocmds.lua` | Tools toggles (Snacks, Which-Key, IA, Editor, LSP, DBUI) |
@@ -33,9 +33,13 @@ O orquestrador em `lua/rosavim/plugins/ui/snacks/toggles.lua` carrega todos os m
 | `<leader>lw` | Quebra de Linha | Desativado |
 | `<leader>li` | Guia de Indentação | Ativado |
 | `<leader>lk` | Dimming | Desativado |
+| `<leader>ly` | Formato do Cursor (bloco ↔ barra fina) | Ativado (bloco) |
+| `<leader>lY` | Faixa da Linha (destaque da linha atual) | Ativado |
 | `<leader>ld` | Last Cursor Position | Desativado |
 | `<leader>ljj` | Verificação Ortográfica | Desativado |
 | `<leader>ljp` / `<leader>lje` | Idioma Ortográfico (pt/en) | en |
+
+O `<leader>ly` vem **ativado** por padrão (cursor em bloco no modo normal, o visual nativo do Neovim). **Desative** para deixar o cursor como uma barra vertical fina (`ver25`) em todos os modos, fazendo o normal parecer o insert. O `<leader>lY` vem **ativado** por padrão (a linha onde o cursor está fica destacada); desative para remover esse destaque.
 
 ### Aparência (`<leader>lq`)
 

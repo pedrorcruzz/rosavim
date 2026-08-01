@@ -10,6 +10,28 @@ return function(persist_toggle)
   persist_toggle(Snacks.toggle.indent(), 'indent'):map '<leader>li'
   persist_toggle(Snacks.toggle.dim(), 'dim'):map '<leader>lk'
 
+  Snacks.toggle({
+    name = 'Cursor Block',
+    get = function()
+      return toggles.get 'cursor_block'
+    end,
+    set = function(state)
+      require('rosavim.config.cursor').set_shape(state)
+      toggles.set('cursor_block', state)
+    end,
+  }):map '<leader>ly'
+
+  Snacks.toggle({
+    name = 'Cursor Line',
+    get = function()
+      return vim.o.cursorline
+    end,
+    set = function(state)
+      require('rosavim.config.cursor').set_line(state)
+      toggles.set('cursorline', state)
+    end,
+  }):map '<leader>lY'
+
   -- Spell
   Snacks.toggle({
     name = 'Spellcheck',

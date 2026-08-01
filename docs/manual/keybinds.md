@@ -458,6 +458,8 @@ Want to review **everything** in the repo (your edits included), not just the AI
 | n | `<leader>lz` | Toggle Rosazen | `Space l z` to toggle Rosazen — distraction-free mode (maximizes + centers the window, hides UI chrome; persists across sessions) |
 | n | `<leader>li` | Toggle indent guides | `Space l i` to toggle indent guide lines |
 | n | `<leader>lk` | Toggle dim | `Space l k` to dim inactive code |
+| n | `<leader>ly` | Toggle cursor shape | `Space l y` — on by default (block cursor in normal mode); turn off for a thin vertical bar (`ver25`) in every mode |
+| n | `<leader>lY` | Toggle cursor line | `Space l Y` to show/hide the current-line highlight (on by default) |
 | n | `<leader>ll` | Toggle lualine | `Space l l` to show/hide the statusline |
 | n | `<leader>lu` | Toggle dropbar | `Space l u` to show/hide the breadcrumb bar |
 | v | `an` | Select parent node | In visual mode, expand selection to the parent treesitter node |
