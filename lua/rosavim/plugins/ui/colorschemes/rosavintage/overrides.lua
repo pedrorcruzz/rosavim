@@ -3,6 +3,14 @@ local M = {}
 function M.get(mode, transparent_background)
   if mode == 'light' then
     return {
+      -- Cursor: explicit fg/bg instead of the default reverse cursor, which
+      -- takes the bg color and is nearly invisible on this light palette. The
+      -- bg also drives the terminal cursor color via OSC 12 (colorscheme.lua),
+      -- a standard escape sequence most terminals honor.
+      Cursor = { fg = '#1A1A1A', bg = '#FFFFFF' },
+      lCursor = { link = 'Cursor' },
+      TermCursor = { link = 'Cursor' },
+
       -- blink.cmp: menu + doc bg follow the editor bg (#D3D2CE) so the popups
       -- blend with the background instead of the lighter bgFloat/#C4C0B9.
       BlinkCmpMenu = { bg = '#D3D2CE' },
@@ -45,6 +53,10 @@ function M.get(mode, transparent_background)
     }
   end
   return {
+    Cursor = { fg = '#212121', bg = '#C1C1C1' },
+    lCursor = { link = 'Cursor' },
+    TermCursor = { link = 'Cursor' },
+
     -- lazygit borders (Snacks reads FloatBorder fg for inactive, MatchParen fg for active)
     FloatBorder = { fg = '#4c4c4c' },
     MatchParen = { fg = '#A9B2C0', bg = '#555555' },

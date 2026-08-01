@@ -17,7 +17,7 @@ function M.get(mode, transparent_background)
       VertSplit = { fg = '#D0D0D0' },
       WinSeparator = { fg = '#D0D0D0' },
       Visual = { bg = '#D6E4F0' },
-      Cursor = { fg = '#1A1A1A', bg = '#C4E0F7' },
+      Cursor = { fg = '#1A1A1A', bg = '#257092' }, -- #257092 | #A4AAFF
       lCursor = { link = 'Cursor' },
       TermCursor = { link = 'Cursor' },
       CursorLine = { bg = '#EAEAEA' },
@@ -219,7 +219,7 @@ function M.get(mode, transparent_background)
       FzfLuaTabTitle = { fg = '#1A1A1A' },
       FzfLuaSearch = { fg = '#1A1A1A' },
 
-      bufferlinefill = { bg = '#EAEAEA' },
+      bufferlinefill = { bg = '#dddddd' },
 
       -- flash.nvim
       FlashMatch = { fg = '#383A42', bg = '#D6E4F0' },
@@ -244,6 +244,10 @@ function M.get(mode, transparent_background)
     }
   end
   return {
+    Cursor = { fg = '#212121', bg = '#C1C1C1' },
+    lCursor = { link = 'Cursor' },
+    TermCursor = { link = 'Cursor' },
+
     Directory = { fg = '#DAE7EC' }, --#A1BCC5
     MiniPickIconDirectory = { fg = '#DAE7EC' }, --#A1BCC5
     Normal = { fg = '#abb2bf', bg = transparent_background and 'none' or '#1F1F1F' }, --#202020 #000000 #1F1F1F

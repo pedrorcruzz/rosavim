@@ -23,7 +23,6 @@ vim.lsp.enable {
   'intelephense',
   'jsonls',
   'gopls',
-  'jdtls',
   'sqlls',
   'lua_ls',
   'marksman',
@@ -57,7 +56,6 @@ return {
         'intelephense',
         'json-lsp',
         'gopls',
-        'jdtls',
         'sqlls',
         'lua-language-server',
         'marksman',
@@ -69,7 +67,6 @@ return {
         'sql-formatter',
         'blade-formatter',
         'goimports',
-        'google-java-format',
         -- Linters
         'djlint',
         'biome',
@@ -79,7 +76,6 @@ return {
         'php-debug-adapter',
         'go-debug-adapter',
         'debugpy',
-        'java-debug-adapter',
       },
     },
     dependencies = {

@@ -18,6 +18,50 @@ vim.api.nvim_create_autocmd('ColorScheme', {
   end,
 })
 
+-- Drive the terminal cursor color from the Cursor highlight so it follows the
+-- active theme. Neovim's TUI does not emit OSC 12 on its own, so we send it
+-- explicitly whenever the colorscheme changes (OSC 12 is a standard escape
+-- sequence most terminals honor), and reset it on exit so the shell cursor
+-- returns to the terminal default. Note: terminals with an inverted/reverse
+-- cursor mode enabled ignore OSC 12 — disable that mode for this to take effect
+-- (in Ghostty: `cursor-invert-fg-bg = false`).
+-- Only our own themes define an explicit Cursor bg; guard on them so we never
+-- emit the default reverse cursor (which resolves to black) before a theme has
+-- been applied at startup.
+local rosa_schemes = { rosamin = true, rosavintage = true }
+local function sync_terminal_cursor_color()
+  if not rosa_schemes[vim.g.colors_name] then
+    return
+  end
+  local hl = vim.api.nvim_get_hl(0, { name = 'Cursor', link = false })
+  if hl.bg then
+    io.write(string.format('\027]12;#%06x\007', hl.bg))
+    io.flush()
+  end
+end
+
+vim.api.nvim_create_autocmd('ColorScheme', {
+  callback = vim.schedule_wrap(sync_terminal_cursor_color),
+})
+vim.api.nvim_create_autocmd('VimEnter', {
+  once = true,
+  callback = function()
+    -- Emit once now and again after a short delay: at startup the terminal may
+    -- not yet honor OSC 12 (the escape gets dropped, leaving the cursor on its
+    -- previous color until the next theme change), and the colorscheme may not
+    -- be applied on the first tick either. The delayed re-emit lands once both
+    -- are ready.
+    vim.schedule(sync_terminal_cursor_color)
+    vim.defer_fn(sync_terminal_cursor_color, 200)
+  end,
+})
+vim.api.nvim_create_autocmd('VimLeave', {
+  callback = function()
+    io.write '\027]112\007' -- reset cursor color to terminal default
+    io.flush()
+  end,
+})
+
 -- Dark/Light and Transparent toggles moved to snacks/toggles.lua
 
 -- Colorscheme selector — same vim.ui.select popup style as the rosaterm/

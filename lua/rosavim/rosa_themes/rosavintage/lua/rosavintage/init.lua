@@ -47,7 +47,7 @@ local function set_groups()
   local utils = require 'rosavintage.utils'
   local bg = config.transparent and 'NONE' or colors.bg
   local sidebar = config.transparent and 'NONE' or colors.bgSidebar
-  local bl_bg = (config.transparent or vim.o.background == 'dark') and '#000000' or colors.bgDark
+  local bl_bg = (config.transparent or vim.o.background == 'dark') and '#000000' or '#c4c0b9'
   local real_bg = vim.o.background == 'light' and '#d3d2ce' or '#000000'
   local diff_add = utils.shade(colors.green, 0.5, real_bg)
   local diff_delete = utils.shade(colors.red, 0.5, real_bg)
@@ -338,8 +338,8 @@ local function set_groups()
     BufferLineDuplicateSelected = { fg = colors.fg, bg = bl_bg },
     BufferLineDuplicateVisible = { fg = colors.fgInactive, bg = bl_bg },
     BufferLineTruncMarker = { fg = colors.fgInactive, bg = bl_bg },
-    BufferLineOffset = { fg = colors.fg, bg = sidebar, bold = true },
-    BufferLineOffsetSeparator = { fg = sidebar, bg = sidebar },
+    BufferLineOffset = { fg = colors.fg, bg = bl_bg, bold = true },
+    BufferLineOffsetSeparator = { fg = bl_bg, bg = bl_bg },
     BufferLinePick = { fg = colors.red, bg = bl_bg, bold = true },
     BufferLinePickSelected = { fg = colors.red, bg = bl_bg, bold = true },
     BufferLinePickVisible = { fg = colors.red, bg = bl_bg, bold = true },

@@ -336,3 +336,33 @@ vim.api.nvim_create_autocmd('FileType', {
     end
   end,
 })
+
+-- Rosaterm / Rosaai: a thin bar cursor while typing (insert/terminal), and a
+-- hidden cursor in normal mode, plus no full-width CursorLine, so these
+-- terminals stay clean instead of showing a heavy block on the current line.
+do
+  local bar_fts = { rosaterm = true, rosaai = true, rosaai_ask = true }
+  local saved
+  local grp = vim.api.nvim_create_augroup('rosaterm_bar_cursor', { clear = true })
+  local function set_hidden_hl()
+    vim.api.nvim_set_hl(0, 'RosatermHiddenCursor', { blend = 100, nocombine = true })
+  end
+  set_hidden_hl()
+  vim.api.nvim_create_autocmd('ColorScheme', { group = grp, callback = set_hidden_hl })
+  vim.api.nvim_create_autocmd({ 'BufEnter', 'WinEnter' }, {
+    group = grp,
+    callback = function(ev)
+      if bar_fts[vim.bo[ev.buf].filetype] then
+        if not saved then
+          saved = vim.o.guicursor
+        end
+        set_hidden_hl()
+        vim.o.guicursor = 'a:ver25,n-v-c:block-RosatermHiddenCursor/RosatermHiddenCursor'
+        vim.wo.cursorline = false
+      elseif saved then
+        vim.o.guicursor = saved
+        saved = nil
+      end
+    end,
+  })
+end
