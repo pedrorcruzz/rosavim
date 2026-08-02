@@ -26,7 +26,7 @@ function M.get(mode, transparent_background)
       -- flash.nvim (monochrome)
       FlashMatch = { fg = '#1c1c1e', bg = '#c4c3bd' },
       FlashCurrent = { fg = '#1c1c1e', bg = '#c4c3bd' },
-      FlashLabel = { fg = '#000000', bg = '#c4c3bd', bold = true },
+      FlashLabel = { fg = '#d3d2ce', bg = '#38383c', bold = true },
       FlashBackdrop = { fg = '#a8a7a1' },
 
       -- gitsigns blame
@@ -79,8 +79,8 @@ function M.get(mode, transparent_background)
     BlinkCmpMenuBorder = { bg = transparent_background and 'none' or '#0a0a0a', fg = '#303030' },
 
     -- flash.nvim (monochrome)
-    FlashMatch = { fg = '#FFFFFF', bg = '#606060' },
-    FlashCurrent = { fg = '#FFFFFF', bg = '#606060' },
+    FlashMatch = { fg = '#000000', bg = '#c6c6ce' },
+    FlashCurrent = { fg = '#000000', bg = '#c6c6ce' },
     FlashLabel = { fg = '#FFFFFF', bg = '#606060', bold = true },
     FlashBackdrop = { fg = '#505050' },
 
