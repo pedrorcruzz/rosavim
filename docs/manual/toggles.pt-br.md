@@ -15,7 +15,7 @@ As definições de toggles são organizadas em arquivos modulares em `lua/rosavi
 |:-------|:--------|
 | `options.lua` | Opções do Vim (wrap, número relativo, número de linha, indentação, dim, ortografia, formato do cursor, faixa da linha) |
 | `plugins.lua` | Toggles de plugins (Rosasave, Incline, TSContext, Copilot, Bufferline, Dropbar, Render Markdown, Rosamaximize, Image Preview) |
-| `appearance.lua` | Toggles de tema (Dark/Light, Transparência, Lualine, Tema do Lualine) |
+| `appearance.lua` | Toggles de tema (Dark/Light, Transparência, Lualine, Tema do Lualine, Barra Y do Lualine Transparente) |
 | `autocmds.lua` | Tools toggles (Snacks, Which-Key, IA, Editor, LSP, DBUI) |
 
 O orquestrador em `lua/rosavim/plugins/ui/snacks/toggles.lua` carrega todos os módulos e restaura os estados persistidos.
@@ -49,7 +49,8 @@ O `<leader>ly` vem **ativado** por padrão (cursor em bloco no modo normal, o vi
 | `<leader>lqe` | Transparência | Desativado |
 | `<leader>lql` | Tema Custom do Lualine (Auto/Default) | Default |
 | `<leader>lqg` | Separador do Lualine (seletor popup) | rounded |
-| `<leader>lqs` | Picker de theme (rosamin / rosavintage) | rosamin |
+| `<leader>lqy` | Barra Y do Lualine Transparente (funde com o bg do tema vs sólido `#1a1a1a`) | Ativado |
+| `<leader>lqs` | Picker de theme (rosamin / rosavintage / rosanight) | rosamin |
 | `<leader>ll` | Lualine (visibilidade da Statusline) | Ativado |
 
 Separadores do Lualine disponíveis: `rounded`, `bar`, `arrow`, `slant`

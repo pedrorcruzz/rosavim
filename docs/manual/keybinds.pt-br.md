@@ -445,10 +445,11 @@ Quer revisar **tudo** no repositório (suas edições incluídas), não só as d
 | Modo | Tecla | Ação | Exemplo |
 |:----:|:------|:-----|:--------|
 | n | `<leader>lqt` | Alternar dark/light | `Space l q t` para alternar entre modo escuro e claro |
-| n | `<leader>lqs` | Selecionar theme | `Space l q s` para escolher um dos nossos themes (rosamin / rosavintage) |
+| n | `<leader>lqs` | Selecionar theme | `Space l q s` para escolher um dos nossos themes (rosamin / rosavintage / rosanight) |
 | n | `<leader>lqm` | Selecionar tema do Render Markdown | `Space l q m` para escolher o preset do render-markdown (none / lazy / obsidian) |
 | n | `<leader>lqg` | Selecionar separador do lualine | `Space l q g` para escolher um preset de separador da statusline (rounded / bar / arrow / slant) |
 | n | `<leader>lqe` | Alternar transparência | `Space l q e` para alternar a transparência do fundo |
+| n | `<leader>lqy` | Alternar transparência da barra-y do lualine | `Space l q y` — ativado (padrão) funde a barra central/y do lualine com o bg do tema; desativado mostra a barra sólida original `#1a1a1a` (funciona nos temas auto e custom do lualine) |
 | n | `<leader>lqdt` | Liga/desliga gif do dashboard | `Space l q d t` pra ativar/desativar o gif chafa (persistido, hot-reload) |
 | n | `<leader>lqds` | Buscar gif do dashboard | `Space l q d s` pra escolher uma imagem em `dashboard_img/` (persistido, hot-reload) |
 | n | `<leader>lqdc` | Configurar gif do dashboard | `Space l q d c` abre popup — aperta `h`, `w` ou `i` pra editar só height/width/indent (persistido, hot-reload) |

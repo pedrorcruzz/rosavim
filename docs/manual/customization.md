@@ -26,6 +26,7 @@ Rosavim ships with two custom built-in themes, both fully integrated with the da
 |:------|:------|:------------|
 | **Rosamin** (default) | Minimal | Clean, distraction-free, inspired by min-theme |
 | **Rosavintage** | Warm | Earthy aesthetic with rich, warm tones |
+| **Rosanight** | Monochrome | Minimalist OLED-black night theme — cool white/grey ramp, no saturated colors |
 
 Sources live in `lua/rosavim/rosa_themes/` so you can tweak palettes directly. Other themes (anything provided by LazyVim) can still be picked from the picker, but they won't share Rosavim's overrides.
 

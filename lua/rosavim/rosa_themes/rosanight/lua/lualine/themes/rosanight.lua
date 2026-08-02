@@ -14,8 +14,16 @@ local light = vim.o.background == 'light' and not transparent
 local vline_a = { bg = '#8C8C9A', fg = '#000000', gui = 'bold' }
 local insert_a = { bg = '#FFFFFF', fg = '#000000', gui = 'bold' }
 
--- b (intermediate) and c (centre) follow the editor background.
-local center = transparent and 'NONE' or (light and '#D3D2CE' or '#000000')
+-- Centre bar: the <leader>lqy toggle (default ON) keeps the y/centre bar
+-- transparent — it blends with the editor bg (NONE in transparent mode). When
+-- off, it restores the original solid #1a1a1a bar.
+local ok_t, toggles = pcall(require, 'rosavim.config.toggles')
+local center
+if not ok_t or toggles.get 'lualine_bar_y_transparent' then
+  center = transparent and 'NONE' or (light and '#D3D2CE' or '#000000')
+else
+  center = transparent and 'NONE' or '#1a1a1a'
+end
 local fg = light and '#2A2A2A' or '#FFFFFF'
 local muted_fg = light and '#7a7a76' or '#8C8C9A'
 -- Branch section (b) is uniform across ALL modes = the insert look.

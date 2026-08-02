@@ -445,10 +445,11 @@ Want to review **everything** in the repo (your edits included), not just the AI
 | Mode | Key | Action | Example |
 |:----:|:----|:-------|:--------|
 | n | `<leader>lqt` | Toggle dark/light | `Space l q t` to switch between dark and light mode |
-| n | `<leader>lqs` | Select theme | `Space l q s` to pick one of our themes (rosamin / rosavintage) |
+| n | `<leader>lqs` | Select theme | `Space l q s` to pick one of our themes (rosamin / rosavintage / rosanight) |
 | n | `<leader>lqm` | Select Render Markdown theme | `Space l q m` to pick the render-markdown preset (none / lazy / obsidian) |
 | n | `<leader>lqg` | Select lualine separator | `Space l q g` to pick a statusline separator preset (rounded / bar / arrow / slant) |
 | n | `<leader>lqe` | Toggle transparent | `Space l q e` to toggle background transparency |
+| n | `<leader>lqy` | Toggle lualine bar-y transparency | `Space l q y` — on (default) blends the lualine centre/y bar with the theme bg; off shows the original solid `#1a1a1a` bar (works in both auto and custom lualine themes) |
 | n | `<leader>lqdt` | Toggle dashboard gif | `Space l q d t` to enable/disable the chafa gif (persisted, hot-reload) |
 | n | `<leader>lqds` | Search dashboard gif | `Space l q d s` to pick a new image from `dashboard_img/` (persisted, hot-reload) |
 | n | `<leader>lqdc` | Configure dashboard gif | `Space l q d c` opens a popup — press `h`, `w`, or `i` to edit just height/width/indent (persisted, hot-reload) |

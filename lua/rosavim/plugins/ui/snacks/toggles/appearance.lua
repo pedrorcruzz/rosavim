@@ -84,6 +84,22 @@ return function()
     end,
   }):map '<leader>lql'
 
+  -- Lualine Bar Y Transparent — ON (default) makes the y/centre bar transparent
+  -- (blends with the theme bg); OFF restores the original solid #1a1a1a bar.
+  -- sections.reload() re-runs lualine.setup, which re-resolves the theme fresh
+  -- (theme.create() for custom, dofile of the rosanight theme for 'auto'), so
+  -- the toggle takes effect in BOTH lualine theme modes.
+  Snacks.toggle({
+    name = 'Lualine Bar Y Transparent',
+    get = function()
+      return toggles.get 'lualine_bar_y_transparent'
+    end,
+    set = function(state)
+      toggles.set('lualine_bar_y_transparent', state)
+      require('rosavim.plugins.ui.lualine.sections').reload()
+    end,
+  }):map '<leader>lqy'
+
   -- Lualine separator preset selector (rounded / bar / arrow / slant).
   -- Same vim.ui.select popup style as the rosaterm/rosaai theme pickers.
   vim.keymap.set('n', '<leader>lqg', function()

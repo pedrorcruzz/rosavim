@@ -113,7 +113,7 @@ Guias detalhados ficam em [`docs/manual`](docs/manual/):
 
 <br>
 
-- **2 temas próprios** — **Rosamin** (padrão, minimal) e **Rosavintage** (quente, terroso), ambos com dark/light mode e transparência
+- **3 temas próprios** — **Rosamin** (padrão, minimal), **Rosavintage** (quente, terroso) e **Rosanight** (monocromático minimalista / OLED preto), todos com dark/light mode e transparência
 - **Dashboard**, statusline **Lualine** (separadores selecionáveis), abas **Bufferline**, breadcrumbs **Dropbar**, nomes flutuantes **Incline** e **Noice** para mensagens modernas
 - Troca de **dark/light** e de **tema** com um atalho
 
@@ -183,7 +183,7 @@ Suporte completo (LSP, formatação, linting, testes e debug) para as principais
 
 ## Temas
 
-Rosavim vem com 2 temas próprios, totalmente integrados aos toggles de dark/light e transparência.
+Rosavim vem com 3 temas próprios, totalmente integrados aos toggles de dark/light e transparência.
 
 <details>
 <summary><b>Rosamin</b> — minimal, limpo e focado (padrão)</summary>
@@ -204,6 +204,15 @@ Rosavim vem com 2 temas próprios, totalmente integrados aos toggles de dark/lig
 | Code (Dark) | Dashboard (Dark) | Code (Light) | Dashboard (Light) | Transparente |
 |:------------|:-----------------|:-------------|:------------------|:-------------|
 | ![Rosavintage Code Dark](assets/screenshots/rosavintage_code_dark.png) | ![Rosavintage Dashboard Dark](assets/screenshots/rosavintage_dashboard_dark.png) | ![Rosavintage Code Light](assets/screenshots/rosavintage_code_light.png) | ![Rosavintage Dashboard Light](assets/screenshots/rosavintage_dashboard_light.png) | ![Rosavintage Transparent](assets/screenshots/rosavintage_transparent.png) |
+
+</details>
+
+<details>
+<summary><b>Rosanight</b> — monocromático minimalista (OLED preto / branco frio)</summary>
+
+<br>
+
+Um tema noturno estritamente monocromático: fundo OLED preto (`#000000`) com uma rampa de branco/cinza frio e nenhuma cor saturada. No modo light ele inverte sobre uma base suave `#D3D2CE`. Suporte completo a dark/light e transparência.
 
 </details>
 
@@ -264,7 +273,8 @@ Rosavim vem com 2 temas próprios, totalmente integrados aos toggles de dark/lig
 | Atalho | Ação |
 |:-------|:-----|
 | `<leader>lqt` | Alternar dark/light mode |
-| `<leader>lqs` | Trocar tema |
+| `<leader>lqs` | Trocar tema (rosamin / rosavintage / rosanight) |
+| `<leader>lqy` | Alternar transparência da barra-y do lualine |
 | `<leader>lp` | Rosadirs (gerenciar diretórios) |
 | `<leader>ll` | Toggle statusline |
 | `<leader>ly` | Alternar formato do cursor (bloco ↔ barra fina) |
@@ -303,7 +313,8 @@ Referência completa: **[Manual de Atalhos](docs/manual/keybinds.pt-br.md)**.
 │   │   └── rosaai/
 │   └── rosa_themes/
 │       ├── rosamin/               # tema padrão (minimal)
-│       └── rosavintage/          # tema quente e terroso
+│       ├── rosavintage/          # tema quente e terroso
+│       └── rosanight/            # monocromático minimalista (OLED)
 ├── lsp/                           # configs individuais de LSP
 └── assets/                        # logo e screenshots
 ```

@@ -6,10 +6,36 @@ function M.create()
   local colors = {}
 
   if custom_only_bg_min then
+    -- Centre (section c/x and the fill between branch and the right group)
+    -- follows the ACTIVE colorscheme's editor bg so it blends in — and becomes
+    -- transparent (guibg=None) in transparent mode. This removes the #1a1a1a
+    -- "connection" bar between the branch and the copilot sections without
+    -- hardcoding a colour.
+    -- Transparent state is read from the appearance module (set synchronously by
+    -- the toggle) rather than inferred from Normal.bg: on the first transparent
+    -- toggle the lualine rebuild can run before Normal.bg is cleared, so reading
+    -- Normal directly would lag one toggle behind.
+    local ok, appearance = pcall(require, 'rosavim.config.appearance')
+    local toggles = require 'rosavim.config.toggles'
+    local editor_bg
+    if toggles.get 'lualine_bar_y_transparent' then
+      -- Toggle ON (default): the y/centre bar is transparent — it blends with
+      -- the active colorscheme bg, and is NONE in transparent mode.
+      if ok and appearance.get_transparent() then
+        editor_bg = 'none'
+      else
+        local normal = vim.api.nvim_get_hl(0, { name = 'Normal' })
+        editor_bg = normal.bg and string.format('#%06x', normal.bg) or 'none'
+      end
+    else
+      -- Toggle OFF: original solid centre bar — leave min_bar_bg unset so it
+      -- falls back to the StatusLine bg (#1a1a1a dark / NONE transparent).
+      editor_bg = nil
+    end
     colors = {
       min_fg_branch = '#a9a9a9',
       min_bg_branch = '#2d2d2d',
-      min_bar_bg = nil,
+      min_bar_bg = editor_bg,
       min_git = '#FFFFFF',
       min_y_bg = '#2d2d2d',
       min_y_fg = '#a9a9a9',

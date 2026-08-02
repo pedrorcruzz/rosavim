@@ -15,7 +15,7 @@ Toggle definitions are organized in modular files under `lua/rosavim/plugins/ui/
 |:-------|:--------|
 | `options.lua` | Vim options (wrap, relative number, line number, indent, dim, spell, cursor shape, cursor line) |
 | `plugins.lua` | Plugin toggles (Rosasave, Incline, TSContext, Copilot, Bufferline, Dropbar, Render Markdown, Rosamaximize, Image Preview) |
-| `appearance.lua` | Theme toggles (Dark/Light, Transparent, Lualine, Lualine Theme) |
+| `appearance.lua` | Theme toggles (Dark/Light, Transparent, Lualine, Lualine Theme, Lualine Bar Y Transparent) |
 | `autocmds.lua` | Tools toggles (Snacks, Which-Key, AI, Editor, LSP, DBUI) |
 
 The orchestrator at `lua/rosavim/plugins/ui/snacks/toggles.lua` loads all modules and restores persisted states.
@@ -49,7 +49,8 @@ The orchestrator at `lua/rosavim/plugins/ui/snacks/toggles.lua` loads all module
 | `<leader>lqe` | Transparent | Off |
 | `<leader>lql` | Lualine Custom Theme (Auto/Default) | Default |
 | `<leader>lqg` | Lualine Separator (popup selector) | rounded |
-| `<leader>lqs` | Theme picker (rosamin / rosavintage) | rosamin |
+| `<leader>lqy` | Lualine Bar Y Transparent (blend with theme bg vs solid `#1a1a1a`) | On |
+| `<leader>lqs` | Theme picker (rosamin / rosavintage / rosanight) | rosamin |
 | `<leader>ll` | Lualine (Statusline visibility) | On |
 
 Available lualine separators: `rounded`, `bar`, `arrow`, `slant`

@@ -6,6 +6,7 @@ local defaults = {
   lualine = true,
   lualine_theme = true,
   lualine_separator = 'rounded', -- rounded | bar | arrow | slant (<leader>lqg)
+  lualine_bar_y_transparent = true, -- true (default) = y/centre bar transparent, blends with theme bg; false = original solid #1a1a1a bar (<leader>lqy)
   dropbar = true,
   autosave = false,
   virtual_text_current_line = false,
