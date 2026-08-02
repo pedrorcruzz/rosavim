@@ -23,11 +23,11 @@ function M.get(mode, transparent_background)
       -- so the icon cells match the menu bg. All BlinkCmpKind<Kind> link here.
       BlinkCmpKind = { fg = '#444136', bg = '#D3D2CE' },
 
-      -- flash.nvim
-      FlashMatch = { fg = '#383A42', bg = '#D6E4F0' },
-      FlashCurrent = { fg = '#383A42', bg = '#D6E4F0' },
-      FlashLabel = { fg = '#E45649', bg = '#D6E4F0', bold = true },
-      FlashBackdrop = { fg = '#B0B0B0' },
+      -- flash.nvim (monochrome)
+      FlashMatch = { fg = '#1c1c1e', bg = '#c4c3bd' },
+      FlashCurrent = { fg = '#1c1c1e', bg = '#c4c3bd' },
+      FlashLabel = { fg = '#d3d2ce', bg = '#38383c', bold = true },
+      FlashBackdrop = { fg = '#a8a7a1' },
 
       -- gitsigns blame
       GitSignsCurrentLineBlame = { fg = '#9e9a8f' },
@@ -75,10 +75,10 @@ function M.get(mode, transparent_background)
     BlinkCmpDocBorder = { bg = transparent_background and 'none' or '#000000', fg = '#303030' },
     BlinkCmpMenuBorder = { bg = transparent_background and 'none' or '#0a0a0a', fg = '#303030' },
 
-    -- flash.nvim
-    FlashMatch = { fg = '#abb2bf', bg = '#606060' },
-    FlashCurrent = { fg = '#abb2bf', bg = '#606060' },
-    FlashLabel = { fg = '#F67582', bg = '#606060', bold = true },
+    -- flash.nvim (monochrome)
+    FlashMatch = { fg = '#000000', bg = '#c6c6ce' },
+    FlashCurrent = { fg = '#000000', bg = '#c6c6ce' },
+    FlashLabel = { fg = '#FFFFFF', bg = '#606060', bold = true },
     FlashBackdrop = { fg = '#505050' },
 
     -- gitsigns blame
