@@ -39,14 +39,14 @@ return {
         {
           filetype = 'snacks_picker_list',
           text = 'Snacks Explorer',
-          highlight = 'Directory',
+          highlight = 'BufferLineOffset',
           text_align = 'left',
           separator = true,
         },
         {
           filetype = 'snacks_layout_box',
           text = '',
-          highlight = 'Directory',
+          highlight = 'BufferLineOffset',
           text_align = 'left',
           separator = true,
         },

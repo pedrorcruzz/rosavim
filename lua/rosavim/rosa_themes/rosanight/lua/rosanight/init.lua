@@ -1,0 +1,428 @@
+local config = require 'rosanight.config'
+local M = {}
+
+local function set_terminal_colors()
+  local colors = require 'rosanight.colors'
+  -- Monochrome ANSI ramp: differentiated by brightness only, never hue.
+  if vim.o.background == 'light' then
+    vim.g.terminal_color_0 = '#d3d2ce'
+    vim.g.terminal_color_1 = '#38383c'
+    vim.g.terminal_color_2 = '#000000'
+    vim.g.terminal_color_3 = '#7a7a76'
+    vim.g.terminal_color_4 = '#63636b'
+    vim.g.terminal_color_5 = '#47474e'
+    vim.g.terminal_color_6 = '#55555c'
+    vim.g.terminal_color_7 = '#1c1c1e'
+    vim.g.terminal_color_8 = '#c3c0ba'
+    vim.g.terminal_color_9 = '#38383c'
+    vim.g.terminal_color_10 = '#000000'
+    vim.g.terminal_color_11 = '#7a7a76'
+    vim.g.terminal_color_12 = '#63636b'
+    vim.g.terminal_color_13 = '#47474e'
+    vim.g.terminal_color_14 = '#55555c'
+    vim.g.terminal_color_15 = '#000000'
+  else
+    vim.g.terminal_color_0 = '#000000'
+    vim.g.terminal_color_1 = '#c6c6ce'
+    vim.g.terminal_color_2 = '#FFFFFF'
+    vim.g.terminal_color_3 = '#6e6e78'
+    vim.g.terminal_color_4 = '#8c8c9a'
+    vim.g.terminal_color_5 = '#b4b4be'
+    vim.g.terminal_color_6 = '#9a9aa6'
+    vim.g.terminal_color_7 = '#FFFFFF'
+    vim.g.terminal_color_8 = '#565656'
+    vim.g.terminal_color_9 = '#c6c6ce'
+    vim.g.terminal_color_10 = '#FFFFFF'
+    vim.g.terminal_color_11 = '#6e6e78'
+    vim.g.terminal_color_12 = '#8c8c9a'
+    vim.g.terminal_color_13 = '#b4b4be'
+    vim.g.terminal_color_14 = '#9a9aa6'
+    vim.g.terminal_color_15 = '#FFFFFF'
+  end
+  vim.g.terminal_color_background = colors.bg
+  vim.g.terminal_color_foreground = colors.fg
+end
+
+local function set_groups()
+  local colors = require 'rosanight.colors'
+  local utils = require 'rosanight.utils'
+  local bg = config.transparent and 'NONE' or colors.bg
+  local sidebar = config.transparent and 'NONE' or colors.bgSidebar
+  local bl_bg = (config.transparent or vim.o.background == 'dark') and '#000000' or colors.bg
+  local real_bg = vim.o.background == 'light' and '#d3d2ce' or '#000000'
+  local diff_add = utils.shade(colors.green, 0.5, real_bg)
+  local diff_delete = utils.shade(colors.red, 0.5, real_bg)
+  local diff_change = utils.shade(colors.blue, 0.5, real_bg)
+  local diff_text = utils.shade(colors.gold, 0.5, real_bg)
+
+  local groups = {
+    -- base
+    Normal = { fg = colors.fg, bg = bg },
+    Bold = { bold = true },
+    Conceal = {},
+    Directory = { fg = colors.fg, bold = true },
+    EndOfBuffer = { fg = config.transparent and '#1C1C1C' or colors.bg, bg = bg },
+    Ignore = {},
+    Italic = { italic = true },
+    ModeMsg = {},
+    MoreMsg = {},
+    Question = {},
+    NonText = {},
+    Terminal = {},
+    Title = { bold = true },
+    Underlined = { underline = true },
+
+    Comment = { fg = colors.comment },
+    CursorLineNr = { fg = colors.comment },
+    LineNr = { fg = colors.fgLineNr },
+    FoldColumn = { fg = colors.fg },
+    SignColumn = { fg = colors.fg },
+
+    PmenuSel = { fg = colors.fg, bg = colors.bg, reverse = true },
+    StatusLine = { fg = colors.border, bg = config.transparent and 'NONE' or (vim.o.background == 'dark' and '#525252' or bg), bold = true },
+    StatusLineNC = { fg = colors.border, bg = config.transparent and 'NONE' or (vim.o.background == 'dark' and '#414141' or bg), bold = true },
+    StatusLineTerm = { fg = colors.border, bg = config.transparent and 'NONE' or (vim.o.background == 'dark' and '#1A1A1A' or bg), bold = true },
+    StatusLineTermNC = { fg = colors.border, bg = config.transparent and 'NONE' or (vim.o.background == 'dark' and '#1A1A1A' or bg), bold = true },
+    TabLineSel = { fg = colors.fg, bg = colors.bg, reverse = true },
+    VisualNOS = { fg = colors.comment, bg = colors.bg, reverse = true },
+
+    Cursor = { fg = colors.fgAlt, bg = colors.bg, reverse = true },
+    lCursor = { link = 'Cursor' },
+    CursorIM = { link = 'Cursor' },
+    IncSearch = { fg = colors.fgAlt, bg = colors.bg, reverse = true },
+
+    ColorColumn = { bg = colors.bgDark },
+    CursorColumn = { bg = colors.bgDark },
+    DiffChange = { bg = bg, fg = diff_change },
+    Folded = { bg = colors.bgDark },
+    QuickFixLine = { bg = colors.bgDark },
+
+    MatchParen = { fg = colors.fgAlt, bg = colors.fgInactive },
+    Pmenu = { fg = colors.fg, bg = colors.bgDark },
+    NormalFloat = { bg = config.transparent and 'NONE' or colors.bgFloat },
+    TabLine = { fg = colors.fg, bg = colors.bgDark },
+    ToolbarButton = { fg = colors.fg, bg = colors.bgDark, bold = true },
+    WildMenu = { fg = colors.fg, bg = colors.bgDark },
+    PmenuSbar = { fg = colors.fgInactive, bg = colors.fgInactive },
+    PmenuThumb = { fg = colors.fg, bg = colors.fg },
+    TabLineFill = { fg = colors.bgDark, bg = colors.bgDark },
+    ToolbarLine = { fg = colors.bgDark, bg = colors.bgDark },
+    VertSplit = { fg = vim.o.background == 'dark' and '#121212' or colors.border, bg = bg },
+    Winseparator = { fg = vim.o.background == 'dark' and '#121212' or colors.border, bg = bg },
+    WinSeparator = { fg = vim.o.background == 'dark' and '#121212' or colors.border, bg = bg },
+
+    SpellBad = { undercurl = true, sp = colors.spellRed },
+    SpellCap = { undercurl = true, sp = colors.spellBlue },
+    SpellLocal = { undercurl = true, sp = colors.spellCyan },
+    SpellRare = { undercurl = true, sp = colors.spellMagenta },
+
+    -- syntax
+    StorageClass = { fg = colors.magenta },
+    Structure = { fg = colors.magenta },
+    Type = { fg = colors.magenta },
+    Typedef = { fg = colors.magenta },
+    WarningMsg = { fg = colors.magenta, bg = colors.bg, reverse = true },
+
+    Function = { fg = colors.red },
+    Identifier = { fg = colors.red },
+    DiffDelete = { bg = bg, fg = diff_delete },
+    Error = { fg = colors.red, bg = colors.bg, reverse = true },
+    ErrorMsg = { fg = colors.red },
+
+    Debug = { fg = colors.gold },
+    Delimiter = { fg = colors.gold },
+    Special = { fg = colors.gold },
+    SpecialChar = { fg = colors.gold },
+    SpecialComment = { fg = colors.gold },
+    SpecialKey = { fg = colors.gold },
+    Tag = { fg = colors.gold },
+    DiffText = { bg = bg, fg = diff_text },
+    Search = { fg = colors.search, bg = colors.searchFg, reverse = true },
+
+    Conditional = { fg = colors.green },
+    Exception = { fg = colors.green },
+    Keyword = { fg = colors.green },
+    Label = { fg = colors.green },
+    Operator = { fg = colors.green },
+    Repeat = { fg = colors.green },
+    Statement = { fg = colors.green },
+    DiffAdd = { bg = bg, fg = diff_add },
+
+    Define = { fg = colors.cyan },
+    Include = { fg = colors.cyan },
+    Macro = { fg = colors.cyan },
+    PreCondit = { fg = colors.cyan },
+    PreProc = { fg = colors.cyan },
+    Todo = { fg = colors.cyan, bg = colors.bg, reverse = true },
+
+    Boolean = { fg = colors.blue },
+    Character = { fg = colors.blue },
+    Constant = { fg = colors.blue },
+    Float = { fg = colors.blue },
+    Number = { fg = colors.blue },
+    String = { fg = colors.blue },
+    Visual = { bg = (config.transparent or vim.o.background == 'dark') and '#262631' or '#bcbbb5' },
+    VisualNOS = { bg = (config.transparent or vim.o.background == 'dark') and '#262631' or '#bcbbb5' },
+    CursorLine = { bg = (config.transparent or vim.o.background == 'dark') and '#191924' or colors.bgDarker },
+
+    -- treesitter (mapped to match rusticated base groups exactly)
+    ['@variable'] = { fg = colors.fg },
+    ['@variable.builtin'] = { fg = colors.fg },
+    ['@variable.member'] = { fg = colors.fg },
+    ['@variable.parameter'] = { fg = colors.fg },
+    ['@text'] = { fg = colors.fg },
+    ['@property'] = { fg = colors.fg },
+    ['@field'] = { fg = colors.fg },
+    ['@parameter'] = { fg = colors.fg },
+
+    ['@comment'] = { link = 'Comment' },
+
+    ['@function'] = { fg = colors.red },
+    ['@function.call'] = { fg = colors.red },
+    ['@function.builtin'] = { fg = colors.red },
+    ['@function.method'] = { fg = colors.red },
+    ['@function.method.call'] = { fg = colors.red },
+    ['@method'] = { fg = colors.red },
+    ['@constructor'] = { fg = colors.red },
+
+    ['@keyword'] = { fg = colors.green },
+    ['@keyword.function'] = { fg = colors.green },
+    ['@keyword.operator'] = { fg = colors.green },
+    ['@keyword.import'] = { fg = colors.cyan },
+    ['@keyword.repeat'] = { fg = colors.green },
+    ['@keyword.return'] = { fg = colors.green },
+    ['@keyword.conditional'] = { fg = colors.green },
+    ['@keyword.exception'] = { fg = colors.green },
+    ['@operator'] = { fg = colors.green },
+    ['@exception'] = { fg = colors.green },
+    ['@label'] = { fg = colors.green },
+
+    ['@string'] = { fg = colors.blue },
+    ['@string.escape'] = { fg = colors.blue },
+    ['@string.special'] = { fg = colors.blue },
+    ['@number'] = { fg = colors.blue },
+    ['@number.float'] = { fg = colors.blue },
+    ['@boolean'] = { fg = colors.blue },
+    ['@constant'] = { fg = colors.blue },
+    ['@constant.builtin'] = { fg = colors.blue },
+
+    ['@type'] = { fg = colors.magenta },
+    ['@type.builtin'] = { fg = colors.magenta },
+    ['@type.definition'] = { fg = colors.magenta },
+    ['@type.qualifier'] = { fg = colors.magenta },
+    ['@namespace'] = { fg = colors.magenta },
+    ['@module'] = { fg = colors.magenta },
+    ['@attribute'] = { fg = colors.magenta },
+
+    ['@punctuation'] = { fg = colors.gold },
+    ['@punctuation.bracket'] = { fg = colors.gold },
+    ['@punctuation.delimiter'] = { fg = colors.gold },
+    ['@punctuation.special'] = { fg = colors.gold },
+
+    ['@tag'] = { fg = colors.gold },
+    ['@tag.builtin'] = { fg = colors.gold },
+    ['@tag.delimiter'] = { fg = colors.gold },
+    ['@tag.attribute'] = { fg = colors.magenta },
+    ['@symbol'] = { fg = colors.gold },
+    ['@markup.heading'] = { bold = true },
+
+    -- lsp semantic (mapped to rusticated colors)
+    ['@lsp.type.namespace'] = { fg = colors.magenta },
+    ['@lsp.type.type'] = { fg = colors.magenta },
+    ['@lsp.type.class'] = { fg = colors.magenta },
+    ['@lsp.type.enum'] = { fg = colors.magenta },
+    ['@lsp.type.enumMember'] = { fg = colors.blue },
+    ['@lsp.type.interface'] = { fg = colors.magenta },
+    ['@lsp.type.struct'] = { fg = colors.magenta },
+    ['@lsp.type.parameter'] = { fg = colors.fg },
+    ['@lsp.type.property'] = { fg = colors.fg },
+    ['@lsp.type.variable'] = { fg = colors.fg },
+    ['@lsp.type.function'] = { fg = colors.red },
+    ['@lsp.type.method'] = { fg = colors.red },
+    ['@lsp.type.macro'] = { fg = colors.cyan },
+    ['@lsp.type.decorator'] = { fg = colors.green },
+
+    -- diagnostics (monochrome: differentiated by brightness, not hue)
+    DiagnosticError = { fg = colors.red },
+    DiagnosticWarn = { fg = colors.magenta },
+    DiagnosticInfo = { fg = colors.blue },
+    DiagnosticHint = { fg = colors.cyan },
+    DiagnosticVirtualTextError = { fg = colors.red },
+    DiagnosticVirtualTextWarn = { fg = colors.magenta },
+    DiagnosticVirtualTextInfo = { fg = colors.blue },
+    DiagnosticVirtualTextHint = { fg = colors.cyan },
+    DiagnosticUnderlineError = { undercurl = true, sp = colors.red },
+    DiagnosticUnderlineWarn = { undercurl = true, sp = colors.magenta },
+    DiagnosticUnderlineInfo = { undercurl = true, sp = colors.blue },
+    DiagnosticUnderlineHint = { undercurl = true, sp = colors.cyan },
+
+    -- buffer inactive (matching original rusticated)
+    BufferInactive = { bg = colors.bgDark },
+    BufferInactiveSign = { bg = colors.bgDark },
+    BufferInactiveIndex = { bg = colors.bgDark },
+
+    -- snacks explorer / sidebar
+    SnacksExplorerNormal = { fg = colors.fg, bg = sidebar },
+    SnacksExplorerWinBar = { fg = colors.fg, bg = sidebar },
+    SnacksExplorerTitle = { fg = colors.fg, bg = sidebar },
+
+    -- snacks picker
+    SnacksPicker = { bg = sidebar },
+    -- No visible border: paint it the same colour as the picker bg (sidebar) so
+    -- it blends in. In transparent mode there is no solid bg to blend into, so
+    -- paint the glyphs black instead — they nearly vanish over the dark
+    -- backdrop (full removal needs the border *style* set to 'none').
+    SnacksPickerBorder = { fg = config.transparent and '#000000' or sidebar, bg = sidebar },
+    SnacksPickerTitle = { fg = colors.fg, bg = sidebar },
+    SnacksPickerInputTitle = { fg = colors.fg, bg = sidebar },
+    SnacksPickerInput = { bg = sidebar },
+    SnacksPickerList = { bg = sidebar },
+    SnacksPickerPreview = { bg = sidebar },
+    SnacksPickerToggle = { fg = colors.fg, bg = sidebar },
+
+    -- float border
+    FloatBorder = { fg = vim.o.background == 'dark' and '#303030' or colors.border },
+
+    -- snacks input
+    SnacksInputIcon = { fg = colors.fg },
+    SnacksInputTitle = { fg = colors.fgAlt },
+    SnacksInputBorder = { fg = colors.border },
+
+    -- snacks indent
+    SnacksIndent = { fg = (config.transparent or vim.o.background == 'dark') and '#4c4c4c' or colors.bgDark },
+    SnacksIndentScope = { fg = (config.transparent or vim.o.background == 'dark') and '#abb2bf' or colors.fgInactive },
+    SnacksIndentUnderline_SnacksIndentScope = { fg = (config.transparent or vim.o.background == 'dark') and '#abb2bf' or colors.fgInactive },
+
+    -- snacks dashboard
+    SnacksDashboardDesc = { fg = colors.fg },
+    SnacksDashboardDir = { fg = colors.fgInactive },
+    SnacksDashboardHeader = { fg = colors.magenta },
+    SnacksDashboardFooter = { fg = colors.magenta },
+    SnacksDashboardIcon = { fg = colors.fg },
+    SnacksDashboardFile = { fg = colors.fg },
+    SnacksDashboardTitle = { fg = colors.fgAlt },
+
+    -- snacks notifier
+    SnacksNotifierBorderInfo = { fg = colors.border },
+    SnacksNotifierBorderWarn = { fg = colors.magenta },
+    SnacksNotifierBorderError = { fg = colors.red },
+    SnacksNotifierTitleInfo = { fg = colors.fgAlt },
+
+    -- noice
+    NoiceConfirmBorder = { fg = colors.border },
+    NoiceCmdlinePrompt = { fg = colors.fgInactive },
+    NoiceCmdlinePopupBorder = { fg = colors.border },
+    NoiceCmdlinePopupTitleCmdline = { fg = colors.fgAlt },
+    NoiceCmdlinePopupTitle = { fg = colors.fgAlt },
+    NoiceCmdlineTitle = { fg = colors.fgAlt },
+    NoiceCmdlineIcon = { fg = colors.fg },
+    NoiceCmdlineIconSearch = { fg = colors.magenta },
+
+    -- bufferline
+    BufferLineBackground = { fg = colors.fgInactive, bg = bl_bg },
+    BufferLineBufferSelected = { fg = colors.fg, bg = bl_bg, bold = true },
+    BufferLineBufferVisible = { fg = colors.fgInactive, bg = bl_bg },
+    BufferLineFill = { bg = bl_bg },
+    BufferLineSeparator = { fg = bl_bg, bg = bl_bg },
+    BufferLineSeparatorSelected = { fg = bl_bg, bg = bl_bg },
+    BufferLineSeparatorVisible = { fg = bl_bg, bg = bl_bg },
+    BufferLineModified = { fg = colors.gold, bg = bl_bg },
+    BufferLineModifiedSelected = { fg = colors.gold, bg = bl_bg },
+    BufferLineModifiedVisible = { fg = colors.gold, bg = bl_bg },
+    BufferLineIndicatorSelected = { fg = bl_bg, bg = bl_bg },
+    BufferLineIndicatorVisible = { fg = bl_bg, bg = bl_bg },
+    BufferLineCloseButton = { fg = colors.fgInactive, bg = bl_bg },
+    BufferLineCloseButtonSelected = { fg = colors.fg, bg = bl_bg },
+    BufferLineCloseButtonVisible = { fg = colors.fgInactive, bg = bl_bg },
+    BufferLineTab = { fg = colors.fgInactive, bg = bl_bg },
+    BufferLineTabSelected = { fg = colors.fg, bg = bl_bg },
+    BufferLineTabSeparator = { fg = bl_bg, bg = bl_bg },
+    BufferLineTabSeparatorSelected = { fg = bl_bg, bg = bl_bg },
+    BufferLineTabClose = { fg = colors.fgInactive, bg = bl_bg },
+    BufferLineDuplicate = { fg = colors.fgInactive, bg = bl_bg },
+    BufferLineDuplicateSelected = { fg = colors.fg, bg = bl_bg },
+    BufferLineDuplicateVisible = { fg = colors.fgInactive, bg = bl_bg },
+    BufferLineTruncMarker = { fg = colors.fgInactive, bg = bl_bg },
+    BufferLineOffset = { fg = colors.fg, bg = bl_bg, bold = true },
+    BufferLineOffsetSeparator = { fg = bl_bg, bg = bl_bg },
+    BufferLinePick = { fg = colors.red, bg = bl_bg, bold = true },
+    BufferLinePickSelected = { fg = colors.red, bg = bl_bg, bold = true },
+    BufferLinePickVisible = { fg = colors.red, bg = bl_bg, bold = true },
+    BufferLineNumbers = { fg = colors.fgInactive, bg = bl_bg },
+    BufferLineNumbersSelected = { fg = colors.fg, bg = bl_bg },
+    BufferLineNumbersVisible = { fg = colors.fgInactive, bg = bl_bg },
+    BufferLineDiagnostic = { fg = colors.fgInactive, bg = bl_bg },
+    BufferLineDiagnosticSelected = { fg = colors.fg, bg = bl_bg },
+    BufferLineDiagnosticVisible = { fg = colors.fgInactive, bg = bl_bg },
+
+    -- which-key
+    WhichKey = { fg = colors.fg, bg = sidebar },
+    WhichKeyNormal = { fg = colors.fg, bg = sidebar },
+    -- No visible border: paint it the same colour as the which-key bg (sidebar)
+    -- so it blends in — same approach as SnacksPickerBorder (black glyphs in
+    -- transparent mode, where there is no solid bg to blend into).
+    WhichKeyBorder = { fg = config.transparent and '#000000' or sidebar, bg = sidebar },
+    WhichKeyTitle = { fg = colors.fgAlt, bg = sidebar },
+    WhichKeyGroup = { fg = colors.green },
+    WhichKeyDesc = { fg = colors.fg },
+    WhichKeyValue = { fg = colors.fgInactive },
+    WhichKeySeparator = { fg = colors.fgInactive },
+
+    -- blink-cmp doc
+    BlinkCmpDoc = { bg = vim.o.background == 'light' and '#c9c8c3' or colors.bgFloat },
+    BlinkCmpDocSeparator = { bg = vim.o.background == 'light' and '#c9c8c3' or colors.bgFloat },
+
+    -- incline
+    InclineNormal = { fg = (config.transparent or vim.o.background == 'dark') and '#C6C6CE' or '#2a2a2c', bg = bg },
+    InclineNormalNC = { fg = (config.transparent or vim.o.background == 'dark') and '#C6C6CE' or '#2a2a2c', bg = bg },
+
+    -- dropbar
+    WinBar = { fg = (config.transparent or vim.o.background == 'dark') and '#C6C6CE' or '#2a2a2c', bg = config.transparent and 'NONE' or (vim.o.background == 'dark' and '#000000' or colors.bgSidebar) },
+    WinBarNC = { fg = (config.transparent or vim.o.background == 'dark') and '#C6C6CE' or '#2a2a2c', bg = config.transparent and 'NONE' or (vim.o.background == 'dark' and '#000000' or colors.bgSidebar) },
+  }
+
+  -- overrides
+  groups =
+    vim.tbl_extend('force', groups, type(config.overrides) == 'function' and config.overrides() or config.overrides)
+
+  for group, parameters in pairs(groups) do
+    vim.api.nvim_set_hl(0, group, parameters)
+  end
+end
+
+function M.setup(values)
+  local merged = vim.tbl_extend('force', config.defaults, values)
+  for k, v in pairs(merged) do
+    config[k] = v
+  end
+end
+
+function M.colorscheme()
+  if vim.version().minor < 8 then
+    vim.notify('Neovim 0.8+ is required for rosanight colorscheme', vim.log.levels.ERROR, { title = 'Rosanight' })
+    return
+  end
+
+  -- Sync transparent state from appearance module
+  local ok, appearance = pcall(require, 'rosavim.config.appearance')
+  if ok then
+    config.transparent = appearance.get_transparent()
+  end
+
+  vim.api.nvim_command 'hi clear'
+  if vim.fn.exists 'syntax_on' then
+    vim.api.nvim_command 'syntax reset'
+  end
+
+  vim.g.VM_theme_set_by_colorscheme = true
+  vim.o.termguicolors = true
+  vim.g.colors_name = 'rosanight'
+
+  -- Clear cached color module so it re-evaluates vim.o.background
+  package.loaded['rosanight.colors'] = nil
+
+  set_terminal_colors()
+  set_groups()
+end
+
+return M
