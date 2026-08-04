@@ -95,6 +95,10 @@ function M.get(mode, transparent_background)
     FloatBorder = { fg = '#4c4c4c' },
     MatchParen = { fg = '#c6c6ce', bg = '#555555' },
 
+    -- Floating windows (RosaAI layout picker and everything else linking to
+    -- NormalFloat): #191925, same bg as the editor CursorLine/PmenuSel.
+    NormalFloat = { bg = transparent_background and 'NONE' or '#191925' },
+
     -- lazygit (Snacks reads the RosaLg* groups — see rosa_plugins/lazygit_theme;
     -- monochrome values so lazygit matches the theme instead of rosamin's accents)
     RosaLg241 = { fg = '#b4b4be' },
@@ -108,9 +112,13 @@ function M.get(mode, transparent_background)
     RosaLgUnstaged = { fg = '#c6c6ce' },
 
     -- blink.cmp completion menu
-    -- Selected item: solid #303030 so it stands out on the near-black menu.
+    -- Menu bg follows transparency like rosamin (Pmenu -> NormalFloat there):
+    -- no bg in transparent mode, only the selection bar shows.
+    Pmenu = { fg = '#FFFFFF', bg = transparent_background and 'none' or '#000000' },
+    -- Selected item: #191925, same bg as the editor CursorLine, so the
+    -- highlighted row matches the cursor-line color instead of a lighter grey.
     -- BlinkCmpMenuSelection -> PmenuSel.
-    PmenuSel = { bg = '#303030' },
+    PmenuSel = { bg = '#191925' },
     -- Documentation/preview window: follow the editor bg (#000000) instead of the
     -- grey bgFloat, and go transparent when transparent mode is on.
     -- BlinkCmpDoc / DocBorder / DocSeparator all link to NormalFloat by default.
@@ -119,7 +127,7 @@ function M.get(mode, transparent_background)
     -- Borders were rendering near-white (they inherit Pmenu/NormalFloat fg).
     -- Darken both the menu and doc borders to #303030 (matches FloatBorder).
     BlinkCmpDocBorder = { bg = transparent_background and 'none' or '#000000', fg = '#303030' },
-    BlinkCmpMenuBorder = { bg = transparent_background and 'none' or '#0a0a0a', fg = '#303030' },
+    BlinkCmpMenuBorder = { bg = transparent_background and 'none' or '#000000', fg = '#303030' },
 
     -- flash.nvim (monochrome)
     FlashMatch = { fg = '#000000', bg = '#c6c6ce' },
