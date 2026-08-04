@@ -51,7 +51,7 @@ O `<leader>ly` vem **ativado** por padrão (cursor em bloco no modo normal, o vi
 | `<leader>lqg` | Separador do Lualine (seletor popup) | rounded |
 | `<leader>lqy` | Barra Y do Lualine Transparente (funde com o bg do tema vs sólido `#1a1a1a`) | Ativado |
 | `<leader>lqs` | Picker de theme (rosamin / rosavintage / rosanight) | rosamin |
-| `<leader>lqn` | Tema Sem Bordas — pinta as bordas do which-key / snacks picker da mesma cor do bg, em todos os temas | Desativado |
+| `<leader>lqn` | Tema Sem Bordas — pinta as bordas do which-key / snacks picker / rosapick da mesma cor do bg, em todos os temas | Desativado |
 | `<leader>ll` | Lualine (visibilidade da Statusline) | Ativado |
 
 Separadores do Lualine disponíveis: `rounded`, `bar`, `arrow`, `slant`

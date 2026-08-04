@@ -474,7 +474,7 @@ Quer revisar **tudo** no repositório (suas edições incluídas), não só as d
 | n | `<leader>lqm` | Selecionar tema do Render Markdown | `Space l q m` para escolher o preset do render-markdown (none / lazy / obsidian) |
 | n | `<leader>lqg` | Selecionar separador do lualine | `Space l q g` para escolher um preset de separador da statusline (rounded / bar / arrow / slant) |
 | n | `<leader>lqe` | Alternar transparência | `Space l q e` para alternar a transparência do fundo |
-| n | `<leader>lqn` | Alternar tema sem bordas | `Space l q n` — ativado pinta as bordas do which-key / snacks picker da mesma cor do bg (visual sem borda) em todos os temas; desativado (padrão) mantém a cor de borda de cada tema (persiste) |
+| n | `<leader>lqn` | Alternar tema sem bordas | `Space l q n` — ativado pinta as bordas do which-key / snacks picker / rosapick da mesma cor do bg (visual sem borda) em todos os temas; desativado (padrão) mantém a cor de borda de cada tema (persiste) |
 | n | `<leader>lqad` / `<leader>lqaD` | RosaAI forçar fundo escuro | `Space l q a d` (modo claro) / `Space l q a D` (modo escuro) para forçar fundo #000 no painel do RosaAI em vez do bg do tema (persiste) |
 | n | `<leader>lqrd` / `<leader>lqrD` | Rosaterm forçar fundo escuro | `Space l q r d` (modo claro) / `Space l q r D` (modo escuro) para forçar fundo #000 no Rosaterm em vez do bg do tema (persiste) |
 | n | `<leader>lqfy` / `<leader>lqfY` | Yazi forçar fundo escuro | `Space l q f y` (modo claro) / `Space l q f Y` (modo escuro) para forçar fundo #000 no float do yazi em vez do bg do tema (persiste) |

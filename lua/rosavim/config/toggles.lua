@@ -7,7 +7,7 @@ local defaults = {
   lualine_theme = true,
   lualine_separator = 'rounded', -- rounded | bar | arrow | slant (<leader>lqg)
   lualine_bar_y_transparent = true, -- true (default) = y/centre bar transparent, blends with theme bg; false = original solid #1a1a1a bar (<leader>lqy)
-  theme_borderless = false, -- true = paint which-key/snacks picker borders the same colour as their bg, in every rosa theme (<leader>lqn)
+  theme_borderless = false, -- true = paint which-key/snacks picker/rosapick borders the same colour as their bg, in every rosa theme (<leader>lqn)
   dropbar = true,
   autosave = false,
   virtual_text_current_line = false,

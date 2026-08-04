@@ -278,6 +278,12 @@ local function set_groups()
     SnacksPickerPreview = { bg = sidebar },
     SnacksPickerToggle = { fg = colors.fg, bg = sidebar },
 
+    -- rosapick (window picker) label border. Same soft grey-blue as
+    -- SnacksPickerBorder, over the label strip's own bg (Normal bg, with the
+    -- same solid fallback rosapick uses in transparent mode). The Borderless
+    -- toggle (<leader>lqn) repaints it bg-coloured to blend in.
+    RosapickBorder = { fg = '#A9B2C0', bg = config.transparent and (vim.o.background == 'light' and '#ffffff' or '#000000') or colors.bg },
+
     -- float border
     FloatBorder = { fg = vim.o.background == 'dark' and '#303030' or colors.border },
 

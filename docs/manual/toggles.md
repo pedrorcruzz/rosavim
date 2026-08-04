@@ -51,7 +51,7 @@ The orchestrator at `lua/rosavim/plugins/ui/snacks/toggles.lua` loads all module
 | `<leader>lqg` | Lualine Separator (popup selector) | rounded |
 | `<leader>lqy` | Lualine Bar Y Transparent (blend with theme bg vs solid `#1a1a1a`) | On |
 | `<leader>lqs` | Theme picker (rosamin / rosavintage / rosanight) | rosamin |
-| `<leader>lqn` | Borderless Theme — paint which-key / snacks picker borders the same colour as their bg, in every theme | Off |
+| `<leader>lqn` | Borderless Theme — paint which-key / snacks picker / rosapick borders the same colour as their bg, in every theme | Off |
 | `<leader>ll` | Lualine (Statusline visibility) | On |
 
 Available lualine separators: `rounded`, `bar`, `arrow`, `slant`

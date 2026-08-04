@@ -44,9 +44,9 @@ return function()
     end,
   }):map '<leader>lqe'
 
-  -- Borderless — ON paints the which-key / snacks picker borders the same
-  -- colour as their bg (seamless look) in every rosa theme; OFF (default)
-  -- keeps each theme's own border colour. Applied by the ColorScheme autocmd
+  -- Borderless — ON paints the which-key / snacks picker / rosapick borders
+  -- the same colour as their bg (seamless look) in every rosa theme; OFF
+  -- (default) keeps each theme's own border colour. Applied by the ColorScheme autocmd
   -- in plugins/ui/colorscheme.lua; re-applying the scheme takes effect live.
   Snacks.toggle({
     name = 'Borderless Theme',

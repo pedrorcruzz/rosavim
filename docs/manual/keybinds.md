@@ -474,7 +474,7 @@ Want to review **everything** in the repo (your edits included), not just the AI
 | n | `<leader>lqm` | Select Render Markdown theme | `Space l q m` to pick the render-markdown preset (none / lazy / obsidian) |
 | n | `<leader>lqg` | Select lualine separator | `Space l q g` to pick a statusline separator preset (rounded / bar / arrow / slant) |
 | n | `<leader>lqe` | Toggle transparent | `Space l q e` to toggle background transparency |
-| n | `<leader>lqn` | Toggle borderless theme | `Space l q n` — on paints the which-key / snacks picker borders the same colour as their bg (seamless look) in every theme; off (default) keeps each theme's own border colour (persists) |
+| n | `<leader>lqn` | Toggle borderless theme | `Space l q n` — on paints the which-key / snacks picker / rosapick borders the same colour as their bg (seamless look) in every theme; off (default) keeps each theme's own border colour (persists) |
 | n | `<leader>lqad` / `<leader>lqaD` | RosaAI force dark bg | `Space l q a d` (light mode) / `Space l q a D` (dark mode) to force a #000 background on the RosaAI panel instead of the theme bg (persists) |
 | n | `<leader>lqrd` / `<leader>lqrD` | Rosaterm force dark bg | `Space l q r d` (light mode) / `Space l q r D` (dark mode) to force a #000 background on Rosaterm instead of the theme bg (persists) |
 | n | `<leader>lqfy` / `<leader>lqfY` | Yazi force dark bg | `Space l q f y` (light mode) / `Space l q f Y` (dark mode) to force a #000 background on the yazi float instead of the theme bg (persists) |

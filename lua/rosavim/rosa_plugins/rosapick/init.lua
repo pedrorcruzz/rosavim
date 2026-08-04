@@ -23,7 +23,12 @@ local function setup_highlights()
 
   vim.api.nvim_set_hl(0, label_hl, { fg = fg, bg = bg, bold = true })
   vim.api.nvim_set_hl(0, label_active_hl, { fg = fg, bg = bg, bold = true })
-  vim.api.nvim_set_hl(0, border_hl, { fg = bg, bg = bg })
+  -- Themes may style RosapickBorder themselves (rosanight paints it visible;
+  -- the Borderless toggle <leader>lqn repaints it bg-on-bg). Only fall back to
+  -- the seamless bg-on-bg strip when no theme defines the group.
+  if vim.tbl_isempty(vim.api.nvim_get_hl(0, { name = border_hl, link = false })) then
+    vim.api.nvim_set_hl(0, border_hl, { fg = bg, bg = bg })
+  end
 end
 
 local function get_windows()
