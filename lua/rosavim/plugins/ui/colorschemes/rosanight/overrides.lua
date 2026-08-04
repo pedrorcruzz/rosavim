@@ -63,9 +63,11 @@ function M.get(mode, transparent_background)
       -- default to NonText (grey). Use normal fg so nested names stay readable.
       SnacksPickerPathHidden = { fg = '#1c1c1e' },
 
-      -- statusline
+      -- statusline (Term variants cover terminal windows: rosaterm/rosaai)
       StatusLine = { fg = '#1c1c1e' },
       StatusLineNC = { fg = '#1c1c1e' },
+      StatusLineTerm = { link = 'StatusLine' },
+      StatusLineTermNC = { link = 'StatusLineNC' },
 
       -- Diagnostics: keep distinct hues even though the rest of the palette is
       -- greyscale, so error/warn/info/hint are tellable apart at a glance.
@@ -151,6 +153,10 @@ function M.get(mode, transparent_background)
     -- grey fallback
     StatusLine = { bg = transparent_background and 'NONE' or (lualine_on and '#1a1a1a' or '#000000'), fg = lualine_on and '#606060' or '#9B9BA4' },
     StatusLineNC = { bg = transparent_background and 'NONE' or (lualine_on and '#1a1a1a' or '#000000'), fg = lualine_on and '#606060' or '#9B9BA4' },
+    -- Terminal windows (rosaterm/rosaai) use the Term variants, which the base
+    -- theme pins to #1A1A1A; link them so they follow the override above.
+    StatusLineTerm = { link = 'StatusLine' },
+    StatusLineTermNC = { link = 'StatusLineNC' },
 
     -- Diagnostics: keep distinct hues even though the rest of the palette is
     -- greyscale, so error/warn/info/hint are tellable apart at a glance.
