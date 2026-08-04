@@ -129,6 +129,14 @@ function M.get(mode, transparent_background)
     BlinkCmpDocBorder = { bg = transparent_background and 'none' or '#000000', fg = '#303030' },
     BlinkCmpMenuBorder = { bg = transparent_background and 'none' or '#000000', fg = '#303030' },
 
+    -- mason: MasonNormal links to NormalFloat (#191925) by default, but the
+    -- Mason window should follow the editor bg (#000) and go bg-less in
+    -- transparent mode. MasonHighlight drives the installed-check icons —
+    -- same blue as DiagnosticInfo so the circled checks match the diagnostics.
+    MasonNormal = { fg = '#FFFFFF', bg = transparent_background and 'NONE' or '#000000' },
+    MasonHighlight = { fg = '#64baff' },
+    MasonHighlightSecondary = { fg = '#64baff' },
+
     -- flash.nvim (monochrome)
     FlashMatch = { fg = '#000000', bg = '#c6c6ce' },
     FlashCurrent = { fg = '#000000', bg = '#c6c6ce' },
