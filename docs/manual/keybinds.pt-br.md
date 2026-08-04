@@ -95,6 +95,7 @@
 | n | `<leader>sq` | Registradores | `Space s q` para navegar o conteúdo dos registradores |
 | n | `<leader>sR` | Quickfix list | `Space s Shift+r` para navegar a quickfix list |
 | n | `<leader>su` | Histórico de undo | `Space s u` para navegar e restaurar do histórico de undo |
+| n | `<leader>sr` | Referências LSP | `Space s r` para listar todos os usos do símbolo sob o cursor (mesmo que `gr`) |
 | n | `<leader>ss` | Símbolos LSP | `Space s s` para buscar símbolos no buffer atual |
 | n | `<leader>sS` | Símbolos do workspace | `Space s Shift+s` para buscar símbolos em todo o workspace |
 
@@ -106,7 +107,7 @@
 |:----:|:------|:-----|:--------|
 | n | `gd` | Ir para definição | Em uma chamada de função, pressione `gd` para ir onde ela é definida |
 | n | `gD` | Ir para declaração | Pressione `gD` para ir para a declaração do símbolo |
-| n | `gr` | Referências | Em um nome de função, pressione `gr` para ver todos os usos no projeto |
+| n | `gr` | Referências | Em um nome de função, pressione `gr` para ver todos os usos no projeto (também `<leader>sr`) |
 | n | `gI` | Ir para implementação | Em um método de interface, pressione `gI` para encontrar suas implementações |
 | n | `gy` | Ir para definição de tipo | Pressione `gy` para ir para a definição de tipo do símbolo |
 | n | `gp` | Rosapreview: Definição | Pressione `gp` para ver a definição em uma janela flutuante |

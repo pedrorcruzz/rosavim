@@ -13,13 +13,17 @@ local function get_hl_color(group, attr)
 end
 
 local function setup_highlights()
-  local bg = get_hl_color('Normal', 'bg')
+  -- Flat, seamless labels: Normal fg over the editor bg, with the border
+  -- painted bg-on-bg so the label reads as plain text on a solid strip.
+  -- Current and non-current labels share the exact same style, so the picker
+  -- looks identical no matter which window it is invoked from. The solid
+  -- fallback keeps the strip opaque in transparent mode.
   local fg = get_hl_color('Normal', 'fg') or 0xa0a0a0
-  local border_fg = get_hl_color('FloatBorder', 'fg') or get_hl_color('Comment', 'fg') or 0x3a3a3a
+  local bg = get_hl_color('Normal', 'bg') or (vim.o.background == 'light' and 0xffffff or 0x000000)
 
-  vim.api.nvim_set_hl(0, label_hl, { fg = border_fg, bg = bg, bold = true })
+  vim.api.nvim_set_hl(0, label_hl, { fg = fg, bg = bg, bold = true })
   vim.api.nvim_set_hl(0, label_active_hl, { fg = fg, bg = bg, bold = true })
-  vim.api.nvim_set_hl(0, border_hl, { fg = border_fg, bg = bg })
+  vim.api.nvim_set_hl(0, border_hl, { fg = bg, bg = bg })
 end
 
 local function get_windows()
