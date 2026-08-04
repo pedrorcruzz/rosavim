@@ -19,6 +19,7 @@
 - [IA (Copilot & RosaAI)](#ia-copilot--rosaai)
 - [Operações de Arquivo](#operações-de-arquivo)
 - [Rosadirs (diretórios de Projects & Obsidian)](#rosadirs-diretórios-de-projects--obsidian)
+- [Rosasnippets (Gerenciador de Snippets)](#rosasnippets-gerenciador-de-snippets)
 - [Rosapoon (Favoritos)](#rosapoon-favoritos)
 - [Flash (Movimentação)](#flash-movimentação)
 - [Copiar & Colar (Yanky)](#copiar--colar-yanky)
@@ -46,7 +47,7 @@
 | n | `<leader>w` | Salvar arquivo | `Space w` para salvar rapidamente |
 | n | `<leader>W` | Salvar sem formatar | `Space Shift+w` para salvar sem disparar o format-on-save |
 | n | `<leader>h` | Limpar highlight de busca | `Space h` após uma busca para remover todos os destaques |
-| n | `<leader>q` | Sair | `Space q` para fechar com confirmação |
+| n | `<leader>Q` | Sair | `Space Q` para fechar com confirmação |
 
 ---
 
@@ -113,7 +114,6 @@
 | n | `<leader>lr` | Renomear símbolo | `Space l r` em uma variável, digite o novo nome — renomeia em todo o projeto |
 | n | `<leader>la` | Code action | `Space l a` para ver ações de código disponíveis (imports, correções, refatorações) |
 | n | `<leader>lv` | Renomear arquivo | `Space l v` para renomear o arquivo atual e atualizar todos os imports |
-| n | `<leader>lo` | Alternar outline | `Space l o` para abrir/fechar a barra lateral de outline do código |
 | n | `<leader>Q` | Rosapreview: Expandir Vsplit | Abrir a definição do preview em um split vertical |
 | n | `<leader>M` | Rosapreview: Substituir Janela | Abrir a definição do preview substituindo a janela atual |
 
@@ -184,6 +184,7 @@
 | n | `<leader>bq` | Ordenar por diretório | `Space b q` para ordenar buffers por diretório |
 | n | `<leader>be` | Ordenar por extensão | `Space b e` para ordenar buffers por extensão |
 | n | `<leader>br` | Ordenar por dir relativo | `Space b r` para ordenar buffers por diretório relativo |
+| n | `<leader>q` | Fechar janela | `Space q` fecha a janela atual (igual ao `Space c c`) |
 | n | `<leader>lb` | Toggle bufferline | `Space l b` para mostrar/ocultar a barra de abas |
 
 ---
@@ -403,6 +404,29 @@ Quer revisar **tudo** no repositório (suas edições incluídas), não só as d
 
 ---
 
+## Rosasnippets (Gerenciador de Snippets)
+
+| Modo | Atalho | Ação | Exemplo |
+|:----:|:-------|:-----|:--------|
+| n | `<leader>lo` | Painel do Rosasnippets | `Space l o` abre o gerenciador (lista agrupada + barra de busca com filtro ao vivo) |
+| n (painel) | `↵` | Editar corpo | Editor com syntax highlight e autosave — mudanças recarregam na hora no autocomplete |
+| n (painel) | `a` | Adicionar snippet | Wizard em 4 etapas: filetype → atalho → descrição → preset inicial, terminando no editor de corpo |
+| n (painel) | `e` | Editar atalho/descrição | Dois prompts pré-preenchidos (`Edit 1/2 · Trigger`, `Edit 2/2 · Description`), salvos a cada confirmação |
+| n (painel) | `d` | Apagar snippet | Pede confirmação |
+| n (painel) | `o` | Abrir arquivo JSON | Vai direto pro snippet dentro de `snippets/<filetype>.json` |
+| n (painel) | `p` | Preview do arquivo | O Rosapreview doca ao lado do painel (volta ao centro ao fechar) |
+| n (painel) | `f` | Filtrar por linguagem | Mini popup (mesmo estilo do seletor de tema); `none` limpa — o filtro ativo aparece no título |
+| n (painel) | `t` | Presets | Salva o snippet selecionado como preset pessoal, ou navega por todos os presets |
+| n (painel) | `/` ou `i` | Buscar | Filtro fuzzy ao vivo; `<C-j>`/`<C-k>` movem a seleção enquanto digita, `<Esc>` mantém o filtro |
+| n (painel) | `q` / `<Esc>` | Fechar | Fecha o painel |
+| i (editor de corpo) | `<C-t>` | Próximo tabstop | Insere o próximo `${N:}` numerado no cursor |
+| n (navegador de presets) | `j`/`k` | Navegar | O preview read-only ao lado acompanha a seleção ao vivo |
+| n (navegador de presets) | `e` / `r` / `d` | Editar corpo / renomear / apagar | Só nos presets pessoais (★) — os de fábrica são somente leitura |
+
+> Os snippets são JSON no formato VSCode em `snippets/<filetype>.json`, expandidos pelo `vim.snippet` nativo (`<Tab>`/`<S-Tab>` pulam entre os placeholders com um snippet ativo). Presets pessoais ficam em `~/.config/rosasnippets/templates.json` — fora da config do Rosavim, então nunca vão junto com a distro. Toda mudança recarrega na hora no blink.cmp, sem reiniciar.
+
+---
+
 ## Rosapoon (Favoritos)
 
 | Modo | Tecla | Ação | Exemplo |
@@ -449,6 +473,11 @@ Quer revisar **tudo** no repositório (suas edições incluídas), não só as d
 | n | `<leader>lqm` | Selecionar tema do Render Markdown | `Space l q m` para escolher o preset do render-markdown (none / lazy / obsidian) |
 | n | `<leader>lqg` | Selecionar separador do lualine | `Space l q g` para escolher um preset de separador da statusline (rounded / bar / arrow / slant) |
 | n | `<leader>lqe` | Alternar transparência | `Space l q e` para alternar a transparência do fundo |
+| n | `<leader>lqn` | Alternar tema sem bordas | `Space l q n` — ativado pinta as bordas do which-key / snacks picker da mesma cor do bg (visual sem borda) em todos os temas; desativado (padrão) mantém a cor de borda de cada tema (persiste) |
+| n | `<leader>lqad` / `<leader>lqaD` | RosaAI forçar fundo escuro | `Space l q a d` (modo claro) / `Space l q a D` (modo escuro) para forçar fundo #000 no painel do RosaAI em vez do bg do tema (persiste) |
+| n | `<leader>lqrd` / `<leader>lqrD` | Rosaterm forçar fundo escuro | `Space l q r d` (modo claro) / `Space l q r D` (modo escuro) para forçar fundo #000 no Rosaterm em vez do bg do tema (persiste) |
+| n | `<leader>lqfy` / `<leader>lqfY` | Yazi forçar fundo escuro | `Space l q f y` (modo claro) / `Space l q f Y` (modo escuro) para forçar fundo #000 no float do yazi em vez do bg do tema (persiste) |
+| n | `<leader>lqfg` / `<leader>lqfG` | Lazygit forçar fundo escuro | `Space l q f g` (modo claro) / `Space l q f G` (modo escuro) para forçar fundo #000 no float do lazygit em vez do bg do tema (persiste) |
 | n | `<leader>lqy` | Alternar transparência da barra-y do lualine | `Space l q y` — ativado (padrão) funde a barra central/y do lualine com o bg do tema; desativado mostra a barra sólida original `#1a1a1a` (funciona nos temas auto e custom do lualine) |
 | n | `<leader>lqdt` | Liga/desliga gif do dashboard | `Space l q d t` pra ativar/desativar o gif chafa (persistido, hot-reload) |
 | n | `<leader>lqds` | Buscar gif do dashboard | `Space l q d s` pra escolher uma imagem em `dashboard_img/` (persistido, hot-reload) |
@@ -473,10 +502,10 @@ Quer revisar **tudo** no repositório (suas edições incluídas), não só as d
 | n | `<leader>laml` | Indicador na lualine (Rosamaximize) | `Space l a m l` para mostrar/esconder o indicador `max` na lualine |
 | n | `<leader>lamb` | Badge no buffer (Rosamaximize) | `Space l a m b` para mostrar/esconder o badge flutuante `max` no buffer |
 | n | `<leader>lamn` | Nome/ícone (Rosamaximize) | `Space l a m n` para alternar entre o texto `max` e só o ícone |
-| n | `<leader>lams` | Borda (Rosamaximize) | `Space l a m s` para abrir um popup e escolher a borda do badge (none / rounded / reta) |
+| n | `<leader>lqx` | Borda (Rosamaximize) | `Space l q x` para abrir um popup e escolher a borda do badge (none / rounded / reta) |
 | n | `<leader>lqp` | Picker Layout | `Space l q p` para abrir popup de seleção de layout do picker |
 | n | `<leader>lasp` | Picker Preview | `Space l a s p` para alternar preview do picker on/off |
-| n | `<leader>lasb` | Picker Border | `Space l a s b` para abrir popup de seleção de borda do picker |
+| n | `<leader>lqo` | Picker Border | `Space l q o` para abrir popup de seleção de borda do picker |
 | n | `<leader>lqw` | Which-Key Preset | `Space l q w` para abrir popup de seleção de preset do which-key |
 | n | `<leader>lqb` | Which-Key Border | `Space l q b` para abrir popup de seleção de borda do which-key |
 | n | `<leader>uu` | Alternar Render Markdown | `Space u t` para alternar renderização aprimorada de markdown |

@@ -16,7 +16,7 @@ vim.lsp.config('*', {
 
 -- Ativa todos os servers (configs em lsp/*.lua)
 vim.lsp.enable {
-  'vtsls',
+  'tsgo',
   'tailwindcss',
   'emmet_ls',
   'basedpyright',
@@ -49,7 +49,7 @@ return {
     opts = {
       ensure_installed = {
         -- LSP Servers
-        'vtsls',
+        'tsgo',
         'tailwindcss-language-server',
         'emmet-ls',
         'basedpyright',
@@ -59,7 +59,7 @@ return {
         'sqlls',
         'lua-language-server',
         'marksman',
-        -- Formatters
+        -- Fnrmatters
         'stylua',
         'superhtml',
         'prettierd',

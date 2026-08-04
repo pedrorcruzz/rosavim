@@ -1,6 +1,6 @@
 --- RosaAI ui - Pickers for theme / position / size / border
 --- All four use vim.ui.select so they inherit the snacks picker layout
---- the user has configured globally (<leader>lasl, <leader>lasb).
+--- the user has configured globally (<leader>lqp, <leader>lqo).
 local M = {}
 
 --- Render an item label with a marker dot when it is the current value

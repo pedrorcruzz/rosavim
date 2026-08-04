@@ -76,7 +76,7 @@ Detailed guides live in [`docs/manual`](docs/manual/):
 <br>
 
 - **blink.cmp** — Rust-powered completion engine, blazingly fast
-- **Snippets** with LuaSnip + friendly-snippets
+- **Native snippets** (`vim.snippet`) + friendly-snippets, managed by **Rosasnippets** — interactive panel with fuzzy search, per-language starter presets, and live preview
 - **Native Treesitter** (Neovim 0.12+) for precise highlighting and indentation
 - **Format on save** (conform.nvim) and **auto-save** on focus loss
 - **Snacks Picker** for fuzzy finding files, grep, and buffers
@@ -133,6 +133,7 @@ Detailed guides live in [`docs/manual`](docs/manual/):
 | **Rosapreview** | LSP preview (definition, type, implementation, references) in a floating window |
 | **Rosapoon** | Bookmark and jump between frequently used files, scoped per git repo |
 | **Rosadirs** | Manage Projects & Obsidian vault directories at runtime |
+| **Rosasnippets** | Snippet manager — browse/search your snippets, 4-step creation wizard with per-language starter presets (plus your own), live preview, hot reload into completion |
 | **Rosapick** | Visual window picker with letter labels |
 | **Rosamaximize** | Maximize the current window and restore the full layout — with a `max` badge and a lualine indicator (configurable via `<leader>lam`) |
 | **Rosazen** | Distraction-free mode — maximizes and centers the current window, hides all UI chrome, keeps floating tools (Rosaterm/RosaAI/Yazi/Lazygit) usable, and persists across sessions |
@@ -166,8 +167,8 @@ Full support (LSP, formatting, linting, testing, debugging) for the most popular
 
 | Language | LSP | Formatter | Linter | Tests | Debug |
 |:---------|:---:|:---------:|:------:|:-----:|:-----:|
-| **TypeScript / JavaScript** | vtsls | Biome / Prettier | Biome / eslint_d | Jest / Vitest | — |
-| **React / JSX / TSX** | vtsls | Biome / Prettier | Biome / eslint_d | Jest / Vitest | — |
+| **TypeScript / JavaScript** | tsgo | Biome / Prettier | Biome / eslint_d | Jest / Vitest | — |
+| **React / JSX / TSX** | tsgo | Biome / Prettier | Biome / eslint_d | Jest / Vitest | — |
 | **Go** | gopls | goimports | golangci-lint | gotestsum | Delve |
 | **Python** | basedpyright | autopep8 | Mypy / Pylint | pytest | debugpy |
 | **Java** | JDTLS | google-java-format | Checkstyle | Gradle | Remote Attach |
@@ -276,6 +277,7 @@ A strictly monochrome night theme: OLED-black (`#000000`) background with a cool
 | `<leader>lqs` | Switch theme (rosamin / rosavintage / rosanight) |
 | `<leader>lqy` | Toggle lualine bar-y transparency |
 | `<leader>lp` | Rosadirs (manage project dirs) |
+| `<leader>lo` | Rosasnippets (snippet manager) |
 | `<leader>ll` | Toggle statusline |
 | `<leader>ly` | Toggle cursor shape (block ↔ thin bar) |
 | `<leader>lY` | Toggle current-line highlight |
@@ -297,7 +299,7 @@ Full reference: **[Keybindings Manual](docs/manual/keybinds.md)**.
 ├── init.lua                       # Entry point
 ├── lua/rosavim/
 │   ├── init.lua                   # Bootstrap
-│   ├── config/                    # options, keybinds, appearance, autocmds, toggles, focus, snippets
+│   ├── config/                    # options, keybinds, appearance, autocmds, toggles, focus
 │   ├── plugins/
 │   │   ├── env/                   # LSP, Mason, Treesitter, DAP, lint, format, git
 │   │   ├── ai/                    # Copilot, RosaAI
@@ -308,7 +310,7 @@ Full reference: **[Keybindings Manual](docs/manual/keybinds.md)**.
 │   │   └── test/                  # Rosatest
 │   ├── rosa_plugins/              # built-in plugins (see Features)
 │   │   ├── rosaterm/  rosatest/  rosakit/  rosafile/
-│   │   ├── rosapreview/  rosapoon/  rosadirs/  rosapick/
+│   │   ├── rosapreview/  rosapoon/  rosadirs/  rosapick/  rosasnippets/
 │   │   ├── rosamaximize/  rosazen/  rosayank/  rosasave/  rosasweep/
 │   │   └── rosaai/
 │   └── rosa_themes/
@@ -316,6 +318,7 @@ Full reference: **[Keybindings Manual](docs/manual/keybinds.md)**.
 │       ├── rosavintage/          # earthy, warm theme
 │       └── rosanight/            # minimalist monochrome (OLED)
 ├── lsp/                           # individual LSP configs
+├── snippets/                      # VSCode-format snippets (managed by Rosasnippets, <leader>lo)
 └── assets/                        # logo and screenshots
 ```
 

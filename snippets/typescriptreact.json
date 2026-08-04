@@ -1,0 +1,28 @@
+{
+  "Custom - Export Default Function Name - React TSX Component": {
+    "prefix": "cedf",
+    "description": "Custom - Export Default Function Name - React TSX Component",
+    "body": [
+      "export default function ${1:ComponentName}(${2:props}: ${3:PropsType}): JSX.Element {",
+      "\treturn (",
+      "\t\t<div>",
+      "\t\t\t${4:/* content */}",
+      "\t\t</div>",
+      "\t)",
+      "}"
+    ]
+  },
+  "Custom - Export Function - React TSX Component": {
+    "prefix": "cef",
+    "description": "Custom - Export Function - React TSX Component",
+    "body": [
+      "export function ${1:ComponentName}(${2:props}: ${3:PropsType}): JSX.Element {",
+      "\treturn (",
+      "\t\t<div>",
+      "\t\t\t${4:/* content */}",
+      "\t\t</div>",
+      "\t)",
+      "}"
+    ]
+  }
+}

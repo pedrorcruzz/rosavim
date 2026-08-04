@@ -1440,7 +1440,7 @@ api.nvim_create_autocmd('WinLeave', {
 -- autocmd that keys off the 'background' option: a light colorscheme reports a
 -- WHITE background. TUIs like Cursor Agent query this to auto-theme, so on a
 -- light theme they paint a light input box even though our CLI float is forced
--- dark (rosaai_dark_bg / <leader>laad). winhl can't change the OSC answer, and
+-- dark (rosaai_dark_bg / <leader>lqad). winhl can't change the OSC answer, and
 -- COLORFGBG is only a fallback the app uses when the query goes unanswered.
 -- So we replace Nvim's stock responder with one that reports DARK for our
 -- forced-dark CLI terminals, and preserves stock behavior for every other

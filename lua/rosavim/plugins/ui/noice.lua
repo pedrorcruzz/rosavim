@@ -67,7 +67,6 @@ return {
           auto_open = {
             enabled = true,
             trigger = true,
-            luasnip = true,
             throttle = 50,
           },
           view = nil,

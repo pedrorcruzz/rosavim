@@ -293,21 +293,19 @@ return {
 
 ## Snippets Customizados
 
-Snippets customizados ficam em `lua/rosavim/config/snippets/`. Eles usam o formato LuaSnip:
+Snippets customizados ficam em `snippets/` na raiz da config — navegue, crie e edite interativamente com o **Rosasnippets** (`<leader>lo`), ou edite os arquivos direto, como arquivos JSON no formato VSCode nomeados pelo filetype (ex.: `snippets/python.json`). A expansão usa o `vim.snippet` nativo do Neovim — sem plugin de engine. Com um snippet ativo, `<Tab>` / `<S-Tab>` pulam entre os placeholders.
 
-```lua
-local ls = require("luasnip")
-local s = ls.snippet
-local t = ls.text_node
-local i = ls.insert_node
-
-ls.add_snippets("python", {
-  s("main", {
-    t({ 'if __name__ == "__main__":', "    " }),
-    i(1, "pass"),
-  }),
-})
+```json
+{
+  "Main guard": {
+    "prefix": "main",
+    "description": "bloco if __name__ == \"__main__\"",
+    "body": ["if __name__ == \"__main__\":", "\t${1:pass}"]
+  }
+}
 ```
+
+O wizard de criação oferece presets prontos por linguagem (funções, classes, loops, hooks de React, …); salve os seus com `t` no painel do Rosasnippets — eles ficam em `~/.config/rosasnippets/templates.json` — fora da config do Rosavim de propósito, pra seus presets pessoais ficarem nos seus dotfiles e nunca irem junto com a distro (as chaves são um filetype como `typescriptreact` ou uma família como `js`) e aparecem marcados com ★. Use `${1:placeholder}` para tabstops (`$0` é a posição final do cursor) e `\t` para indentação — ela é reajustada às suas configurações locais na expansão. Herança de filetype (ex.: typescript herdar snippets de javascript) é configurada em `lua/rosavim/plugins/env/blink-cmp.lua` em `sources.providers.snippets.opts.extended_filetypes`.
 
 ---
 

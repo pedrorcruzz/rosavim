@@ -340,6 +340,12 @@ local function set_groups()
 	for group, parameters in pairs(groups) do
 		vim.api.nvim_set_hl(0, group, parameters)
 	end
+
+	-- Borderless-mode repaint must run on EVERY set_groups path: lualine's
+	-- 'auto' theme re-sources this file without firing ColorScheme.
+	pcall(function()
+		require("rosavim.config.borderless").apply()
+	end)
 end
 
 function min.setup(values)

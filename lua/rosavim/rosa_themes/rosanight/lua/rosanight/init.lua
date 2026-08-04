@@ -268,11 +268,9 @@ local function set_groups()
 
     -- snacks picker
     SnacksPicker = { bg = sidebar },
-    -- No visible border: paint it the same colour as the picker bg (sidebar) so
-    -- it blends in. In transparent mode there is no solid bg to blend into, so
-    -- paint the glyphs black instead — they nearly vanish over the dark
-    -- backdrop (full removal needs the border *style* set to 'none').
-    SnacksPickerBorder = { fg = config.transparent and '#000000' or sidebar, bg = sidebar },
+    -- Visible border in a soft grey-blue. The Borderless toggle (<leader>lqn)
+    -- repaints it the same colour as the bg to restore the seamless look.
+    SnacksPickerBorder = { fg = '#A9B2C0', bg = sidebar },
     SnacksPickerTitle = { fg = colors.fg, bg = sidebar },
     SnacksPickerInputTitle = { fg = colors.fg, bg = sidebar },
     SnacksPickerInput = { bg = sidebar },
@@ -318,6 +316,7 @@ local function set_groups()
     NoiceCmdlineIcon = { fg = colors.fg },
     NoiceCmdlineIconSearch = { fg = colors.magenta },
 
+
     -- bufferline
     BufferLineBackground = { fg = colors.fgInactive, bg = bl_bg },
     BufferLineBufferSelected = { fg = colors.fg, bg = bl_bg, bold = true },
@@ -358,10 +357,9 @@ local function set_groups()
     -- which-key
     WhichKey = { fg = colors.fg, bg = sidebar },
     WhichKeyNormal = { fg = colors.fg, bg = sidebar },
-    -- No visible border: paint it the same colour as the which-key bg (sidebar)
-    -- so it blends in — same approach as SnacksPickerBorder (black glyphs in
-    -- transparent mode, where there is no solid bg to blend into).
-    WhichKeyBorder = { fg = config.transparent and '#000000' or sidebar, bg = sidebar },
+    -- Visible border in a soft grey-blue, same as SnacksPickerBorder. The
+    -- Borderless toggle (<leader>lqn) repaints it bg-coloured to blend in.
+    WhichKeyBorder = { fg = '#A9B2C0', bg = sidebar },
     WhichKeyTitle = { fg = colors.fgAlt, bg = sidebar },
     WhichKeyGroup = { fg = colors.green },
     WhichKeyDesc = { fg = colors.fg },
@@ -388,6 +386,12 @@ local function set_groups()
   for group, parameters in pairs(groups) do
     vim.api.nvim_set_hl(0, group, parameters)
   end
+
+  -- Borderless-mode repaint must run on EVERY set_groups path: lualine's
+  -- 'auto' theme re-sources this file without firing ColorScheme.
+  pcall(function()
+    require('rosavim.config.borderless').apply()
+  end)
 end
 
 function M.setup(values)

@@ -115,8 +115,9 @@ return function()
     end,
   }):map '<leader>lasP'
 
-  -- Picker Border — uses vim.ui.select (rendered by snacks)
-  vim.keymap.set('n', '<leader>lasb', function()
+  -- Picker Border — uses vim.ui.select (rendered by snacks). Lives under
+  -- <leader>lq (Theme group), next to the which-key border selector.
+  vim.keymap.set('n', '<leader>lqo', function()
     local borders = {
       { name = 'none', icon = '󰹞 ' },
       { name = 'single', icon = '󰡎 ' },

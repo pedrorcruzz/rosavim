@@ -46,7 +46,7 @@ return function()
   }):map '<leader>lamn'
 
   -- Badge border picker: none / rounded / straight (persisted)
-  vim.keymap.set('n', '<leader>lams', function()
+  vim.keymap.set('n', '<leader>lqx', function()
     local borders = {
       { name = 'none', label = 'None', glyph = '󰝤' },
       { name = 'rounded', label = 'Rounded', glyph = '󰐝' },

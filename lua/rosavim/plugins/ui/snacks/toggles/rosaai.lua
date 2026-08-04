@@ -15,7 +15,7 @@ return function()
         rosaai.refresh_chips()
       end
     end,
-  }):map '<leader>laat'
+  }):map '<leader>lqat'
 
   -- Time inside chip
   Snacks.toggle({
@@ -31,7 +31,7 @@ return function()
         rosaai.refresh_chips()
       end
     end,
-  }):map '<leader>laah'
+  }):map '<leader>lqah'
 
   -- Auto insert when opening a CLI
   Snacks.toggle({
@@ -43,7 +43,7 @@ return function()
     set = function(state)
       toggles.set('rosaai_autoinsert', state)
     end,
-  }):map '<leader>laai'
+  }):map '<leader>lqai'
 
   -- Auto focus when sending a message
   Snacks.toggle({
@@ -54,7 +54,7 @@ return function()
     set = function(state)
       toggles.set('rosaai_auto_focus', state)
     end,
-  }):map '<leader>laaf'
+  }):map '<leader>lqaf'
 
   -- Master switch for the whole Review feature (keybinds, badge, auto-open).
   -- When off, <leader>ar / <leader>ab are removed (hidden from which-key) and
@@ -82,7 +82,7 @@ return function()
         rosaai.refresh_chips()
       end
     end,
-  }):map '<leader>laaR'
+  }):map '<leader>lqaR'
 
   -- Auto-open the review panel after the AI edits files
   Snacks.toggle({
@@ -94,7 +94,7 @@ return function()
     set = function(state)
       toggles.set('rosaai_auto_review', state)
     end,
-  }):map '<leader>laar'
+  }):map '<leader>lqar'
 
   -- Show the pending-review count badge on the CLI chip
   Snacks.toggle({
@@ -110,20 +110,20 @@ return function()
         rosaai.refresh_chips()
       end
     end,
-  }):map '<leader>laac'
+  }):map '<leader>lqac'
 
   -- Theme picker (popup) — lives under <leader>lq (Theme group)
-  vim.keymap.set('n', '<leader>lqa', function()
+  vim.keymap.set('n', '<leader>lqas', function()
     require('rosavim.rosa_plugins.rosaai.ui').pick_theme()
   end, { desc = 'RosaAI: Select Theme' })
 
   -- Position picker (popup)
-  vim.keymap.set('n', '<leader>laap', function()
+  vim.keymap.set('n', '<leader>lqap', function()
     require('rosavim.rosa_plugins.rosaai.ui').pick_position()
   end, { desc = 'RosaAI: Select Position' })
 
   -- Size picker (popup)
-  vim.keymap.set('n', '<leader>laaz', function()
+  vim.keymap.set('n', '<leader>lqaz', function()
     require('rosavim.rosa_plugins.rosaai.ui').pick_size()
   end, { desc = 'RosaAI: Select Size' })
 
@@ -141,7 +141,7 @@ return function()
         rosaai.relayout()
       end
     end,
-  }):map '<leader>laab'
+  }):map '<leader>lqab'
 
   -- Horizontal border (bottom)
   Snacks.toggle({
@@ -157,7 +157,7 @@ return function()
         rosaai.relayout()
       end
     end,
-  }):map '<leader>laaB'
+  }):map '<leader>lqaB'
 
   -- Dark bg in LIGHT mode: on = force #000 (default), off = follow theme bg.
   Snacks.toggle({
@@ -173,7 +173,7 @@ return function()
         rosaai.relayout()
       end
     end,
-  }):map '<leader>laad'
+  }):map '<leader>lqad'
 
   -- Dark bg in DARK mode: on = force #000, off = follow theme bg (default off).
   Snacks.toggle({
@@ -189,5 +189,5 @@ return function()
         rosaai.relayout()
       end
     end,
-  }):map '<leader>laaD'
+  }):map '<leader>lqaD'
 end

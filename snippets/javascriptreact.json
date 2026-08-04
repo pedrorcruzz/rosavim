@@ -1,0 +1,28 @@
+{
+  "Custom - Export Default Function Name - React JSX Component": {
+    "prefix": "cjedf",
+    "description": "Custom - Export Default Function Name - React JSX Component",
+    "body": [
+      "export default function ${1:ComponentName}(${2:props}) {",
+      "\treturn (",
+      "\t\t<div>",
+      "\t\t\t$0",
+      "\t\t</div>",
+      "\t)",
+      "}"
+    ]
+  },
+  "Custom - Export Function Name - React JSX Component": {
+    "prefix": "cjef",
+    "description": "Custom - Export Function Name - React JSX Component",
+    "body": [
+      "export function ${1:ComponentName}(${2:props}) {",
+      "\treturn (",
+      "\t\t<div>",
+      "\t\t\t$0",
+      "\t\t</div>",
+      "\t)",
+      "}"
+    ]
+  }
+}

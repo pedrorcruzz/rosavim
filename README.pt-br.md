@@ -76,7 +76,7 @@ Guias detalhados ficam em [`docs/manual`](docs/manual/):
 <br>
 
 - **blink.cmp** — engine de completion em Rust, extremamente rápido
-- **Snippets** com LuaSnip + friendly-snippets
+- **Snippets nativos** (`vim.snippet`) + friendly-snippets, gerenciados pelo **Rosasnippets** — painel interativo com busca fuzzy, presets iniciais por linguagem e preview ao vivo
 - **Treesitter nativo** (Neovim 0.12+) para highlighting e indentação precisos
 - **Format on save** (conform.nvim) e **auto-save** ao perder o foco
 - **Snacks Picker** para fuzzy finding de arquivos, grep e buffers
@@ -133,6 +133,7 @@ Guias detalhados ficam em [`docs/manual`](docs/manual/):
 | **Rosapreview** | Preview de LSP (definição, tipo, implementação, referências) em janela flutuante |
 | **Rosapoon** | Marca e salta entre arquivos frequentes, com escopo por repositório git |
 | **Rosadirs** | Gerencia diretórios de Projetos & vaults do Obsidian em runtime |
+| **Rosasnippets** | Gerenciador de snippets — navegue/busque seus snippets, wizard de criação em 4 etapas com presets por linguagem (e os seus próprios), preview ao vivo, hot reload no autocomplete |
 | **Rosapick** | Seletor visual de janelas com labels de letra |
 | **Rosamaximize** | Maximiza a janela atual e restaura o layout completo — com um badge `max` e um indicador na lualine (configurável via `<leader>lam`) |
 | **Rosazen** | Modo sem distrações — maximiza e centraliza a janela atual, esconde toda a UI, mantém as ferramentas flutuantes (Rosaterm/RosaAI/Yazi/Lazygit) usáveis, e persiste entre sessões |
@@ -166,8 +167,8 @@ Suporte completo (LSP, formatação, linting, testes e debug) para as principais
 
 | Linguagem | LSP | Formatter | Linter | Testes | Debug |
 |:----------|:---:|:---------:|:------:|:------:|:-----:|
-| **TypeScript / JavaScript** | vtsls | Biome / Prettier | Biome / eslint_d | Jest / Vitest | — |
-| **React / JSX / TSX** | vtsls | Biome / Prettier | Biome / eslint_d | Jest / Vitest | — |
+| **TypeScript / JavaScript** | tsgo | Biome / Prettier | Biome / eslint_d | Jest / Vitest | — |
+| **React / JSX / TSX** | tsgo | Biome / Prettier | Biome / eslint_d | Jest / Vitest | — |
 | **Go** | gopls | goimports | golangci-lint | gotestsum | Delve |
 | **Python** | basedpyright | autopep8 | Mypy / Pylint | pytest | debugpy |
 | **Java** | JDTLS | google-java-format | Checkstyle | Gradle | Remote Attach |
@@ -276,6 +277,7 @@ Um tema noturno estritamente monocromático: fundo OLED preto (`#000000`) com um
 | `<leader>lqs` | Trocar tema (rosamin / rosavintage / rosanight) |
 | `<leader>lqy` | Alternar transparência da barra-y do lualine |
 | `<leader>lp` | Rosadirs (gerenciar diretórios) |
+| `<leader>lo` | Rosasnippets (gerenciador de snippets) |
 | `<leader>ll` | Toggle statusline |
 | `<leader>ly` | Alternar formato do cursor (bloco ↔ barra fina) |
 | `<leader>lY` | Alternar faixa da linha atual |
@@ -297,7 +299,7 @@ Referência completa: **[Manual de Atalhos](docs/manual/keybinds.pt-br.md)**.
 ├── init.lua                       # Ponto de entrada
 ├── lua/rosavim/
 │   ├── init.lua                   # Bootstrap
-│   ├── config/                    # options, keybinds, appearance, autocmds, toggles, focus, snippets
+│   ├── config/                    # options, keybinds, appearance, autocmds, toggles, focus
 │   ├── plugins/
 │   │   ├── env/                   # LSP, Mason, Treesitter, DAP, lint, format, git
 │   │   ├── ai/                    # Copilot, RosaAI
@@ -308,7 +310,7 @@ Referência completa: **[Manual de Atalhos](docs/manual/keybinds.pt-br.md)**.
 │   │   └── test/                  # Rosatest
 │   ├── rosa_plugins/              # plugins próprios (ver Funcionalidades)
 │   │   ├── rosaterm/  rosatest/  rosakit/  rosafile/
-│   │   ├── rosapreview/  rosapoon/  rosadirs/  rosapick/
+│   │   ├── rosapreview/  rosapoon/  rosadirs/  rosapick/  rosasnippets/
 │   │   ├── rosamaximize/  rosazen/  rosayank/  rosasave/  rosasweep/
 │   │   └── rosaai/
 │   └── rosa_themes/
@@ -316,6 +318,7 @@ Referência completa: **[Manual de Atalhos](docs/manual/keybinds.pt-br.md)**.
 │       ├── rosavintage/          # tema quente e terroso
 │       └── rosanight/            # monocromático minimalista (OLED)
 ├── lsp/                           # configs individuais de LSP
+├── snippets/                      # snippets em formato VSCode (gerenciados pelo Rosasnippets, <leader>lo)
 └── assets/                        # logo e screenshots
 ```
 

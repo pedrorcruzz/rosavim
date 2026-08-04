@@ -4,6 +4,7 @@ local term_bg = require 'rosavim.rosa_plugins.term_bg'
 -- Force-black background for the yazi and lazygit floats, mirroring the
 -- rosaterm/rosaai scheme: a light-mode toggle (default on) and a dark-mode
 -- toggle (default off). See rosavim.rosa_plugins.term_bg for the mechanism.
+-- Keymaps live under <leader>lqf (Theme > Force Dark BG group).
 
 --- Apply the current yazi bg override to a specific window.
 local function apply_yazi(win)
@@ -42,7 +43,7 @@ return function()
       toggles.set('yazi_dark_bg', state)
       refresh_yazi()
     end,
-  }):map '<leader>layd'
+  }):map '<leader>lqfy'
 
   -- Yazi — DARK mode (default off)
   Snacks.toggle({
@@ -55,7 +56,7 @@ return function()
       toggles.set('yazi_dark_bg_dm', state)
       refresh_yazi()
     end,
-  }):map '<leader>layD'
+  }):map '<leader>lqfY'
 
   -- Lazygit — LIGHT mode (default on). Applied at open time (see snacks/keys.lua).
   Snacks.toggle({
@@ -67,7 +68,7 @@ return function()
     set = function(state)
       toggles.set('lazygit_dark_bg', state)
     end,
-  }):map '<leader>lagd'
+  }):map '<leader>lqfg'
 
   -- Lazygit — DARK mode (default off)
   Snacks.toggle({
@@ -79,5 +80,5 @@ return function()
     set = function(state)
       toggles.set('lazygit_dark_bg_dm', state)
     end,
-  }):map '<leader>lagD'
+  }):map '<leader>lqfG'
 end

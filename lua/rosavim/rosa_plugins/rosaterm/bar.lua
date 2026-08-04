@@ -68,7 +68,7 @@ local function get_time()
   return os.date '%H:%M'
 end
 
---- Whether the chip should be shown at all (toggle via <leader>latt)
+--- Whether the chip should be shown at all (toggle via <leader>lqrt)
 function M.chip_enabled()
   local ok, toggles = pcall(require, 'rosavim.config.toggles')
   if not ok then
@@ -81,7 +81,7 @@ function M.chip_enabled()
   return v
 end
 
---- Whether the time should be shown inside the chip (toggle via <leader>lath)
+--- Whether the time should be shown inside the chip (toggle via <leader>lqrh)
 function M.time_enabled()
   local ok, toggles = pcall(require, 'rosavim.config.toggles')
   if not ok then

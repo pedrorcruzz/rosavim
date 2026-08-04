@@ -313,6 +313,7 @@ local function set_groups()
     NoiceCmdlineIcon = { fg = colors.fg },
     NoiceCmdlineIconSearch = { fg = colors.magenta },
 
+
     -- bufferline
     BufferLineBackground = { fg = colors.fgInactive, bg = bl_bg },
     BufferLineBufferSelected = { fg = colors.fg, bg = bl_bg, bold = true },
@@ -380,6 +381,12 @@ local function set_groups()
   for group, parameters in pairs(groups) do
     vim.api.nvim_set_hl(0, group, parameters)
   end
+
+  -- Borderless-mode repaint must run on EVERY set_groups path: lualine's
+  -- 'auto' theme re-sources this file without firing ColorScheme.
+  pcall(function()
+    require('rosavim.config.borderless').apply()
+  end)
 end
 
 function M.setup(values)

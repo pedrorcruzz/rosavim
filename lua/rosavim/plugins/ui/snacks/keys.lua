@@ -1,5 +1,5 @@
 -- Lazygit opens in a Snacks float; apply the force-black bg override
--- (light/dark toggles: <leader>lagd / <leader>lagD) at open time.
+-- (light/dark toggles: <leader>lqfg / <leader>lqfG) at open time.
 local function lazygit_opts()
   local term_bg = require 'rosavim.rosa_plugins.term_bg'
   -- zindex 70 keeps lazygit above the RosaAI/rosaterm floats (chips top out at

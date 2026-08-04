@@ -209,6 +209,7 @@ function M.get(mode, transparent_background)
       NoiceCmdlineIcon = { fg = '#383A42' },
       NoiceCmdlineIconSearch = { fg = '#7C3AED' },
 
+
       WhichkeyTitle = { fg = '#383A42' },
       WhichkeyGroup = { fg = '#383A42' },
 
@@ -481,6 +482,7 @@ function M.get(mode, transparent_background)
     NoiceCmdlineTitle = { fg = '#ffffff' },
     NoiceCmdlineIcon = { fg = '#abb2bf' }, --#ffffff
     NoiceCmdlineIconSearch = { fg = '#c18efe' }, --#ffffff
+
 
     -- whichkey
     WhichkeyTitle = { fg = '#abb2bf' },

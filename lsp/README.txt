@@ -43,7 +43,7 @@ guessing '--stdio' for everything will silently fail. Examples:
                        vscode-json-language-server --stdio
                        tailwindcss-language-server --stdio
                        pyright-langserver --stdio
-                       emmet-ls --stdio        vtsls --stdio
+                       emmet-ls --stdio        tsgo --lsp --stdio
 
   a subcommand       Servers with their own CLI use a word, not a flag:
                        marksman server         <-- NOT --stdio

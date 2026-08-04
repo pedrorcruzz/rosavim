@@ -6,10 +6,10 @@
 ---   - <key>_dm   → force #000 in DARK  mode (default off)
 --- so users can opt the dark themes (rosamin dark, rosavintage dark) into a
 --- pure-black bg too, independently from light mode.
----   - rosaterm → rosaterm_dark_bg / rosaterm_dark_bg_dm (<leader>latd / <leader>latD)
----   - rosaai   → rosaai_dark_bg   / rosaai_dark_bg_dm   (<leader>laad / <leader>laaD)
----   - yazi     → yazi_dark_bg     / yazi_dark_bg_dm     (<leader>layd / <leader>layD)
----   - lazygit  → lazygit_dark_bg  / lazygit_dark_bg_dm  (<leader>lagd / <leader>lagD)
+---   - rosaterm → rosaterm_dark_bg / rosaterm_dark_bg_dm (<leader>lqrd / <leader>lqrD)
+---   - rosaai   → rosaai_dark_bg   / rosaai_dark_bg_dm   (<leader>lqad / <leader>lqaD)
+---   - yazi     → yazi_dark_bg     / yazi_dark_bg_dm     (<leader>lqfy / <leader>lqfY)
+---   - lazygit  → lazygit_dark_bg  / lazygit_dark_bg_dm  (<leader>lqfg / <leader>lqfG)
 local M = {}
 
 local api = vim.api

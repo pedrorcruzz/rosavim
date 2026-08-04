@@ -41,7 +41,6 @@ Os plugins do Rosavim são gerenciados pelo [Lazy.nvim](https://github.com/folke
 | [mason.nvim](https://github.com/williamboman/mason.nvim) | Gerenciador de pacotes portátil — instala LSP servers, formatters, linters e adaptadores DAP |
 | [mason-tool-installer.nvim](https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim) | Instala automaticamente ferramentas do Mason no startup |
 | [blink.cmp](https://github.com/Saghen/blink.cmp) | Engine de completion em Rust — autocompleção extremamente rápida |
-| [LuaSnip](https://github.com/L3MON4D3/LuaSnip) | Engine de snippets com suporte a snippets estilo VSCode |
 | [friendly-snippets](https://github.com/rafamadriz/friendly-snippets) | Coleção de snippets mantida pela comunidade para muitas linguagens |
 | [lazydev.nvim](https://github.com/folke/lazydev.nvim) | Helpers de desenvolvimento para criação de plugins Lua/Neovim |
 | [nvim-lsp-file-operations](https://github.com/antosha417/nvim-lsp-file-operations) | Atualização automática de imports ao renomear/mover arquivos |
@@ -142,7 +141,6 @@ Rosavim vem com seus próprios temas built-in, armazenados em `lua/rosavim/rosa_
 | [refactoring.nvim](https://github.com/ThePrimeagen/refactoring.nvim) | Operações de refatoração de código (extrair, inline, debug print) |
 | Rosayank (built-in) | Histórico de yank com persistência — ring buffer de 50 entradas, limpeza automática |
 | [todo-comments.nvim](https://github.com/folke/todo-comments.nvim) | Destacar e buscar TODO, FIXME, HACK, etc. |
-| [outline.nvim](https://github.com/hedyhli/outline.nvim) | Barra lateral de outline do código |
 | Rosapick (built-in) | Seletor visual de janelas com labels flutuantes |
 | [smart-splits.nvim](https://github.com/mrjones2014/smart-splits.nvim) | Navegação e redimensionamento inteligente de janelas |
 | Rosamaximize (built-in) | Maximizador de janela (`<leader>cm`) — maximiza a janela atual e restaura o layout, mostrando um badge `max` no buffer e um indicador na lualine (configurável via `<leader>lam`) |

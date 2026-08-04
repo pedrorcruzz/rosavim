@@ -34,7 +34,7 @@ O Mason baixa LSP servers, formatters, linters e debuggers — mas depende de **
 
 | Runtime | Necessário pra | Por quê |
 |:--------|:---------------|:--------|
-| **Node.js + npm** | vtsls, tailwindcss, emmet-ls, intelephense, json-lsp, sqlls, prettierd, eslint_d, biome, sql-formatter, blade-formatter, php-debug-adapter | A maioria dos LSPs e ferramentas JS são pacotes npm |
+| **Node.js + npm** | tsgo, tailwindcss, emmet-ls, intelephense, json-lsp, sqlls, prettierd, eslint_d, biome, sql-formatter, blade-formatter, php-debug-adapter | A maioria dos LSPs e ferramentas JS são pacotes npm |
 | **Python 3 + pip** | basedpyright, autopep8, mypy, djlint, debugpy | Ferramentas Python são instaladas via pip |
 | **Go** | gopls, goimports, go-debug-adapter | Compilados via `go install` |
 | **Java (JDK 17+)** | jdtls, google-java-format, java-debug-adapter | Ferramentas Java precisam de uma JDK |

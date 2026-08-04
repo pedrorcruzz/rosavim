@@ -48,16 +48,19 @@ return {
       { '<leader>L', group = 'Lazy', icon = '󰒲 ' },
 
       { '<leader>l', group = 'Tools', icon = ' ' },
+      { '<leader>q', desc = 'Close Window', icon = '󰅖 ' },
+      { '<leader>lo', desc = 'Rosasnippets', icon = '󰷆 ' },
       { '<leader>lq', group = 'Theme', icon = '' },
       { '<leader>lqd', group = 'Dashboard', icon = '' },
-      { '<leader>lqr', desc = 'Rosaterm: Select Theme', icon = '' },
-      { '<leader>lqa', desc = 'RosaAI: Select Theme', icon = ' ' },
+      { '<leader>lqr', group = 'Rosaterm', icon = '' },
+      { '<leader>lqa', group = 'RosaAI', icon = ' ' },
       { '<leader>lqm', desc = 'Render Markdown: Select Theme', icon = '' },
       { '<leader>lqg', desc = 'Lualine: Select Separator' },
       { '<leader>lqy', desc = 'Lualine: Bar Y Transparent (toggle)' },
       { '<leader>ly', desc = 'Toggle Cursor Shape (bar/block)' },
       { '<leader>lY', desc = 'Toggle Cursor Line' },
       { '<leader>lqc', group = 'TODO', icon = '󱩽 ' },
+      { '<leader>lqf', group = 'Force Dark BG', icon = '󰖔 ' },
       { '<leader>lqs', desc = 'Select Theme' },
       { '<leader>lqp', desc = 'Picker Layout', icon = '󰠲' },
       { '<leader>lqw', desc = 'Which-Key Preset', icon = '󰌌' },
@@ -72,10 +75,6 @@ return {
       { '<leader>lae', group = 'Editor', icon = '' },
       { '<leader>lal', group = 'LSP', icon = '' },
       { '<leader>lad', group = 'DBUI', icon = '󰆼' },
-      { '<leader>lat', group = 'Rosaterm', icon = '' },
-      { '<leader>laa', group = 'RosaAI', icon = ' ' },
-      { '<leader>lay', group = 'Yazi', icon = '󰇥 ' },
-      { '<leader>lag', group = 'Lazygit', icon = '󰊢 ' },
       { '<leader>lau', group = 'Dropbar', icon = '󰜢 ' },
       { '<leader>lam', group = 'Rosamaximize', icon = '󰊓 ' },
 
@@ -107,7 +106,7 @@ return {
     { '<leader>W', '<cmd>noa w<cr>', desc = 'Save Without Formatter' },
     { '<leader>h', '<cmd>nohlsearch<cr>', desc = 'No Highlight' },
     {
-      '<leader>q',
+      '<leader>Q',
       function()
         -- Quit the current window, but if it's the only *real* editing window
         -- (the rest are floats or rosazen padding spacers), quit Neovim instead
@@ -233,6 +232,7 @@ return {
     { '<leader>ce', '<cmd>split<cr>', desc = 'Split Horizontal' },
     { '<leader>cC', '<cmd>only<cr>', desc = 'Close all Others' },
     { '<leader>cc', '<cmd>close<cr>', desc = 'Close Window' },
+    { '<leader>q', '<cmd>close<cr>', desc = 'Close Window' },
     { '<leader>ch', '<cmd>wincmd H<cr>', desc = 'Swap Left' },
     { '<leader>cl', '<cmd>wincmd L<cr>', desc = 'Swap Right' },
     { '<leader>ck', '<cmd>wincmd K<cr>', desc = 'Swap Up' },

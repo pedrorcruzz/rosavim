@@ -35,7 +35,7 @@ end
 
 --- Size popup (compact / default / wide) — per-mode, real-time. Float,
 --- vertical and horizontal each keep their own preset; 'a' changes all. The
---- popup stays open and applies every change live. Mirrors RosaAI's <leader>laaz.
+--- popup stays open and applies every change live. Mirrors RosaAI's <leader>lqaz.
 function M.pick_size()
   local sizes = require 'rosavim.rosa_plugins.rosaterm.sizes'
   require('rosavim.rosa_plugins.size_popup').open {
@@ -73,7 +73,7 @@ function M.reload_splits(direction)
 end
 
 --- Re-apply the terminal bg on the open float + all splits (called when the
---- rosaterm_dark_bg toggle <leader>latd flips).
+--- rosaterm_dark_bg toggle <leader>lqrd flips).
 function M.refresh_bg()
   float.refresh_bg()
   split.reload_all()

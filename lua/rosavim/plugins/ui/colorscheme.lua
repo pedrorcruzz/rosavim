@@ -18,6 +18,19 @@ vim.api.nvim_create_autocmd('ColorScheme', {
   end,
 })
 
+-- Borderless mode (<leader>lqn): repaint the which-key and snacks
+-- picker/explorer borders the same colour as their own bg so they blend in —
+-- the seamless look rosanight used to hard-code, now opt-in for every rosa
+-- theme. Runs after the theme has set its groups (ColorScheme fires when
+-- :colorscheme finishes), so turning the toggle off and re-applying the
+-- colorscheme restores each theme's own border colour.
+vim.api.nvim_create_autocmd('ColorScheme', {
+  pattern = '*',
+  callback = function()
+    require('rosavim.config.borderless').apply()
+  end,
+})
+
 -- Drive the terminal cursor color from the Cursor highlight so it follows the
 -- active theme. Neovim's TUI does not emit OSC 12 on its own, so we send it
 -- explicitly whenever the colorscheme changes (OSC 12 is a standard escape
@@ -65,7 +78,7 @@ vim.api.nvim_create_autocmd('VimLeave', {
 -- Dark/Light and Transparent toggles moved to snacks/toggles.lua
 
 -- Colorscheme selector — same vim.ui.select popup style as the rosaterm/
--- rosaai theme pickers (<leader>lqr / <leader>lqa) instead of the full
+-- rosaai theme pickers (<leader>lqrs / <leader>lqas) instead of the full
 -- Snacks.picker UI. Applying fires the ColorScheme autocmd, which persists
 -- the choice to the appearance cache.
 vim.keymap.set('n', '<leader>lqs', function()

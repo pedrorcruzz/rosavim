@@ -10,7 +10,7 @@ return {
     -- Snacks only honours `border` per box inside the layout tree (a top-level
     -- `border` field is ignored). So rewrite every visible box border (the ones
     -- the presets set to `true`) to the chosen style. Read live on each open so
-    -- the <leader>lasb toggle takes effect without a restart.
+    -- the <leader>lqo toggle takes effect without a restart.
     config = function(layout)
       local border = toggles.get 'picker_border'
       local function walk(box)

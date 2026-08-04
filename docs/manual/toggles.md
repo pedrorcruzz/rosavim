@@ -15,7 +15,7 @@ Toggle definitions are organized in modular files under `lua/rosavim/plugins/ui/
 |:-------|:--------|
 | `options.lua` | Vim options (wrap, relative number, line number, indent, dim, spell, cursor shape, cursor line) |
 | `plugins.lua` | Plugin toggles (Rosasave, Incline, TSContext, Copilot, Bufferline, Dropbar, Render Markdown, Rosamaximize, Image Preview) |
-| `appearance.lua` | Theme toggles (Dark/Light, Transparent, Lualine, Lualine Theme, Lualine Bar Y Transparent) |
+| `appearance.lua` | Theme toggles (Dark/Light, Transparent, Borderless, Lualine, Lualine Theme, Lualine Bar Y Transparent) |
 | `autocmds.lua` | Tools toggles (Snacks, Which-Key, AI, Editor, LSP, DBUI) |
 
 The orchestrator at `lua/rosavim/plugins/ui/snacks/toggles.lua` loads all modules and restores persisted states.
@@ -51,9 +51,19 @@ The orchestrator at `lua/rosavim/plugins/ui/snacks/toggles.lua` loads all module
 | `<leader>lqg` | Lualine Separator (popup selector) | rounded |
 | `<leader>lqy` | Lualine Bar Y Transparent (blend with theme bg vs solid `#1a1a1a`) | On |
 | `<leader>lqs` | Theme picker (rosamin / rosavintage / rosanight) | rosamin |
+| `<leader>lqn` | Borderless Theme — paint which-key / snacks picker borders the same colour as their bg, in every theme | Off |
 | `<leader>ll` | Lualine (Statusline visibility) | On |
 
 Available lualine separators: `rounded`, `bar`, `arrow`, `slant`
+
+### Force Dark BG (`<leader>lqf`)
+
+Force-black background overrides for the yazi and lazygit floats (tools without their own Theme subgroup — RosaAI's live under `<leader>lqa`, Rosaterm's under `<leader>lqr`). Lowercase = light mode (default on), uppercase = dark mode (default off).
+
+| Shortcut | Toggle | Default |
+|:---------|:-------|:--------|
+| `<leader>lqfy` / `<leader>lqfY` | Yazi — force #000 in light / dark mode (else theme bg) | On / Off |
+| `<leader>lqfg` / `<leader>lqfG` | Lazygit — force #000 in light / dark mode (else theme bg) | On / Off |
 
 ### Plugins (`<leader>l`)
 
@@ -104,13 +114,13 @@ Additional features are persisted and can be toggled at runtime via `<leader>la`
 | `<leader>lasi` | Picker Ignored Files | On |
 | `<leader>lqp` | Picker Layout (popup selector) | default |
 | `<leader>lasp` | Picker Preview | On |
-| `<leader>lasb` | Picker Border (popup selector) | rounded |
+| `<leader>lqo` | Picker Border (popup selector) — under Theme group | rounded |
 
 Available picker layouts: `default`, `telescope`, `ivy`, `dropdown`, `vertical`, `vscode`
 
 Available picker borders: `none`, `single`, `double`, `rounded`, `solid`, `shadow`
 
-### Which-Key (`<leader>law`)
+### Which-Key (`<leader>lq`)
 
 | Shortcut | Toggle | Default |
 |:---------|:-------|:--------|
@@ -121,21 +131,21 @@ Available which-key presets: `classic`, `modern`, `helix`
 
 Available which-key borders: `none`, `single`, `double`, `shadow`
 
-### RosaAI (`<leader>laa`)
+### RosaAI (`<leader>lqa`)
 
 | Shortcut | Toggle | Default |
 |:---------|:-------|:--------|
-| `<leader>laat` | Title chip (show/hide) | On |
-| `<leader>laah` | Time in chip (show/hide) | On |
-| `<leader>laai` | Auto Insert when opening, focusing or sending to a CLI | On |
-| `<leader>laaf` | Auto Focus when sending a message | On |
-| `<leader>laar` | Auto Review — auto-open the review panel after the AI finishes editing files | Off |
-| `<leader>lqa` | Theme picker (popup) — under Theme group | garland |
-| `<leader>laap` | Position picker (popup) | right |
-| `<leader>laaz` | Size picker (popup) | default |
-| `<leader>laab` | Vertical border (right/left/float) | On |
-| `<leader>laaB` | Horizontal border (bottom) | On |
-| `<leader>laad` | Dark Background — force #000 in light mode (else theme bg) | On |
+| `<leader>lqat` | Title chip (show/hide) | On |
+| `<leader>lqah` | Time in chip (show/hide) | On |
+| `<leader>lqai` | Auto Insert when opening, focusing or sending to a CLI | On |
+| `<leader>lqaf` | Auto Focus when sending a message | On |
+| `<leader>lqar` | Auto Review — auto-open the review panel after the AI finishes editing files | Off |
+| `<leader>lqas` | Theme picker (popup) | garland |
+| `<leader>lqap` | Position picker (popup) | right |
+| `<leader>lqaz` | Size picker (popup) | default |
+| `<leader>lqab` | Vertical border (right/left/float) | On |
+| `<leader>lqaB` | Horizontal border (bottom) | On |
+| `<leader>lqad` / `<leader>lqaD` | Dark Background — force #000 in light / dark mode (else theme bg) | On / Off |
 
 Available RosaAI themes: `bloom`, `petal`, `garland`, `stem`
 
@@ -164,21 +174,21 @@ Available RosaAI sizes: `compact`, `default`, `wide`
 |:---------|:-------|:--------|
 | `<leader>ladf` | Auto expand folds in DBUI output | On |
 
-### Rosaterm (`<leader>lat`)
+### Rosaterm (`<leader>lqr`)
 
 | Shortcut | Toggle | Default |
 |:---------|:-------|:--------|
-| `<leader>latt` | Title chip (show/hide) | On |
-| `<leader>lath` | Time in chip (show/hide) | On |
-| `<leader>lati` | Auto Insert when opening a terminal | On |
-| `<leader>latn` | Display name: `Rosaterm` vs `Terminal` | Rosaterm |
-| `<leader>latc` | Chip icon (show/hide) | On |
-| `<leader>lats` | Chip icon style picker (Rosa / Terminal) | Terminal |
-| `<leader>latz` | Size picker (compact / default / wide) | default |
-| `<leader>lqr` | Theme picker (popup) — under Theme group | garland |
-| `<leader>latb` | Vertical border (vsplit becomes a pinned float) | Off |
-| `<leader>latB` | Horizontal border (split becomes a pinned float) | Off |
-| `<leader>latd` | Dark Background — force #000 in light mode (else theme bg) | On |
+| `<leader>lqrt` | Title chip (show/hide) | On |
+| `<leader>lqrh` | Time in chip (show/hide) | On |
+| `<leader>lqri` | Auto Insert when opening a terminal | On |
+| `<leader>lqrn` | Display name: `Rosaterm` vs `Terminal` | Rosaterm |
+| `<leader>lqrc` | Chip icon (show/hide) | On |
+| `<leader>lqrC` | Chip icon style picker (Rosa / Terminal) | Terminal |
+| `<leader>lqrz` | Size picker (compact / default / wide) | default |
+| `<leader>lqrs` | Theme picker (popup) | garland |
+| `<leader>lqrb` | Vertical border (vsplit becomes a pinned float) | Off |
+| `<leader>lqrB` | Horizontal border (split becomes a pinned float) | Off |
+| `<leader>lqrd` / `<leader>lqrD` | Dark Background — force #000 in light / dark mode (else theme bg) | On / Off |
 
 Available rosaterm themes: `bloom`, `petal`, `garland`, `stem`
 
@@ -191,7 +201,7 @@ When you maximize a window with `<leader>cm`, Rosamaximize shows a floating `max
 | `<leader>laml` | Lualine indicator (show/hide) | On |
 | `<leader>lamb` | Buffer badge (show/hide) | On |
 | `<leader>lamn` | Display: `max` text vs icon only | On (text) |
-| `<leader>lams` | Border picker (none / rounded / straight) | rounded |
+| `<leader>lqx` | Border picker (none / rounded / straight) — under Theme group | rounded |
 
 Available rosamaximize borders: `none`, `rounded`, `single` (straight)
 

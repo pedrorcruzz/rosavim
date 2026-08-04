@@ -14,7 +14,7 @@ vim.opt.title = true
 vim.opt.titlestring = '%{fnamemodify(getcwd(), ":t")}%( — %t%)'
 
 -- Global floating window border (Neovim 0.12+). Driven by the picker_border
--- toggle (<leader>lasb) so vim.ui.select popups — which use `border = true`,
+-- toggle (<leader>lqo) so vim.ui.select popups — which use `border = true`,
 -- resolving to `winborder` — stay in sync with the picker border style.
 vim.opt.winborder = require('rosavim.config.toggles').get 'picker_border'
 

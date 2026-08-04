@@ -1,0 +1,22 @@
+{
+  "Custom - Arrow Function": {
+    "body": [
+      "const ${1:name} = (${2:args}) => {",
+      "\t${3:// code}",
+      "}"
+    ],
+    "description": "Custom - Arrow Function",
+    "prefix": "cjafn"
+  },
+  "Custom - Try Catch": {
+    "body": [
+      "try {",
+      "\t${1:// code}",
+      "} catch (error) {",
+      "\tconsole.error(error)",
+      "}"
+    ],
+    "description": "Custom - Try Catch",
+    "prefix": "cjtryc"
+  }
+}

@@ -10,35 +10,9 @@ return {
     event = 'InsertEnter',
     version = '1.*',
     dependencies = {
-      {
-        'L3MON4D3/LuaSnip',
-        event = 'InsertEnter',
-        build = (function()
-          if vim.fn.has 'win32' == 1 or vim.fn.executable 'make' == 0 then
-            return
-          end
-          return 'make install_jsregexp'
-        end)(),
-        dependencies = {
-          {
-            'rafamadriz/friendly-snippets',
-            event = 'InsertEnter',
-            config = function()
-              local luasnip = require 'luasnip'
-              luasnip.filetype_extend('typescriptreact', { 'javascript' })
-              luasnip.filetype_extend('typescript', { 'javascript' })
-              luasnip.filetype_extend('vue', { 'vue' })
-              luasnip.filetype_extend('django', { 'django', 'python' })
-              require('luasnip.loaders.from_vscode').lazy_load()
-
-              require 'rosavim.config.snippets.typescript'
-              require 'rosavim.config.snippets.typescriptreact'
-              require 'rosavim.config.snippets.javascript'
-              require 'rosavim.config.snippets.javascriptreact'
-            end,
-          },
-        },
-      },
+      -- VSCode-format snippet library, picked up from the runtimepath by
+      -- blink's built-in snippets source (no engine plugin needed).
+      { 'rafamadriz/friendly-snippets', event = 'InsertEnter' },
 
       { 'mikavilpas/blink-ripgrep.nvim', lazy = true },
       { 'kristijanhusak/vim-dadbod-completion', ft = { 'sql', 'mysql', 'plsql' }, lazy = true },
@@ -46,7 +20,10 @@ return {
     },
 
     opts = {
-      snippets = { preset = 'luasnip' },
+      -- Native engine: expansion via vim.snippet, custom snippets read from
+      -- <config>/snippets/<filetype>.json (VSCode format). Jumping between
+      -- placeholders uses vim.snippet's built-in <Tab>/<S-Tab> session maps.
+      snippets = { preset = 'default' },
       keymap = {
         preset = 'none',
         ['<CR>'] = { 'accept', 'fallback' },
@@ -101,6 +78,16 @@ return {
           --   name = 'laravel',
           --   module = 'laravel.blink_source',
           -- },
+          snippets = {
+            opts = {
+              -- Same inheritance the old luasnip filetype_extend provided.
+              extended_filetypes = {
+                typescript = { 'javascript' },
+                typescriptreact = { 'javascript' },
+                django = { 'python' },
+              },
+            },
+          },
           ripgrep = {
             module = 'blink-ripgrep',
             name = 'Ripgrep',

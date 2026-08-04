@@ -2,7 +2,7 @@ local toggles = require 'rosavim.config.toggles'
 
 return function()
   Snacks.toggle({
-    name = 'Rosaterm Theme',
+    name = 'Rosaterm Title',
     wk_desc = { enabled = 'Hide ', disabled = 'Show ' },
     get = function()
       return toggles.get 'rosaterm_title'
@@ -14,7 +14,7 @@ return function()
         rosaterm.refresh_chips()
       end
     end,
-  }):map '<leader>latt'
+  }):map '<leader>lqrt'
 
   Snacks.toggle({
     name = 'Rosaterm Time',
@@ -29,7 +29,7 @@ return function()
         rosaterm.refresh_chips()
       end
     end,
-  }):map '<leader>lath'
+  }):map '<leader>lqrh'
 
   Snacks.toggle({
     name = 'Rosaterm Auto Insert',
@@ -40,7 +40,7 @@ return function()
     set = function(state)
       toggles.set('rosaterm_autoinsert', state)
     end,
-  }):map '<leader>lati'
+  }):map '<leader>lqri'
 
   -- Display name: ON = "Rosaterm", OFF = "Terminal"
   Snacks.toggle({
@@ -56,7 +56,7 @@ return function()
         rosaterm.refresh_chips()
       end
     end,
-  }):map '<leader>latn'
+  }):map '<leader>lqrn'
 
   -- Chip icon visibility (show/hide)
   Snacks.toggle({
@@ -72,10 +72,10 @@ return function()
         rosaterm.refresh_chips()
       end
     end,
-  }):map '<leader>latc'
+  }):map '<leader>lqrc'
 
   -- Chip icon style picker: 'rosa' (󰧱) vs 'terminal' ()
-  vim.keymap.set('n', '<leader>lats', function()
+  vim.keymap.set('n', '<leader>lqrC', function()
     local styles = {
       { name = 'rosa', glyph = '󰧱', label = 'Rosa' },
       { name = 'terminal', glyph = '', label = 'Terminal' }, -- nf-md-console U+F018D
@@ -116,7 +116,7 @@ return function()
         rosaterm.reload_splits 'vertical'
       end
     end,
-  }):map '<leader>latb'
+  }):map '<leader>lqrb'
 
   -- Horizontal border (split). Same mechanism — float-pinned when on.
   Snacks.toggle({
@@ -132,7 +132,7 @@ return function()
         rosaterm.reload_splits 'horizontal'
       end
     end,
-  }):map '<leader>latB'
+  }):map '<leader>lqrB'
 
   -- Dark bg in LIGHT mode: on = force #000 (default), off = follow theme bg.
   Snacks.toggle({
@@ -148,7 +148,7 @@ return function()
         rosaterm.refresh_bg()
       end
     end,
-  }):map '<leader>latd'
+  }):map '<leader>lqrd'
 
   -- Dark bg in DARK mode: on = force #000, off = follow theme bg (default off).
   Snacks.toggle({
@@ -164,15 +164,15 @@ return function()
         rosaterm.refresh_bg()
       end
     end,
-  }):map '<leader>latD'
+  }):map '<leader>lqrD'
 
-  -- Size picker (popup): compact / default / wide — like RosaAI's <leader>laaz
-  vim.keymap.set('n', '<leader>latz', function()
+  -- Size picker (popup): compact / default / wide — like RosaAI's <leader>lqaz
+  vim.keymap.set('n', '<leader>lqrz', function()
     require('rosavim.rosa_plugins.rosaterm').pick_size()
   end, { desc = 'Rosaterm: Select Size' })
 
   -- Theme selector — uses vim.ui.select so it follows the snacks picker style
-  vim.keymap.set('n', '<leader>lqr', function()
+  vim.keymap.set('n', '<leader>lqrs', function()
     local themes = require 'rosavim.rosa_plugins.rosaterm.themes'
     local current = themes.current().name
     vim.ui.select(themes.list, {

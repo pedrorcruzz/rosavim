@@ -44,6 +44,24 @@ return function()
     end,
   }):map '<leader>lqe'
 
+  -- Borderless — ON paints the which-key / snacks picker borders the same
+  -- colour as their bg (seamless look) in every rosa theme; OFF (default)
+  -- keeps each theme's own border colour. Applied by the ColorScheme autocmd
+  -- in plugins/ui/colorscheme.lua; re-applying the scheme takes effect live.
+  Snacks.toggle({
+    name = 'Borderless Theme',
+    get = function()
+      return toggles.get 'theme_borderless'
+    end,
+    set = function(state)
+      toggles.set('theme_borderless', state)
+      local name = vim.g.colors_name
+      if name then
+        vim.cmd('colorscheme ' .. name)
+      end
+    end,
+  }):map '<leader>lqn'
+
   -- Lualine (visibility)
   Snacks.toggle({
     name = 'Lualine',

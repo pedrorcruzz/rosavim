@@ -38,7 +38,7 @@ end
 --- Normal bg (which is already dark). Light mode forces #000 by default —
 --- the shell prompt assumes a dark terminal, and a light bg makes
 --- light-on-light prompts unreadable. The rosaterm_dark_bg toggle
---- (<leader>latd) lets the user opt back into the theme's light bg.
+--- (<leader>lqrd) lets the user opt back into the theme's light bg.
 local function term_winhl(border_on)
   local fb = border_on and ',FloatBorder:FloatBorder' or ''
   return term_bg.winhl('rosaterm_dark_bg', true, 'RosatermNormal', fb)
@@ -815,7 +815,7 @@ function M.refresh_all()
 end
 
 --- Close + reopen every open split so they pick up a new border mode
---- (native split ↔ pinned float). Called when latb/latB toggle changes.
+--- (native split ↔ pinned float). Called when lqrb/lqrB toggle changes.
 function M.reload_all(filter_direction)
   for _, term in pairs(terms) do
     if term_win_is_open(term) and (not filter_direction or term.direction == filter_direction) then
@@ -842,7 +842,7 @@ end
 function M.toggle(id, direction, size, name)
   local term = terms[id]
   if not term then
-    -- Size is governed by the global size preset (<leader>latz). The legacy
+    -- Size is governed by the global size preset (<leader>lqrz). The legacy
     -- `size` arg from callers is kept only for signature compatibility.
     local sizes = require 'rosavim.rosa_plugins.rosaterm.sizes'
     term = {

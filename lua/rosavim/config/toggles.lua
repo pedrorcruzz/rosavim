@@ -7,6 +7,7 @@ local defaults = {
   lualine_theme = true,
   lualine_separator = 'rounded', -- rounded | bar | arrow | slant (<leader>lqg)
   lualine_bar_y_transparent = true, -- true (default) = y/centre bar transparent, blends with theme bg; false = original solid #1a1a1a bar (<leader>lqy)
+  theme_borderless = false, -- true = paint which-key/snacks picker borders the same colour as their bg, in every rosa theme (<leader>lqn)
   dropbar = true,
   autosave = false,
   virtual_text_current_line = false,
@@ -51,16 +52,16 @@ local defaults = {
   rosaai_auto_focus = true,
   rosaai_vertical_border = true,
   rosaai_horizontal_border = true,
-  rosaai_dark_bg = true, -- light mode: force #000 (<leader>laad)
-  rosaai_dark_bg_dm = false, -- dark mode: force #000 (<leader>laaD)
-  rosaai_review = true, -- master switch for the Review feature (<leader>laaR)
-  rosaai_auto_review = false, -- auto-open the AI-changes review (<leader>laar)
-  rosaai_review_badge = true, -- show the pending-review count on the chip (<leader>laac)
+  rosaai_dark_bg = true, -- light mode: force #000 (<leader>lqad)
+  rosaai_dark_bg_dm = false, -- dark mode: force #000 (<leader>lqaD)
+  rosaai_review = true, -- master switch for the Review feature (<leader>lqaR)
+  rosaai_auto_review = false, -- auto-open the AI-changes review (<leader>lqar)
+  rosaai_review_badge = true, -- show the pending-review count on the chip (<leader>lqac)
   -- Rosamaximize
   rosamaximize_lualine = true, -- show the zoom indicator on lualine (<leader>laml)
   rosamaximize_badge = true, -- show the floating zoom badge on the buffer (<leader>lamb)
   rosamaximize_name = true, -- show the "max" text (true) or icon only (false) (<leader>lamn)
-  rosamaximize_border = 'rounded', -- badge border: none | rounded | single (<leader>lams)
+  rosamaximize_border = 'rounded', -- badge border: none | rounded | single (<leader>lqx)
   -- Rosazen (distraction-free mode) — persisted across sessions (<leader>lz)
   rosazen = false,
   git_blame = true,
@@ -82,13 +83,13 @@ local defaults = {
   rosaterm_name_full = true,
   rosaterm_icon_visible = true,
   rosaterm_icon_style = 'terminal', -- 'rosa' | 'terminal'
-  rosaterm_dark_bg = true, -- light mode: force #000 (<leader>latd)
-  rosaterm_dark_bg_dm = false, -- dark mode: force #000 (<leader>latD)
+  rosaterm_dark_bg = true, -- light mode: force #000 (<leader>lqrd)
+  rosaterm_dark_bg_dm = false, -- dark mode: force #000 (<leader>lqrD)
   -- Yazi / Lazygit background overrides (force #000, same light+dark scheme)
-  yazi_dark_bg = true, -- light mode: force #000 (<leader>layd)
-  yazi_dark_bg_dm = false, -- dark mode: force #000 (<leader>layD)
-  lazygit_dark_bg = true, -- light mode: force #000 (<leader>lagd)
-  lazygit_dark_bg_dm = false, -- dark mode: force #000 (<leader>lagD)
+  yazi_dark_bg = true, -- light mode: force #000 (<leader>lqfy)
+  yazi_dark_bg_dm = false, -- dark mode: force #000 (<leader>lqfY)
+  lazygit_dark_bg = true, -- light mode: force #000 (<leader>lqfg)
+  lazygit_dark_bg_dm = false, -- dark mode: force #000 (<leader>lqfG)
   -- Dropbar
   dropbar_compact = false, -- false = full path (16 segments), true = parent + filename only
   dropbar_path_preview = true,

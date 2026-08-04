@@ -41,7 +41,6 @@ Rosavim plugins are managed by [Lazy.nvim](https://github.com/folke/lazy.nvim) w
 | [mason.nvim](https://github.com/williamboman/mason.nvim) | Portable package manager — installs LSP servers, formatters, linters, and DAP adapters |
 | [mason-tool-installer.nvim](https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim) | Automatically installs Mason tools on startup |
 | [blink.cmp](https://github.com/Saghen/blink.cmp) | Rust-powered completion engine — blazingly fast autocompletion |
-| [LuaSnip](https://github.com/L3MON4D3/LuaSnip) | Snippet engine with support for VSCode-style snippets |
 | [friendly-snippets](https://github.com/rafamadriz/friendly-snippets) | Community-maintained snippet collection for many languages |
 | [lazydev.nvim](https://github.com/folke/lazydev.nvim) | Development helpers for Lua/Neovim plugin development |
 | [nvim-lsp-file-operations](https://github.com/antosha417/nvim-lsp-file-operations) | Automatic import updates on file rename/move |
@@ -142,7 +141,6 @@ Rosavim ships with its own built-in themes, stored in `lua/rosavim/rosa_themes/`
 | [refactoring.nvim](https://github.com/ThePrimeagen/refactoring.nvim) | Code refactoring operations (extract, inline, debug print) |
 | Rosayank (built-in) | Yank history with persistence — ring buffer of 50 entries, auto-cleanup |
 | [todo-comments.nvim](https://github.com/folke/todo-comments.nvim) | Highlight and search TODO, FIXME, HACK, etc. |
-| [outline.nvim](https://github.com/hedyhli/outline.nvim) | Code outline sidebar |
 | Rosapick (built-in) | Visual window picker with floating labels |
 | [smart-splits.nvim](https://github.com/mrjones2014/smart-splits.nvim) | Smart window navigation and resizing |
 | Rosamaximize (built-in) | Window maximizer (`<leader>cm`) — maximizes the current window and restores the layout, showing a `max` badge on the buffer and a lualine indicator (configurable via `<leader>lam`) |

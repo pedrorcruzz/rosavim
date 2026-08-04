@@ -51,9 +51,19 @@ O `<leader>ly` vem **ativado** por padrão (cursor em bloco no modo normal, o vi
 | `<leader>lqg` | Separador do Lualine (seletor popup) | rounded |
 | `<leader>lqy` | Barra Y do Lualine Transparente (funde com o bg do tema vs sólido `#1a1a1a`) | Ativado |
 | `<leader>lqs` | Picker de theme (rosamin / rosavintage / rosanight) | rosamin |
+| `<leader>lqn` | Tema Sem Bordas — pinta as bordas do which-key / snacks picker da mesma cor do bg, em todos os temas | Desativado |
 | `<leader>ll` | Lualine (visibilidade da Statusline) | Ativado |
 
 Separadores do Lualine disponíveis: `rounded`, `bar`, `arrow`, `slant`
+
+### Forçar Fundo Escuro (`<leader>lqf`)
+
+Overrides de fundo preto para os floats do yazi e do lazygit (ferramentas sem subgrupo próprio no Theme — os do RosaAI ficam em `<leader>lqa`, os do Rosaterm em `<leader>lqr`). Minúscula = modo claro (padrão ativado), maiúscula = modo escuro (padrão desativado).
+
+| Atalho | Toggle | Padrão |
+|:-------|:-------|:-------|
+| `<leader>lqfy` / `<leader>lqfY` | Yazi — força #000 no modo claro / escuro (senão bg do tema) | Ativado / Desativado |
+| `<leader>lqfg` / `<leader>lqfG` | Lazygit — força #000 no modo claro / escuro (senão bg do tema) | Ativado / Desativado |
 
 ### Plugins (`<leader>l`)
 
@@ -104,13 +114,13 @@ Funcionalidades adicionais são persistidas e podem ser alternadas em runtime vi
 | `<leader>lasi` | Picker Ignored Files | Ativado |
 | `<leader>lqp` | Picker Layout (seletor popup) | default |
 | `<leader>lasp` | Picker Preview | Ativado |
-| `<leader>lasb` | Picker Border (seletor popup) | rounded |
+| `<leader>lqo` | Picker Border (seletor popup) — no grupo Theme | rounded |
 
 Layouts de picker disponíveis: `default`, `telescope`, `ivy`, `dropdown`, `vertical`, `vscode`
 
 Bordas de picker disponíveis: `none`, `single`, `double`, `rounded`, `solid`, `shadow`
 
-### Which-Key (`<leader>law`)
+### Which-Key (`<leader>lq`)
 
 | Atalho | Toggle | Padrão |
 |:-------|:-------|:-------|
@@ -121,21 +131,21 @@ Presets de which-key disponíveis: `classic`, `modern`, `helix`
 
 Bordas de which-key disponíveis: `none`, `single`, `double`, `shadow`
 
-### RosaAI (`<leader>laa`)
+### RosaAI (`<leader>lqa`)
 
 | Atalho | Toggle | Padrão |
 |:-------|:-------|:-------|
-| `<leader>laat` | Chip de título (mostrar/esconder) | Ativado |
-| `<leader>laah` | Relógio no chip (mostrar/esconder) | Ativado |
-| `<leader>laai` | Auto Insert ao abrir, focar ou enviar para o CLI | Ativado |
-| `<leader>laaf` | Auto Focus ao enviar mensagem | Ativado |
-| `<leader>laar` | Auto Review — abre o painel de review automaticamente após a IA terminar de editar arquivos | Desativado |
-| `<leader>lqa` | Picker de tema (popup) — fica no grupo Theme | garland |
-| `<leader>laap` | Picker de posição (popup) | right |
-| `<leader>laaz` | Picker de tamanho (popup) | default |
-| `<leader>laab` | Borda vertical (right/left/float) | Ativado |
-| `<leader>laaB` | Borda horizontal (bottom) | Ativado |
-| `<leader>laad` | Fundo Escuro — força #000 no modo claro (senão bg do tema) | Desativado |
+| `<leader>lqat` | Chip de título (mostrar/esconder) | Ativado |
+| `<leader>lqah` | Relógio no chip (mostrar/esconder) | Ativado |
+| `<leader>lqai` | Auto Insert ao abrir, focar ou enviar para o CLI | Ativado |
+| `<leader>lqaf` | Auto Focus ao enviar mensagem | Ativado |
+| `<leader>lqar` | Auto Review — abre o painel de review automaticamente após a IA terminar de editar arquivos | Desativado |
+| `<leader>lqas` | Picker de tema (popup) | garland |
+| `<leader>lqap` | Picker de posição (popup) | right |
+| `<leader>lqaz` | Picker de tamanho (popup) | default |
+| `<leader>lqab` | Borda vertical (right/left/float) | Ativado |
+| `<leader>lqaB` | Borda horizontal (bottom) | Ativado |
+| `<leader>lqad` / `<leader>lqaD` | Fundo Escuro — força #000 no modo claro / escuro (senão bg do tema) | Ativado / Desativado |
 
 Temas RosaAI disponíveis: `bloom`, `petal`, `garland`, `stem`
 
@@ -164,21 +174,21 @@ Tamanhos RosaAI disponíveis: `compact`, `default`, `wide`
 |:-------|:-------|:-------|
 | `<leader>ladf` | Expandir folds automático no resultado DBUI | Ativado |
 
-### Rosaterm (`<leader>lat`)
+### Rosaterm (`<leader>lqr`)
 
 | Atalho | Toggle | Padrão |
 |:-------|:-------|:-------|
-| `<leader>latt` | Chip de título (mostrar/esconder) | Ativado |
-| `<leader>lath` | Relógio no chip (mostrar/esconder) | Ativado |
-| `<leader>lati` | Auto Insert ao abrir o terminal | Ativado |
-| `<leader>latn` | Nome exibido: `Rosaterm` vs `Terminal` | Rosaterm |
-| `<leader>latc` | Ícone do chip (mostrar/esconder) | Ativado |
-| `<leader>lats` | Picker de estilo do ícone (Rosa / Terminal) | Terminal |
-| `<leader>latz` | Picker de tamanho (compact / default / wide) | default |
-| `<leader>lqr` | Picker de tema (popup) — fica no grupo Theme | garland |
-| `<leader>latb` | Borda vertical (vsplit vira float pinado) | Desativado |
-| `<leader>latB` | Borda horizontal (split vira float pinado) | Desativado |
-| `<leader>latd` | Fundo Escuro — força #000 no modo claro (senão bg do tema) | Ativado |
+| `<leader>lqrt` | Chip de título (mostrar/esconder) | Ativado |
+| `<leader>lqrh` | Relógio no chip (mostrar/esconder) | Ativado |
+| `<leader>lqri` | Auto Insert ao abrir o terminal | Ativado |
+| `<leader>lqrn` | Nome exibido: `Rosaterm` vs `Terminal` | Rosaterm |
+| `<leader>lqrc` | Ícone do chip (mostrar/esconder) | Ativado |
+| `<leader>lqrC` | Picker de estilo do ícone (Rosa / Terminal) | Terminal |
+| `<leader>lqrz` | Picker de tamanho (compact / default / wide) | default |
+| `<leader>lqrs` | Picker de tema (popup) | garland |
+| `<leader>lqrb` | Borda vertical (vsplit vira float pinado) | Desativado |
+| `<leader>lqrB` | Borda horizontal (split vira float pinado) | Desativado |
+| `<leader>lqrd` / `<leader>lqrD` | Fundo Escuro — força #000 no modo claro / escuro (senão bg do tema) | Ativado / Desativado |
 
 Temas rosaterm disponíveis: `bloom`, `petal`, `garland`, `stem`
 
@@ -191,7 +201,7 @@ Ao maximizar uma janela com `<leader>cm`, o Rosamaximize mostra um badge flutuan
 | `<leader>laml` | Indicador na lualine (mostrar/esconder) | Ativado |
 | `<leader>lamb` | Badge no buffer (mostrar/esconder) | Ativado |
 | `<leader>lamn` | Exibição: texto `max` vs só ícone | Ativado (texto) |
-| `<leader>lams` | Picker de borda (none / rounded / reta) | rounded |
+| `<leader>lqx` | Picker de borda (none / rounded / reta) — no grupo Theme | rounded |
 
 Bordas rosamaximize disponíveis: `none`, `rounded`, `single` (reta)
 

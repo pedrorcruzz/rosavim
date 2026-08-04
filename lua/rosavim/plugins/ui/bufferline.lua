@@ -1,22 +1,50 @@
 local toggles = require 'rosavim.config.toggles'
 
+--- Delete a buffer without collapsing the window layout (replaces
+--- mini.bufremove): every window showing it switches to the alternate or
+--- another listed buffer first — a fresh scratch one when it was the last —
+--- so a plain :bdelete never takes the split with it. Prompts to save
+--- unsaved changes instead of erroring out.
+local function delete_buf_keep_layout(bufnr)
+  bufnr = bufnr or vim.api.nvim_get_current_buf()
+  if vim.bo[bufnr].modified then
+    local choice = vim.fn.confirm(('Save changes to %q?'):format(vim.fn.fnamemodify(vim.fn.bufname(bufnr), ':t')), '&Yes\n&No\n&Cancel')
+    if choice == 1 then
+      vim.api.nvim_buf_call(bufnr, function()
+        vim.cmd 'write'
+      end)
+    elseif choice ~= 2 then
+      return
+    end
+  end
+  for _, win in ipairs(vim.fn.win_findbuf(bufnr)) do
+    vim.api.nvim_win_call(win, function()
+      local alt = vim.fn.bufnr '#'
+      if alt > 0 and alt ~= bufnr and vim.bo[alt].buflisted then
+        vim.api.nvim_win_set_buf(win, alt)
+        return
+      end
+      local listed = vim.tbl_filter(function(b)
+        return vim.bo[b].buflisted and b ~= bufnr
+      end, vim.api.nvim_list_bufs())
+      vim.api.nvim_win_set_buf(win, listed[1] or vim.api.nvim_create_buf(true, false))
+    end)
+  end
+  pcall(vim.api.nvim_buf_delete, bufnr, { force = true })
+end
+
 return {
   'akinsho/bufferline.nvim',
   dependencies = {
     { 'echasnovski/mini.icons', lazy = true },
-    'echasnovski/mini.bufremove',
   },
   lazy = true,
   event = 'VeryLazy',
   opts = {
     options = {
       show_bufferline = toggles.get 'bufferline',
-      close_command = function(bufnum)
-        require('mini.bufremove').delete(bufnum, false)
-      end,
-      right_mouse_command = function(bufnum)
-        require('mini.bufremove').delete(bufnum, false)
-      end,
+      close_command = delete_buf_keep_layout,
+      right_mouse_command = delete_buf_keep_layout,
       diagnostics = 'nvim_lsp',
       diagnostics_indicator = function(_, _, diagnostics)
         local symbols = {

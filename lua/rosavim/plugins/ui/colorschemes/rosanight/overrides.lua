@@ -53,6 +53,23 @@ function M.get(mode, transparent_background)
       -- statusline
       StatusLine = { fg = '#1c1c1e' },
       StatusLineNC = { fg = '#1c1c1e' },
+
+      -- Diagnostics: keep distinct hues even though the rest of the palette is
+      -- greyscale, so error/warn/info/hint are tellable apart at a glance.
+      -- fg drives signs + floats; VirtualText and Underline are set directly
+      -- (not linked) in the base theme, so override them explicitly too.
+      DiagnosticError = { fg = '#E45649' },
+      DiagnosticWarn = { fg = '#C18401' },
+      DiagnosticInfo = { fg = '#0184BC' },
+      DiagnosticHint = { fg = '#7C3AED' },
+      DiagnosticVirtualTextError = { fg = '#E45649' },
+      DiagnosticVirtualTextWarn = { fg = '#C18401' },
+      DiagnosticVirtualTextInfo = { fg = '#0184BC' },
+      DiagnosticVirtualTextHint = { fg = '#7C3AED' },
+      DiagnosticUnderlineError = { undercurl = true, sp = '#E45649' },
+      DiagnosticUnderlineWarn = { undercurl = true, sp = '#C18401' },
+      DiagnosticUnderlineInfo = { undercurl = true, sp = '#0184BC' },
+      DiagnosticUnderlineHint = { undercurl = true, sp = '#7C3AED' },
     }
   end
   return {
@@ -108,6 +125,23 @@ function M.get(mode, transparent_background)
     -- statusline
     StatusLine = { bg = transparent_background and 'NONE' or '#1a1a1a', fg = '#606060' },
     StatusLineNC = { bg = transparent_background and 'NONE' or '#1a1a1a', fg = '#606060' },
+
+    -- Diagnostics: keep distinct hues even though the rest of the palette is
+    -- greyscale, so error/warn/info/hint are tellable apart at a glance.
+    -- fg drives signs + floats; VirtualText and Underline are set directly
+    -- (not linked) in the base theme, so override them explicitly too.
+    DiagnosticError = { fg = '#ff6b6b' },
+    DiagnosticWarn = { fg = '#ffa868' },
+    DiagnosticInfo = { fg = '#64baff' },
+    DiagnosticHint = { fg = '#c18efe' },
+    DiagnosticVirtualTextError = { fg = '#ff6b6b' },
+    DiagnosticVirtualTextWarn = { fg = '#ffa868' },
+    DiagnosticVirtualTextInfo = { fg = '#64baff' },
+    DiagnosticVirtualTextHint = { fg = '#c18efe' },
+    DiagnosticUnderlineError = { undercurl = true, sp = '#ff6b6b' },
+    DiagnosticUnderlineWarn = { undercurl = true, sp = '#ffa868' },
+    DiagnosticUnderlineInfo = { undercurl = true, sp = '#64baff' },
+    DiagnosticUnderlineHint = { undercurl = true, sp = '#c18efe' },
   }
 end
 
