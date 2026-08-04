@@ -72,6 +72,22 @@ return function()
       toggles.set('lualine', state)
       local lualine = require 'lualine'
       lualine.hide { unhide = state }
+      if not state then
+        -- hide() can leave the rendered bar behind after a re-setup reset
+        -- lualine's restore cache; wipe it now and once things settle
+        local sections = require 'rosavim.plugins.ui.lualine.sections'
+        sections.clear_stale()
+        vim.defer_fn(function()
+          if not toggles.get 'lualine' then
+            sections.clear_stale()
+          end
+        end, 100)
+      end
+      -- rosanight paints the native statusline bg differently while lualine
+      -- is off (#000); re-apply the scheme so it updates without a restart
+      if vim.g.colors_name == 'rosanight' then
+        vim.cmd 'colorscheme rosanight'
+      end
     end,
   }):map '<leader>ll'
 

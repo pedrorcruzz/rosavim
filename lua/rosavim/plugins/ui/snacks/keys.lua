@@ -1,10 +1,11 @@
 -- Lazygit opens in a Snacks float; apply the force-black bg override
--- (light/dark toggles: <leader>lqfg / <leader>lqfG) at open time.
+-- (light/dark toggles: <leader>lqfg / <leader>lqfG) at open time. On
+-- rosanight the float follows the editor bg instead (see lazygit_theme).
 local function lazygit_opts()
-  local term_bg = require 'rosavim.rosa_plugins.term_bg'
+  local lazygit_theme = require 'rosavim.rosa_plugins.lazygit_theme'
   -- zindex 70 keeps lazygit above the RosaAI/rosaterm floats (chips top out at
   -- 60), so a pinned panel can't bleed over the full-screen lazygit window.
-  return { win = { zindex = 70, wo = { winhighlight = term_bg.float_winhl('lazygit_dark_bg', true, 'RosaLazygitNormal') } } }
+  return { win = { zindex = 70, wo = { winhighlight = lazygit_theme.float_winhl() } } }
 end
 
 local function pick_tabs()

@@ -161,6 +161,23 @@ M.inactive_sections = {
   lualine_z = { 'location' },
 }
 
+--- Wipe leftover lualine content from the statusline options. lualine.setup
+--- resets its option-restore cache (utils/loader reset_cache), so a hide()
+--- after any re-setup (theme change, separator change, ...) can no longer
+--- restore the original statusline and leaves the rendered bar behind,
+--- frozen. Call after lualine.hide { unhide = false }.
+function M.clear_stale()
+  if vim.o.statusline:find('lualine', 1, true) then
+    vim.o.statusline = ''
+  end
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    local stl = vim.api.nvim_get_option_value('statusline', { win = win })
+    if stl ~= '' and stl:find('lualine', 1, true) then
+      vim.api.nvim_set_option_value('statusline', '', { win = win })
+    end
+  end
+end
+
 --- Re-apply the full lualine config live: current theme toggle + active
 --- separator preset. Used by the separator selector (<leader>lqg) so a new
 --- preset takes effect without restarting.

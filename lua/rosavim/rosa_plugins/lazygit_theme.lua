@@ -10,6 +10,11 @@
 --- Instead we point Snacks' lazygit theme at dedicated `RosaLg*` groups defined
 --- here, so lazygit renders IDENTICALLY across colorschemes. Values mirror the
 --- rosamin look (the canonical reference), background-aware for dark/light.
+---
+--- Exception: rosanight is strictly monochrome, so the canonical palette's
+--- blue/purple accents clash with it. Rosanight defines its own greyscale
+--- RosaLg* values in its overrides.lua (normal and transparent modes alike);
+--- apply() skips the canonical values while rosanight is active so they win.
 local M = {}
 
 local api = vim.api
@@ -59,6 +64,11 @@ M.theme = {
 --- setup and whenever the colorscheme/background changes, so Snacks reads fresh
 --- colors when it regenerates the theme file (it does so on ColorScheme).
 function M.apply()
+  -- Rosanight owns its RosaLg* values (set in its overrides.lua); don't
+  -- clobber them with the canonical palette.
+  if vim.g.colors_name == 'rosanight' then
+    return
+  end
   local p = vim.o.background == 'light' and light or dark
   api.nvim_set_hl(0, 'RosaLg241', { fg = p.c241 })
   api.nvim_set_hl(0, 'RosaLgActive', { fg = p.active, bold = true })
@@ -69,6 +79,17 @@ function M.apply()
   api.nvim_set_hl(0, 'RosaLgOptions', { fg = p.options })
   api.nvim_set_hl(0, 'RosaLgSelected', { bg = p.selected })
   api.nvim_set_hl(0, 'RosaLgUnstaged', { fg = p.unstaged })
+end
+
+--- Winhighlight for the lazygit float. On rosanight the float follows the
+--- editor bg (Normal: #000 dark / #d3d2ce light / NONE in transparent mode)
+--- instead of NormalFloat's grey #1a1a1a, and the force-black toggles are
+--- bypassed. Other themes keep the term_bg force-black toggle behaviour.
+function M.float_winhl()
+  if vim.g.colors_name == 'rosanight' then
+    return 'Normal:Normal,NormalFloat:Normal,FloatBorder:FloatBorder'
+  end
+  return require('rosavim.rosa_plugins.term_bg').float_winhl('lazygit_dark_bg', true, 'RosaLazygitNormal')
 end
 
 function M.setup()

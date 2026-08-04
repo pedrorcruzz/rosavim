@@ -318,6 +318,9 @@ vim.api.nvim_create_autocmd('ColorScheme', {
         lualine.hide { unhide = true }
       else
         lualine.hide { unhide = false }
+        -- hide() can't restore once a re-setup reset lualine's cache; wipe
+        -- any leftover rendered bar (see sections.clear_stale)
+        require('rosavim.plugins.ui.lualine.sections').clear_stale()
         -- Ensure native statusline stays visible when lualine is off
         vim.defer_fn(function()
           vim.o.laststatus = 3

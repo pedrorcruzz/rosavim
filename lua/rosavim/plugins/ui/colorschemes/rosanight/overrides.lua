@@ -1,6 +1,7 @@
 local M = {}
 
 function M.get(mode, transparent_background)
+  local lualine_on = require('rosavim.config.toggles').get 'lualine'
   if mode == 'light' then
     return {
       -- Cursor: explicit fg/bg instead of the default reverse cursor, which
@@ -31,6 +32,18 @@ function M.get(mode, transparent_background)
 
       -- gitsigns blame
       GitSignsCurrentLineBlame = { fg = '#a4a39c' },
+
+      -- lazygit (Snacks reads the RosaLg* groups — see rosa_plugins/lazygit_theme;
+      -- monochrome values so lazygit matches the theme instead of rosamin's accents)
+      RosaLg241 = { fg = '#97968f' },
+      RosaLgActive = { fg = '#38383c', bold = true },
+      RosaLgCherryBg = { fg = '#6a6a64' },
+      RosaLgCherryFg = { fg = '#000000' },
+      RosaLgDefault = { fg = '#1c1c1e' },
+      RosaLgInactive = { fg = '#8a8a84' },
+      RosaLgOptions = { fg = '#63636b' },
+      RosaLgSelected = { bg = '#bcbbb5' },
+      RosaLgUnstaged = { fg = '#38383c' },
 
       -- mini.icons (kept as coloured file-type icons, identical across light/dark)
       MiniIconsAzure = { fg = '#79b8ff', bg = 'none' },
@@ -77,9 +90,20 @@ function M.get(mode, transparent_background)
     lCursor = { link = 'Cursor' },
     TermCursor = { link = 'Cursor' },
 
-    -- lazygit borders (Snacks reads FloatBorder fg for inactive, MatchParen fg for active)
     FloatBorder = { fg = '#4c4c4c' },
     MatchParen = { fg = '#c6c6ce', bg = '#555555' },
+
+    -- lazygit (Snacks reads the RosaLg* groups — see rosa_plugins/lazygit_theme;
+    -- monochrome values so lazygit matches the theme instead of rosamin's accents)
+    RosaLg241 = { fg = '#b4b4be' },
+    RosaLgActive = { fg = '#c6c6ce', bold = true },
+    RosaLgCherryBg = { fg = '#565656' },
+    RosaLgCherryFg = { fg = '#FFFFFF' },
+    RosaLgDefault = { fg = '#FFFFFF' },
+    RosaLgInactive = { fg = '#4c4c4c' },
+    RosaLgOptions = { fg = '#8c8c9a' },
+    RosaLgSelected = { bg = '#262631' },
+    RosaLgUnstaged = { fg = '#c6c6ce' },
 
     -- blink.cmp completion menu
     -- Selected item: solid #303030 so it stands out on the near-black menu.
@@ -122,9 +146,11 @@ function M.get(mode, transparent_background)
     -- default to NonText (grey). Use normal fg so nested names stay readable.
     SnacksPickerPathHidden = { fg = '#c6c6ce' },
 
-    -- statusline
-    StatusLine = { bg = transparent_background and 'NONE' or '#1a1a1a', fg = '#606060' },
-    StatusLineNC = { bg = transparent_background and 'NONE' or '#1a1a1a', fg = '#606060' },
+    -- statusline: with lualine off the native statusline shows, so its bar
+    -- follows the editor bg (#000) with a soft grey fg instead of lualine's
+    -- grey fallback
+    StatusLine = { bg = transparent_background and 'NONE' or (lualine_on and '#1a1a1a' or '#000000'), fg = lualine_on and '#606060' or '#9B9BA4' },
+    StatusLineNC = { bg = transparent_background and 'NONE' or (lualine_on and '#1a1a1a' or '#000000'), fg = lualine_on and '#606060' or '#9B9BA4' },
 
     -- Diagnostics: keep distinct hues even though the rest of the palette is
     -- greyscale, so error/warn/info/hint are tellable apart at a glance.
