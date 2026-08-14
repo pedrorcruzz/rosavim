@@ -514,7 +514,7 @@ local function set_groups()
     -- (<leader>lqn) repaints it bg-coloured to blend in.
     WhichKeyBorder = { fg = colors.border, bg = sidebar },
     WhichKeyTitle = { fg = colors.fgAlt, bg = sidebar, bold = true },
-    WhichKeyGroup = { fg = colors.func },
+    WhichKeyGroup = { fg = '#7e838d' },
     WhichKeyDesc = { fg = colors.fg },
     WhichKeyValue = { fg = colors.fgInactive },
     WhichKeySeparator = { fg = colors.fgInactive },

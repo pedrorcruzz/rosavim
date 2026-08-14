@@ -42,15 +42,16 @@ function M.get(mode, transparent_background)
       FlashBackdrop = { fg = '#aeb3c2' },
 
       -- lazygit (Snacks reads the RosaLg* groups — see rosa_plugins/lazygit_theme).
-      -- Values mirror the IntelliJ Light chrome so lazygit matches the theme.
+      -- Values mirror the IntelliJ Light chrome so lazygit matches the theme,
+      -- except the active border and selected line, which keep rosamin's tones.
       RosaLg241 = { fg = '#8c8c8c' },
-      RosaLgActive = { fg = '#4573e8', bold = true },
+      RosaLgActive = { fg = '#383A42', bold = true },
       RosaLgCherryBg = { fg = '#6c707d' },
       RosaLgCherryFg = { fg = '#871094' },
       RosaLgDefault = { fg = '#080808' },
       RosaLgInactive = { fg = '#d4d4d4' },
       RosaLgOptions = { fg = '#00627a' },
-      RosaLgSelected = { bg = '#d3dffb' },
+      RosaLgSelected = { bg = '#D6E4F0' },
       RosaLgUnstaged = { fg = '#ff0000' },
 
       -- mini.icons (kept as coloured file-type icons — chrome, not code syntax)
@@ -98,15 +99,16 @@ function M.get(mode, transparent_background)
     FlashLabel = { fg = '#ffffff', bg = '#4573e8', bold = true },
     FlashBackdrop = { fg = '#4b5059' },
 
-    -- lazygit (see the light-mode note; values mirror the IDE's dark chrome)
+    -- lazygit (see the light-mode note; values mirror the IDE's dark chrome,
+    -- except the active border and selected line, which keep rosamin's tones)
     RosaLg241 = { fg = '#7a7e85' },
-    RosaLgActive = { fg = '#6089ef', bold = true },
+    RosaLgActive = { fg = '#abb2bf', bold = true },
     RosaLgCherryBg = { fg = '#6f737a' },
     RosaLgCherryFg = { fg = '#c77dbb' },
     RosaLgDefault = { fg = '#bcbec4' },
     RosaLgInactive = { fg = '#43454a' },
     RosaLgOptions = { fg = '#56a8f5' },
-    RosaLgSelected = { bg = '#30426e' },
+    RosaLgSelected = { bg = '#4c4c4c' },
     RosaLgUnstaged = { fg = '#fa6675' },
 
     -- mini.icons (kept as coloured file-type icons — chrome, not code syntax)
