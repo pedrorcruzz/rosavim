@@ -147,7 +147,7 @@ local function open_chip(term)
     focusable = false,
     zindex = 46,
   })
-  vim.wo[term.chip_win].winhl = 'Normal:Normal,FloatBorder:FloatBorder'
+  vim.wo[term.chip_win].winhl = require('rosavim.rosa_plugins.term_bg').chip_winhl()
   vim.wo[term.chip_win].winbar = ''
 end
 

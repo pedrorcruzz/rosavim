@@ -8,6 +8,12 @@ local defaults = {
   lualine_separator = 'rounded', -- rounded | bar | arrow | slant (<leader>lqg)
   lualine_bar_y_transparent = true, -- true (default) = y/centre bar transparent, blends with theme bg; false = original solid #1a1a1a bar (<leader>lqy)
   theme_borderless = false, -- true = paint which-key/snacks picker/rosapick borders the same colour as their bg, in every rosa theme (<leader>lqn)
+  -- Invert Backgrounds: swap a theme's editor surface with its explorer/tab
+  -- chrome surface. One per theme (<leader>lqij / lqim / lqiv), see
+  -- rosavim.config.invert_bg.
+  rosajet_invert = false,
+  rosamin_invert = false,
+  rosavintage_invert = false,
   dropbar = true,
   autosave = false,
   virtual_text_current_line = false,
@@ -31,6 +37,7 @@ local defaults = {
   lsp_ref_highlights = true,
   dbout_no_folding = true,
   copilot = false,
+  copilot_lualine = true, -- show the copilot icon on lualine (<leader>ail)
   incline = true,
   bufferline = true,
   picker_hidden = false,

@@ -31,6 +31,16 @@ vim.api.nvim_create_autocmd('ColorScheme', {
   end,
 })
 
+-- Invert Backgrounds (<leader>lqi<theme>): swap the active theme's editor
+-- surface with its explorer/tab chrome surface. Runs after the theme has set
+-- its groups, so toggling it off and re-applying restores the real palette.
+vim.api.nvim_create_autocmd('ColorScheme', {
+  pattern = '*',
+  callback = function()
+    require('rosavim.config.invert_bg').apply()
+  end,
+})
+
 -- Drive the terminal cursor color from the Cursor highlight so it follows the
 -- active theme. Neovim's TUI does not emit OSC 12 on its own, so we send it
 -- explicitly whenever the colorscheme changes (OSC 12 is a standard escape
@@ -41,7 +51,7 @@ vim.api.nvim_create_autocmd('ColorScheme', {
 -- Only our own themes define an explicit Cursor bg; guard on them so we never
 -- emit the default reverse cursor (which resolves to black) before a theme has
 -- been applied at startup.
-local rosa_schemes = { rosamin = true, rosavintage = true, rosanight = true }
+local rosa_schemes = { rosamin = true, rosavintage = true, rosanight = true, rosajet = true }
 local function sync_terminal_cursor_color()
   if not rosa_schemes[vim.g.colors_name] then
     return
@@ -83,8 +93,8 @@ vim.api.nvim_create_autocmd('VimLeave', {
 -- the choice to the appearance cache.
 vim.keymap.set('n', '<leader>lqs', function()
   local current = vim.g.colors_name
-  -- Only our own rosa colorschemes (not every installed scheme).
-  local items = { 'rosamin', 'rosavintage', 'rosanight' }
+  -- Only the schemes we ship (not every installed scheme).
+  local items = { 'rosamin', 'rosavintage', 'rosanight', 'rosajet' }
   vim.ui.select(items, {
     prompt = 'Theme · select',
     kind = 'colorscheme',

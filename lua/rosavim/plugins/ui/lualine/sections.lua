@@ -121,7 +121,18 @@ function M.build(sep)
       },
     },
     lualine_y = {
-      'copilot',
+      {
+        'copilot',
+        -- copilot.lua stays lazy (InsertEnter), so the component reports
+        -- "unknown" until copilot actually attaches. Its default icon for that
+        -- is a bare circle-slash; use the crossed-out copilot glyph instead so
+        -- the chip looks the same before the first attach and after a disable.
+        symbols = { status = { icons = { unknown = ' ' } } },
+        cond = function()
+          local ok, toggles = pcall(require, 'rosavim.config.toggles')
+          return not ok or toggles.get 'copilot_lualine' ~= false
+        end,
+      },
       {
         'lsp_status',
         icon = ' ',

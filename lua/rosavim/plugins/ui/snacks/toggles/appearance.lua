@@ -62,6 +62,37 @@ return function()
     end,
   }):map '<leader>lqn'
 
+  -- Invert Backgrounds (<leader>lqi<theme>) — swap a theme's editor surface
+  -- with its explorer/tab chrome surface. One persisted toggle per theme, so
+  -- each can be inverted independently; the swap itself lives in
+  -- rosavim.config.invert_bg, which also owns the shade pairs.
+  for key, theme in pairs { j = 'rosajet', m = 'rosamin', v = 'rosavintage' } do
+    Snacks.toggle({
+      name = 'Invert BG: ' .. theme,
+      get = function()
+        return toggles.get(theme .. '_invert')
+      end,
+      set = function(state)
+        toggles.set(theme .. '_invert', state)
+        -- Toggling another theme's switch just records it; Snacks already
+        -- reports the on/off state, so there is nothing extra to say.
+        if vim.g.colors_name ~= theme then
+          return
+        end
+        -- Live reload, no restart: re-applying the scheme rebuilds every group
+        -- from the real palette and fires the ColorScheme autocmd that runs the
+        -- swap (so turning it OFF restores the originals too).
+        require('rosavim.config.appearance').reload()
+        -- lualine builds its own colour table and never sees those groups: in
+        -- 'auto' it re-reads the theme file, in Custom it samples Normal.bg —
+        -- both only on setup, so it needs an explicit rebuild.
+        pcall(function()
+          require('rosavim.plugins.ui.lualine.sections').reload()
+        end)
+      end,
+    }):map('<leader>lqi' .. key)
+  end
+
   -- Lualine (visibility)
   Snacks.toggle({
     name = 'Lualine',
@@ -83,10 +114,10 @@ return function()
           end
         end, 100)
       end
-      -- rosanight paints the native statusline bg differently while lualine
-      -- is off (#000); re-apply the scheme so it updates without a restart
-      if vim.g.colors_name == 'rosanight' then
-        vim.cmd 'colorscheme rosanight'
+      -- rosanight and rosajet paint the native statusline bg differently while
+      -- lualine is off; re-apply the scheme so it updates without a restart
+      if vim.g.colors_name == 'rosanight' or vim.g.colors_name == 'rosajet' then
+        vim.cmd('colorscheme ' .. vim.g.colors_name)
       end
     end,
   }):map '<leader>ll'

@@ -50,6 +50,16 @@ M.list = {
     binary = 'openclaude',
   },
   {
+    name = 'opencode',
+    label = 'OpenCode',
+    icon = '󱚝',
+    cmd = { 'opencode' },
+    -- opencode continues the last session with --continue (-c); it has no
+    -- --resume flag, so that field is left unset.
+    continue = { '--continue' },
+    binary = 'opencode',
+  },
+  {
     name = 'gemini',
     label = 'Gemini',
     icon = '󰊭',

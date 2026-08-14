@@ -297,11 +297,12 @@
 | i | `<C-d>` | Dispensar sugestão | `Ctrl+d` para dispensar a sugestão atual do Copilot |
 | n | `<leader>aia` | Auth | `Space a i a` para autenticar com o GitHub Copilot |
 | n | `<leader>aii` | Alternar | `Space a i i` para alternar Copilot on/off (persistido) |
+| n | `<leader>ail` | Ícone na lualine | `Space a i l` para mostrar/esconder o ícone do Copilot na statusline (persistido) |
 | n | `<leader>aip` | Painel | `Space a i p` para abrir o painel de sugestões do Copilot |
 
 ### RosaAI
 
-Integração nativa com CLIs de IA (Claude, Cursor, OpenClaude, Gemini etc.). Cada tool tem sua própria sessão persistente — trocar de tool ou de layout preserva o histórico. O popup de layout no `<leader>aa` só aparece na primeira vez; depois disso ele apenas alterna (toggle) o último layout.
+Integração nativa com CLIs de IA (Claude, Cursor, OpenClaude, OpenCode, Gemini etc.). Cada tool tem sua própria sessão persistente — trocar de tool ou de layout preserva o histórico. O popup de layout no `<leader>aa` só aparece na primeira vez; depois disso ele apenas alterna (toggle) o último layout.
 
 | Modo | Tecla | Ação | Exemplo |
 |:----:|:------|:-----|:--------|
@@ -321,6 +322,7 @@ Integração nativa com CLIs de IA (Claude, Cursor, OpenClaude, Gemini etc.). Ca
 | n | `<leader>au` | Alternar Cursor | Abrir/esconder `cursor-agent` |
 | n | `<leader>aU` | Alternar Cursor YOLO | Abrir/esconder `cursor-agent --yolo` |
 | n | `<leader>ao` | Alternar OpenClaude | Abrir/esconder `openclaude` |
+| n | `<leader>ae` | Alternar OpenCode | Abrir/esconder `opencode` |
 | n | `<leader>ag` | Alternar Gemini | Abrir/esconder `gemini` |
 | n | `<leader>ar` | Revisar Mudanças da IA | `Space a r` para abrir/alternar a revisão das edições **só da IA** (diffs inline verde/vermelho + painel de visão geral) |
 | n | `<leader>ab` | Marcar Baseline do Review | `Space a b` para definir manualmente o ponto "antes" com que o review compara |
@@ -470,7 +472,10 @@ Quer revisar **tudo** no repositório (suas edições incluídas), não só as d
 | Modo | Tecla | Ação | Exemplo |
 |:----:|:------|:-----|:--------|
 | n | `<leader>lqt` | Alternar dark/light | `Space l q t` para alternar entre modo escuro e claro |
-| n | `<leader>lqs` | Selecionar theme | `Space l q s` para escolher um dos nossos themes (rosamin / rosavintage / rosanight) |
+| n | `<leader>lqij` | Inverter BG: rosajet | `Space l q i j` troca o bg do editor do rosajet com o do explorer/tabs |
+| n | `<leader>lqim` | Inverter BG: rosamin | `Space l q i m` mesma troca no rosamin |
+| n | `<leader>lqiv` | Inverter BG: rosavintage | `Space l q i v` mesma troca no rosavintage |
+| n | `<leader>lqs` | Selecionar theme | `Space l q s` para escolher um dos themes inclusos (rosamin / rosavintage / rosanight / rosajet) |
 | n | `<leader>lqm` | Selecionar tema do Render Markdown | `Space l q m` para escolher o preset do render-markdown (none / lazy / obsidian) |
 | n | `<leader>lqg` | Selecionar separador do lualine | `Space l q g` para escolher um preset de separador da statusline (rounded / bar / arrow / slant) |
 | n | `<leader>lqe` | Alternar transparência | `Space l q e` para alternar a transparência do fundo |

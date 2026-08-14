@@ -173,6 +173,14 @@ return {
       desc = 'RosaAI: Toggle OpenClaude',
     },
     {
+      -- 'o' is OpenClaude and 'c'/'p' are taken, so OpenCode gets 'e'.
+      '<leader>ae',
+      function()
+        require('rosavim.rosa_plugins.rosaai').toggle_with_picker 'opencode'
+      end,
+      desc = 'RosaAI: Toggle OpenCode',
+    },
+    {
       '<leader>ag',
       function()
         require('rosavim.rosa_plugins.rosaai').toggle_with_picker 'gemini'

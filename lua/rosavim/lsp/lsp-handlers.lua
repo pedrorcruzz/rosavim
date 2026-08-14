@@ -36,6 +36,11 @@ vim.diagnostic.config {
     },
   },
   underline = true,
-  update_in_insert = true,
+  -- Neovim's default (false) on purpose: with this on, every keystroke in
+  -- insert mode re-publishes diagnostics, which re-lays out all virtual text,
+  -- re-renders the bufferline (diagnostics = 'nvim_lsp') and redraws the
+  -- statusline. On a big TS file that is the single biggest source of typing
+  -- lag. Diagnostics still refresh on InsertLeave and on every LSP publish.
+  update_in_insert = false,
   severity_sort = true,
 }

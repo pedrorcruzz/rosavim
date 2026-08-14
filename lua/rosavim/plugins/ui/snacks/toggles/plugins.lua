@@ -54,6 +54,21 @@ return function()
     end,
   }):map '<leader>aii'
 
+  -- Copilot lualine icon
+  Snacks.toggle({
+    name = 'Copilot Lualine Icon',
+    wk_desc = { enabled = 'Hide ', disabled = 'Show ' },
+    get = function()
+      return toggles.get 'copilot_lualine'
+    end,
+    set = function(state)
+      toggles.set('copilot_lualine', state)
+      if package.loaded['lualine'] then
+        require('lualine').refresh()
+      end
+    end,
+  }):map '<leader>ail'
+
   -- Rosamaximize
   local rosamaximize = require 'rosavim.rosa_plugins.rosamaximize'
   Snacks.toggle({

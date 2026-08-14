@@ -387,6 +387,12 @@ local function set_groups()
   pcall(function()
     require('rosavim.config.borderless').apply()
   end)
+  -- Invert Backgrounds (<leader>lqi<theme>): swap the editor surface with the
+  -- explorer/tab chrome. Runs here as well as from the ColorScheme autocmd
+  -- because lualine's 'auto' theme re-sources this file without firing it.
+  pcall(function()
+    require('rosavim.config.invert_bg').apply()
+  end)
 end
 
 function M.setup(values)

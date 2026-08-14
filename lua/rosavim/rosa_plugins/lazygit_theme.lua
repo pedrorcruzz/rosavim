@@ -11,11 +11,15 @@
 --- here, so lazygit renders IDENTICALLY across colorschemes. Values mirror the
 --- rosamin look (the canonical reference), background-aware for dark/light.
 ---
---- Exception: rosanight is strictly monochrome, so the canonical palette's
---- blue/purple accents clash with it. Rosanight defines its own greyscale
---- RosaLg* values in its overrides.lua (normal and transparent modes alike);
---- apply() skips the canonical values while rosanight is active so they win.
+--- Exceptions: rosanight is strictly monochrome, so the canonical palette's
+--- blue/purple accents clash with it, and rosajet mirrors the JetBrains IDE
+--- chrome. Both define their own RosaLg* values in their overrides.lua (normal
+--- and transparent modes alike); apply() skips the canonical values while one
+--- of them is active so theirs win.
 local M = {}
+
+--- Themes that ship their own RosaLg* palette in overrides.lua.
+local owns_lazygit_palette = { rosanight = true, rosajet = true }
 
 local api = vim.api
 
@@ -64,9 +68,9 @@ M.theme = {
 --- setup and whenever the colorscheme/background changes, so Snacks reads fresh
 --- colors when it regenerates the theme file (it does so on ColorScheme).
 function M.apply()
-  -- Rosanight owns its RosaLg* values (set in its overrides.lua); don't
-  -- clobber them with the canonical palette.
-  if vim.g.colors_name == 'rosanight' then
+  -- Themes that own their RosaLg* values (set in their overrides.lua) must not
+  -- be clobbered with the canonical palette.
+  if owns_lazygit_palette[vim.g.colors_name] then
     return
   end
   local p = vim.o.background == 'light' and light or dark

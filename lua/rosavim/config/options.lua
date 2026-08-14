@@ -88,8 +88,11 @@ vim.opt.smartcase = true
 -- Keep signcolumn on by default
 vim.opt.signcolumn = 'yes'
 
--- Decrease update time
-vim.opt.updatetime = 250
+-- How long the cursor must sit still before CursorHold fires. Well under the
+-- 4000ms default so idle work (LSP reference highlight, the autoread check)
+-- still feels immediate, but not so tight that it runs several times a second
+-- while you pause mid-thought.
+vim.opt.updatetime = 400
 
 -- Reload files changed outside of Neovim (RosaAI, git, etc.)
 vim.opt.autoread = true

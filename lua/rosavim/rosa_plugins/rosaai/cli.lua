@@ -152,7 +152,7 @@ local function open_chip(pos, parent_win, tool_name)
     -- pinned 46 (window 45). Both stay below yazi/lazygit (70).
     zindex = (pos == 'float') and 56 or 46,
   })
-  vim.wo[c.win].winhl = 'Normal:Normal,FloatBorder:FloatBorder'
+  vim.wo[c.win].winhl = require('rosavim.rosa_plugins.term_bg').chip_winhl()
   vim.wo[c.win].winbar = ''
   chips[pos] = c
 end

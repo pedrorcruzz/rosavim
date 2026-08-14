@@ -50,7 +50,10 @@ The orchestrator at `lua/rosavim/plugins/ui/snacks/toggles.lua` loads all module
 | `<leader>lql` | Lualine Custom Theme (Auto/Default) | Default |
 | `<leader>lqg` | Lualine Separator (popup selector) | rounded |
 | `<leader>lqy` | Lualine Bar Y Transparent (blend with theme bg vs solid `#1a1a1a`) | On |
-| `<leader>lqs` | Theme picker (rosamin / rosavintage / rosanight) | rosamin |
+| `<leader>lqs` | Theme picker (rosamin / rosavintage / rosanight / rosajet) | rosamin |
+| `<leader>lqij` | Invert BG: rosajet — swap the editor surface with the explorer/tab chrome (dark: `#272729` editor by default, `#191a1c` when on) | Off |
+| `<leader>lqim` | Invert BG: rosamin — same swap | Off |
+| `<leader>lqiv` | Invert BG: rosavintage — same swap | Off |
 | `<leader>lqn` | Borderless Theme — paint which-key / snacks picker / rosapick borders the same colour as their bg, in every theme | Off |
 | `<leader>ll` | Lualine (Statusline visibility) | On |
 
@@ -94,6 +97,9 @@ Force-black background overrides for the yazi and lazygit floats (tools without 
 | Shortcut | Toggle | Default |
 |:---------|:-------|:--------|
 | `<leader>aii` | Copilot | Off |
+| `<leader>ail` | Copilot icon on lualine | On |
+
+`<leader>ail` only hides the Copilot chip from the statusline, it does not turn Copilot itself off. Handy if you don't use AI and don't want the icon sitting there.
 
 > **Rosazen** (`<leader>lz`) — the built-in distraction-free mode — **is** persisted: if it was active when you quit, it re-enters automatically on the next launch.
 

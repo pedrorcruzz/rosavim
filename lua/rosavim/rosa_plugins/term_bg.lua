@@ -50,6 +50,20 @@ function M.winhl(toggle_key, default_on, hl_group, extra)
   return 'Normal:Normal' .. extra
 end
 
+--- Highlight group backing the title-chip overlays (rosaterm/rosaai). Themes
+--- may define it to give the chip its own shade — rosajet paints it the
+--- JetBrains tool-window colour so the header reads as a title bar. Undefined,
+--- it links to Normal, which is what every other theme has always rendered.
+M.CHIP_HL = 'RosaChipNormal'
+
+--- Winhighlight for a title-chip overlay window.
+function M.chip_winhl()
+  if vim.tbl_isempty(api.nvim_get_hl(0, { name = M.CHIP_HL })) then
+    api.nvim_set_hl(0, M.CHIP_HL, { link = 'Normal' })
+  end
+  return 'Normal:' .. M.CHIP_HL .. ',FloatBorder:FloatBorder'
+end
+
 --- Full winhighlight for a floating window (yazi, lazygit): maps Normal AND
 --- NormalFloat to a forced-black group when active, otherwise back to their
 --- defaults. Kept separate from `winhl` because floats also render through

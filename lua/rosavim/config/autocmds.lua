@@ -111,7 +111,29 @@ vim.api.nvim_create_autocmd({ 'FocusLost', 'BufLeave' }, {
 -- Auto-reload buffers changed on disk (RosaAI, git, external edits)
 local autoread_group = vim.api.nvim_create_augroup('kickstart-autoread', { clear = true })
 
-vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'WinEnter', 'CursorHold', 'CursorHoldI', 'TermLeave' }, {
+--- Re-stat the file buffers currently ON SCREEN and reload the ones that
+--- changed on disk.
+---
+--- Bare `:checktime` stats EVERY loaded buffer, so an afternoon in a monorepo
+--- turns each idle tick into hundreds of stat() calls. Only what you can see
+--- has to be polled: a hidden buffer is checked by the BufEnter below the
+--- instant you switch to it, so nothing is missed — and a file the RosaAI CLI
+--- writes to while it sits in a visible split still refreshes live.
+local function checktime_visible()
+  local seen = {}
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    local buf = vim.api.nvim_win_get_buf(win)
+    if not seen[buf] and vim.bo[buf].buftype == '' and vim.api.nvim_buf_get_name(buf) ~= '' then
+      seen[buf] = true
+      pcall(vim.cmd, 'silent! checktime ' .. buf)
+    end
+  end
+end
+
+-- CursorHoldI is deliberately absent: doing this mid-typing (every `updatetime`
+-- pause in insert mode) buys nothing — the file cannot have changed under you
+-- while you type into it, and CursorHold covers the moment you stop.
+vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'WinEnter', 'CursorHold', 'TermLeave' }, {
   group = autoread_group,
   callback = function()
     if not toggles.get 'autoread' then
@@ -121,7 +143,7 @@ vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'WinEnter', 'CursorHold
     if vim.bo.buftype ~= '' or vim.fn.mode() == 'c' then
       return
     end
-    vim.cmd 'silent! checktime'
+    checktime_visible()
   end,
 })
 
@@ -145,18 +167,9 @@ if autoread_timer then
       if vim.bo.buftype == '' then
         return
       end
-      -- ...and only if a normal file buffer is actually on screen to refresh.
-      local has_file_win = false
-      for _, win in ipairs(vim.api.nvim_list_wins()) do
-        local buf = vim.api.nvim_win_get_buf(win)
-        if vim.bo[buf].buftype == '' and vim.api.nvim_buf_get_name(buf) ~= '' then
-          has_file_win = true
-          break
-        end
-      end
-      if has_file_win then
-        vim.cmd 'silent! checktime'
-      end
+      -- Same visible-only scan: it is the on-screen split that has to refresh
+      -- while the CLI writes, and it already skips the work when nothing is up.
+      checktime_visible()
     end)
   )
 

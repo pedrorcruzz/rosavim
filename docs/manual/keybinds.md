@@ -297,11 +297,12 @@
 | i | `<C-d>` | Dismiss suggestion | `Ctrl+d` to dismiss the current Copilot suggestion |
 | n | `<leader>aia` | Auth | `Space a i a` to authenticate with GitHub Copilot |
 | n | `<leader>aii` | Toggle | `Space a i i` to toggle Copilot on/off (persisted) |
+| n | `<leader>ail` | Lualine icon | `Space a i l` to show/hide the Copilot icon on the statusline (persisted) |
 | n | `<leader>aip` | Panel | `Space a i p` to open the Copilot suggestions panel |
 
 ### RosaAI
 
-Native AI CLI integration for Claude, Cursor, OpenClaude, Gemini and friends. Each tool gets its own persistent terminal session — switching tools or layouts preserves history. The picker on `<leader>aa` only appears the very first time; after that it just toggles the last open layout.
+Native AI CLI integration for Claude, Cursor, OpenClaude, OpenCode, Gemini and friends. Each tool gets its own persistent terminal session — switching tools or layouts preserves history. The picker on `<leader>aa` only appears the very first time; after that it just toggles the last open layout.
 
 | Mode | Key | Action | Example |
 |:----:|:----|:-------|:--------|
@@ -321,6 +322,7 @@ Native AI CLI integration for Claude, Cursor, OpenClaude, Gemini and friends. Ea
 | n | `<leader>au` | Toggle Cursor | Open/hide `cursor-agent` |
 | n | `<leader>aU` | Toggle Cursor YOLO | Open/hide `cursor-agent --yolo` |
 | n | `<leader>ao` | Toggle OpenClaude | Open/hide `openclaude` |
+| n | `<leader>ae` | Toggle OpenCode | Open/hide `opencode` |
 | n | `<leader>ag` | Toggle Gemini | Open/hide `gemini` |
 | n | `<leader>ar` | Review AI Changes | `Space a r` to open/toggle the review of **AI-only** edits (green/red inline diffs + overview panel) |
 | n | `<leader>ab` | Mark Review Baseline | `Space a b` to manually set the "before" point the review compares against |
@@ -470,7 +472,10 @@ Want to review **everything** in the repo (your edits included), not just the AI
 | Mode | Key | Action | Example |
 |:----:|:----|:-------|:--------|
 | n | `<leader>lqt` | Toggle dark/light | `Space l q t` to switch between dark and light mode |
-| n | `<leader>lqs` | Select theme | `Space l q s` to pick one of our themes (rosamin / rosavintage / rosanight) |
+| n | `<leader>lqij` | Invert BG: rosajet | `Space l q i j` swaps rosajet's editor background with its explorer/tab chrome background |
+| n | `<leader>lqim` | Invert BG: rosamin | `Space l q i m` same swap for rosamin |
+| n | `<leader>lqiv` | Invert BG: rosavintage | `Space l q i v` same swap for rosavintage |
+| n | `<leader>lqs` | Select theme | `Space l q s` to pick one of the bundled themes (rosamin / rosavintage / rosanight / rosajet) |
 | n | `<leader>lqm` | Select Render Markdown theme | `Space l q m` to pick the render-markdown preset (none / lazy / obsidian) |
 | n | `<leader>lqg` | Select lualine separator | `Space l q g` to pick a statusline separator preset (rounded / bar / arrow / slant) |
 | n | `<leader>lqe` | Toggle transparent | `Space l q e` to toggle background transparency |
