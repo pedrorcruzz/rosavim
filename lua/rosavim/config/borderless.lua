@@ -62,11 +62,11 @@ M.tools = {
     name = 'Notify',
     map = '<leader>lqnn',
     borders = {
-      { 'SnacksNotifierBorderInfo', { 'SnacksNotifierInfo', 'NormalFloat', 'Normal' }, surface_first = true },
-      { 'SnacksNotifierBorderWarn', { 'SnacksNotifierWarn', 'NormalFloat', 'Normal' }, surface_first = true },
-      { 'SnacksNotifierBorderError', { 'SnacksNotifierError', 'NormalFloat', 'Normal' }, surface_first = true },
-      { 'SnacksNotifierBorderDebug', { 'SnacksNotifierDebug', 'NormalFloat', 'Normal' }, surface_first = true },
-      { 'SnacksNotifierBorderTrace', { 'SnacksNotifierTrace', 'NormalFloat', 'Normal' }, surface_first = true },
+      { 'SnacksNotifierBorderInfo', { 'SnacksNotifierInfo', 'Normal' }, surface_first = true },
+      { 'SnacksNotifierBorderWarn', { 'SnacksNotifierWarn', 'Normal' }, surface_first = true },
+      { 'SnacksNotifierBorderError', { 'SnacksNotifierError', 'Normal' }, surface_first = true },
+      { 'SnacksNotifierBorderDebug', { 'SnacksNotifierDebug', 'Normal' }, surface_first = true },
+      { 'SnacksNotifierBorderTrace', { 'SnacksNotifierTrace', 'Normal' }, surface_first = true },
     },
   },
 }
