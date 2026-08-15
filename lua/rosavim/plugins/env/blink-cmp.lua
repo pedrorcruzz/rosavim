@@ -54,7 +54,17 @@ return {
         documentation = {
           auto_show = true,
           auto_show_delay_ms = 400,
-          window = { border = 'rounded' },
+          window = {
+            border = 'rounded',
+            winhighlight = table.concat({
+              'Normal:BlinkCmpDoc',
+              'FloatBorder:BlinkCmpDocBorder',
+              'EndOfBuffer:BlinkCmpDoc',
+              '@markup.raw.block.markdown:None',
+              '@markup.raw.block:None',
+              '@markup.raw.delimiter.markdown:None',
+            }, ','),
+          },
         },
         ghost_text = { enabled = false },
         menu = {

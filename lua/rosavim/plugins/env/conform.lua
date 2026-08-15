@@ -7,17 +7,16 @@ return {
 
       local enable_auto_format_on_focus = false
 
-      local biome = vim.fn.filereadable(vim.fn.getcwd() .. '/node_modules/.bin/biome') == 1
-      local js_fmt = biome and { 'biome' } or { 'prettierd', 'prettier', stop_after_first = true }
+      local web = { 'biome', 'prettierd', 'prettier', stop_after_first = true }
 
       conform.setup {
         formatters_by_ft = {
-          javascript = js_fmt,
-          typescript = js_fmt,
-          javascriptreact = js_fmt,
-          typescriptreact = js_fmt,
-          json = biome and { 'biome' } or { 'prettierd' },
-          html = { 'superhtml', 'biome', 'prettierd', 'prettier', stop_after_first = true },
+          javascript = web,
+          typescript = web,
+          javascriptreact = web,
+          typescriptreact = web,
+          json = web,
+          html = { 'biome', 'superhtml', 'prettierd', 'prettier', stop_after_first = true },
           css = { 'prettierd', 'prettier', stop_after_first = true },
           htmldjango = { 'djlint' },
           python = { 'black', 'autopep8', stop_after_first = true },
@@ -32,6 +31,8 @@ return {
         },
 
         formatters = {
+          biome = { require_cwd = true },
+          black = { require_cwd = true },
           ['biome-organize-imports'] = {
             command = 'biome',
             args = { 'format', '--organize-imports', '--assists-enabled' },

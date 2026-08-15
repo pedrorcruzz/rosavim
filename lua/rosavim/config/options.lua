@@ -7,9 +7,11 @@ vim.opt.lazyredraw = false
 
 vim.opt.fileencoding = 'utf-8'
 
--- Window/terminal title: mostra "projeto — arquivo" no titulo da janela.
--- Como o Rosavim faz auto-root (chdir p/ raiz do projeto), o getcwd() = projeto.
--- Serve p/ o window-picker do AeroSpace (alt-o) diferenciar cada terminal.
+-- vim.opt.tabstop = 2
+-- vim.opt.shiftwidth = 2
+-- vim.opt.softtabstop = 2
+-- vim.opt.expandtab = true
+
 vim.opt.title = true
 vim.opt.titlestring = '%{fnamemodify(getcwd(), ":t")}%( — %t%)'
 
