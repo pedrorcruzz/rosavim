@@ -1,10 +1,6 @@
--- Native treesitter configuration (Neovim 0.12+)
--- No plugin needed — uses built-in vim.treesitter API
-
 vim.filetype.add {
   pattern = {
     ['.*%.blade%.php'] = 'blade',
-    ['.*%.html'] = 'htmldjango',
     ['.*%.html%.jinja'] = 'htmldjango',
     ['.*%.html%.jinja2'] = 'htmldjango',
     ['.*%.html%.j2'] = 'htmldjango',
@@ -13,10 +9,16 @@ vim.filetype.add {
 
 local group = vim.api.nvim_create_augroup('RosavimTreesitter', { clear = true })
 
--- Parsing and, above all, the treesitter indentexpr get very expensive on large
--- files (a single `==` or paste re-indents through the tree). Skip both past
--- this size and fall back to the regex syntax, which is what Neovim would do
--- anyway; 512 KB clears every normal source file.
+local has_parser = {}
+for _, path in ipairs(vim.api.nvim_get_runtime_file('parser/*', true)) do
+  has_parser[vim.fn.fnamemodify(path, ':t:r')] = true
+end
+
+local has_folds = {}
+for _, path in ipairs(vim.api.nvim_get_runtime_file('queries/*/folds.scm', true)) do
+  has_folds[vim.fn.fnamemodify(path, ':h:t')] = true
+end
+
 local MAX_FILESIZE = 512 * 1024
 
 local function too_big(buf)
@@ -31,12 +33,20 @@ end
 vim.api.nvim_create_autocmd('FileType', {
   group = group,
   callback = function(args)
-    if too_big(args.buf) then
+    local buf = args.buf
+    local lang = vim.treesitter.language.get_lang(args.match)
+    if not lang or not has_parser[lang] or too_big(buf) then
       return
     end
-    local ok = pcall(vim.treesitter.start, args.buf)
-    if ok then
-      vim.bo[args.buf].indentexpr = "v:lua.require'vim.treesitter'.indentexpr()"
+
+    if not pcall(vim.treesitter.start, buf, lang) then
+      return
+    end
+
+    if has_folds[lang] and vim.api.nvim_get_current_buf() == buf then
+      vim.wo[0][0].foldmethod = 'expr'
+      vim.wo[0][0].foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+      vim.wo[0][0].foldlevel = 99
     end
   end,
 })
