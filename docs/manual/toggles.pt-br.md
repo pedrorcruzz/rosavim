@@ -124,6 +124,8 @@ Funcionalidades adicionais são persistidas e podem ser alternadas em runtime vi
 | `<leader>lass` | Smooth Scrolling (animação de scroll) | Ativado |
 | `<leader>lqo` | Picker Border (seletor popup) — no grupo Theme | rounded |
 
+O Smooth Scrolling só anima buffers de arquivo de verdade. Ele é ignorado em arquivos grandes (`bigfile`), terminais, pickers, dashboard, help e quickfix, então a navegação nesses lugares continua instantânea.
+
 Layouts de picker disponíveis: `default`, `telescope`, `ivy`, `dropdown`, `vertical`, `vscode`
 
 Bordas de picker disponíveis: `none`, `single`, `double`, `rounded`, `solid`, `shadow`

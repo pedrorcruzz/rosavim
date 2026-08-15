@@ -58,8 +58,14 @@ return {
     scroll = {
       enabled = require('rosavim.config.toggles').get 'scroll',
       animate = {
-        duration = { step = 12, total = 100 },
+        duration = { step = 10, total = 150 },
       },
+      filter = function(buf)
+        return vim.g.snacks_scroll ~= false
+          and vim.b[buf].snacks_scroll ~= false
+          and vim.bo[buf].buftype == ''
+          and vim.bo[buf].filetype ~= 'bigfile'
+      end,
     },
     rename = { enabled = true },
     toggle = { enabled = true },

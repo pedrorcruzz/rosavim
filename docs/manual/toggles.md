@@ -124,6 +124,8 @@ Additional features are persisted and can be toggled at runtime via `<leader>la`
 | `<leader>lass` | Smooth Scrolling (scroll animation) | On |
 | `<leader>lqo` | Picker Border (popup selector) — under Theme group | rounded |
 
+Smooth Scrolling only animates real file buffers. It is skipped on big files (`bigfile`), terminals, pickers, the dashboard, help and quickfix, so navigation there stays instant.
+
 Available picker layouts: `default`, `telescope`, `ivy`, `dropdown`, `vertical`, `vscode`
 
 Available picker borders: `none`, `single`, `double`, `rounded`, `solid`, `shadow`
