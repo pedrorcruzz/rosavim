@@ -14,7 +14,6 @@ vim.lsp.config('*', {
   capabilities = capabilities,
 })
 
--- Ativa todos os servers (configs em lsp/*.lua)
 vim.lsp.enable {
   'tsgo',
   'tailwindcss',
@@ -25,6 +24,7 @@ vim.lsp.enable {
   'gopls',
   'sqlls',
   'lua_ls',
+  'css_lsp',
   'marksman',
 }
 
@@ -51,6 +51,7 @@ return {
         -- LSP Servers
         'tsgo',
         'tailwindcss-language-server',
+        'css_lsp',
         'emmet-ls',
         'basedpyright',
         'intelephense',
