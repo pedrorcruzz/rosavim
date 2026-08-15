@@ -8,6 +8,8 @@ local M = {}
 --- Border groups per tool + the surfaces each one may sit on, most specific
 --- first. `fallback` groups have no theme colour of their own, so turning the
 --- toggle off has to link them back instead of leaving the blend behind.
+--- `surface_first` groups wrap a window whose interior is a known group, so
+--- that surface wins over whatever colour the border itself carries.
 M.tools = {
   {
     key = 'borderless_whichkey',
@@ -19,7 +21,13 @@ M.tools = {
     key = 'borderless_snacks',
     name = 'Snacks Picker',
     map = '<leader>lqns',
-    borders = { { 'SnacksPickerBorder', { 'SnacksPickerNormal', 'NormalFloat' } } },
+    borders = {
+      { 'SnacksPickerBorder', { 'SnacksPicker', 'NormalFloat' } },
+      { 'SnacksPickerInputBorder', { 'SnacksPickerInput', 'SnacksPicker', 'NormalFloat' }, surface_first = true },
+      { 'SnacksPickerListBorder', { 'SnacksPickerList', 'SnacksPicker', 'NormalFloat' }, surface_first = true },
+      { 'SnacksPickerPreviewBorder', { 'SnacksPickerPreview', 'SnacksPicker', 'NormalFloat' }, surface_first = true },
+      { 'SnacksPickerBoxBorder', { 'SnacksPickerBox', 'SnacksPicker', 'NormalFloat' }, surface_first = true },
+    },
   },
   {
     key = 'borderless_rosapick',
@@ -49,16 +57,31 @@ M.tools = {
     map = '<leader>lqni',
     borders = { { 'RosaaiFloatBorder', { 'RosaaiNormal', 'Normal' }, fallback = 'FloatBorder' } },
   },
+  {
+    key = 'borderless_notify',
+    name = 'Notify',
+    map = '<leader>lqnn',
+    borders = {
+      { 'SnacksNotifierBorderInfo', { 'SnacksNotifierInfo', 'NormalFloat', 'Normal' }, surface_first = true },
+      { 'SnacksNotifierBorderWarn', { 'SnacksNotifierWarn', 'NormalFloat', 'Normal' }, surface_first = true },
+      { 'SnacksNotifierBorderError', { 'SnacksNotifierError', 'NormalFloat', 'Normal' }, surface_first = true },
+      { 'SnacksNotifierBorderDebug', { 'SnacksNotifierDebug', 'NormalFloat', 'Normal' }, surface_first = true },
+      { 'SnacksNotifierBorderTrace', { 'SnacksNotifierTrace', 'NormalFloat', 'Normal' }, surface_first = true },
+    },
+  },
 }
 
 local function hl_of(group)
   return vim.api.nvim_get_hl(0, { name = group, link = false })
 end
 
-local function blend_bg(border, surfaces)
-  local bg = hl_of(border).bg
-  if bg then
-    return bg
+local function blend_bg(border, surfaces, surface_first)
+  local bg
+  if not surface_first then
+    bg = hl_of(border).bg
+    if bg then
+      return bg
+    end
   end
   for _, surface in ipairs(surfaces) do
     bg = hl_of(surface).bg
@@ -104,7 +127,7 @@ function M.apply()
     for _, spec in ipairs(tool.borders) do
       local group, surfaces = spec[1], spec[2]
       if on then
-        local bg = blend_bg(group, surfaces)
+        local bg = blend_bg(group, surfaces, spec.surface_first)
         vim.api.nvim_set_hl(0, group, bg and { fg = bg, bg = bg } or { fg = fallback_fg })
       elseif spec.fallback then
         vim.api.nvim_set_hl(0, group, { link = spec.fallback })

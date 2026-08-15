@@ -8,14 +8,15 @@ local defaults = {
   lualine_separator = 'rounded', -- rounded | bar | arrow | slant (<leader>lqg)
   lualine_bar_y_transparent = true, -- true (default) = y/centre bar transparent, blends with theme bg; false = original solid #1a1a1a bar (<leader>lqy)
   -- Borderless: paint a tool's borders the same colour as its bg, in every
-  -- rosa theme. One per tool (<leader>lqnw / lqns / lqnp / lqnb / lqnr / lqni),
-  -- All flips them together (<leader>lqna). See rosavim.config.borderless.
+  -- rosa theme. One per tool, All flips them together. See
+  -- rosavim.config.borderless.
   borderless_whichkey = false,
   borderless_snacks = false,
   borderless_rosapick = false,
   borderless_blink = false,
   borderless_rosaterm = false,
   borderless_rosaai = false,
+  borderless_notify = false,
   -- Invert Backgrounds: swap a theme's editor surface with its explorer/tab
   -- chrome surface. One per theme (<leader>lqij / lqim / lqiv), see
   -- rosavim.config.invert_bg.

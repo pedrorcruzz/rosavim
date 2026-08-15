@@ -481,11 +481,12 @@ Quer revisar **tudo** no repositório (suas edições incluídas), não só as d
 | n | `<leader>lqe` | Alternar transparência | `Space l q e` para alternar a transparência do fundo |
 | n | `<leader>lqna` | Sem Bordas: All | `Space l q n a` para fundir as bordas de todas as ferramentas no bg delas de uma vez (persiste) |
 | n | `<leader>lqnw` | Sem Bordas: Which-Key | `Space l q n w` para fundir só a borda do which-key |
-| n | `<leader>lqns` | Sem Bordas: Snacks Picker | `Space l q n s` para fundir só a borda do snacks picker |
+| n | `<leader>lqns` | Sem Bordas: Snacks Picker | `Space l q n s` para fundir as bordas do input, da lista, do preview e da caixa externa do snacks picker |
 | n | `<leader>lqnp` | Sem Bordas: Rosapick | `Space l q n p` para fundir só a borda do label do rosapick |
 | n | `<leader>lqnb` | Sem Bordas: Blink.cmp | `Space l q n b` para fundir as bordas do menu de completion, docs e signature |
 | n | `<leader>lqnr` | Sem Bordas: Rosaterm | `Space l q n r` para fundir as bordas do float, do split e do chip do rosaterm |
 | n | `<leader>lqni` | Sem Bordas: RosaAI | `Space l q n i` para fundir as bordas do painel, do chip e dos floats de ask/preview do RosaAI |
+| n | `<leader>lqnn` | Sem Bordas: Notify | `Space l q n n` para fundir as bordas das notificações em todos os níveis |
 | n | `<leader>lqad` / `<leader>lqaD` | RosaAI forçar fundo escuro | `Space l q a d` (modo claro) / `Space l q a D` (modo escuro) para forçar fundo #000 no painel do RosaAI em vez do bg do tema (persiste) |
 | n | `<leader>lqrd` / `<leader>lqrD` | Rosaterm forçar fundo escuro | `Space l q r d` (modo claro) / `Space l q r D` (modo escuro) para forçar fundo #000 no Rosaterm em vez do bg do tema (persiste) |
 | n | `<leader>lqfy` / `<leader>lqfY` | Yazi forçar fundo escuro | `Space l q f y` (modo claro) / `Space l q f Y` (modo escuro) para forçar fundo #000 no float do yazi em vez do bg do tema (persiste) |

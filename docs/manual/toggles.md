@@ -220,11 +220,12 @@ Paints a tool's borders the same colour as its own background so the window read
 |:---------|:-------|:--------|
 | `<leader>lqna` | All - flips every tool below at once | Off |
 | `<leader>lqnw` | Which-Key | Off |
-| `<leader>lqns` | Snacks Picker | Off |
+| `<leader>lqns` | Snacks Picker (input, list, preview and the outer box) | Off |
 | `<leader>lqnp` | Rosapick | Off |
 | `<leader>lqnb` | Blink.cmp (menu, docs, signature) | Off |
 | `<leader>lqnr` | Rosaterm (float, split and title chip) | Off |
 | `<leader>lqni` | RosaAI (panel, title chip, ask/preview floats) | Off |
+| `<leader>lqnn` | Notify (every notification level) | Off |
 
 ### Rosatag (`<leader>lat`)
 

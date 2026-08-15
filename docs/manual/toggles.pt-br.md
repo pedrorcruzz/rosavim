@@ -220,11 +220,12 @@ Pinta as bordas de uma ferramenta na mesma cor do fundo dela, então a janela vi
 |:-------|:-------|:-------|
 | `<leader>lqna` | All - liga/desliga todas as ferramentas abaixo | Desativado |
 | `<leader>lqnw` | Which-Key | Desativado |
-| `<leader>lqns` | Snacks Picker | Desativado |
+| `<leader>lqns` | Snacks Picker (input, lista, preview e a caixa externa) | Desativado |
 | `<leader>lqnp` | Rosapick | Desativado |
 | `<leader>lqnb` | Blink.cmp (menu, docs, signature) | Desativado |
 | `<leader>lqnr` | Rosaterm (float, split e chip de título) | Desativado |
 | `<leader>lqni` | RosaAI (painel, chip de título, floats de ask/preview) | Desativado |
+| `<leader>lqnn` | Notify (todos os níveis de notificação) | Desativado |
 
 ### Rosatag (`<leader>lat`)
 
