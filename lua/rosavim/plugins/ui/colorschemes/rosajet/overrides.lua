@@ -40,12 +40,11 @@ function M.get(mode, transparent_background)
       MasonHighlight = { fg = '#4573e8' },
       MasonHighlightSecondary = { fg = '#4573e8' },
 
-      -- flash.nvim, tuned to the IDE's search highlight (amber) and its
-      -- blue selection for the current match
-      FlashMatch = { fg = '#000000', bg = '#fcd47e' },
-      FlashCurrent = { fg = '#000000', bg = '#a6d2ff' },
-      FlashLabel = { fg = '#ffffff', bg = '#4573e8', bold = true },
-      FlashBackdrop = { fg = '#aeb3c2' },
+      -- flash.nvim
+      FlashMatch = { fg = '#1c1c1e', bg = '#c4c3bd' },
+      FlashCurrent = { fg = '#1c1c1e', bg = '#c4c3bd' },
+      FlashLabel = { fg = '#d3d2ce', bg = '#38383c', bold = true },
+      FlashBackdrop = { fg = '#a8a7a1' },
 
       -- lazygit (Snacks reads the RosaLg* groups — see helpers/lazygit_theme).
       -- Values mirror the IntelliJ Light chrome so lazygit matches the theme,
@@ -103,10 +102,10 @@ function M.get(mode, transparent_background)
     MasonHighlightSecondary = { fg = '#6089ef' },
 
     -- flash.nvim
-    FlashMatch = { fg = '#bcbec4', bg = '#114957' },
-    FlashCurrent = { fg = '#bcbec4', bg = '#214283' },
-    FlashLabel = { fg = '#ffffff', bg = '#4573e8', bold = true },
-    FlashBackdrop = { fg = '#4b5059' },
+    FlashMatch = { fg = '#000000', bg = '#c6c6ce' },
+    FlashCurrent = { fg = '#000000', bg = '#c6c6ce' },
+    FlashLabel = { fg = '#FFFFFF', bg = '#606060', bold = true },
+    FlashBackdrop = { fg = '#505050' },
 
     -- lazygit (see the light-mode note; values mirror the IDE's dark chrome,
     -- except the active border and selected line, which keep rosamin's tones)
