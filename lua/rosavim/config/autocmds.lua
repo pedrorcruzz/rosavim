@@ -412,3 +412,18 @@ do
     end,
   })
 end
+
+vim.api.nvim_create_autocmd('ModeChanged', {
+  group = vim.api.nvim_create_augroup('rosavim_snippet_stop', { clear = true }),
+  pattern = '*:n',
+  callback = function()
+    if not vim.snippet.active() then
+      return
+    end
+    vim.defer_fn(function()
+      if vim.snippet.active() and vim.fn.mode() == 'n' then
+        vim.snippet.stop()
+      end
+    end, 60)
+  end,
+})

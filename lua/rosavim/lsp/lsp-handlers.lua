@@ -1,7 +1,10 @@
 local toggles = require 'rosavim.config.toggles'
 
+local lsp_group = vim.api.nvim_create_augroup('UserLspConfig', { clear = true })
+local highlight_group = vim.api.nvim_create_augroup('UserLspDocumentHighlight', { clear = true })
+
 vim.api.nvim_create_autocmd('LspAttach', {
-  group = vim.api.nvim_create_augroup('UserLspConfig', { clear = true }),
+  group = lsp_group,
   callback = function(event)
     local map = function(keys, func, desc)
       vim.keymap.set('n', keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
@@ -13,14 +16,30 @@ vim.api.nvim_create_autocmd('LspAttach', {
     local client = vim.lsp.get_client_by_id(event.data.client_id)
     if client and client:supports_method('textDocument/documentHighlight') then
       vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+        group = highlight_group,
         buffer = event.buf,
         callback = vim.lsp.buf.document_highlight,
       })
       vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
+        group = highlight_group,
         buffer = event.buf,
         callback = vim.lsp.buf.clear_references,
       })
     end
+  end,
+})
+
+vim.api.nvim_create_autocmd('LspDetach', {
+  group = lsp_group,
+  callback = function(event)
+    local detaching = event.data.client_id
+    for _, client in ipairs(vim.lsp.get_clients { bufnr = event.buf }) do
+      if client.id ~= detaching and client:supports_method('textDocument/documentHighlight') then
+        return
+      end
+    end
+    vim.api.nvim_clear_autocmds { group = highlight_group, buffer = event.buf }
+    vim.lsp.util.buf_clear_references(event.buf)
   end,
 })
 

@@ -150,6 +150,13 @@ return {
           },
           opts = { skip = true },
         },
+        {
+          filter = {
+            event = 'notify',
+            find = 'Client superhtml quit with exit code 1',
+          },
+          opts = { skip = true },
+        },
       },
       status = {},
       format = {},
