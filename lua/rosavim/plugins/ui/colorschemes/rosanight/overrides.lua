@@ -33,7 +33,7 @@ function M.get(mode, transparent_background)
       -- gitsigns blame
       GitSignsCurrentLineBlame = { fg = '#a4a39c' },
 
-      -- lazygit (Snacks reads the RosaLg* groups — see rosa_plugins/lazygit_theme;
+      -- lazygit (Snacks reads the RosaLg* groups — see helpers/lazygit_theme;
       -- monochrome values so lazygit matches the theme instead of rosamin's accents)
       RosaLg241 = { fg = '#97968f' },
       RosaLgActive = { fg = '#38383c', bold = true },
@@ -99,7 +99,7 @@ function M.get(mode, transparent_background)
     -- NormalFloat): #191925, same bg as the editor CursorLine/PmenuSel.
     NormalFloat = { bg = transparent_background and 'NONE' or '#191925' },
 
-    -- lazygit (Snacks reads the RosaLg* groups — see rosa_plugins/lazygit_theme;
+    -- lazygit (Snacks reads the RosaLg* groups — see helpers/lazygit_theme;
     -- monochrome values so lazygit matches the theme instead of rosamin's accents)
     RosaLg241 = { fg = '#b4b4be' },
     RosaLgActive = { fg = '#c6c6ce', bold = true },

@@ -44,7 +44,7 @@ function M.get(mode, transparent_background)
       FlashLabel = { fg = '#ffffff', bg = '#4573e8', bold = true },
       FlashBackdrop = { fg = '#aeb3c2' },
 
-      -- lazygit (Snacks reads the RosaLg* groups — see rosa_plugins/lazygit_theme).
+      -- lazygit (Snacks reads the RosaLg* groups — see helpers/lazygit_theme).
       -- Values mirror the IntelliJ Light chrome so lazygit matches the theme,
       -- except the active border and selected line, which keep rosamin's tones.
       RosaLg241 = { fg = '#8c8c8c' },

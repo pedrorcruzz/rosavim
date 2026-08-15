@@ -54,7 +54,7 @@ return {
       -- Results are merged and de-duplicated by their "file:line:col:text" key.
       finder = function(opts, ctx)
         local grep = require('snacks.picker.source.grep').grep
-        local rosatodo = require 'rosavim.rosa_plugins.rosatodo'
+        local rosatodo = require 'rosavim.helpers.rosatodo'
         local opts2 = vim.tbl_extend('force', opts, {
           ignored = true, -- --no-ignore
           exclude = {}, -- excludes are folded into args (after the whitelist)

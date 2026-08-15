@@ -2,7 +2,7 @@
 -- (light/dark toggles: <leader>lqfg / <leader>lqfG) at open time. On
 -- rosanight the float follows the editor bg instead (see lazygit_theme).
 local function lazygit_opts()
-  local lazygit_theme = require 'rosavim.rosa_plugins.lazygit_theme'
+  local lazygit_theme = require 'rosavim.helpers.lazygit_theme'
   -- zindex 70 keeps lazygit above the RosaAI/rosaterm floats (chips top out at
   -- 60), so a pinned panel can't bleed over the full-screen lazygit window.
   return { win = { zindex = 70, wo = { winhighlight = lazygit_theme.float_winhl() } } }

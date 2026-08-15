@@ -65,7 +65,7 @@ end
 
 function M.pick_size()
   local layout = require 'rosavim.rosa_plugins.rosaai.layout'
-  require('rosavim.rosa_plugins.size_popup').open {
+  require('rosavim.helpers.size_popup').open {
     title = ' RosaAI · Size ',
     name = 'RosaAI',
     list = layout.sizes,

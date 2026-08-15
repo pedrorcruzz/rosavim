@@ -11,7 +11,7 @@ local state = require 'rosavim.rosa_plugins.rosaai.state'
 local layout = require 'rosavim.rosa_plugins.rosaai.layout'
 local bar = require 'rosavim.rosa_plugins.rosaai.bar'
 local themes = require 'rosavim.rosa_plugins.rosaai.themes'
-local reserve = require 'rosavim.rosa_plugins.panel_reserve'
+local reserve = require 'rosavim.helpers.panel_reserve'
 local snapshot = require 'rosavim.rosa_plugins.rosaai.snapshot'
 
 -- One chip overlay per layout slot: pos -> { win, buf }. Several CLIs can be
@@ -152,7 +152,7 @@ local function open_chip(pos, parent_win, tool_name)
     -- pinned 46 (window 45). Both stay below yazi/lazygit (70).
     zindex = (pos == 'float') and 56 or 46,
   })
-  vim.wo[c.win].winhl = require('rosavim.rosa_plugins.term_bg').chip_winhl 'rosaai'
+  vim.wo[c.win].winhl = require('rosavim.helpers.term_bg').chip_winhl 'rosaai'
   vim.wo[c.win].winbar = ''
   chips[pos] = c
 end
@@ -201,7 +201,7 @@ local function panel_is_dark()
   if vim.o.background == 'dark' then
     return true
   end
-  local ok, term_bg = pcall(require, 'rosavim.rosa_plugins.term_bg')
+  local ok, term_bg = pcall(require, 'rosavim.helpers.term_bg')
   return ok and term_bg.is_black('rosaai_dark_bg', true)
 end
 
@@ -1018,7 +1018,7 @@ function M.ask_with_preview()
   vim.wo[preview_win].cursorline = false
   vim.wo[preview_win].wrap = false
   vim.wo[preview_win].signcolumn = 'no'
-  local border = require('rosavim.rosa_plugins.term_bg').border_hl 'rosaai'
+  local border = require('rosavim.helpers.term_bg').border_hl 'rosaai'
   vim.wo[preview_win].winhl = 'Normal:Normal,FloatBorder:' .. border .. ',FloatTitle:Title'
 
   local input_buf = api.nvim_create_buf(false, true)

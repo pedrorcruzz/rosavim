@@ -13,7 +13,7 @@ local config = {}
 
 --- Setup highlights
 local function setup_highlights()
-  local p = require('rosavim.rosa_plugins.palette').get()
+  local p = require('rosavim.helpers.palette').get()
   vim.api.nvim_set_hl(0, 'RosapreviewBorder', { fg = p.border })
   vim.api.nvim_set_hl(0, 'RosapreviewTitle', { fg = p.title, bold = true })
   vim.api.nvim_set_hl(0, 'RosapreviewFooter', { fg = p.dim, italic = true })

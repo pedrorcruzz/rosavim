@@ -1,9 +1,9 @@
 local toggles = require 'rosavim.config.toggles'
-local term_bg = require 'rosavim.rosa_plugins.term_bg'
+local term_bg = require 'rosavim.helpers.term_bg'
 
 -- Force-black background for the yazi and lazygit floats, mirroring the
 -- rosaterm/rosaai scheme: a light-mode toggle (default on) and a dark-mode
--- toggle (default off). See rosavim.rosa_plugins.term_bg for the mechanism.
+-- toggle (default off). See rosavim.helpers.term_bg for the mechanism.
 -- Keymaps live under <leader>lqf (Theme > Force Dark BG group).
 
 --- Apply the current yazi bg override to a specific window.

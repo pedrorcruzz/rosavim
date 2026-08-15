@@ -5,7 +5,7 @@ local ns = vim.api.nvim_create_namespace 'rosatest'
 
 --- Highlight groups
 local function setup_highlights()
-  local p = require('rosavim.rosa_plugins.palette').get()
+  local p = require('rosavim.helpers.palette').get()
   vim.api.nvim_set_hl(0, 'RosatestPassed', { fg = p.green, bold = true })
   vim.api.nvim_set_hl(0, 'RosatestFailed', { fg = p.red, bold = true })
   vim.api.nvim_set_hl(0, 'RosatestSkipped', { fg = p.yellow, bold = true })

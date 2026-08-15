@@ -67,8 +67,8 @@ return {
       enabled = true,
       -- Theme-independent lazygit look (identical across rosamin/rosavintage;
       -- rosanight swaps in its own monochrome variant).
-      -- See rosa_plugins/lazygit_theme for why we decouple from syntax groups.
-      theme = require('rosavim.rosa_plugins.lazygit_theme').theme,
+      -- See helpers/lazygit_theme for why we decouple from syntax groups.
+      theme = require('rosavim.helpers.lazygit_theme').theme,
     },
     git = {
       enabled = true,
@@ -98,21 +98,38 @@ return {
   keys = keys,
   init = function()
     -- Canonical, theme-independent lazygit colors
-    require('rosavim.rosa_plugins.lazygit_theme').setup()
+    require('rosavim.helpers.lazygit_theme').setup()
 
     -- Register custom Rosavim startup section
     local ok, snacks_dashboard = pcall(require, 'snacks.dashboard')
     if ok and snacks_dashboard.sections then
       snacks_dashboard.sections.rosavim_startup = function(opts)
         local rosavim = require 'rosavim'
-        local stats = require('lazy').stats()
+        local lazy = require 'lazy'
+        local stats = lazy.stats()
         local ms = math.floor(stats.startuptime * 100 + 0.5) / 100
+
+        -- The rosa themes and rosa_plugins are lazy specs pointing at dirs
+        -- inside the config itself, not fetched plugins — count only the
+        -- external ones so the number means "third-party dependencies".
+        local config_dir = vim.fs.normalize(vim.fn.stdpath 'config')
+        local count, loaded = 0, 0
+        for _, plugin in ipairs(lazy.plugins()) do
+          local dir = plugin.dir and vim.fs.normalize(plugin.dir) or ''
+          if not vim.startswith(dir, config_dir) then
+            count = count + 1
+            if plugin._ and plugin._.loaded then
+              loaded = loaded + 1
+            end
+          end
+        end
+
         return {
           align = 'center',
           text = {
             -- ⚡
             { '󰧱 ' .. rosavim.name .. ' loaded ', hl = 'footer' },
-            { stats.loaded .. '/' .. stats.count, hl = 'special' },
+            { loaded .. '/' .. count, hl = 'special' },
             { ' plugins in ', hl = 'footer' },
             { ms .. 'ms', hl = 'special' },
           },

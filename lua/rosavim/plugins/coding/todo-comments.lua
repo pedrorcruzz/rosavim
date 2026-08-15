@@ -21,7 +21,7 @@ return {
   },
   dependencies = { 'nvim-lua/plenary.nvim' },
   config = function(_, opts)
-    local rosatodo = require 'rosavim.rosa_plugins.rosatodo'
+    local rosatodo = require 'rosavim.helpers.rosatodo'
 
     -- Route :TodoTrouble/:TodoQuickFix/:TodoLocList through our rg wrapper so
     -- git-ignored task files (todo/task/tarefas, any case) still show up while

@@ -38,7 +38,7 @@ end
 --- popup stays open and applies every change live. Mirrors RosaAI's <leader>lqaz.
 function M.pick_size()
   local sizes = require 'rosavim.rosa_plugins.rosaterm.sizes'
-  require('rosavim.rosa_plugins.size_popup').open {
+  require('rosavim.helpers.size_popup').open {
     title = ' Rosaterm · Size ',
     name = 'Rosaterm',
     list = sizes.list,

@@ -4,7 +4,7 @@ local M = {}
 local ns = vim.api.nvim_create_namespace 'rosakit'
 
 local function setup_highlights()
-  local p = require('rosavim.rosa_plugins.palette').get()
+  local p = require('rosavim.helpers.palette').get()
   vim.api.nvim_set_hl(0, 'RosakitTitle', { fg = p.title, bold = true })
   vim.api.nvim_set_hl(0, 'RosakitBorder', { fg = p.border })
   vim.api.nvim_set_hl(0, 'RosakitKey', { fg = p.key, bold = true })

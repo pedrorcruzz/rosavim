@@ -4,7 +4,7 @@ local M = {}
 local ns = vim.api.nvim_create_namespace 'rosafile'
 
 local function setup_highlights()
-  local p = require('rosavim.rosa_plugins.palette').get()
+  local p = require('rosavim.helpers.palette').get()
   vim.api.nvim_set_hl(0, 'RosafileTitle', { fg = p.title, bold = true })
   vim.api.nvim_set_hl(0, 'RosafileBorder', { fg = p.border })
   vim.api.nvim_set_hl(0, 'RosafileKey', { fg = p.key, bold = true })

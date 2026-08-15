@@ -93,7 +93,7 @@ function M.float_winhl()
   if vim.g.colors_name == 'rosanight' then
     return 'Normal:Normal,NormalFloat:Normal,FloatBorder:FloatBorder'
   end
-  return require('rosavim.rosa_plugins.term_bg').float_winhl('lazygit_dark_bg', true, 'RosaLazygitNormal')
+  return require('rosavim.helpers.term_bg').float_winhl('lazygit_dark_bg', true, 'RosaLazygitNormal')
 end
 
 function M.setup()

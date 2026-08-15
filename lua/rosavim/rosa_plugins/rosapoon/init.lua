@@ -139,7 +139,7 @@ function M.toggle_tags()
   local current_file = vim.fn.expand '%:p'
 
   -- Highlights
-  local p = require('rosavim.rosa_plugins.palette').get()
+  local p = require('rosavim.helpers.palette').get()
   vim.api.nvim_set_hl(0, 'RosapoonTitle', { fg = p.title, bold = true })
   vim.api.nvim_set_hl(0, 'RosapoonBorder', { fg = p.border })
   vim.api.nvim_set_hl(0, 'RosapoonIdx', { fg = p.key, bold = true })

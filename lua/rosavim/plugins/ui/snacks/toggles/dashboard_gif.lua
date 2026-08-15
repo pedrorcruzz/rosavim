@@ -22,7 +22,7 @@ local IMG_EXTS = {
 local ns = vim.api.nvim_create_namespace 'rosadashboardgif'
 
 local function setup_highlights()
-  local p = require('rosavim.rosa_plugins.palette').get()
+  local p = require('rosavim.helpers.palette').get()
   vim.api.nvim_set_hl(0, 'RosaGifTitle', { fg = p.title, bold = true })
   vim.api.nvim_set_hl(0, 'RosaGifBorder', { fg = p.border })
   vim.api.nvim_set_hl(0, 'RosaGifKey', { fg = p.key, bold = true })

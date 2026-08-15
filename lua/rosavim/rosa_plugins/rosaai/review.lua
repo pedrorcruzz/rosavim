@@ -154,7 +154,7 @@ end
 
 --- Register the Rosa review highlight groups from the shared palette.
 local function setup_highlights()
-  local p = require('rosavim.rosa_plugins.palette').get()
+  local p = require('rosavim.helpers.palette').get()
   api.nvim_set_hl(0, 'RosaReviewAdd', { fg = p.green })
   api.nvim_set_hl(0, 'RosaReviewDel', { fg = p.red })
   api.nvim_set_hl(0, 'RosaReviewTitle', { fg = p.title, bold = true })
@@ -170,7 +170,7 @@ end
 --- Captures each group's previous definition once so it can be restored on
 --- teardown.
 local function restyle_gitsigns()
-  local p = require('rosavim.rosa_plugins.palette').get()
+  local p = require('rosavim.helpers.palette').get()
   local bg = normal_bg()
   local add_bg = blend(p.green, bg, 0.16)
   local del_bg = blend(p.red, bg, 0.18)

@@ -29,7 +29,7 @@ function M.setup_hl()
   api.nvim_set_hl(0, 'RosaaiBarBracket', { fg = border_fg })
 
   local review_fg = '#f9e2af'
-  local okp, palette = pcall(require, 'rosavim.rosa_plugins.palette')
+  local okp, palette = pcall(require, 'rosavim.helpers.palette')
   if okp then
     local p = palette.get()
     review_fg = p.yellow or p.pink or review_fg
@@ -299,7 +299,7 @@ end
 --- (Comment is NOT remapped by the window's winhl, so it would otherwise keep
 --- the theme's light bg and show light boxes around the keys).
 function M.esc_hint()
-  local term_bg = require 'rosavim.rosa_plugins.term_bg'
+  local term_bg = require 'rosavim.helpers.term_bg'
   local text_fg, key_fg, bg
   if term_bg.is_black('rosaai_dark_bg', false) then
     -- Match RosaaiNormal (#000 bg / dim light fg) so the hint blends in.

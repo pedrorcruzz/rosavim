@@ -327,7 +327,7 @@ function M.on()
   -- Drop any docked-CLI vertical spacer first so ensure_padding sees a single
   -- real window (the zen pad reserves that space instead).
   pcall(function()
-    require('rosavim.rosa_plugins.panel_reserve').refresh()
+    require('rosavim.helpers.panel_reserve').refresh()
   end)
 
   -- Center the editing window with side padding (skipped on the dashboard;
@@ -409,7 +409,7 @@ function M.off()
 
   -- Recreate any side-CLI vertical spacer now that the zen pads are gone.
   pcall(function()
-    require('rosavim.rosa_plugins.panel_reserve').refresh()
+    require('rosavim.helpers.panel_reserve').refresh()
   end)
 end
 

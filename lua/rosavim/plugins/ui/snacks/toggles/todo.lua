@@ -1,7 +1,7 @@
 local toggles = require 'rosavim.config.toggles'
 
 local function rosatodo()
-  return require 'rosavim.rosa_plugins.rosatodo'
+  return require 'rosavim.helpers.rosatodo'
 end
 
 return function()

@@ -298,7 +298,7 @@ end
 -- --- UI helpers ------------------------------------------------------------
 
 local function setup_highlights()
-  local p = require('rosavim.rosa_plugins.palette').get()
+  local p = require('rosavim.helpers.palette').get()
   api.nvim_set_hl(0, 'RosasnippetsBorder', { fg = p.border })
   api.nvim_set_hl(0, 'RosasnippetsTitle', { fg = p.title, bold = true })
   api.nvim_set_hl(0, 'RosasnippetsKey', { fg = p.key, bold = true })

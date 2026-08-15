@@ -6,7 +6,7 @@ local M = {}
 local api = vim.api
 local bar = require 'rosavim.rosa_plugins.rosaterm.bar'
 local themes = require 'rosavim.rosa_plugins.rosaterm.themes'
-local term_bg = require 'rosavim.rosa_plugins.term_bg'
+local term_bg = require 'rosavim.helpers.term_bg'
 
 local state = {
   terms = {},
@@ -122,7 +122,7 @@ local function open_chip()
     focusable = false,
     zindex = 56,
   })
-  vim.wo[state.chip_win].winhl = require('rosavim.rosa_plugins.term_bg').chip_winhl 'rosaterm'
+  vim.wo[state.chip_win].winhl = require('rosavim.helpers.term_bg').chip_winhl 'rosaterm'
   vim.wo[state.chip_win].winbar = ''
 end
 

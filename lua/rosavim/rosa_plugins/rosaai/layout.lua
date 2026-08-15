@@ -6,7 +6,7 @@
 local M = {}
 
 local api = vim.api
-local term_bg = require 'rosavim.rosa_plugins.term_bg'
+local term_bg = require 'rosavim.helpers.term_bg'
 
 M.positions = {
   { name = 'right', label = 'Right', icon = '󰕴 ', desc = 'Pinned to the right edge' },

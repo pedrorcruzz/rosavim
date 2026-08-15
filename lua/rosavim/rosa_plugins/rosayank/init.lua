@@ -129,7 +129,7 @@ function M.menu()
   local ns = vim.api.nvim_create_namespace 'rosayank_menu'
 
   -- Highlights
-  local p = require('rosavim.rosa_plugins.palette').get()
+  local p = require('rosavim.helpers.palette').get()
   vim.api.nvim_set_hl(0, 'RosayankTitle', { fg = p.title, bold = true })
   vim.api.nvim_set_hl(0, 'RosayankBorder', { fg = p.border })
   vim.api.nvim_set_hl(0, 'RosayankIdx', { fg = p.key, bold = true })
