@@ -25,6 +25,7 @@ vim.lsp.enable {
   'sqlls',
   'lua_ls',
   'css_lsp',
+  'superhtml',
   'marksman',
 }
 
@@ -53,6 +54,7 @@ return {
         'tailwindcss-language-server',
         'css_lsp',
         'emmet-ls',
+        'superhtml',
         'basedpyright',
         'intelephense',
         'json-lsp',
@@ -62,7 +64,6 @@ return {
         'marksman',
         -- Fnrmatters
         'stylua',
-        'superhtml',
         'prettierd',
         'autopep8',
         'sql-formatter',
