@@ -121,6 +121,7 @@ Funcionalidades adicionais são persistidas e podem ser alternadas em runtime vi
 | `<leader>lasi` | Picker Ignored Files | Ativado |
 | `<leader>lqp` | Picker Layout (seletor popup) | default |
 | `<leader>lasp` | Picker Preview | Ativado |
+| `<leader>lass` | Smooth Scrolling (animação de scroll) | Ativado |
 | `<leader>lqo` | Picker Border (seletor popup) — no grupo Theme | rounded |
 
 Layouts de picker disponíveis: `default`, `telescope`, `ivy`, `dropdown`, `vertical`, `vscode`

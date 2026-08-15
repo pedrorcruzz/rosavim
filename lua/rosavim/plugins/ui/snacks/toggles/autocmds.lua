@@ -115,6 +115,21 @@ return function()
     end,
   }):map '<leader>lasP'
 
+  Snacks.toggle({
+    name = 'Smooth Scrolling',
+    get = function()
+      return toggles.get 'scroll'
+    end,
+    set = function(state)
+      toggles.set('scroll', state)
+      if state then
+        Snacks.scroll.enable()
+      else
+        Snacks.scroll.disable()
+      end
+    end,
+  }):map '<leader>lass'
+
   -- Picker Border — uses vim.ui.select (rendered by snacks). Lives under
   -- <leader>lq (Theme group), next to the which-key border selector.
   vim.keymap.set('n', '<leader>lqo', function()

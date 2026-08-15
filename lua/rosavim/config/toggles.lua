@@ -31,6 +31,7 @@ local defaults = {
   relativenumber = true,
   linenumber = true,
   indent = true,
+  scroll = true,
   dim = false,
   wrap = false,
   cursor_block = true,

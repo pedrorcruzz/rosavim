@@ -520,6 +520,7 @@ Want to review **everything** in the repo (your edits included), not just the AI
 | n | `<leader>latr` | Rosatag auto live rename tag | `Space l a t r` to enable/disable live renaming of the paired tag (default: on) |
 | n | `<leader>lqp` | Picker Layout | `Space l q p` to open a popup to select picker layout preset |
 | n | `<leader>lasp` | Picker Preview | `Space l a s p` to toggle picker preview on/off |
+| n | `<leader>lass` | Smooth Scrolling | `Space l a s s` to toggle the scroll animation on/off (default: on) |
 | n | `<leader>lqo` | Picker Border | `Space l q o` to open a popup to select picker border style |
 | n | `<leader>lqw` | Which-Key Preset | `Space l q w` to open a popup to select which-key preset |
 | n | `<leader>lqb` | Which-Key Border | `Space l q b` to open a popup to select which-key border style |

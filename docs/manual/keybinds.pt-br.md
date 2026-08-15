@@ -520,6 +520,7 @@ Quer revisar **tudo** no repositório (suas edições incluídas), não só as d
 | n | `<leader>latr` | Auto live rename tag (Rosatag) | `Space l a t r` para ligar/desligar a renomeação ao vivo da tag par (padrão: ligado) |
 | n | `<leader>lqp` | Picker Layout | `Space l q p` para abrir popup de seleção de layout do picker |
 | n | `<leader>lasp` | Picker Preview | `Space l a s p` para alternar preview do picker on/off |
+| n | `<leader>lass` | Smooth Scrolling | `Space l a s s` para ligar/desligar a animação de scroll (padrão: ligado) |
 | n | `<leader>lqo` | Picker Border | `Space l q o` para abrir popup de seleção de borda do picker |
 | n | `<leader>lqw` | Which-Key Preset | `Space l q w` para abrir popup de seleção de preset do which-key |
 | n | `<leader>lqb` | Which-Key Border | `Space l q b` para abrir popup de seleção de borda do which-key |

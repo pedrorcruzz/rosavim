@@ -121,6 +121,7 @@ Additional features are persisted and can be toggled at runtime via `<leader>la`
 | `<leader>lasi` | Picker Ignored Files | On |
 | `<leader>lqp` | Picker Layout (popup selector) | default |
 | `<leader>lasp` | Picker Preview | On |
+| `<leader>lass` | Smooth Scrolling (scroll animation) | On |
 | `<leader>lqo` | Picker Border (popup selector) — under Theme group | rounded |
 
 Available picker layouts: `default`, `telescope`, `ivy`, `dropdown`, `vertical`, `vscode`

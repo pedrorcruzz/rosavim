@@ -56,7 +56,7 @@ return {
     animate = { enabled = true },
     words = { enabled = true },
     scroll = {
-      enabled = false,
+      enabled = require('rosavim.config.toggles').get 'scroll',
       animate = {
         duration = { step = 12, total = 100 },
       },
