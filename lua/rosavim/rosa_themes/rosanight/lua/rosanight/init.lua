@@ -84,7 +84,6 @@ local function set_groups()
     StatusLineTerm = { fg = colors.border, bg = config.transparent and 'NONE' or (vim.o.background == 'dark' and '#1A1A1A' or bg), bold = true },
     StatusLineTermNC = { fg = colors.border, bg = config.transparent and 'NONE' or (vim.o.background == 'dark' and '#1A1A1A' or bg), bold = true },
     TabLineSel = { fg = colors.fg, bg = colors.bg, reverse = true },
-    VisualNOS = { fg = colors.comment, bg = colors.bg, reverse = true },
 
     Cursor = { fg = colors.fgAlt, bg = colors.bg, reverse = true },
     lCursor = { link = 'Cursor' },
@@ -162,7 +161,7 @@ local function set_groups()
     Number = { fg = colors.blue },
     String = { fg = colors.blue },
     Visual = { bg = (config.transparent or vim.o.background == 'dark') and '#262631' or '#bcbbb5' },
-    VisualNOS = { bg = (config.transparent or vim.o.background == 'dark') and '#262631' or '#bcbbb5' },
+    VisualNOS = { link = 'Visual' },
     CursorLine = { bg = (config.transparent or vim.o.background == 'dark') and '#191924' or colors.bgDarker },
 
     -- treesitter (mapped to match rusticated base groups exactly)
