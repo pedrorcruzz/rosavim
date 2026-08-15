@@ -51,17 +51,35 @@ function M.winhl(toggle_key, default_on, hl_group, extra)
 end
 
 --- Highlight group backing the title-chip overlays (rosaterm/rosaai). Themes
---- may define it to give the chip its own shade — rosajet paints it the
---- JetBrains tool-window colour so the header reads as a title bar. Undefined,
---- it links to Normal, which is what every other theme has always rendered.
+--- may define it to give the chip its own shade; undefined, it links to
+--- Normal, so the chip and its border share the terminal background.
 M.CHIP_HL = 'RosaChipNormal'
 
+--- Own border group per tool, so Borderless (<leader>lqn) can blend rosaterm
+--- and rosaai on their own without touching every other float. Undefined, they
+--- link to FloatBorder and nothing changes.
+M.BORDER_HL = { rosaterm = 'RosatermFloatBorder', rosaai = 'RosaaiFloatBorder' }
+
+--- `FloatBorder:<tool group>` mapping, defining the group when missing.
+--- @param tool string|nil 'rosaterm' | 'rosaai'
+function M.border_hl(tool)
+  local group = M.BORDER_HL[tool]
+  if not group then
+    return 'FloatBorder'
+  end
+  if vim.tbl_isempty(api.nvim_get_hl(0, { name = group })) then
+    api.nvim_set_hl(0, group, { link = 'FloatBorder' })
+  end
+  return group
+end
+
 --- Winhighlight for a title-chip overlay window.
-function M.chip_winhl()
+--- @param tool string|nil 'rosaterm' | 'rosaai'
+function M.chip_winhl(tool)
   if vim.tbl_isempty(api.nvim_get_hl(0, { name = M.CHIP_HL })) then
     api.nvim_set_hl(0, M.CHIP_HL, { link = 'Normal' })
   end
-  return 'Normal:' .. M.CHIP_HL .. ',FloatBorder:FloatBorder'
+  return 'Normal:' .. M.CHIP_HL .. ',FloatBorder:' .. M.border_hl(tool)
 end
 
 --- Full winhighlight for a floating window (yazi, lazygit): maps Normal AND

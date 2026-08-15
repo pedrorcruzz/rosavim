@@ -152,7 +152,7 @@ local function open_chip(pos, parent_win, tool_name)
     -- pinned 46 (window 45). Both stay below yazi/lazygit (70).
     zindex = (pos == 'float') and 56 or 46,
   })
-  vim.wo[c.win].winhl = require('rosavim.rosa_plugins.term_bg').chip_winhl()
+  vim.wo[c.win].winhl = require('rosavim.rosa_plugins.term_bg').chip_winhl 'rosaai'
   vim.wo[c.win].winbar = ''
   chips[pos] = c
 end
@@ -1018,7 +1018,8 @@ function M.ask_with_preview()
   vim.wo[preview_win].cursorline = false
   vim.wo[preview_win].wrap = false
   vim.wo[preview_win].signcolumn = 'no'
-  vim.wo[preview_win].winhl = 'Normal:Normal,FloatBorder:FloatBorder,FloatTitle:Title'
+  local border = require('rosavim.rosa_plugins.term_bg').border_hl 'rosaai'
+  vim.wo[preview_win].winhl = 'Normal:Normal,FloatBorder:' .. border .. ',FloatTitle:Title'
 
   local input_buf = api.nvim_create_buf(false, true)
   vim.bo[input_buf].bufhidden = 'wipe'
@@ -1042,7 +1043,7 @@ function M.ask_with_preview()
   })
   vim.wo[input_win].number = false
   vim.wo[input_win].signcolumn = 'no'
-  vim.wo[input_win].winhl = 'Normal:Normal,FloatBorder:FloatBorder,FloatTitle:Title,FloatFooter:Comment'
+  vim.wo[input_win].winhl = 'Normal:Normal,FloatBorder:' .. border .. ',FloatTitle:Title,FloatFooter:Comment'
 
   vim.cmd 'startinsert'
 

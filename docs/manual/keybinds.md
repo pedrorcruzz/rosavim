@@ -479,7 +479,13 @@ Want to review **everything** in the repo (your edits included), not just the AI
 | n | `<leader>lqm` | Select Render Markdown theme | `Space l q m` to pick the render-markdown preset (none / lazy / obsidian) |
 | n | `<leader>lqg` | Select lualine separator | `Space l q g` to pick a statusline separator preset (rounded / bar / arrow / slant) |
 | n | `<leader>lqe` | Toggle transparent | `Space l q e` to toggle background transparency |
-| n | `<leader>lqn` | Toggle borderless theme | `Space l q n` — on paints the which-key / snacks picker / rosapick borders the same colour as their bg (seamless look) in every theme; off (default) keeps each theme's own border colour (persists) |
+| n | `<leader>lqna` | Borderless: All | `Space l q n a` to blend every tool's borders into their own bg at once (persists) |
+| n | `<leader>lqnw` | Borderless: Which-Key | `Space l q n w` to blend only the which-key border |
+| n | `<leader>lqns` | Borderless: Snacks Picker | `Space l q n s` to blend only the snacks picker border |
+| n | `<leader>lqnp` | Borderless: Rosapick | `Space l q n p` to blend only the rosapick label border |
+| n | `<leader>lqnb` | Borderless: Blink.cmp | `Space l q n b` to blend the completion menu, docs and signature borders |
+| n | `<leader>lqnr` | Borderless: Rosaterm | `Space l q n r` to blend the rosaterm float, split and title chip borders |
+| n | `<leader>lqni` | Borderless: RosaAI | `Space l q n i` to blend the RosaAI panel, chip and ask/preview borders |
 | n | `<leader>lqad` / `<leader>lqaD` | RosaAI force dark bg | `Space l q a d` (light mode) / `Space l q a D` (dark mode) to force a #000 background on the RosaAI panel instead of the theme bg (persists) |
 | n | `<leader>lqrd` / `<leader>lqrD` | Rosaterm force dark bg | `Space l q r d` (light mode) / `Space l q r D` (dark mode) to force a #000 background on Rosaterm instead of the theme bg (persists) |
 | n | `<leader>lqfy` / `<leader>lqfY` | Yazi force dark bg | `Space l q f y` (light mode) / `Space l q f Y` (dark mode) to force a #000 background on the yazi float instead of the theme bg (persists) |
@@ -509,6 +515,8 @@ Want to review **everything** in the repo (your edits included), not just the AI
 | n | `<leader>lamb` | Rosamaximize buffer badge | `Space l a m b` to show/hide the floating `max` badge on the buffer |
 | n | `<leader>lamn` | Rosamaximize name/icon | `Space l a m n` to switch between the `max` text and icon-only |
 | n | `<leader>lqx` | Rosamaximize border | `Space l q x` to open a popup to select the badge border (none / rounded / straight) |
+| n | `<leader>latc` | Rosatag auto close tag | `Space l a t c` to enable/disable auto closing tags (default: on) |
+| n | `<leader>latr` | Rosatag auto live rename tag | `Space l a t r` to enable/disable live renaming of the paired tag (default: on) |
 | n | `<leader>lqp` | Picker Layout | `Space l q p` to open a popup to select picker layout preset |
 | n | `<leader>lasp` | Picker Preview | `Space l a s p` to toggle picker preview on/off |
 | n | `<leader>lqo` | Picker Border | `Space l q o` to open a popup to select picker border style |
@@ -614,6 +622,7 @@ Want to review **everything** in the repo (your edits included), not just the AI
 |:----:|:----|:-------|:--------|
 | n | `<leader>kk` | Rosakit menu | `Space k k` to open the language tools popup |
 | n | `<leader>ka` | LSP Actions | `Space k a` to open LSP code actions |
+| n | `<leader>kr` | Rosatag rename tag | `Space k r` to rename the tag under the cursor and its pair. Buffer-local: only exists on the filetypes Rosatag attaches to, same as its entry in the `<leader>kk` menu |
 
 ---
 

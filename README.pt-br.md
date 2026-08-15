@@ -137,6 +137,7 @@ Guias detalhados ficam em [`docs/manual`](docs/manual/):
 | **Rosapick** | Seletor visual de janelas com labels de letra |
 | **Rosamaximize** | Maximiza a janela atual e restaura o layout completo, com um badge `max` e um indicador na lualine (configurável via `<leader>lam`) |
 | **Rosazen** | Modo sem distrações: maximiza e centraliza a janela atual, esconde toda a UI, mantém as ferramentas flutuantes (Rosaterm/RosaAI/Yazi/Lazygit) usáveis, e persiste entre sessões |
+| **Rosatag** | Fecha e renomeia tags html/jsx ao vivo, sem precisar de parser do treesitter (`<leader>kr` para renomear, toggles em `<leader>lat`) |
 | **Rosayank** | Histórico de yank persistente (ring buffer) |
 | **Rosasave** | Auto-save com debounce |
 | **Rosasweep** | Fecha buffers inativos automaticamente |
@@ -330,6 +331,7 @@ Referência completa: **[Manual de Atalhos](docs/manual/keybinds.pt-br.md)**.
 │   │   ├── rosaterm/  rosatest/  rosakit/  rosafile/
 │   │   ├── rosapreview/  rosapoon/  rosadirs/  rosapick/  rosasnippets/
 │   │   ├── rosamaximize/  rosazen/  rosayank/  rosasave/  rosasweep/
+│   │   ├── rosatag/
 │   │   └── rosaai/
 │   └── rosa_themes/
 │       ├── rosamin/               # tema padrão (minimal)

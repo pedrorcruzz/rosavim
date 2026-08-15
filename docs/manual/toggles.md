@@ -17,6 +17,7 @@ Toggle definitions are organized in modular files under `lua/rosavim/plugins/ui/
 | `plugins.lua` | Plugin toggles (Rosasave, Incline, TSContext, Copilot, Bufferline, Dropbar, Render Markdown, Rosamaximize, Image Preview) |
 | `appearance.lua` | Theme toggles (Dark/Light, Transparent, Borderless, Lualine, Lualine Theme, Lualine Bar Y Transparent) |
 | `autocmds.lua` | Tools toggles (Snacks, Which-Key, AI, Editor, LSP, DBUI) |
+| `rosatag.lua` | Rosatag toggles (auto close tag, auto live rename tag) |
 
 The orchestrator at `lua/rosavim/plugins/ui/snacks/toggles.lua` loads all modules and restores persisted states.
 
@@ -54,7 +55,7 @@ The orchestrator at `lua/rosavim/plugins/ui/snacks/toggles.lua` loads all module
 | `<leader>lqij` | Invert BG: rosajet — swap the editor surface with the explorer/tab chrome (dark: `#272729` editor by default, `#191a1c` when on) | Off |
 | `<leader>lqim` | Invert BG: rosamin — same swap | Off |
 | `<leader>lqiv` | Invert BG: rosavintage — same swap | Off |
-| `<leader>lqn` | Borderless Theme — paint which-key / snacks picker / rosapick borders the same colour as their bg, in every theme | Off |
+| `<leader>lqn` | Borderless group - see [Borderless](#borderless-leaderlqn) below | Off |
 | `<leader>ll` | Lualine (Statusline visibility) | On |
 
 Available lualine separators: `rounded`, `bar`, `arrow`, `slant`
@@ -210,6 +211,31 @@ When you maximize a window with `<leader>cm`, Rosamaximize shows a floating `max
 | `<leader>lqx` | Border picker (none / rounded / straight) — under Theme group | rounded |
 
 Available rosamaximize borders: `none`, `rounded`, `single` (straight)
+
+### Borderless (`<leader>lqn`)
+
+Paints a tool's borders the same colour as its own background so the window reads as one surface, in every rosa theme. One toggle per tool, all persisted, plus All to flip them together. In transparent mode there is no background to blend into, so the glyph takes the closest stand-in for the terminal backdrop instead.
+
+| Shortcut | Toggle | Default |
+|:---------|:-------|:--------|
+| `<leader>lqna` | All - flips every tool below at once | Off |
+| `<leader>lqnw` | Which-Key | Off |
+| `<leader>lqns` | Snacks Picker | Off |
+| `<leader>lqnp` | Rosapick | Off |
+| `<leader>lqnb` | Blink.cmp (menu, docs, signature) | Off |
+| `<leader>lqnr` | Rosaterm (float, split and title chip) | Off |
+| `<leader>lqni` | RosaAI (panel, title chip, ask/preview floats) | Off |
+
+### Rosatag (`<leader>lat`)
+
+Rosatag closes and renames html/jsx tags. It attaches to html, htmldjango, xml, svg, php, blade, javascript(react), typescript(react), vue, svelte, astro, templ, eruby, handlebars and twig buffers, and needs no treesitter parser.
+
+| Shortcut | Toggle | Default |
+|:---------|:-------|:--------|
+| `<leader>latc` | Auto close tag - typing `>` writes the closing tag | On |
+| `<leader>latr` | Auto live rename tag - editing one side updates its pair | On |
+
+Manual rename lives under Rosakit: `<leader>kr`, a buffer-local key that only exists on those filetypes (same for its entry in the `<leader>kk` menu). The two toggles above stay global, so you can flip them from any buffer.
 
 ---
 

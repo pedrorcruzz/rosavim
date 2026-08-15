@@ -15,7 +15,7 @@ function M.get(mode, transparent_background)
       -- blend with the background instead of the lighter bgFloat/#C4C0B9.
       BlinkCmpMenu = { bg = '#D3D2CE' },
       BlinkCmpDoc = { bg = '#D3D2CE' },
-      BlinkCmpDocSeparator = { bg = '#D3D2CE' },
+      BlinkCmpDocSeparator = { bg = '#D3D2CE', fg = '#989387' },
       BlinkCmpMenuBorder = { bg = '#D3D2CE', fg = '#989387' },
       BlinkCmpDocBorder = { bg = '#D3D2CE', fg = '#989387' },
       -- Kind-icon column: without this it links to PmenuKind -> Pmenu (bg #c3c0ba),
@@ -69,7 +69,7 @@ function M.get(mode, transparent_background)
     -- grey bgFloat, and go transparent when transparent mode is on.
     -- BlinkCmpDoc / DocBorder / DocSeparator all link to NormalFloat by default.
     BlinkCmpDoc = { bg = transparent_background and 'none' or '#000000' },
-    BlinkCmpDocSeparator = { bg = transparent_background and 'none' or '#000000' },
+    BlinkCmpDocSeparator = { bg = transparent_background and 'none' or '#000000', fg = '#4c4c4c' },
     -- Borders were rendering near-white (they inherit Pmenu/NormalFloat fg).
     -- Darken both the menu and doc borders to #303030 (matches FloatBorder).
     BlinkCmpDocBorder = { bg = transparent_background and 'none' or '#000000', fg = '#303030' },

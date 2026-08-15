@@ -7,7 +7,15 @@ local defaults = {
   lualine_theme = true,
   lualine_separator = 'rounded', -- rounded | bar | arrow | slant (<leader>lqg)
   lualine_bar_y_transparent = true, -- true (default) = y/centre bar transparent, blends with theme bg; false = original solid #1a1a1a bar (<leader>lqy)
-  theme_borderless = false, -- true = paint which-key/snacks picker/rosapick borders the same colour as their bg, in every rosa theme (<leader>lqn)
+  -- Borderless: paint a tool's borders the same colour as its bg, in every
+  -- rosa theme. One per tool (<leader>lqnw / lqns / lqnp / lqnb / lqnr / lqni),
+  -- All flips them together (<leader>lqna). See rosavim.config.borderless.
+  borderless_whichkey = false,
+  borderless_snacks = false,
+  borderless_rosapick = false,
+  borderless_blink = false,
+  borderless_rosaterm = false,
+  borderless_rosaai = false,
   -- Invert Backgrounds: swap a theme's editor surface with its explorer/tab
   -- chrome surface. One per theme (<leader>lqij / lqim / lqiv), see
   -- rosavim.config.invert_bg.
@@ -92,6 +100,9 @@ local defaults = {
   rosaterm_icon_style = 'terminal', -- 'rosa' | 'terminal'
   rosaterm_dark_bg = true, -- light mode: force #000 (<leader>lqrd)
   rosaterm_dark_bg_dm = false, -- dark mode: force #000 (<leader>lqrD)
+  -- Rosatag
+  rosatag_close = true, -- auto close tag (<leader>latc)
+  rosatag_rename = true, -- auto live rename tag (<leader>latr)
   -- Yazi / Lazygit background overrides (force #000, same light+dark scheme)
   yazi_dark_bg = true, -- light mode: force #000 (<leader>lqfy)
   yazi_dark_bg_dm = false, -- dark mode: force #000 (<leader>lqfY)
@@ -110,6 +121,24 @@ local defaults = {
 
 M._state = nil
 
+--- The single Borderless toggle became one per tool: carry its state over once
+--- and drop the old key from the cache.
+function M._migrate_borderless()
+  if M._state.theme_borderless == nil then
+    return
+  end
+  local on = M._state.theme_borderless == true
+  M._state.theme_borderless = nil
+  if on then
+    for key in pairs(defaults) do
+      if key:sub(1, 11) == 'borderless_' then
+        M._state[key] = true
+      end
+    end
+  end
+  M._save()
+end
+
 function M._load()
   if M._state then
     return M._state
@@ -119,6 +148,7 @@ function M._load()
     local decoded = vim.json.decode(content[1])
     if decoded then
       M._state = vim.tbl_deep_extend('force', vim.deepcopy(defaults), decoded)
+      M._migrate_borderless()
       return M._state
     end
   end

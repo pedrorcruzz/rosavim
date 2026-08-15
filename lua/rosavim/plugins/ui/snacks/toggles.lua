@@ -21,6 +21,7 @@ require('rosavim.plugins.ui.snacks.toggles.yazigit')()
 require('rosavim.plugins.ui.snacks.toggles.dropbar')()
 require('rosavim.plugins.ui.snacks.toggles.todo')()
 require('rosavim.plugins.ui.snacks.toggles.rosamaximize')()
+require('rosavim.plugins.ui.snacks.toggles.rosatag')()
 
 -- Restore persisted states
 if toggles.get 'indent' then

@@ -362,7 +362,7 @@ function M.open(buf, prev_win, pos)
   vim.wo[win].signcolumn = 'no'
   -- Light mode: force #000 when rosaai_dark_bg is on (<leader>lqad). Defaults
   -- off, so the CLI follows the theme's light bg until the user opts in.
-  vim.wo[win].winhl = term_bg.winhl('rosaai_dark_bg', false, 'RosaaiNormal', ',FloatBorder:FloatBorder,WinBar:Normal,WinBarNC:Normal')
+  vim.wo[win].winhl = term_bg.winhl('rosaai_dark_bg', false, 'RosaaiNormal', ',FloatBorder:' .. term_bg.border_hl 'rosaai' .. ',WinBar:Normal,WinBarNC:Normal')
   vim.wo[win].winbar = ''
   return win, kind
 end

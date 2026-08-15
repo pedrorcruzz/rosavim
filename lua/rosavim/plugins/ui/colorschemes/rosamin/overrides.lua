@@ -17,7 +17,7 @@ function M.get(mode, transparent_background)
       VertSplit = { fg = '#D0D0D0' },
       WinSeparator = { fg = '#D0D0D0' },
       Visual = { bg = '#D6E4F0' },
-      Cursor = { fg = '#1A1A1A', bg = '#257092' }, -- #257092 | #A4AAFF
+      Cursor = { fg = '#1A1A1A', bg = '#D3E5F1' },
       lCursor = { link = 'Cursor' },
       TermCursor = { link = 'Cursor' },
       CursorLine = { bg = '#EAEAEA' },
@@ -26,6 +26,7 @@ function M.get(mode, transparent_background)
       LineNr = { fg = '#B0B0B0' },
       FloatBorder = { fg = '#C0C0C0' },
       Border = { fg = '#C0C0C0' },
+      BlinkCmpDocSeparator = { bg = '#F0F0F0', fg = '#C0C0C0' },
       FloatShadow = { fg = '#C0C0C0' },
       Search = { bg = '#FFDF80', fg = '#383A42' },
       IncSearch = { bg = '#FFDF80', fg = '#E45649' },
@@ -267,6 +268,7 @@ function M.get(mode, transparent_background)
     FloatShadow = { fg = '#4c4c4c' },
     BlinkCmpMenuBorder = { bg = transparent_background and 'none' or '#1F1F1F', fg = '#4c4c4c' },
     BlinkCmpDocBorder = { bg = transparent_background and 'none' or '#1F1F1F', fg = '#4c4c4c' },
+    BlinkCmpDocSeparator = { bg = transparent_background and 'none' or '#1F1F1F', fg = '#4c4c4c' },
     Search = { bg = transparent_background and 'none' or '#606060', fg = '#abb2bf' },
     IncSearch = { bg = transparent_background and 'none' or '#606060', fg = '#F67582' },
     AvanteInlineHint = { fg = '#606060', bg = 'none' }, --#abb2bf

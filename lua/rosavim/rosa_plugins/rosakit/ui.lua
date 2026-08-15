@@ -215,7 +215,7 @@ function M.sections_popup(stack, available_sections, on_select, lsp_tools, on_to
   -- LSP tools
   if lsp_tools and #lsp_tools > 0 then
     add(pad .. string.rep('─', 40), 'RosakitDim')
-    add(pad .. 'LSP Tools', 'RosakitDim')
+    add(pad .. 'Tools', 'RosakitDim')
 
     for _, tool in ipairs(lsp_tools) do
       local k = pick_key(tool.label)

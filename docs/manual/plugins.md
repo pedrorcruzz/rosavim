@@ -140,6 +140,7 @@ Rosavim ships with its own built-in themes, stored in `lua/rosavim/rosa_themes/`
 | [vim-visual-multi](https://github.com/mg979/vim-visual-multi) | Multi-cursor editing |
 | [refactoring.nvim](https://github.com/ThePrimeagen/refactoring.nvim) | Code refactoring operations (extract, inline, debug print) |
 | Rosayank (built-in) | Yank history with persistence — ring buffer of 50 entries, auto-cleanup |
+| Rosatag (built-in) | Auto close and live rename of html/jsx tags, plain text scanning, no treesitter parser required (toggles under `<leader>lat`, manual rename `<leader>kr`) |
 | [todo-comments.nvim](https://github.com/folke/todo-comments.nvim) | Highlight and search TODO, FIXME, HACK, etc. |
 | Rosapick (built-in) | Visual window picker with floating labels |
 | [smart-splits.nvim](https://github.com/mrjones2014/smart-splits.nvim) | Smart window navigation and resizing |
@@ -176,7 +177,7 @@ Rosavim ships with its own built-in themes, stored in `lua/rosavim/rosa_themes/`
 
 | Plugin | Description |
 |:-------|:------------|
-| Rosakit | Built-in language-aware project navigator with stack detection and LSP tools |
+| Rosakit | Built-in language-aware project navigator with stack detection and tools (Rosatag's rename tag shows up here on html/jsx buffers) |
 | [vim-blade](https://github.com/jwalton512/vim-blade) | Blade template syntax highlighting |
 | [nvim-jdtls](https://github.com/mfussenegger/nvim-jdtls) | Extended Java LSP support (Eclipse JDT.LS) |
 | [venv-selector.nvim](https://github.com/linux-cultivator/venv-selector.nvim) | Python virtual environment selector |

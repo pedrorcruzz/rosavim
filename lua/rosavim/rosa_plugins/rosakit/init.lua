@@ -139,6 +139,10 @@ end
 --- Execute an LSP tool command
 --- @param tool table
 local function run_lsp_tool(tool)
+  if tool.fn then
+    tool.fn()
+    return
+  end
   if tool.cmd:sub(1, 1) == '!' then
     -- Shell command
     vim.cmd(tool.cmd)
@@ -151,9 +155,29 @@ local function run_lsp_tool(tool)
   end
 end
 
+--- Stack tools plus the ones the current buffer's filetype supports.
+--- @param ft string
+--- @param stack table
+local function tools_for(ft, stack)
+  local tools = vim.deepcopy(stack.lsp_tools or {})
+
+  if require('rosavim.rosa_plugins.rosatag.config').supported(ft) then
+    table.insert(tools, {
+      label = 'Rename Tag',
+      icon = '󰗀',
+      fn = function()
+        require('rosavim.rosa_plugins.rosatag').rename()
+      end,
+    })
+  end
+
+  return tools
+end
+
 --- Show sections for a specific workspace
 --- @param ws { root: string, stack: table }
-function M.show_sections(ws)
+--- @param ft string|nil filetype of the buffer the menu was opened from
+function M.show_sections(ws, ft)
   local available = get_available_sections(ws.root, ws.stack)
 
   if #available == 0 then
@@ -161,9 +185,11 @@ function M.show_sections(ws)
     return
   end
 
+  local tools = tools_for(ft or vim.bo.filetype, ws.stack)
+
   ui.sections_popup(ws.stack, available, function(section)
     open_section_picker(ws.root, section)
-  end, ws.stack.lsp_tools, function(tool)
+  end, tools, function(tool)
     run_lsp_tool(tool)
   end)
 end
@@ -171,6 +197,7 @@ end
 --- Main entry point
 function M.open()
   local root = vim.fn.getcwd()
+  local ft = vim.bo.filetype
 
   -- Force fresh detection (clear cached modules)
   package.loaded['rosavim.rosa_plugins.rosakit.stacks'] = nil
@@ -185,11 +212,11 @@ function M.open()
 
   if #workspaces == 1 then
     -- Single stack: go directly to sections
-    M.show_sections(workspaces[1])
+    M.show_sections(workspaces[1], ft)
   else
     -- Multiple stacks (monorepo): show workspace selector first
     ui.workspace_popup(workspaces, function(ws)
-      M.show_sections(ws)
+      M.show_sections(ws, ft)
     end)
   end
 end

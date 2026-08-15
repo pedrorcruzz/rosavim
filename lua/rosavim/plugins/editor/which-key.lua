@@ -55,6 +55,7 @@ return {
       { '<leader>lqr', group = 'Rosaterm', icon = '' },
       { '<leader>lqa', group = 'RosaAI', icon = ' ' },
       { '<leader>lqi', group = 'Invert BG', icon = '󰓢' },
+      { '<leader>lqn', group = 'Borderless', icon = '󰹞' },
       { '<leader>lqm', desc = 'Render Markdown: Select Theme', icon = '' },
       { '<leader>lqg', desc = 'Lualine: Select Separator' },
       { '<leader>lqy', desc = 'Lualine: Bar Y Transparent (toggle)' },
@@ -78,6 +79,7 @@ return {
       { '<leader>lad', group = 'DBUI', icon = '󰆼' },
       { '<leader>lau', group = 'Dropbar', icon = '󰜢 ' },
       { '<leader>lam', group = 'Rosamaximize', icon = '󰊓 ' },
+      { '<leader>lat', group = 'Rosatag', icon = '󰗀 ' },
 
       -- Rosakit
       { '<leader>k', group = 'Rosakit', icon = ' ' },

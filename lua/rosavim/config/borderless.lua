@@ -1,24 +1,114 @@
---- Borderless Theme (<leader>lqn) — repaint the which-key / snacks picker /
---- rosapick borders the same colour as their own bg so they blend in, in
---- every rosa theme. Called from the ColorScheme autocmd (plugins/ui/colorscheme.lua)
---- AND from each rosa theme's set_groups: lualine's 'auto' theme re-sources
---- the colors file without firing ColorScheme, so the themes must re-apply
---- this themselves or a restart would lose the borderless look.
+--- Borderless (<leader>lqn) - paint a tool's borders in its own bg so they
+--- blend in. One persisted toggle per tool, plus All (<leader>lqna). Called
+--- from the ColorScheme autocmd and from each theme's set_groups (lualine's
+--- 'auto' re-sources a theme without firing ColorScheme). Must run after the
+--- pass in colorscheme.lua that pins the BlinkCmp*Border colours.
 local M = {}
 
-function M.apply()
+--- Border groups per tool + the surfaces each one may sit on, most specific
+--- first. `fallback` groups have no theme colour of their own, so turning the
+--- toggle off has to link them back instead of leaving the blend behind.
+M.tools = {
+  {
+    key = 'borderless_whichkey',
+    name = 'Which-Key',
+    map = '<leader>lqnw',
+    borders = { { 'WhichKeyBorder', { 'WhichKeyNormal', 'NormalFloat' } } },
+  },
+  {
+    key = 'borderless_snacks',
+    name = 'Snacks Picker',
+    map = '<leader>lqns',
+    borders = { { 'SnacksPickerBorder', { 'SnacksPickerNormal', 'NormalFloat' } } },
+  },
+  {
+    key = 'borderless_rosapick',
+    name = 'Rosapick',
+    map = '<leader>lqnp',
+    borders = { { 'RosapickBorder', { 'Normal' } } },
+  },
+  {
+    key = 'borderless_blink',
+    name = 'Blink.cmp',
+    map = '<leader>lqnb',
+    borders = {
+      { 'BlinkCmpMenuBorder', { 'BlinkCmpMenu', 'Pmenu', 'NormalFloat' } },
+      { 'BlinkCmpDocBorder', { 'BlinkCmpDoc', 'Pmenu', 'NormalFloat' } },
+      { 'BlinkCmpSignatureHelpBorder', { 'BlinkCmpSignatureHelp', 'Pmenu', 'NormalFloat' } },
+    },
+  },
+  {
+    key = 'borderless_rosaterm',
+    name = 'Rosaterm',
+    map = '<leader>lqnr',
+    borders = { { 'RosatermFloatBorder', { 'RosatermNormal', 'Normal' }, fallback = 'FloatBorder' } },
+  },
+  {
+    key = 'borderless_rosaai',
+    name = 'RosaAI',
+    map = '<leader>lqni',
+    borders = { { 'RosaaiFloatBorder', { 'RosaaiNormal', 'Normal' }, fallback = 'FloatBorder' } },
+  },
+}
+
+local function hl_of(group)
+  return vim.api.nvim_get_hl(0, { name = group, link = false })
+end
+
+local function blend_bg(border, surfaces)
+  local bg = hl_of(border).bg
+  if bg then
+    return bg
+  end
+  for _, surface in ipairs(surfaces) do
+    bg = hl_of(surface).bg
+    if bg then
+      return bg
+    end
+  end
+end
+
+--- @return boolean
+function M.enabled(key)
   local ok, toggles = pcall(require, 'rosavim.config.toggles')
-  if not (ok and toggles.get 'theme_borderless') then
+  return ok and toggles.get(key) == true
+end
+
+--- Whether every tool is blended (backs the All toggle).
+function M.all_enabled()
+  for _, tool in ipairs(M.tools) do
+    if not M.enabled(tool.key) then
+      return false
+    end
+  end
+  return true
+end
+
+function M.set_all(state)
+  local ok, toggles = pcall(require, 'rosavim.config.toggles')
+  if not ok then
     return
   end
-  for _, group in ipairs { 'WhichKeyBorder', 'SnacksPickerBorder', 'RosapickBorder' } do
-    local hl = vim.api.nvim_get_hl(0, { name = group, link = false })
-    -- Themes that don't style a group leave it undefined — skip it rather than
-    -- invent a black border (rosapick falls back to bg-on-bg on its own).
-    if not vim.tbl_isempty(hl) then
-      -- Transparent mode has no solid bg to blend into; black glyphs nearly
-      -- vanish over the dark backdrop.
-      vim.api.nvim_set_hl(0, group, { fg = hl.bg or 0x000000, bg = hl.bg })
+  for _, tool in ipairs(M.tools) do
+    toggles.set(tool.key, state)
+  end
+end
+
+function M.apply()
+  -- Transparent mode has no bg to blend into: approximate the terminal backdrop
+  -- and leave the group bg-less, painting one would draw the frame back.
+  local fallback_fg = hl_of('Normal').bg or (vim.o.background == 'light' and 0xffffff or 0x000000)
+
+  for _, tool in ipairs(M.tools) do
+    local on = M.enabled(tool.key)
+    for _, spec in ipairs(tool.borders) do
+      local group, surfaces = spec[1], spec[2]
+      if on then
+        local bg = blend_bg(group, surfaces)
+        vim.api.nvim_set_hl(0, group, bg and { fg = bg, bg = bg } or { fg = fallback_fg })
+      elseif spec.fallback then
+        vim.api.nvim_set_hl(0, group, { link = spec.fallback })
+      end
     end
   end
 end

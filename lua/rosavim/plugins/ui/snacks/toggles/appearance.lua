@@ -44,23 +44,43 @@ return function()
     end,
   }):map '<leader>lqe'
 
-  -- Borderless — ON paints the which-key / snacks picker / rosapick borders
-  -- the same colour as their bg (seamless look) in every rosa theme; OFF
-  -- (default) keeps each theme's own border colour. Applied by the ColorScheme autocmd
-  -- in plugins/ui/colorscheme.lua; re-applying the scheme takes effect live.
+  -- Borderless (<leader>lqn) — ON paints a tool's borders the same colour as
+  -- its bg (seamless look) in every rosa theme; OFF (default) keeps each
+  -- theme's own border colour. One toggle per tool plus All, all persisted;
+  -- the repaint itself lives in rosavim.config.borderless and runs from the
+  -- ColorScheme autocmd, so re-applying the scheme takes effect live.
+  local borderless = require 'rosavim.config.borderless'
+
+  local function reapply()
+    local name = vim.g.colors_name
+    if name then
+      vim.cmd('colorscheme ' .. name)
+    end
+  end
+
   Snacks.toggle({
-    name = 'Borderless Theme',
+    name = 'Borderless: All',
     get = function()
-      return toggles.get 'theme_borderless'
+      return borderless.all_enabled()
     end,
     set = function(state)
-      toggles.set('theme_borderless', state)
-      local name = vim.g.colors_name
-      if name then
-        vim.cmd('colorscheme ' .. name)
-      end
+      borderless.set_all(state)
+      reapply()
     end,
-  }):map '<leader>lqn'
+  }):map '<leader>lqna'
+
+  for _, tool in ipairs(borderless.tools) do
+    Snacks.toggle({
+      name = 'Borderless: ' .. tool.name,
+      get = function()
+        return toggles.get(tool.key)
+      end,
+      set = function(state)
+        toggles.set(tool.key, state)
+        reapply()
+      end,
+    }):map(tool.map)
+  end
 
   -- Invert Backgrounds (<leader>lqi<theme>) — swap a theme's editor surface
   -- with its explorer/tab chrome surface. One persisted toggle per theme, so

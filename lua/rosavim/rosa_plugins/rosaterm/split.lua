@@ -40,7 +40,7 @@ end
 --- light-on-light prompts unreadable. The rosaterm_dark_bg toggle
 --- (<leader>lqrd) lets the user opt back into the theme's light bg.
 local function term_winhl(border_on)
-  local fb = border_on and ',FloatBorder:FloatBorder' or ''
+  local fb = border_on and (',FloatBorder:' .. term_bg.border_hl 'rosaterm') or ''
   return term_bg.winhl('rosaterm_dark_bg', true, 'RosatermNormal', fb)
 end
 
@@ -147,7 +147,7 @@ local function open_chip(term)
     focusable = false,
     zindex = 46,
   })
-  vim.wo[term.chip_win].winhl = require('rosavim.rosa_plugins.term_bg').chip_winhl()
+  vim.wo[term.chip_win].winhl = require('rosavim.rosa_plugins.term_bg').chip_winhl 'rosaterm'
   vim.wo[term.chip_win].winbar = ''
 end
 

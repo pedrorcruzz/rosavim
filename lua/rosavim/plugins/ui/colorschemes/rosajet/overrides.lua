@@ -4,7 +4,7 @@ local M = {}
 --- with the chrome shade afterwards (rosavim.config.invert_bg), so these stay
 --- at their plain values.
 local function editor_bg(mode)
-  return mode == 'light' and '#ffffff' or '#272729'
+  return mode == 'light' and '#fafafa' or '#272729'
 end
 
 function M.get(mode, transparent_background)
@@ -12,12 +12,15 @@ function M.get(mode, transparent_background)
   local editor = editor_bg(mode)
   if mode == 'light' then
     return {
-      -- Cursor: the IDE draws a solid black block with the editor bg showing
-      -- through the glyph. The bg also drives the terminal cursor color via
-      -- OSC 12 (colorscheme.lua).
-      Cursor = { fg = '#ffffff', bg = '#000000' },
+      Cursor = { fg = '#1A1A1A', bg = '#D3E5F1' },
       lCursor = { link = 'Cursor' },
       TermCursor = { link = 'Cursor' },
+      Visual = { bg = '#D6E4F0' },
+      WinBar = { fg = '#6c707d', bg = transparent_background and 'NONE' or '#F5F5F5' },
+      WinBarNC = { fg = '#6c707d', bg = transparent_background and 'NONE' or '#F5F5F5' },
+      Search = { bg = '#FFDF80', fg = '#383A42' },
+      IncSearch = { bg = '#FFDF80', fg = '#E45649' },
+      MatchParen = { fg = '#383A42', bg = '#D6E4F0' },
 
       -- blink.cmp: the IDE's completion popup is plain white with a thin grey
       -- border, so pin the menu/doc bg to the editor bg instead of a shade.
@@ -67,8 +70,8 @@ function M.get(mode, transparent_background)
 
       -- statusline: with lualine off the native statusline shows, so its bar
       -- follows the IDE status-bar shade instead of lualine's fallback
-      StatusLine = { bg = transparent_background and 'NONE' or '#f7f8fa', fg = '#7f828d' },
-      StatusLineNC = { bg = transparent_background and 'NONE' or '#f7f8fa', fg = '#aeb3c2' },
+      StatusLine = { bg = transparent_background and 'NONE' or '#f0f0f0', fg = '#7f828d' },
+      StatusLineNC = { bg = transparent_background and 'NONE' or '#f0f0f0', fg = '#aeb3c2' },
       StatusLineTerm = { link = 'StatusLine' },
       StatusLineTermNC = { link = 'StatusLineNC' },
     }

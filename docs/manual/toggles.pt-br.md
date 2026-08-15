@@ -17,6 +17,7 @@ As definições de toggles são organizadas em arquivos modulares em `lua/rosavi
 | `plugins.lua` | Toggles de plugins (Rosasave, Incline, TSContext, Copilot, Bufferline, Dropbar, Render Markdown, Rosamaximize, Image Preview) |
 | `appearance.lua` | Toggles de tema (Dark/Light, Transparência, Lualine, Tema do Lualine, Barra Y do Lualine Transparente) |
 | `autocmds.lua` | Tools toggles (Snacks, Which-Key, IA, Editor, LSP, DBUI) |
+| `rosatag.lua` | Toggles do Rosatag (auto close tag, auto live rename tag) |
 
 O orquestrador em `lua/rosavim/plugins/ui/snacks/toggles.lua` carrega todos os módulos e restaura os estados persistidos.
 
@@ -54,7 +55,7 @@ O `<leader>ly` vem **ativado** por padrão (cursor em bloco no modo normal, o vi
 | `<leader>lqij` | Inverter BG: rosajet — troca a superfície do editor com a do explorer/tabs (dark: editor `#272729` por padrão, `#191a1c` quando ativado) | Desativado |
 | `<leader>lqim` | Inverter BG: rosamin — mesma troca | Desativado |
 | `<leader>lqiv` | Inverter BG: rosavintage — mesma troca | Desativado |
-| `<leader>lqn` | Tema Sem Bordas — pinta as bordas do which-key / snacks picker / rosapick da mesma cor do bg, em todos os temas | Desativado |
+| `<leader>lqn` | Grupo Sem Bordas - veja [Sem Bordas](#sem-bordas-leaderlqn) abaixo | Desativado |
 | `<leader>ll` | Lualine (visibilidade da Statusline) | Ativado |
 
 Separadores do Lualine disponíveis: `rounded`, `bar`, `arrow`, `slant`
@@ -210,6 +211,31 @@ Ao maximizar uma janela com `<leader>cm`, o Rosamaximize mostra um badge flutuan
 | `<leader>lqx` | Picker de borda (none / rounded / reta) — no grupo Theme | rounded |
 
 Bordas rosamaximize disponíveis: `none`, `rounded`, `single` (reta)
+
+### Sem Bordas (`<leader>lqn`)
+
+Pinta as bordas de uma ferramenta na mesma cor do fundo dela, então a janela vira uma superfície só, em todos os temas rosa. Um toggle por ferramenta, todos persistidos, mais o All para ligar tudo de uma vez. No modo transparente não existe fundo para sumir, então o glifo recebe a melhor aproximação do fundo do terminal.
+
+| Atalho | Toggle | Padrão |
+|:-------|:-------|:-------|
+| `<leader>lqna` | All - liga/desliga todas as ferramentas abaixo | Desativado |
+| `<leader>lqnw` | Which-Key | Desativado |
+| `<leader>lqns` | Snacks Picker | Desativado |
+| `<leader>lqnp` | Rosapick | Desativado |
+| `<leader>lqnb` | Blink.cmp (menu, docs, signature) | Desativado |
+| `<leader>lqnr` | Rosaterm (float, split e chip de título) | Desativado |
+| `<leader>lqni` | RosaAI (painel, chip de título, floats de ask/preview) | Desativado |
+
+### Rosatag (`<leader>lat`)
+
+O Rosatag fecha e renomeia tags html/jsx. Ele atua em buffers html, htmldjango, xml, svg, php, blade, javascript(react), typescript(react), vue, svelte, astro, templ, eruby, handlebars e twig, e não precisa de parser do treesitter.
+
+| Atalho | Toggle | Padrão |
+|:-------|:-------|:-------|
+| `<leader>latc` | Auto close tag - digitar `>` escreve a tag de fechamento | Ativado |
+| `<leader>latr` | Auto live rename tag - editar um lado atualiza o par | Ativado |
+
+O rename manual fica no Rosakit: `<leader>kr`, uma tecla buffer-local que só existe nesses filetypes (o item no menu `<leader>kk` segue a mesma regra). Os dois toggles acima continuam globais, então dá pra ligar/desligar de qualquer buffer.
 
 ---
 

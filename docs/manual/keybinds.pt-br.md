@@ -479,7 +479,13 @@ Quer revisar **tudo** no repositório (suas edições incluídas), não só as d
 | n | `<leader>lqm` | Selecionar tema do Render Markdown | `Space l q m` para escolher o preset do render-markdown (none / lazy / obsidian) |
 | n | `<leader>lqg` | Selecionar separador do lualine | `Space l q g` para escolher um preset de separador da statusline (rounded / bar / arrow / slant) |
 | n | `<leader>lqe` | Alternar transparência | `Space l q e` para alternar a transparência do fundo |
-| n | `<leader>lqn` | Alternar tema sem bordas | `Space l q n` — ativado pinta as bordas do which-key / snacks picker / rosapick da mesma cor do bg (visual sem borda) em todos os temas; desativado (padrão) mantém a cor de borda de cada tema (persiste) |
+| n | `<leader>lqna` | Sem Bordas: All | `Space l q n a` para fundir as bordas de todas as ferramentas no bg delas de uma vez (persiste) |
+| n | `<leader>lqnw` | Sem Bordas: Which-Key | `Space l q n w` para fundir só a borda do which-key |
+| n | `<leader>lqns` | Sem Bordas: Snacks Picker | `Space l q n s` para fundir só a borda do snacks picker |
+| n | `<leader>lqnp` | Sem Bordas: Rosapick | `Space l q n p` para fundir só a borda do label do rosapick |
+| n | `<leader>lqnb` | Sem Bordas: Blink.cmp | `Space l q n b` para fundir as bordas do menu de completion, docs e signature |
+| n | `<leader>lqnr` | Sem Bordas: Rosaterm | `Space l q n r` para fundir as bordas do float, do split e do chip do rosaterm |
+| n | `<leader>lqni` | Sem Bordas: RosaAI | `Space l q n i` para fundir as bordas do painel, do chip e dos floats de ask/preview do RosaAI |
 | n | `<leader>lqad` / `<leader>lqaD` | RosaAI forçar fundo escuro | `Space l q a d` (modo claro) / `Space l q a D` (modo escuro) para forçar fundo #000 no painel do RosaAI em vez do bg do tema (persiste) |
 | n | `<leader>lqrd` / `<leader>lqrD` | Rosaterm forçar fundo escuro | `Space l q r d` (modo claro) / `Space l q r D` (modo escuro) para forçar fundo #000 no Rosaterm em vez do bg do tema (persiste) |
 | n | `<leader>lqfy` / `<leader>lqfY` | Yazi forçar fundo escuro | `Space l q f y` (modo claro) / `Space l q f Y` (modo escuro) para forçar fundo #000 no float do yazi em vez do bg do tema (persiste) |
@@ -509,6 +515,8 @@ Quer revisar **tudo** no repositório (suas edições incluídas), não só as d
 | n | `<leader>lamb` | Badge no buffer (Rosamaximize) | `Space l a m b` para mostrar/esconder o badge flutuante `max` no buffer |
 | n | `<leader>lamn` | Nome/ícone (Rosamaximize) | `Space l a m n` para alternar entre o texto `max` e só o ícone |
 | n | `<leader>lqx` | Borda (Rosamaximize) | `Space l q x` para abrir um popup e escolher a borda do badge (none / rounded / reta) |
+| n | `<leader>latc` | Auto close tag (Rosatag) | `Space l a t c` para ligar/desligar o fechamento automático de tags (padrão: ligado) |
+| n | `<leader>latr` | Auto live rename tag (Rosatag) | `Space l a t r` para ligar/desligar a renomeação ao vivo da tag par (padrão: ligado) |
 | n | `<leader>lqp` | Picker Layout | `Space l q p` para abrir popup de seleção de layout do picker |
 | n | `<leader>lasp` | Picker Preview | `Space l a s p` para alternar preview do picker on/off |
 | n | `<leader>lqo` | Picker Border | `Space l q o` para abrir popup de seleção de borda do picker |
@@ -614,6 +622,7 @@ Quer revisar **tudo** no repositório (suas edições incluídas), não só as d
 |:----:|:------|:-----|:--------|
 | n | `<leader>kk` | Menu Rosakit | `Space k k` para abrir o popup de ferramentas da linguagem |
 | n | `<leader>ka` | LSP Actions | `Space k a` para abrir code actions do LSP |
+| n | `<leader>kr` | Renomear tag (Rosatag) | `Space k r` para renomear a tag sob o cursor e o par dela. É buffer-local: só existe nos filetypes que o Rosatag atende, igual ao item dele no menu `<leader>kk` |
 
 ---
 

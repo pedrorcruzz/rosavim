@@ -29,10 +29,11 @@ local colors = {}
 -- transparent mode, for the few groups that need something opaque to sit on.
 if vim.o.background == 'light' then
   -- Editor
-  local editor, chrome = '#ffffff', '#fcfcfc'
+  local editor, chrome = '#fafafa', '#f5f5f5'
   colors.bgSolid = editor
   colors.bg = config.transparent and 'NONE' or editor
-  colors.bgDark = '#f7f8fa' -- tool windows, status bar, tab strip
+  colors.bgDark = '#f0f0f0' -- tool windows, status bar, tab strip
+  colors.bgTabline = '#dddddd' -- bufferline / native tabline
   colors.bgDarker = '#f5f8fe' -- caret row
   colors.bgFloat = editor -- completion popup, follows the editor bg
   colors.bgOption = '#d7e1fc' -- selected completion item
@@ -101,8 +102,9 @@ else
   -- Completion popup. The IDE puts it a shade under the editor (#27282B); here
   -- it follows the editor bg so the menu reads as part of the buffer.
   colors.bgFloat = editor
-  colors.bgOption = '#32426b' -- selected completion item
+  colors.bgOption = '#2e3033' -- selected completion item
   colors.bgSidebar = chrome -- explorer / picker / tab strip chrome
+  colors.bgTabline = chrome
   colors.fg = '#bcbec4'
   colors.fgAlt = '#ced0d5'
   colors.fgInactive = '#6f737a'

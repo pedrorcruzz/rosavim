@@ -20,7 +20,7 @@ local mode_replace = { bg = '#a44a45', fg = '#ffffff', gui = 'bold' }
 -- Centre bar: the <leader>lqy toggle (default ON) keeps the y/centre bar
 -- transparent — it blends with the editor bg (NONE in transparent mode). When
 -- off, it restores the IDE status-bar shade.
-local status_bar = light and '#f7f8fa' or '#2b2d30'
+local status_bar = light and '#f0f0f0' or '#2b2d30'
 -- The centre bar follows the editor surface, so it has to go through the same
 -- swap the highlight post-pass does — lualine builds its own colour table and
 -- never sees those groups.

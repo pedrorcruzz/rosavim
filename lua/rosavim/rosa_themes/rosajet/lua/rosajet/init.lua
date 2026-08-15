@@ -50,9 +50,8 @@ local function set_groups()
   local bg = config.transparent and 'NONE' or colors.bg
   local sidebar = config.transparent and 'NONE' or colors.bgSidebar
   local float = config.transparent and 'NONE' or colors.bgFloat
-  -- Tab strip (bufferline + native tabline) shares the explorer/picker chrome
-  -- shade, so the tabs and the sidebar read as one frame around the editor.
-  local bl_bg = sidebar
+  -- Tab strip: bufferline + native tabline.
+  local bl_bg = config.transparent and 'NONE' or colors.bgTabline
   -- Separators and the active-tab indicator are hidden by painting them the bar
   -- colour. In transparent mode that colour is 'NONE', which makes the glyphs
   -- fall back to the DEFAULT foreground and draw a white bar — so they take the
@@ -119,8 +118,8 @@ local function set_groups()
     PmenuKind = { fg = colors.fgAlt, bg = float },
     PmenuExtra = { fg = colors.fgInactive, bg = float },
     NormalFloat = { fg = colors.fg, bg = config.transparent and 'NONE' or colors.bgDark },
-    FloatBorder = { fg = colors.border, bg = config.transparent and 'NONE' or colors.bgDark },
-    FloatTitle = { fg = colors.fgAlt, bg = config.transparent and 'NONE' or colors.bgDark, bold = true },
+    FloatBorder = { fg = colors.border },
+    FloatTitle = { fg = colors.fgAlt, bold = true },
     WildMenu = { link = 'PmenuSel' },
 
     -- Splits & tabs
@@ -373,11 +372,6 @@ local function set_groups()
     -- without pulling attention like an accent would.
     SnacksPickerPrompt = { fg = colors.fgInactive },
     SnacksPickerTree = { fg = colors.separator },
-
-    -- rosaterm / rosaai title chip. The IDE puts its tool-window headers on the
-    -- toolbar shade rather than the editor bg; without this the chip links to
-    -- Normal, which is what the other rosa themes render (see term_bg.chip_winhl).
-    RosaChipNormal = { fg = colors.fg, bg = config.transparent and 'NONE' or colors.bgDark },
 
     -- rosapick (window picker) label border, same separator grey as the picker.
     RosapickBorder = { fg = colors.border, bg = colors.bgSolid },

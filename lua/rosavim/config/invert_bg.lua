@@ -34,7 +34,7 @@ M.themes = {
         LspInlayHint = { bg = '#1f2024' },
       },
     },
-    light = { editor = '#ffffff', chrome = '#fcfcfc' },
+    light = { editor = '#fafafa', chrome = '#f5f5f5' },
   },
   rosamin = {
     dark = { editor = '#1f1f1f', chrome = '#1a1a1a' },
