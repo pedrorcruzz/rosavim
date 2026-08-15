@@ -285,23 +285,53 @@ vim.api.nvim_create_autocmd('BufReadPost', {
   end,
 })
 
--- Highlight LSP references
 local my_highlights = vim.api.nvim_create_augroup('MyHighlights', { clear = true })
 
-vim.api.nvim_create_autocmd('ColorScheme', {
-  group = my_highlights,
-  pattern = '*',
-  callback = function()
-    if toggles.get 'lsp_ref_highlights' then
-      local fg = vim.o.background == 'light' and '#000000' or '#FFFFFF'
-      local highlight_style = { bold = true, bg = 'none', fg = fg }
+local function on_colorscheme(fn)
+  vim.api.nvim_create_autocmd('ColorScheme', {
+    group = my_highlights,
+    pattern = '*',
+    callback = fn,
+  })
+  vim.api.nvim_create_autocmd('VimEnter', {
+    group = my_highlights,
+    callback = function()
+      vim.schedule(fn)
+    end,
+  })
+end
 
-      vim.api.nvim_set_hl(0, 'LspReferenceRead', highlight_style)
-      vim.api.nvim_set_hl(0, 'LspReferenceWrite', highlight_style)
-      vim.api.nvim_set_hl(0, 'LspReferenceText', highlight_style)
-    end
-  end,
-})
+local function lsp_reference_highlights()
+  if not toggles.get 'lsp_ref_highlights' then
+    return
+  end
+
+  local fg = vim.o.background == 'light' and '#000000' or '#FFFFFF'
+  local highlight_style = { bold = true, bg = 'none', fg = fg }
+
+  vim.api.nvim_set_hl(0, 'LspReferenceRead', highlight_style)
+  vim.api.nvim_set_hl(0, 'LspReferenceWrite', highlight_style)
+  vim.api.nvim_set_hl(0, 'LspReferenceText', highlight_style)
+end
+
+local function bg_only_match_highlights()
+  local function bg_of(name)
+    local ok, hl = pcall(vim.api.nvim_get_hl, 0, { name = name, link = false })
+    return ok and hl.bg or nil
+  end
+
+  local bg = bg_of 'MatchParen' or bg_of 'Visual'
+  if not bg then
+    return
+  end
+
+  for _, group in ipairs { 'MatchWord', 'MatchWordCur', 'MatchParenCur' } do
+    vim.api.nvim_set_hl(0, group, { bg = bg })
+  end
+end
+
+on_colorscheme(lsp_reference_highlights)
+on_colorscheme(bg_only_match_highlights)
 
 -- Re-apply lualine state after colorscheme change
 vim.api.nvim_create_autocmd('ColorScheme', {

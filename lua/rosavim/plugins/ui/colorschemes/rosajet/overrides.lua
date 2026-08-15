@@ -12,6 +12,9 @@ function M.get(mode, transparent_background)
   local editor = editor_bg(mode)
   if mode == 'light' then
     return {
+      EndOfBuffer = { bg = 'none' },
+      SnacksPickerPreview = { link = 'Normal' },
+
       Cursor = { fg = '#1A1A1A', bg = '#D3E5F1' },
       lCursor = { link = 'Cursor' },
       TermCursor = { link = 'Cursor' },
@@ -77,6 +80,9 @@ function M.get(mode, transparent_background)
     }
   end
   return {
+    EndOfBuffer = { bg = 'none' },
+    SnacksPickerPreview = { link = 'Normal' },
+
     -- The IDE's dark caret is a near-white block.
     Cursor = { fg = editor, bg = '#ced0d6' },
     lCursor = { link = 'Cursor' },

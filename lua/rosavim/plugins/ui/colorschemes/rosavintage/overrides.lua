@@ -11,6 +11,9 @@ function M.get(mode, transparent_background)
       lCursor = { link = 'Cursor' },
       TermCursor = { link = 'Cursor' },
 
+      EndOfBuffer = { bg = 'none' },
+      SnacksPickerPreview = { link = 'Normal' },
+
       -- blink.cmp: menu + doc bg follow the editor bg (#D3D2CE) so the popups
       -- blend with the background instead of the lighter bgFloat/#C4C0B9.
       BlinkCmpMenu = { bg = '#D3D2CE' },
@@ -53,6 +56,9 @@ function M.get(mode, transparent_background)
     }
   end
   return {
+    EndOfBuffer = { bg = 'none' },
+    SnacksPickerPreview = { link = 'Normal' },
+
     Cursor = { fg = '#212121', bg = '#C1C1C1' },
     lCursor = { link = 'Cursor' },
     TermCursor = { link = 'Cursor' },

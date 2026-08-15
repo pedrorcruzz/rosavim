@@ -11,7 +11,6 @@ vim.opt.fileencoding = 'utf-8'
 -- vim.opt.shiftwidth = 2
 -- vim.opt.softtabstop = 2
 -- vim.opt.expandtab = true
-
 vim.opt.title = true
 vim.opt.titlestring = '%{fnamemodify(getcwd(), ":t")}%( — %t%)'
 
@@ -112,6 +111,7 @@ vim.opt.splitbelow = true
 --  and `:help 'listchars'`
 vim.opt.list = false
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+vim.opt.fillchars:append { eob = ' ' }
 
 -- Preview substitutions live, as you type!
 vim.opt.inccommand = 'split'
