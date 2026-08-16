@@ -7,8 +7,24 @@ local label_hl = 'RosapickLabel'
 local label_active_hl = 'RosapickLabelActive'
 local border_hl = 'RosapickBorder'
 
+--- A window whose `winhighlight` does NOT remap `Normal`. `nvim_get_hl`
+--- resolves through the CURRENT window's `winhighlight`, so reading `Normal`
+--- from inside a rosaterm/RosaAI panel with the Dark toggle on hands back the
+--- panel's #000 and paints every label black. Falls back to the current window.
+local function unremapped_win()
+  for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+    if not (',' .. vim.wo[win].winhighlight):match ',Normal:' then
+      return win
+    end
+  end
+  return vim.api.nvim_get_current_win()
+end
+
 local function get_hl_color(group, attr)
-  local hl = vim.api.nvim_get_hl(0, { name = group, link = false })
+  local hl
+  vim.api.nvim_win_call(unremapped_win(), function()
+    hl = vim.api.nvim_get_hl(0, { name = group, link = false })
+  end)
   return hl[attr]
 end
 

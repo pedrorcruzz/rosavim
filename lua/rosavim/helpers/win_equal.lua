@@ -30,25 +30,41 @@ local function sidebars()
   return wins
 end
 
-function M.equalize()
+--- Run `fn` with every sidebar pinned on both axes, restoring the previous
+--- flags afterwards.
+local function with_sidebars_pinned(fn)
   local saved = {}
   for _, win in ipairs(sidebars()) do
     saved[win] = { vim.wo[win].winfixwidth, vim.wo[win].winfixheight }
     vim.wo[win].winfixwidth = true
     vim.wo[win].winfixheight = true
   end
-  pcall(vim.cmd, 'wincmd =')
+  local ok, err = pcall(fn)
   for win, prev in pairs(saved) do
     if vim.api.nvim_win_is_valid(win) then
       vim.wo[win].winfixwidth = prev[1]
       vim.wo[win].winfixheight = prev[2]
     end
   end
+  if not ok then
+    error(err)
+  end
 end
 
+function M.equalize()
+  with_sidebars_pinned(function()
+    pcall(vim.cmd, 'wincmd =')
+  end)
+end
+
+--- The split itself has to run pinned too: with `equalalways` on, `:vsplit`
+--- equalizes every window in the tabpage, so an unpinned explorer/spacer is
+--- already resized by the time equalize() runs.
 function M.split(cmd)
-  vim.cmd(cmd)
-  M.equalize()
+  with_sidebars_pinned(function()
+    vim.cmd(cmd)
+    pcall(vim.cmd, 'wincmd =')
+  end)
   vim.schedule(M.equalize)
 end
 

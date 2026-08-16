@@ -403,11 +403,11 @@ local function compute_main_area(skip_terms)
         local touches_right = right_edge >= cols - 2
         -- Two ways to count as a sidebar:
         --   1. Known sidebar filetype (Snacks Explorer, etc.) anchored to an edge
-        --   2. Narrow window (< 35% of total cols) anchored to an edge
-        -- Editor panes from :vsplit / diff view are ~50% each and must
-        -- NOT trigger #2, which is why the threshold is tight.
+        --   2. Narrow non-file window (< 35% of total cols) anchored to an edge
+        -- Editor panes from :vsplit / diff view are never sidebars, even when a
+        -- third split drops them under the threshold.
         local is_known_sidebar = SIDEBAR_FILETYPES[ft] == true
-        local is_narrow_edge = outer_w < cols * 0.35
+        local is_narrow_edge = vim.bo[buf].buftype ~= '' and outer_w < cols * 0.35
         if (is_known_sidebar or is_narrow_edge) and (touches_left or touches_right) then
           if touches_left then
             left = math.max(left, right_edge)
@@ -652,10 +652,11 @@ local function resize_term(term, dh, dw)
   return true
 end
 
---- Find an open rosaterm float matching the given direction.
-local function find_term_by_direction(direction)
+--- The rosaterm float that currently has focus, if any.
+local function focused_term()
+  local cur = api.nvim_get_current_win()
   for _, t in pairs(terms) do
-    if term_win_is_open(t) and t.direction == direction then
+    if term_win_is_open(t) and t.win == cur then
       local cfg = api.nvim_win_get_config(t.win)
       if cfg.relative and cfg.relative ~= '' then
         return t
@@ -665,22 +666,20 @@ local function find_term_by_direction(direction)
   return nil
 end
 
---- Public: resize the rosaterm float matching an arrow direction. Called
+--- Public: resize the FOCUSED rosaterm float in an arrow direction. Called
 --- from smart-splits' fallback when no native split changed. dir = one of
 --- 'up', 'down', 'left', 'right'. Returns true if a terminal was resized.
+--- Only the focused float responds: the arrows are mapped globally, so an open
+--- but unfocused panel must not swallow them. Mirrors RosaAI.
 function M.resize_arrow(dir)
-  if dir == 'up' or dir == 'down' then
-    local t = find_term_by_direction 'horizontal'
-    if not t then
-      return false
-    end
+  local t = focused_term()
+  if not t then
+    return false
+  end
+  if t.direction == 'horizontal' and (dir == 'up' or dir == 'down') then
     return resize_term(t, dir == 'up' and 1 or -1, 0)
   end
-  if dir == 'left' or dir == 'right' then
-    local t = find_term_by_direction 'vertical'
-    if not t then
-      return false
-    end
+  if t.direction == 'vertical' and (dir == 'left' or dir == 'right') then
     return resize_term(t, 0, dir == 'left' and 1 or -1)
   end
   return false

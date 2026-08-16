@@ -249,7 +249,9 @@ function M.compute_main_area()
         local touches_right = right_edge >= cols - 2
         -- Our vertical slots always count as side panels regardless of width.
         local is_known_sidebar = SIDEBAR_FILETYPES[ft] == true or rosaai_side[win] == true
-        local is_narrow_edge = outer_w < cols * 0.35
+        -- Never a plain file buffer: with three or more :vsplit panes each
+        -- editor pane drops under the threshold and would read as a sidebar.
+        local is_narrow_edge = vim.bo[buf].buftype ~= '' and outer_w < cols * 0.35
         if (is_known_sidebar or is_narrow_edge) and (touches_left or touches_right) then
           if touches_left then
             left = math.max(left, right_edge)
