@@ -31,9 +31,15 @@ return function()
       return toggles.get 'explorer_right'
     end,
     set = function(state)
-      toggles.set('explorer_right', state)
-      local pos = state and 'right' or 'left'
-      Snacks.config.picker.sources.explorer.layout.layout.position = pos
+      local side = state and 'right' or 'left'
+      local panel = require 'rosavim.helpers.panel_side'
+      panel.set_explorer(side)
+      local pos = toggles.get 'rosaai_position'
+      if pos == 'right' or pos == 'left' then
+        panel.set_panel(side == 'right' and 'left' or 'right')
+      else
+        panel.apply()
+      end
     end,
   }):map '<leader>lasr'
 

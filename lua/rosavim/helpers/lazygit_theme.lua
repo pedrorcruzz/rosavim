@@ -85,15 +85,8 @@ function M.apply()
   api.nvim_set_hl(0, 'RosaLgUnstaged', { fg = p.unstaged })
 end
 
---- Winhighlight for the lazygit float. On rosanight the float follows the
---- editor bg (Normal: #000 dark / #d3d2ce light / NONE in transparent mode)
---- instead of NormalFloat's grey #1a1a1a, and the force-black toggles are
---- bypassed. Other themes keep the term_bg force-black toggle behaviour.
 function M.float_winhl()
-  if vim.g.colors_name == 'rosanight' then
-    return 'Normal:Normal,NormalFloat:Normal,FloatBorder:FloatBorder'
-  end
-  return require('rosavim.helpers.term_bg').float_winhl('lazygit_dark_bg', true, 'RosaLazygitNormal')
+  return require('rosavim.helpers.term_bg').float_winhl 'lazygit'
 end
 
 function M.setup()

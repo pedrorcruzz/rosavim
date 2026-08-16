@@ -137,7 +137,7 @@ Rosavim vem com seus próprios temas built-in, armazenados em `lua/rosavim/rosa_
 |:-------|:----------|
 | [nvim-surround](https://github.com/kylechui/nvim-surround) | Adicionar, mudar e deletar caracteres ao redor |
 | [vim-matchup](https://github.com/andymass/vim-matchup) | Correspondência `%` estendida para construções de linguagem |
-| [vim-visual-multi](https://github.com/mg979/vim-visual-multi) | Edição com múltiplos cursores |
+| Rosavisualmulti (built-in) | Edição com múltiplos cursores sobre extmarks — cursores por ocorrência, coluna e regex, replay de insert, comandos normais e macros em todos os cursores, align, popup de rename, menu dinâmico de ações (`<leader>kv`) |
 | [refactoring.nvim](https://github.com/ThePrimeagen/refactoring.nvim) | Operações de refatoração de código (extrair, inline, debug print) |
 | Rosayank (built-in) | Histórico de yank com persistência — ring buffer de 50 entradas, limpeza automática |
 | Rosatag (built-in) | Fecha e renomeia tags html/jsx ao vivo, varredura de texto puro, sem precisar de parser do treesitter (toggles em `<leader>lat`, rename manual `<leader>kr`) |

@@ -69,6 +69,7 @@ if vim.o.background == 'light' then
   colors.guide = '#dae6fd'
   colors.todo = '#008dde'
   colors.link = '#808080'
+  colors.pick = '#2daafc'
 
   -- Diagnostics. JetBrains' literal Info/Hint values (#cccccc / #808080) are
   -- unreadable on white, so those two take the IDE's *gutter icon* colours,
@@ -132,6 +133,7 @@ else
   colors.guide = '#2b2d30'
   colors.todo = '#8bb33d'
   colors.link = '#6b6c73'
+  colors.pick = '#2daafc'
 
   -- Diagnostics (see the light-mode note; dark's literal Info is an olive
   -- #857042 that reads as a dim comment, so it uses the gutter blue too).

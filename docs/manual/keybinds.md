@@ -618,6 +618,56 @@ Want to review **everything** in the repo (your edits included), not just the AI
 
 ---
 
+## Rosavisualmulti (Multi-cursor)
+
+Cursors live on extmarks, so they follow every edit. A session ends with `<Esc>` or when you switch to another file.
+
+**Creating cursors**
+
+| Mode | Key | Action | Example |
+|:----:|:----|:-------|:--------|
+| n | `<C-n>` | Select word under cursor, then each next occurrence | `Ctrl n` on `pedro`, again for the next `pedro` |
+| x | `<C-n>` | One cursor per line of the visual selection | `V j j` then `Ctrl n` to get 3 cursors |
+| n | `<C-Down>` / `<C-Up>` | Add a cursor on the line below / above, same column | column editing, ignores the text |
+| n | `<leader>kva` | Select every occurrence at once | `Space k v a` |
+
+**Managing cursors**
+
+| Mode | Key | Action | Example |
+|:----:|:----|:-------|:--------|
+| n | `n` / `N` | Add the next / previous occurrence | `N` also recovers an occurrence you skipped |
+| n | `q` | Skip: drop the current cursor and take the next occurrence | keeps the cursor count |
+| n | `Q` | Remove the current cursor, no replacement | lowers the cursor count |
+| n | `[` / `]` | Move between the cursors you already have | does not change the list |
+| n | `<Esc>` | End the session | |
+
+**Editing at every cursor**
+
+| Mode | Key | Action | Example |
+|:----:|:----|:-------|:--------|
+| n | `i` `a` `I` `A` | Insert before / after / at line start / at line end | what you type lands on every cursor when you press `<Esc>` |
+| n | `c` | Change the selection | |
+| n | `d` / `x` | Delete the selection | |
+| n | `D` | Delete the whole lines | |
+| n | `y` / `p` / `P` | Yank / paste over / paste before | |
+| n | `gu` / `gU` / `~` | Lowercase / uppercase / toggle case | |
+| n | `.` | Run an arbitrary normal command at every cursor | `ci"new`, `>>`, `dt,`, `cit` |
+| n | `@` | Run a macro from a register at every cursor | |
+
+**Menu and popups**
+
+| Mode | Key | Action | Example |
+|:----:|:----|:-------|:--------|
+| n | `<leader>kvv` | Action menu. Its entries change depending on whether a session is active | `Space k v v` |
+| n | `<leader>kvr` | Rename popup, prefilled with the selected word | select every `pedro`, rewrite it once, all of them change |
+| n | `<leader>kva` | Select every occurrence | |
+
+Inside the menu: `/` cursors from a vim regex, `.` normal command, `@` macro, `l` align the cursors, `L` align on a character, `s` surround, `#` number the cursors, `r` rename.
+
+Every operation lands in a single undo step. The lualine mode block shows `ROSAVISUALMULTI` with the live cursor count while a session is active.
+
+---
+
 ## Rosakit (Language Tools)
 
 | Mode | Key | Action | Example |

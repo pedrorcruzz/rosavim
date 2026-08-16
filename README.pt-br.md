@@ -138,6 +138,7 @@ Guias detalhados ficam em [`docs/manual`](docs/manual/):
 | **Rosamaximize** | Maximiza a janela atual e restaura o layout completo, com um badge `max` e um indicador na lualine (configurável via `<leader>lam`) |
 | **Rosazen** | Modo sem distrações: maximiza e centraliza a janela atual, esconde toda a UI, mantém as ferramentas flutuantes (Rosaterm/RosaAI/Yazi/Lazygit) usáveis, e persiste entre sessões |
 | **Rosatag** | Fecha e renomeia tags html/jsx ao vivo, sem precisar de parser do treesitter (`<leader>kr` para renomear, toggles em `<leader>lat`) |
+| **Rosavisualmulti** | Edição com múltiplos cursores sobre extmarks: cursores por ocorrência (`<C-n>`), coluna (`<C-Up>`/`<C-Down>`) e regex, insert replicado em todos os cursores, comandos normais e macros, align, popup de rename, e menu dinâmico de ações (`<leader>kv`) |
 | **Rosayank** | Histórico de yank persistente (ring buffer) |
 | **Rosasave** | Auto-save com debounce |
 | **Rosasweep** | Fecha buffers inativos automaticamente |
@@ -265,6 +266,8 @@ funcionam todos.
 | `<leader>lf` | Formatar arquivo |
 | `<leader>xx` | Menu Rosafile |
 | `<leader>kk` | Menu Rosakit |
+| `<C-n>` | Rosavisualmulti: selecionar palavra / próxima ocorrência |
+| `<leader>kvv` | Menu Rosavisualmulti |
 
 **Git, Testes & Debug**
 | Atalho | Ação |

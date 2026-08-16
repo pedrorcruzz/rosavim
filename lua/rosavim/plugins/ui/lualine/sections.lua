@@ -69,6 +69,9 @@ function M.build(sep)
           if vim.b.rosaai_cli then
             return '  ROSAAI'
           end
+          if vim.b.rosavisualmulti then
+            return ('󰆿 ROSAVISUALMULTI %d'):format(vim.b.rosavisualmulti)
+          end
           return '󰧱 ' .. mode
         end,
         separator = sep.mode,

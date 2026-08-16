@@ -83,6 +83,10 @@ return {
 
       -- Rosakit
       { '<leader>k', group = 'Rosakit', icon = ' ' },
+      { '<leader>kv', group = 'Rosavisualmulti', icon = '󰆿 ' },
+      { '<leader>kvv', desc = 'Rosavisualmulti: Menu', icon = '󰆿 ' },
+      { '<leader>kva', desc = 'Rosavisualmulti: Select All Occurrences', icon = '󰦅 ' },
+      { '<leader>kvr', desc = 'Rosavisualmulti: Rename Selection', icon = '󰳽 ' },
 
       { '<leader>c', group = 'Window', icon = '󰶛' },
       { '<leader>t', group = 'Tabs', icon = '󱦞' },
@@ -231,8 +235,20 @@ return {
       end,
       desc = 'Focus Up',
     },
-    { '<leader>cq', '<cmd>vsplit<cr>', desc = 'Split Vertical' },
-    { '<leader>ce', '<cmd>split<cr>', desc = 'Split Horizontal' },
+    {
+      '<leader>cq',
+      function()
+        require('rosavim.helpers.win_equal').split 'vsplit'
+      end,
+      desc = 'Split Vertical',
+    },
+    {
+      '<leader>ce',
+      function()
+        require('rosavim.helpers.win_equal').split 'split'
+      end,
+      desc = 'Split Horizontal',
+    },
     { '<leader>cC', '<cmd>only<cr>', desc = 'Close all Others' },
     { '<leader>cc', '<cmd>close<cr>', desc = 'Close Window' },
     { '<leader>q', '<cmd>close<cr>', desc = 'Close Window' },
@@ -268,6 +284,12 @@ return {
       end,
       desc = 'Resize Down 2/3',
     },
-    { '<leader>cr', '<cmd>resize | vertical resize | wincmd =<cr>', desc = 'Reset Window Sizes' },
+    {
+      '<leader>cr',
+      function()
+        require('rosavim.helpers.win_equal').equalize()
+      end,
+      desc = 'Reset Window Sizes',
+    },
   },
 }

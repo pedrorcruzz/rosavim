@@ -301,7 +301,7 @@ end
 function M.esc_hint()
   local term_bg = require 'rosavim.helpers.term_bg'
   local text_fg, key_fg, bg
-  if term_bg.is_black('rosaai_dark_bg', false) then
+  if term_bg.is_black 'rosaai' then
     -- Match RosaaiNormal (#000 bg / dim light fg) so the hint blends in.
     text_fg, key_fg, bg = '#d4d0c8', '#7B8394', '#000000'
   else

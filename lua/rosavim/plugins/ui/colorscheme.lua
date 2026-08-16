@@ -20,6 +20,13 @@ vim.api.nvim_create_autocmd('ColorScheme', {
   end,
 })
 
+vim.api.nvim_create_autocmd('ColorScheme', {
+  pattern = '*',
+  callback = function()
+    require('rosavim.helpers.term_bg').refresh()
+  end,
+})
+
 -- Borderless mode (<leader>lqn): repaint the which-key and snacks
 -- picker/explorer borders the same colour as their own bg so they blend in —
 -- the seamless look rosanight used to hard-code, now opt-in for every rosa

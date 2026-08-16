@@ -56,7 +56,7 @@ function M.pick_position()
       return layout.current_position()
     end,
     on_select = function(item)
-      require('rosavim.config.toggles').set('rosaai_position', item.name)
+      require('rosavim.helpers.panel_side').set_panel(item.name)
       Snacks.notify.info('RosaAI position: ' .. item.name)
       require('rosavim.rosa_plugins.rosaai').relayout()
     end,

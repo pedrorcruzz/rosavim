@@ -16,6 +16,10 @@ local resize_au = nil
 -- ensure_resize_au() before reposition_floats() is defined further down.
 local reposition_floats
 
+local function vertical_side()
+  return require('rosavim.helpers.panel_side').vertical()
+end
+
 local function term_win_is_open(term)
   return term.win and api.nvim_win_is_valid(term.win)
 end
@@ -41,7 +45,7 @@ end
 --- (<leader>lqrd) lets the user opt back into the theme's light bg.
 local function term_winhl(border_on)
   local fb = border_on and (',FloatBorder:' .. term_bg.border_hl 'rosaterm') or ''
-  return term_bg.winhl('rosaterm_dark_bg', true, 'RosatermNormal', fb)
+  return term_bg.winhl('rosaterm', fb)
 end
 
 local function chip_open(term)
@@ -529,7 +533,7 @@ local function compute_geom(term)
     width = w - adj,
     height = area.height - adj - chip_room,
     row = chip_room,
-    col = area.col + area.width - w,
+    col = vertical_side() == 'left' and area.col or (area.col + area.width - w),
   }
 end
 
@@ -570,12 +574,13 @@ reposition_floats = function()
     end
     local new_h_outer_w = area.width - v_outer_w
     local row = area.height - h_outer_h
+    local v_left = vertical_side() == 'left'
     pcall(api.nvim_win_set_config, horizontal.win, {
       relative = 'editor',
       width = new_h_outer_w - adj,
       height = h_outer_h - adj,
       row = row,
-      col = area.col,
+      col = v_left and (area.col + v_outer_w) or area.col,
       border = h_cfg.border,
     })
     pcall(api.nvim_win_set_config, vertical.win, {
@@ -583,7 +588,7 @@ reposition_floats = function()
       width = v_outer_w - adj,
       height = h_outer_h - adj,
       row = row,
-      col = area.col + new_h_outer_w,
+      col = v_left and area.col or (area.col + new_h_outer_w),
       border = v_cfg.border,
     })
     return
@@ -608,7 +613,7 @@ reposition_floats = function()
         width = cfg.width,
         height = area.height - adj - chip_room,
         row = chip_room,
-        col = area.col + area.width - (cfg.width + adj),
+        col = vertical_side() == 'left' and area.col or (area.col + area.width - (cfg.width + adj)),
         border = cfg.border,
       }
     end
@@ -747,7 +752,11 @@ local function open_split(term)
       end
     else
       -- Opening from a normal buffer: pin to the bottom/right at preset size.
-      local cmd = 'botright ' .. term.size .. (term.direction == 'horizontal' and 'split' or 'vsplit')
+      local modifier = 'botright'
+      if term.direction == 'vertical' and vertical_side() == 'left' then
+        modifier = 'topleft'
+      end
+      local cmd = modifier .. ' ' .. term.size .. (term.direction == 'horizontal' and 'split' or 'vsplit')
       vim.cmd(cmd)
       term.win = api.nvim_get_current_win()
     end

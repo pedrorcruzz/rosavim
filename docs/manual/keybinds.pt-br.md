@@ -618,6 +618,56 @@ Quer revisar **tudo** no repositório (suas edições incluídas), não só as d
 
 ---
 
+## Rosavisualmulti (Múltiplos cursores)
+
+Os cursores ficam em extmarks, então acompanham qualquer edição. A sessão termina com `<Esc>` ou quando você troca de arquivo.
+
+**Criando cursores**
+
+| Modo | Tecla | Ação | Exemplo |
+|:----:|:------|:-----|:--------|
+| n | `<C-n>` | Seleciona a palavra sob o cursor e depois cada ocorrência igual | `Ctrl n` em `pedro`, de novo para o próximo `pedro` |
+| x | `<C-n>` | Um cursor por linha da seleção visual | `V j j` e `Ctrl n` para ficar com 3 cursores |
+| n | `<C-Down>` / `<C-Up>` | Adiciona cursor na linha de baixo / de cima, mesma coluna | edição em coluna, ignora o texto |
+| n | `<leader>kva` | Seleciona todas as ocorrências de uma vez | `Space k v a` |
+
+**Gerenciando os cursores**
+
+| Modo | Tecla | Ação | Exemplo |
+|:----:|:------|:-----|:--------|
+| n | `n` / `N` | Adiciona a próxima / anterior ocorrência | `N` também recupera uma ocorrência que você pulou |
+| n | `q` | Pula: solta o cursor atual e pega a próxima ocorrência | mantém a quantidade de cursores |
+| n | `Q` | Remove o cursor atual, sem repor | diminui a quantidade |
+| n | `[` / `]` | Navega entre os cursores que você já tem | não mexe na lista |
+| n | `<Esc>` | Encerra a sessão | |
+
+**Editando em todos os cursores**
+
+| Modo | Tecla | Ação | Exemplo |
+|:----:|:------|:-----|:--------|
+| n | `i` `a` `I` `A` | Insere antes / depois / no início / no fim da linha | o que você digita entra em todos os cursores quando aperta `<Esc>` |
+| n | `c` | Troca a seleção | |
+| n | `d` / `x` | Apaga a seleção | |
+| n | `D` | Apaga as linhas inteiras | |
+| n | `y` / `p` / `P` | Copia / cola por cima / cola antes | |
+| n | `gu` / `gU` / `~` | Minúsculas / maiúsculas / inverte | |
+| n | `.` | Roda um comando normal qualquer em todos os cursores | `ci"novo`, `>>`, `dt,`, `cit` |
+| n | `@` | Roda um macro de um registrador em todos os cursores | |
+
+**Menu e popups**
+
+| Modo | Tecla | Ação | Exemplo |
+|:----:|:------|:-----|:--------|
+| n | `<leader>kvv` | Menu de ações. Os itens mudam conforme exista ou não uma sessão ativa | `Space k v v` |
+| n | `<leader>kvr` | Popup de rename, já preenchido com a palavra selecionada | seleciona todos os `pedro`, reescreve uma vez, todos mudam |
+| n | `<leader>kva` | Seleciona todas as ocorrências | |
+
+Dentro do menu: `/` cursores por regex do vim, `.` comando normal, `@` macro, `l` alinha os cursores, `L` alinha num caractere, `s` surround, `#` numera os cursores, `r` rename.
+
+Toda operação entra num único passo de undo. O bloco de modo do lualine mostra `ROSAVISUALMULTI` com a contagem viva de cursores enquanto a sessão está ativa.
+
+---
+
 ## Rosakit
 
 | Modo | Tecla | Ação | Exemplo |

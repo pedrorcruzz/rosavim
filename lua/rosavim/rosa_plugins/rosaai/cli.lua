@@ -202,7 +202,7 @@ local function panel_is_dark()
     return true
   end
   local ok, term_bg = pcall(require, 'rosavim.helpers.term_bg')
-  return ok and term_bg.is_black('rosaai_dark_bg', true)
+  return ok and term_bg.is_black 'rosaai'
 end
 
 local function start_job(s)
@@ -375,7 +375,7 @@ function M.show(name, pos)
   state.set_slot(pos, win, name)
   state.win = win
   state.active = name
-  require('rosavim.config.toggles').set('rosaai_position', pos)
+  require('rosavim.helpers.panel_side').set_panel(pos, { skip_rosaai = true })
 
   if not s.started then
     start_job(s)

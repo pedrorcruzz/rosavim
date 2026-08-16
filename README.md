@@ -138,6 +138,7 @@ Detailed guides live in [`docs/manual`](docs/manual/):
 | **Rosamaximize** | Maximize the current window and restore the full layout, with a `max` badge and a lualine indicator (configurable via `<leader>lam`) |
 | **Rosazen** | Distraction-free mode: maximizes and centers the current window, hides all UI chrome, keeps floating tools (Rosaterm/RosaAI/Yazi/Lazygit) usable, and persists across sessions |
 | **Rosatag** | Auto close and live rename html/jsx tags, no treesitter parser needed (`<leader>kr` to rename, toggles in `<leader>lat`) |
+| **Rosavisualmulti** | Multi-cursor editing built on extmarks: occurrence (`<C-n>`), column (`<C-Up>`/`<C-Down>`) and regex cursors, insert replicated to every cursor, arbitrary normal commands and macros, align, rename popup, and a dynamic action menu (`<leader>kv`) |
 | **Rosayank** | Persistent yank history (ring buffer) |
 | **Rosasave** | Debounced auto-save |
 | **Rosasweep** | Auto-closes inactive buffers |
@@ -265,6 +266,8 @@ are all supported.
 | `<leader>lf` | Format file |
 | `<leader>xx` | Rosafile menu |
 | `<leader>kk` | Rosakit menu |
+| `<C-n>` | Rosavisualmulti: select word / next occurrence |
+| `<leader>kvv` | Rosavisualmulti menu |
 
 **Git, Test & Debug**
 | Key | Action |

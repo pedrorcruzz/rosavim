@@ -86,7 +86,11 @@ local function create_label(win, char, is_current)
   })
 
   vim.api.nvim_set_option_value('winblend', 0, { win = float })
-  vim.api.nvim_set_option_value('winhighlight', 'NormalFloat:' .. hl .. ',FloatBorder:' .. border_hl, { win = float })
+  vim.api.nvim_set_option_value(
+    'winhighlight',
+    ('Normal:%s,NormalFloat:%s,EndOfBuffer:%s,FloatBorder:%s'):format(hl, hl, hl, border_hl),
+    { win = float }
+  )
 
   return { float = float, buf = buf }
 end

@@ -158,7 +158,7 @@ local function show_current()
     -- stays below yazi/lazygit (70). zindex is create-only, so setting it here
     -- (not on state.geom) survives later resizes.
     state.win = api.nvim_open_win(term.buf, true, vim.tbl_extend('force', state.geom, { zindex = 55 }))
-    vim.wo[state.win].winhl = term_bg.winhl('rosaterm_dark_bg', true, 'RosatermNormal', ',FloatBorder:' .. term_bg.border_hl 'rosaterm')
+    vim.wo[state.win].winhl = term_bg.winhl('rosaterm', ',FloatBorder:' .. term_bg.border_hl 'rosaterm')
     vim.wo[state.win].winbar = ''
   else
     api.nvim_win_set_buf(state.win, term.buf)
@@ -198,7 +198,7 @@ function M.refresh_bg()
   if not win_open() then
     return
   end
-  vim.wo[state.win].winhl = term_bg.winhl('rosaterm_dark_bg', true, 'RosatermNormal', ',FloatBorder:' .. term_bg.border_hl 'rosaterm')
+  vim.wo[state.win].winhl = term_bg.winhl('rosaterm', ',FloatBorder:' .. term_bg.border_hl 'rosaterm')
 end
 
 --- Re-apply geometry to the open float (used when the size preset changes).
