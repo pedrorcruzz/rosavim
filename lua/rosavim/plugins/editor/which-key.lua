@@ -249,7 +249,13 @@ return {
       end,
       desc = 'Split Horizontal',
     },
-    { '<leader>cC', '<cmd>only<cr>', desc = 'Close all Others' },
+    {
+      '<leader>cC',
+      function()
+        require('rosavim.helpers.win_equal').only()
+      end,
+      desc = 'Close all Others',
+    },
     { '<leader>cc', '<cmd>close<cr>', desc = 'Close Window' },
     { '<leader>q', '<cmd>close<cr>', desc = 'Close Window' },
     { '<leader>ch', '<cmd>wincmd H<cr>', desc = 'Swap Left' },
@@ -287,7 +293,7 @@ return {
     {
       '<leader>cr',
       function()
-        require('rosavim.helpers.win_equal').equalize()
+        require('rosavim.helpers.win_equal').reset_all()
       end,
       desc = 'Reset Window Sizes',
     },

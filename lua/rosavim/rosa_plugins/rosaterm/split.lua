@@ -30,9 +30,28 @@ end
 -- splits and closed terminals reserve nothing (real space / gone). Batched so
 -- swapping a slot never flickers the editor's wrap. Mirrors rosaai.
 local function update_reservations()
+  -- Top row of the horizontal terminal's band, when one is open as a float.
+  local band_top = nil
+  for _, t in pairs(terms) do
+    if t.direction == 'horizontal' and term_win_is_open(t) then
+      local cfg = api.nvim_win_get_config(t.win)
+      if cfg.relative and cfg.relative ~= '' then
+        band_top = cfg.row
+      end
+    end
+  end
   reserve.batch(function()
     for _, t in pairs(terms) do
       local win = term_win_is_open(t) and t.win or nil
+      -- A docked vertical panel lives inside rows the horizontal one already
+      -- reserves; claiming its columns too would carve a full-height spacer
+      -- and squeeze the editor into the left half.
+      if win and band_top and t.direction == 'vertical' then
+        local cfg = api.nvim_win_get_config(win)
+        if cfg.relative and cfg.relative ~= '' and cfg.row >= band_top then
+          win = nil
+        end
+      end
       reserve.track('rosaterm:' .. t.id, win, t.direction)
     end
   end)
@@ -325,6 +344,21 @@ local function border_for(direction)
   return toggles.get 'rosaterm_vertical_border'
 end
 
+--- Extra cells a float's border adds around its inner size (0 when borderless).
+local function border_pad(cfg)
+  return (cfg.border and cfg.border ~= 'none') and 2 or 0
+end
+
+--- True when the focused window is a rosaterm float. `:vsplit` from a float
+--- carves the new pane out of the layout BEHIND it, never beside it.
+local function in_rosaterm_float()
+  if vim.bo.filetype ~= 'rosaterm' then
+    return false
+  end
+  local cfg = api.nvim_win_get_config(api.nvim_get_current_win())
+  return cfg.relative ~= nil and cfg.relative ~= ''
+end
+
 --- Sidebar filetypes that should ALWAYS count as side panels regardless
 --- of size (Snacks Explorer, Neotree, NvimTree, oil, etc.). Editor diff
 --- panes / vsplit halves are explicitly NOT sidebars even at 50% width.
@@ -446,7 +480,10 @@ end
 --- it, dock into the sibling's band (and shrink the sibling) instead of
 --- spanning the whole main area.
 local function compute_geom(term)
-  local adj = 2
+  -- Padding follows the border: a forced-float terminal keeps its own
+  -- border preference.
+  local border = border_for(term.direction) and 'rounded' or 'none'
+  local adj = border == 'none' and 0 or 2
   local chip_room = term.direction == 'horizontal' and 0 or 2
 
   local in_term = vim.bo.filetype == 'rosaterm'
@@ -454,8 +491,11 @@ local function compute_geom(term)
 
   if sibling then
     local s_cfg = api.nvim_win_get_config(sibling.win)
-    local has_border = s_cfg.border and s_cfg.border ~= 'none'
-    local b_pad = has_border and 2 or 0
+    local b_pad = border_pad(s_cfg)
+    -- Dock wearing the SIBLING's border: a frame costs 2 cells, so mismatched
+    -- frames draw visibly different boxes at the same outer size. The border
+    -- preference still rules when the panel stands alone.
+    border, adj = s_cfg.border, b_pad
     local s_w = s_cfg.width
     local s_h = s_cfg.height
     local s_row = s_cfg.row
@@ -481,11 +521,11 @@ local function compute_geom(term)
       return {
         relative = 'editor',
         style = 'minimal',
-        border = 'rounded',
+        border = border,
         col = s_col + (s_outer_w - v_w),
         row = s_row,
         width = v_w - adj,
-        height = s_h,
+        height = s_outer_h - adj,
       }
     elseif term.direction == 'horizontal' and sibling.direction == 'vertical' then
       local h_h = math.floor(s_outer_h / 2)
@@ -503,10 +543,10 @@ local function compute_geom(term)
       return {
         relative = 'editor',
         style = 'minimal',
-        border = 'rounded',
+        border = border,
         col = s_col,
         row = s_row + (s_outer_h - h_h),
-        width = s_w,
+        width = s_outer_w - adj,
         height = h_h - adj,
       }
     end
@@ -518,7 +558,7 @@ local function compute_geom(term)
     return {
       relative = 'editor',
       style = 'minimal',
-      border = 'rounded',
+      border = border,
       width = area.width - adj,
       height = h - adj,
       row = area.height - h,
@@ -529,7 +569,7 @@ local function compute_geom(term)
   return {
     relative = 'editor',
     style = 'minimal',
-    border = 'rounded',
+    border = border,
     width = w - adj,
     height = area.height - adj - chip_room,
     row = chip_room,
@@ -562,14 +602,18 @@ reposition_floats = function()
     return
   end
   local area = compute_main_area(open)
-  local adj = 2
 
   if horizontal and vertical then
     local h_cfg = api.nvim_win_get_config(horizontal.win)
     local v_cfg = api.nvim_win_get_config(vertical.win)
-    local h_outer_h = h_cfg.height + adj
-    local v_outer_w = math.min(v_cfg.width + adj, math.floor(area.width / 2))
-    if v_outer_w < 10 then
+    local h_pad = border_pad(h_cfg)
+    local v_pad = border_pad(v_cfg)
+    local h_outer_h = h_cfg.height + h_pad
+    -- Place the divider from the STORED fraction (even halves until an arrow
+    -- moves it). Re-deriving it from the rounded widths every reflow loses a
+    -- column per pass, so the pair walks sideways as the explorer toggles.
+    local v_outer_w = math.floor(area.width * (vertical.band_frac or 0.5) + 0.5)
+    if v_outer_w < 10 or v_outer_w > area.width - 10 then
       v_outer_w = math.floor(area.width / 2)
     end
     local new_h_outer_w = area.width - v_outer_w
@@ -577,16 +621,16 @@ reposition_floats = function()
     local v_left = vertical_side() == 'left'
     pcall(api.nvim_win_set_config, horizontal.win, {
       relative = 'editor',
-      width = new_h_outer_w - adj,
-      height = h_outer_h - adj,
+      width = new_h_outer_w - h_pad,
+      height = h_outer_h - h_pad,
       row = row,
       col = v_left and (area.col + v_outer_w) or area.col,
       border = h_cfg.border,
     })
     pcall(api.nvim_win_set_config, vertical.win, {
       relative = 'editor',
-      width = v_outer_w - adj,
-      height = h_outer_h - adj,
+      width = v_outer_w - v_pad,
+      height = h_outer_h - v_pad,
       row = row,
       col = v_left and area.col or (area.col + new_h_outer_w),
       border = v_cfg.border,
@@ -596,14 +640,15 @@ reposition_floats = function()
 
   for _, t in ipairs(open) do
     local cfg = api.nvim_win_get_config(t.win)
+    local pad = border_pad(cfg)
     local chip_room = t.direction == 'horizontal' and 0 or 2
     local geom
     if t.direction == 'horizontal' then
       geom = {
         relative = 'editor',
-        width = area.width - adj,
+        width = area.width - pad,
         height = cfg.height,
-        row = area.height - (cfg.height + adj),
+        row = area.height - (cfg.height + pad),
         col = area.col,
         border = cfg.border,
       }
@@ -611,14 +656,75 @@ reposition_floats = function()
       geom = {
         relative = 'editor',
         width = cfg.width,
-        height = area.height - adj - chip_room,
+        height = area.height - pad - chip_room,
         row = chip_room,
-        col = vertical_side() == 'left' and area.col or (area.col + area.width - (cfg.width + adj)),
+        col = vertical_side() == 'left' and area.col or (area.col + area.width - (cfg.width + pad)),
         border = cfg.border,
       }
     end
     pcall(api.nvim_win_set_config, t.win, geom)
   end
+end
+
+--- The perpendicular float sharing this one's band. The pair always gets the
+--- same border, so equal row + height identifies it.
+local function docked_partner(term, cfg)
+  for _, t in pairs(terms) do
+    if t ~= term and t.direction ~= term.direction and term_win_is_open(t) then
+      local o = api.nvim_win_get_config(t.win)
+      if o.relative and o.relative ~= '' and o.row == cfg.row and o.height == cfg.height then
+        return t, o
+      end
+    end
+  end
+  return nil
+end
+
+--- Resize a docked pair as one band: left/right moves the shared divider,
+--- up/down moves the band's top edge. Resizing only the focused pane would
+--- slide it over its partner instead of pushing it.
+local function resize_band(term, cfg, partner, p_cfg, dh, dw)
+  if dh ~= 0 then
+    local new_h = cfg.height + dh
+    if new_h < 3 then
+      return false
+    end
+    for _, pair in ipairs { { term, cfg }, { partner, p_cfg } } do
+      local t, c = pair[1], pair[2]
+      c.height = new_h
+      c.row = c.row - dh
+      pcall(api.nvim_win_set_config, t.win, c)
+      if t.direction == 'horizontal' then
+        t.size = new_h + 2
+      end
+    end
+  else
+    local vert, v_cfg, horz, h_cfg = term, cfg, partner, p_cfg
+    if term.direction == 'horizontal' then
+      vert, v_cfg, horz, h_cfg = partner, p_cfg, term, cfg
+    end
+    -- The arrow moves the divider that way, so which pane grows depends on
+    -- the side the vertical panel is docked to.
+    local grow = v_cfg.col > h_cfg.col and dw or -dw
+    local v_new, h_new = v_cfg.width + grow, h_cfg.width - grow
+    if v_new < 10 or h_new < 10 then
+      return false
+    end
+    if v_cfg.col > h_cfg.col then
+      v_cfg.col = v_cfg.col - grow
+    else
+      h_cfg.col = h_cfg.col + grow
+    end
+    v_cfg.width, h_cfg.width = v_new, h_new
+    pcall(api.nvim_win_set_config, vert.win, v_cfg)
+    pcall(api.nvim_win_set_config, horz.win, h_cfg)
+    vert.size = v_new + 2
+    local v_outer = v_new + border_pad(v_cfg)
+    vert.band_frac = v_outer / (v_outer + h_new + border_pad(h_cfg))
+  end
+  update_reservations()
+  vim.schedule(reposition_all_chips)
+  return true
 end
 
 --- Apply a delta resize to a rosaterm float. dh = rows to add to height
@@ -631,6 +737,10 @@ local function resize_term(term, dh, dw)
   local cfg = api.nvim_win_get_config(term.win)
   if not cfg.relative or cfg.relative == '' then
     return false
+  end
+  local partner, p_cfg = docked_partner(term, cfg)
+  if partner then
+    return resize_band(term, cfg, partner, p_cfg, dh, dw)
   end
   local new_w = cfg.width + dw
   local new_h = cfg.height + dh
@@ -666,43 +776,49 @@ local function focused_term()
   return nil
 end
 
---- Public: resize the FOCUSED rosaterm float in an arrow direction. Called
---- from smart-splits' fallback when no native split changed. dir = one of
---- 'up', 'down', 'left', 'right'. Returns true if a terminal was resized.
---- Only the focused float responds: the arrows are mapped globally, so an open
---- but unfocused panel must not swallow them. Mirrors RosaAI.
-function M.resize_arrow(dir)
-  local t = focused_term()
-  if not t then
+--- Resize `term` from an arrow key. A standalone panel answers only its own
+--- axis; a docked pair is one band, so both panes answer all four arrows.
+local function arrow_resize(term, dir)
+  if not term_win_is_open(term) then
     return false
   end
-  if t.direction == 'horizontal' and (dir == 'up' or dir == 'down') then
-    return resize_term(t, dir == 'up' and 1 or -1, 0)
+  local cfg = api.nvim_win_get_config(term.win)
+  if not cfg.relative or cfg.relative == '' then
+    return false
   end
-  if t.direction == 'vertical' and (dir == 'left' or dir == 'right') then
-    return resize_term(t, 0, dir == 'left' and 1 or -1)
+  local vertical_axis = dir == 'up' or dir == 'down'
+  local own_axis = (term.direction == 'horizontal') == vertical_axis
+  if not own_axis and not docked_partner(term, cfg) then
+    return false
   end
-  return false
+  if vertical_axis then
+    return resize_term(term, dir == 'up' and 1 or -1, 0)
+  end
+  return resize_term(term, 0, dir == 'left' and 1 or -1)
 end
 
---- Buffer-local arrow-key resize for rosaterm floats. smart-splits doesn't
---- handle floats; the arrows would otherwise be no-ops inside the terminal.
+--- Resize the FOCUSED rosaterm float. Only the focused one answers, so an open
+--- but unfocused panel never swallows a globally mapped arrow.
+function M.resize_arrow(dir)
+  local t = focused_term()
+  return t ~= nil and arrow_resize(t, dir)
+end
+
+--- Buffer-local arrow resize: smart-splits can't see floats, so the arrows
+--- would be no-ops inside the terminal. A direction the panel can't use falls
+--- back to smart-splits, keeping the key's usual meaning.
 local function setup_resize_keymaps(buf, term)
   local opts = { buffer = buf, silent = true, nowait = true }
   for _, mode in ipairs { 'n', 't' } do
-    if term.direction == 'horizontal' then
-      vim.keymap.set(mode, '<Up>', function()
-        resize_term(term, 1, 0)
-      end, opts)
-      vim.keymap.set(mode, '<Down>', function()
-        resize_term(term, -1, 0)
-      end, opts)
-    else
-      vim.keymap.set(mode, '<Left>', function()
-        resize_term(term, 0, 1)
-      end, opts)
-      vim.keymap.set(mode, '<Right>', function()
-        resize_term(term, 0, -1)
+    for _, dir in ipairs { 'up', 'down', 'left', 'right' } do
+      vim.keymap.set(mode, '<' .. dir .. '>', function()
+        if arrow_resize(term, dir) then
+          return
+        end
+        local ok, ss = pcall(require, 'smart-splits')
+        if ok and type(ss['resize_' .. dir]) == 'function' then
+          pcall(ss['resize_' .. dir])
+        end
       end, opts)
     end
   end
@@ -710,8 +826,12 @@ end
 
 local function open_split(term)
   local border_on = border_for(term.direction)
+  -- Borderless means "native split", but a native split can't dock next to a
+  -- pinned float — it lands underneath. Launching from a float forces float
+  -- mode; the border preference itself is untouched.
+  local float_mode = border_on or in_rosaterm_float()
 
-  if border_on then
+  if float_mode then
     if not term.started then
       term.buf = api.nvim_create_buf(false, true)
       vim.bo[term.buf].bufhidden = 'hide'
@@ -721,11 +841,17 @@ local function open_split(term)
     if not geom then
       return
     end
+    -- compute_geom always docks at even halves; forget any stored split so a
+    -- reflow doesn't immediately snap the fresh pane elsewhere.
+    term.band_frac = nil
     -- Edge-pinned tier (45): a centered float (rosaterm/rosaai float, 55) always
     -- overlays this pinned terminal, and yazi/lazygit (70) stay on top of all.
     -- zindex is create-only, so set it on the open geom without mutating cache.
     term.win = api.nvim_open_win(term.buf, true, vim.tbl_extend('force', geom, { zindex = 45 }))
-    vim.wo[term.win].winhl = term_winhl(true)
+    -- Follow the border the window ACTUALLY got, not the toggle: a docked pane
+    -- inherits its sibling's frame, and without the matching FloatBorder
+    -- highlight it renders visible instead of blending into the terminal bg.
+    vim.wo[term.win].winhl = term_winhl(geom.border and geom.border ~= 'none')
     -- (winbar workaround removed — chip now lands its bottom border on
     -- the float's top border row, so it never covers content row 0.)
     -- A pinned float covers editor cells nvim doesn't know about, so the
@@ -733,7 +859,8 @@ local function open_split(term)
     -- reserves the panel's rows (horizontal) or columns (vertical) so the
     -- cursor parks before it — the buffer still scrolls to reach any cell.
   else
-    -- Native split mode (no border possible — preserves the historical look)
+    -- Native split mode (no border possible — preserves the historical look).
+    -- Only reachable from a native rosaterm split; floats went the branch above.
     local in_terminal = vim.bo.filetype == 'rosaterm'
     if in_terminal then
       -- Split the focused terminal and force EXACTLY equal halves. nvim's
@@ -764,7 +891,7 @@ local function open_split(term)
   vim.wo[term.win].number = false
   vim.wo[term.win].relativenumber = false
   vim.wo[term.win].signcolumn = 'no'
-  if not border_on then
+  if not float_mode then
     vim.wo[term.win].winhl = term_winhl(false)
   end
 
@@ -836,6 +963,39 @@ function M.reload_all(filter_direction)
   end
 end
 
+--- Put every open panel back to its preset size and an even 50/50 band,
+--- dropping any arrow resizing.
+function M.reset_sizes()
+  local sizes = require 'rosavim.rosa_plugins.rosaterm.sizes'
+  local open = {}
+  for _, t in pairs(terms) do
+    t.size = sizes.for_direction(t.direction)
+    t.band_frac = nil
+    if term_win_is_open(t) then
+      local cfg = api.nvim_win_get_config(t.win)
+      if cfg.relative and cfg.relative ~= '' then
+        open[#open + 1] = t
+      end
+    end
+  end
+  if #open == 0 then
+    return
+  end
+  for _, t in ipairs(open) do
+    local cfg = api.nvim_win_get_config(t.win)
+    local pad = border_pad(cfg)
+    if t.direction == 'horizontal' then
+      cfg.height = t.size - pad
+    else
+      cfg.width = t.size - pad
+    end
+    pcall(api.nvim_win_set_config, t.win, cfg)
+  end
+  reposition_floats()
+  update_reservations()
+  vim.schedule(reposition_all_chips)
+end
+
 --- Re-apply the current size preset to every rosaterm split. Open splits are
 --- reloaded so they pick up the new geometry; closed ones just update their
 --- stored size for the next open. Mirrors RosaAI's size picker.
@@ -877,6 +1037,70 @@ function M.toggle(id, direction, size, name)
   end
 
   open_split(term)
+end
+
+--- Every split terminal with a live session, in a stable order.
+function M.list()
+  local out = {}
+  for _, t in pairs(terms) do
+    out[#out + 1] = { id = t.id, name = t.name, direction = t.direction, open = term_win_is_open(t) }
+  end
+  table.sort(out, function(a, b)
+    return a.id < b.id
+  end)
+  return out
+end
+
+--- End a split terminal for good: window, chip, job and buffers. Toggling only
+--- hides the window; this is what the shell exiting would do.
+function M.close(id)
+  local term = terms[id]
+  if not term then
+    return false
+  end
+  if term_win_is_open(term) then
+    bar.detach(term.win)
+    pcall(api.nvim_win_close, term.win, false)
+  end
+  close_chip(term)
+  term.win = nil
+  terms[id] = nil
+  if term.job then
+    pcall(vim.fn.jobstop, term.job)
+  end
+  for _, buf in ipairs { term.chip_buf, term.buf } do
+    if buf and api.nvim_buf_is_valid(buf) then
+      pcall(api.nvim_buf_delete, buf, { force = true })
+    end
+  end
+  update_reservations()
+  vim.schedule(function()
+    reposition_floats()
+    reposition_all_chips()
+  end)
+  return true
+end
+
+--- End the split terminal living in `win`, if any.
+function M.close_win(win)
+  for _, t in pairs(terms) do
+    if t.win == win then
+      return M.close(t.id)
+    end
+  end
+  return false
+end
+
+--- Close every split terminal.
+function M.close_all()
+  local ids = {}
+  for id in pairs(terms) do
+    ids[#ids + 1] = id
+  end
+  for _, id in ipairs(ids) do
+    M.close(id)
+  end
+  return #ids
 end
 
 function M._on_exit(id)

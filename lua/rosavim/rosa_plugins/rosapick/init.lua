@@ -47,7 +47,7 @@ local function setup_highlights()
   end
 end
 
-local function get_windows()
+local function get_windows(filter)
   local wins = {}
   local current = vim.api.nvim_get_current_win()
   for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
@@ -59,7 +59,9 @@ local function get_windows()
     -- would never receive focus. Skip them.
     local is_spacer = vim.bo[buf].filetype == 'rosa_spacer'
     if not is_spacer and (cfg.relative == '' or cfg.focusable ~= false) then
-      table.insert(wins, { id = win, is_current = win == current })
+      if not filter or filter(win, buf) then
+        table.insert(wins, { id = win, is_current = win == current })
+      end
     end
   end
   return wins
@@ -111,10 +113,17 @@ local function create_label(win, char, is_current)
   return { float = float, buf = buf }
 end
 
-function M.select()
-  local wins = get_windows()
-  if #wins <= 1 then
+--- Label every pickable window and return the one whose letter is pressed.
+--- opts.filter(win, buf) narrows the candidates; opts.single returns a lone
+--- match outright instead of bailing out.
+function M.select(opts)
+  opts = opts or {}
+  local wins = get_windows(opts.filter)
+  if #wins == 0 or (#wins == 1 and not opts.single) then
     return nil
+  end
+  if #wins == 1 then
+    return wins[1].id
   end
 
   setup_highlights()

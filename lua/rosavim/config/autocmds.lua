@@ -7,6 +7,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
 local toggles = require 'rosavim.config.toggles'
 
+-- Keep editor panes evenly sized when a sidebar (Snacks Explorer, Trouble, …)
+-- opens or closes over an existing split.
+require('rosavim.helpers.win_equal').watch_sidebars()
+
 -- Trigger the Snacks picker if Neovim is started with a single directory as an argument
 local opened_with_dir = false
 vim.api.nvim_create_autocmd('VimEnter', {

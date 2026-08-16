@@ -304,6 +304,45 @@ api.nvim_create_autocmd('WinClosed', {
   end,
 })
 
+--- Every float terminal session, in cycle order.
+function M.list()
+  local out = {}
+  for i, t in ipairs(state.terms) do
+    out[#out + 1] = { index = i, buf = t.buf, current = i == state.current }
+  end
+  return out
+end
+
+--- End a float terminal session by index, same path the shell exiting takes.
+function M.close(index)
+  local t = state.terms[index]
+  if not t then
+    return false
+  end
+  if t.job then
+    pcall(vim.fn.jobstop, t.job)
+  end
+  M._on_term_exit(t.buf)
+  return true
+end
+
+--- End the terminal the float window is showing, if `win` is that float.
+function M.close_win(win)
+  if not win_open() or state.win ~= win then
+    return false
+  end
+  return M.close(state.current)
+end
+
+--- Close every float terminal (indices shift as they go, so walk backwards).
+function M.close_all()
+  local n = #state.terms
+  for i = n, 1, -1 do
+    M.close(i)
+  end
+  return n
+end
+
 function M._on_term_exit(buf)
   for i, t in ipairs(state.terms) do
     if t.buf == buf then

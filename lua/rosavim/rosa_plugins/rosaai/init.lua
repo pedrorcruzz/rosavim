@@ -81,6 +81,11 @@ function M.refresh_chips()
   cli.refresh_chips()
 end
 
+--- Reset open panels to their preset size.
+function M.reset_sizes()
+  cli.reset_sizes()
+end
+
 function M.relayout()
   cli.relayout()
 end

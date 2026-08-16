@@ -27,6 +27,31 @@ function M.toggle_vertical(id, size, name)
   split.toggle(id or 'v_main', 'vertical', size or 70, name)
 end
 
+--- Pick a rosaterm window with rosapick and end that terminal's session.
+function M.pick_close()
+  local rosapick = require 'rosavim.rosa_plugins.rosapick'
+  local win = rosapick.select {
+    single = true,
+    filter = function(_, buf)
+      return vim.bo[buf].filetype == 'rosaterm'
+    end,
+  }
+  if not win then
+    return
+  end
+  if not float.close_win(win) then
+    split.close_win(win)
+  end
+end
+
+--- End every terminal session, float and split.
+function M.close_all()
+  local n = float.close_all() + split.close_all()
+  if n > 0 then
+    Snacks.notify.info('Rosaterm: closed ' .. n .. ' terminal' .. (n > 1 and 's' or ''))
+  end
+end
+
 --- Re-evaluate chip visibility on float and all splits (called by toggles)
 function M.refresh_chips()
   float.refresh()
@@ -64,6 +89,11 @@ end
 --- through to the rosaterm float when no native split changed.
 function M.resize_arrow(dir)
   return split.resize_arrow(dir)
+end
+
+--- Reset open panels to their preset size.
+function M.reset_sizes()
+  split.reset_sizes()
 end
 
 --- Reload open splits to apply a border-mode change. Pass 'vertical' or

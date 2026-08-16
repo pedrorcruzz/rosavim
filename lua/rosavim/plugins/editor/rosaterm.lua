@@ -50,5 +50,19 @@ return {
       end,
       desc = 'Rosaterm: Horizontal Split',
     },
+    {
+      '<leader>cic',
+      function()
+        require('rosavim.rosa_plugins.rosaterm').pick_close()
+      end,
+      desc = 'Rosaterm: Close Terminal (Pick)',
+    },
+    {
+      '<leader>ciC',
+      function()
+        require('rosavim.rosa_plugins.rosaterm').close_all()
+      end,
+      desc = 'Rosaterm: Close All Terminals',
+    },
   },
 }

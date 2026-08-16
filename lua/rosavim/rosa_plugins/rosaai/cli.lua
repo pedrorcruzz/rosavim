@@ -261,12 +261,12 @@ end
 --- new size as a per-position override (so it survives hide/show/relayout).
 --- Geometry is recomputed through layout so the float stays pinned to its
 --- edge (or centered, for float) instead of drifting.
-local function resize_active(d_w, d_h)
-  local pos = focused_pos()
-  if not pos then
+local function resize_slot(pos, d_w, d_h)
+  local sl = state.slot(pos)
+  if not sl then
     return false
   end
-  local win = state.slot(pos).win
+  local win = sl.win
   local cfg = api.nvim_win_get_config(win)
   if not cfg.relative or cfg.relative == '' then
     return false
@@ -289,45 +289,36 @@ local function resize_active(d_w, d_h)
   return true
 end
 
---- Resize the focused CLI float in an arrow direction, honoring its slot's
---- layout: vertical (right/left) → width, horizontal (bottom) → height,
---- float → both axes (kept centered). Returns true when it handled the
---- resize, so smart-splits can fall through to native splits otherwise.
+--- Arrow -> (d_w, d_h) for a slot's layout: right/left resize width, bottom
+--- resizes height, float does both. nil when the arrow doesn't apply.
+local function arrow_delta(pos, dir)
+  if pos == 'right' then
+    return dir == 'left' and 1 or dir == 'right' and -1 or nil, 0
+  elseif pos == 'left' then
+    return dir == 'right' and 1 or dir == 'left' and -1 or nil, 0
+  elseif pos == 'bottom' then
+    if dir == 'up' or dir == 'down' then
+      return 0, dir == 'up' and 1 or -1
+    end
+  elseif pos == 'float' then
+    if dir == 'left' or dir == 'right' then
+      return dir == 'right' and 2 or -2, 0
+    elseif dir == 'up' or dir == 'down' then
+      return 0, dir == 'up' and 1 or -1
+    end
+  end
+  return nil
+end
+
+--- Resize the FOCUSED CLI float in an arrow direction. Returns true when it
+--- handled the resize, so smart-splits can fall through otherwise.
 function M.resize_arrow(dir)
   local pos = focused_pos()
   if not pos then
     return false
   end
-  if pos == 'right' then
-    if dir == 'left' then
-      return resize_active(1, 0)
-    elseif dir == 'right' then
-      return resize_active(-1, 0)
-    end
-  elseif pos == 'left' then
-    if dir == 'right' then
-      return resize_active(1, 0)
-    elseif dir == 'left' then
-      return resize_active(-1, 0)
-    end
-  elseif pos == 'bottom' then
-    if dir == 'up' then
-      return resize_active(0, 1)
-    elseif dir == 'down' then
-      return resize_active(0, -1)
-    end
-  elseif pos == 'float' then
-    if dir == 'left' then
-      return resize_active(-2, 0)
-    elseif dir == 'right' then
-      return resize_active(2, 0)
-    elseif dir == 'up' then
-      return resize_active(0, 1)
-    elseif dir == 'down' then
-      return resize_active(0, -1)
-    end
-  end
-  return false
+  local d_w, d_h = arrow_delta(pos, dir)
+  return d_w ~= nil and resize_slot(pos, d_w, d_h)
 end
 
 --- Show a CLI tool's terminal in the given layout slot (defaults to the last
@@ -1127,6 +1118,12 @@ end
 --- change). Re-opens each CLI in its OWN position, leaving the set of visible
 --- slots unchanged. No-op when nothing is visible — toggles never open a CLI
 --- on their own (the user must trigger it via <leader>aa/av/ah/af).
+--- Drop the arrow-resize overrides, re-apply the preset geometry everywhere.
+function M.reset_sizes()
+  layout.clear_overrides()
+  M.relayout()
+end
+
 function M.relayout()
   local shown = {}
   state.each_slot(function(pos, _, name)
