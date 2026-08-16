@@ -147,9 +147,6 @@ Bordas de which-key disponíveis: `none`, `single`, `double`, `shadow`
 |:-------|:-------|:-------|
 | `<leader>lqat` | Chip de título (mostrar/esconder) | Ativado |
 | `<leader>lqah` | Relógio no chip (mostrar/esconder) | Ativado |
-| `<leader>lqai` | Auto Insert ao abrir, focar ou enviar para o CLI | Ativado |
-| `<leader>lqaf` | Auto Focus ao enviar mensagem | Ativado |
-| `<leader>lqar` | Auto Review — abre o painel de review automaticamente após a IA terminar de editar arquivos | Desativado |
 | `<leader>lqas` | Picker de tema (popup) | garland |
 | `<leader>lqap` | Picker de posição (popup) | right |
 | `<leader>lqaz` | Picker de tamanho (popup) | default |
@@ -162,6 +159,22 @@ Temas RosaAI disponíveis: `bloom`, `petal`, `garland`, `stem`
 Posições RosaAI disponíveis: `right`, `left`, `bottom`, `float`
 
 Tamanhos RosaAI disponíveis: `compact`, `default`, `wide`
+
+### Config do RosaAI (`<leader>laa`)
+
+Comportamento, não aparência — o visual continua em `<leader>lqa`.
+
+| Atalho | Toggle | Padrão |
+|:-------|:-------|:-------|
+| `<leader>laai` | Auto Insert ao abrir, focar ou enviar para o CLI | Ativado |
+| `<leader>laaf` | Auto Focus ao enviar mensagem | Ativado |
+
+Os toggles de Review ficam junto do resto da feature, em `<leader>a`:
+
+| Atalho | Toggle | Padrão |
+|:-------|:-------|:-------|
+| `<leader>aR` | Review — chave mestra da feature de Review inteira | Ativado |
+| `<leader>aA` | Auto Review — abre o painel de review automaticamente após a IA terminar de editar arquivos | Desativado |
 
 ### Editor (`<leader>lae`)
 
@@ -190,7 +203,6 @@ Tamanhos RosaAI disponíveis: `compact`, `default`, `wide`
 |:-------|:-------|:-------|
 | `<leader>lqrt` | Chip de título (mostrar/esconder) | Ativado |
 | `<leader>lqrh` | Relógio no chip (mostrar/esconder) | Ativado |
-| `<leader>lqri` | Auto Insert ao abrir o terminal | Ativado |
 | `<leader>lqrn` | Nome exibido: `Rosaterm` vs `Terminal` | Rosaterm |
 | `<leader>lqrc` | Ícone do chip (mostrar/esconder) | Ativado |
 | `<leader>lqrC` | Picker de estilo do ícone (Rosa / Terminal) | Terminal |
@@ -201,6 +213,15 @@ Tamanhos RosaAI disponíveis: `compact`, `default`, `wide`
 | `<leader>lqrd` / `<leader>lqrD` | Fundo Escuro — força #000 no modo claro / escuro (senão bg do tema) | Ativado / Desativado |
 
 Temas rosaterm disponíveis: `bloom`, `petal`, `garland`, `stem`
+
+### Config do Rosaterm (`<leader>lar`)
+
+Comportamento, não aparência — o visual continua em `<leader>lqr`.
+
+| Atalho | Toggle | Padrão |
+|:-------|:-------|:-------|
+| `<leader>lari` | Auto Insert ao abrir o terminal | Ativado |
+| `<leader>larf` | Focus Insert — `<leader>1`..`<leader>4` entra em insert no terminal (desligado = fica no normal) | Ativado |
 
 ### Rosamaximize (`<leader>lam`)
 

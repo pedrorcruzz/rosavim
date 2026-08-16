@@ -44,6 +44,15 @@ function M.pick_close()
   end
 end
 
+--- End the terminal living in `win`, float or split. Returns false when the
+--- window isn't a rosaterm.
+function M.close_win(win)
+  if float.close_win(win) then
+    return true
+  end
+  return split.close_win(win) and true or false
+end
+
 --- End every terminal session, float and split.
 function M.close_all()
   local n = float.close_all() + split.close_all()
@@ -60,7 +69,7 @@ end
 
 --- Size popup (compact / default / wide) — per-mode, real-time. Float,
 --- vertical and horizontal each keep their own preset; 'a' changes all. The
---- popup stays open and applies every change live. Mirrors RosaAI's <leader>lqaz.
+--- popup stays open and applies every change live. Mirrors RosaAI's size picker.
 function M.pick_size()
   local sizes = require 'rosavim.rosa_plugins.rosaterm.sizes'
   require('rosavim.helpers.size_popup').open {
@@ -103,7 +112,7 @@ function M.reload_splits(direction)
 end
 
 --- Re-apply the terminal bg on the open float + all splits (called when the
---- rosaterm_dark_bg toggle <leader>lqrd flips).
+--- rosaterm_dark_bg toggle flips).
 function M.refresh_bg()
   float.refresh_bg()
   split.reload_all()

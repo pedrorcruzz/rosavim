@@ -5,8 +5,8 @@ local cache_file = vim.fn.stdpath 'cache' .. '/rosavim-toggles'
 local defaults = {
   lualine = true,
   lualine_theme = true,
-  lualine_separator = 'rounded', -- rounded | bar | arrow | slant (<leader>lqg)
-  lualine_bar_y_transparent = true, -- true (default) = y/centre bar transparent, blends with theme bg; false = original solid #1a1a1a bar (<leader>lqy)
+  lualine_separator = 'rounded', -- rounded | bar | arrow | slant
+  lualine_bar_y_transparent = true, -- true (default) = y/centre bar transparent, blends with theme bg; false = original solid #1a1a1a bar
   -- Borderless: paint a tool's borders the same colour as its bg, in every
   -- rosa theme. One per tool, All flips them together. See
   -- rosavim.config.borderless.
@@ -18,7 +18,7 @@ local defaults = {
   borderless_rosaai = false,
   borderless_notify = false,
   -- Invert Backgrounds: swap a theme's editor surface with its explorer/tab
-  -- chrome surface. One per theme (<leader>lqij / lqim / lqiv), see
+  -- chrome surface. One per theme, see
   -- rosavim.config.invert_bg.
   rosajet_invert = false,
   rosamin_invert = false,
@@ -47,7 +47,7 @@ local defaults = {
   lsp_ref_highlights = true,
   dbout_no_folding = true,
   copilot = false,
-  copilot_lualine = true, -- show the copilot icon on lualine (<leader>ail)
+  copilot_lualine = true, -- show the copilot icon on lualine
   incline = true,
   bufferline = true,
   picker_hidden = false,
@@ -69,21 +69,21 @@ local defaults = {
   rosaai_auto_focus = true,
   rosaai_vertical_border = true,
   rosaai_horizontal_border = true,
-  rosaai_dark_bg = true, -- light mode: force #000 (<leader>lqad)
-  rosaai_dark_bg_dm = false, -- dark mode: force #000 (<leader>lqaD)
-  rosaai_review = true, -- master switch for the Review feature (<leader>lqaR)
-  rosaai_auto_review = false, -- auto-open the AI-changes review (<leader>lqar)
-  rosaai_review_badge = true, -- show the pending-review count on the chip (<leader>lqac)
+  rosaai_dark_bg = true, -- light mode: force #000
+  rosaai_dark_bg_dm = false, -- dark mode: force #000
+  rosaai_review = true, -- master switch for the Review feature
+  rosaai_auto_review = false, -- auto-open the AI-changes review
+  rosaai_review_badge = true, -- show the pending-review count on the chip
   -- Rosamaximize
-  rosamaximize_lualine = true, -- show the zoom indicator on lualine (<leader>laml)
-  rosamaximize_badge = true, -- show the floating zoom badge on the buffer (<leader>lamb)
-  rosamaximize_name = true, -- show the "max" text (true) or icon only (false) (<leader>lamn)
-  rosamaximize_border = 'rounded', -- badge border: none | rounded | single (<leader>lqx)
-  -- Rosazen (distraction-free mode) — persisted across sessions (<leader>lz)
+  rosamaximize_lualine = true, -- show the zoom indicator on lualine
+  rosamaximize_badge = true, -- show the floating zoom badge on the buffer
+  rosamaximize_name = true, -- show the "max" text (true) or icon only (false)
+  rosamaximize_border = 'rounded', -- badge border: none | rounded | single
+  -- Rosazen (distraction-free mode) — persisted across sessions
   rosazen = false,
   git_blame = true,
   render_markdown = true,
-  render_markdown_theme = 'none', -- none | lazy | obsidian (<leader>lqm)
+  render_markdown_theme = 'none', -- none | lazy | obsidian
   image_preview = false,
   -- Todo Comments
   todo_comments = true,
@@ -94,22 +94,23 @@ local defaults = {
   rosaterm_time = true,
   rosaterm_theme = 'garland',
   rosaterm_size = 'default',
-  rosaterm_autoinsert = true,
+  rosaterm_autoinsert = true, -- insert mode when a terminal opens
+  rosaterm_focus_insert = true, -- insert mode when focus lands on it
   rosaterm_vertical_border = false,
   rosaterm_horizontal_border = false,
   rosaterm_name_full = true,
   rosaterm_icon_visible = true,
   rosaterm_icon_style = 'terminal', -- 'rosa' | 'terminal'
-  rosaterm_dark_bg = true, -- light mode: force #000 (<leader>lqrd)
-  rosaterm_dark_bg_dm = false, -- dark mode: force #000 (<leader>lqrD)
+  rosaterm_dark_bg = true, -- light mode: force #000
+  rosaterm_dark_bg_dm = false, -- dark mode: force #000
   -- Rosatag
-  rosatag_close = true, -- auto close tag (<leader>latc)
-  rosatag_rename = true, -- auto live rename tag (<leader>latr)
+  rosatag_close = true, -- auto close tag
+  rosatag_rename = true, -- auto live rename tag
   -- Yazi / Lazygit background overrides (force #000, same light+dark scheme)
-  yazi_dark_bg = true, -- light mode: force #000 (<leader>lqfy)
-  yazi_dark_bg_dm = false, -- dark mode: force #000 (<leader>lqfY)
-  lazygit_dark_bg = true, -- light mode: force #000 (<leader>lqfg)
-  lazygit_dark_bg_dm = false, -- dark mode: force #000 (<leader>lqfG)
+  yazi_dark_bg = true, -- light mode: force #000
+  yazi_dark_bg_dm = false, -- dark mode: force #000
+  lazygit_dark_bg = true, -- light mode: force #000
+  lazygit_dark_bg_dm = false, -- dark mode: force #000
   -- Dropbar
   dropbar_compact = false, -- false = full path (16 segments), true = parent + filename only
   dropbar_path_preview = true,

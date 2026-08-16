@@ -109,8 +109,8 @@ function M.current_size(pos)
 end
 
 --- Float window border. Per-orientation toggles:
---- - vertical (right/left/float) → rosaai_vertical_border (<leader>lqab)
---- - horizontal (bottom)         → rosaai_horizontal_border (<leader>lqaB)
+--- - vertical (right/left/float) → rosaai_vertical_border
+--- - horizontal (bottom)         → rosaai_horizontal_border
 --- When the relevant toggle is off, force 'none' regardless of theme.
 function M.current_border(pos)
   pos = pos or M.current_position()
@@ -362,7 +362,7 @@ function M.open(buf, prev_win, pos)
   vim.wo[win].number = false
   vim.wo[win].relativenumber = false
   vim.wo[win].signcolumn = 'no'
-  -- Light mode: force #000 when rosaai_dark_bg is on (<leader>lqad). Defaults
+  -- Light mode: force #000 when rosaai_dark_bg is on. Defaults
   -- off, so the CLI follows the theme's light bg until the user opts in.
   vim.wo[win].winhl = term_bg.winhl('rosaai', ',FloatBorder:' .. term_bg.border_hl 'rosaai' .. ',WinBar:Normal,WinBarNC:Normal')
   vim.wo[win].winbar = ''

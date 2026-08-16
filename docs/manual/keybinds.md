@@ -135,7 +135,8 @@
 | n | `<leader>cq` | Split vertical | `Space c q` to create a vertical split |
 | n | `<leader>ce` | Split horizontal | `Space c e` to create a horizontal split |
 | n | `<leader>cc` | Close window | `Space c c` to close the current window |
-| n | `<leader>cC` | Close all others | `Space c Shift+c` to close all windows except the current one |
+| n | `<leader>cC` | Close other editor windows | `Space c Shift+c` to close the other editor windows, leaving the sidebars and the panels alone |
+| n | `<leader>C` | Close everything else | `Space Shift+c` to leave only the focused window - it also takes the Rosaterm and RosaAI panels, the other sidebars and any stray float. The Snacks explorer is the one exception and stays open. Focused on a panel, one editor pane stays behind (Neovim always keeps a native window) |
 | n | `<leader>ch` | Swap left | `Space c h` to swap the current window to the left |
 | n | `<leader>cl` | Swap right | `Space c l` to swap the current window to the right |
 | n | `<leader>ck` | Swap up | `Space c k` to swap the current window up |
@@ -145,10 +146,10 @@
 | n | `<leader>c3` | Resize up 1/3 | Resize the current window to occupy 1/3 from the top |
 | n | `<leader>c4` | Resize down 2/3 | Resize the current window to occupy 2/3 from the bottom |
 | n | `<leader>cr` | Reset window sizes | Reset all windows to equal sizes |
-| n | `<leader>1` | Focus left window | `Space 1` to jump to the left window |
-| n | `<leader>2` | Focus right window | `Space 2` to jump to the right window |
-| n | `<leader>3` | Focus bottom window | `Space 3` to jump to the bottom window |
-| n | `<leader>4` | Focus top window | `Space 4` to jump to the top window |
+| n | `<leader>1` | Focus left window | `Space 1` to jump to the left window, including a Rosaterm/RosaAI panel docked there |
+| n | `<leader>2` | Focus right window | `Space 2` to jump to the right window, including a Rosaterm/RosaAI panel docked there |
+| n | `<leader>3` | Focus bottom window | `Space 3` to jump to the bottom window, including a Rosaterm/RosaAI panel docked there |
+| n | `<leader>4` | Focus top window | `Space 4` to jump to the top window, including a Rosaterm/RosaAI panel docked there |
 | n | `<leader>cm` | Rosamaximize | `Space c m` to maximize the current window or restore the layout (shows a `max` badge + lualine indicator) |
 | n | `<leader>m` | Pick a window | `Space m` to visually pick which window to focus |
 
@@ -326,6 +327,8 @@ Native AI CLI integration for Claude, Cursor, OpenClaude, OpenCode, Gemini and f
 | n | `<leader>ag` | Toggle Gemini | Open/hide `gemini` |
 | n | `<leader>ar` | Review AI Changes | `Space a r` to open/toggle the review of **AI-only** edits (green/red inline diffs + overview panel) |
 | n | `<leader>ab` | Mark Review Baseline | `Space a b` to manually set the "before" point the review compares against |
+| n | `<leader>aR` | Review (master switch) | `Space a R` to enable/disable the whole Review feature - when off, `<leader>ar` / `<leader>ab` are removed and no baseline is captured (persisted) |
+| n | `<leader>aA` | Auto Review | `Space a A` to auto-open the review panel after the AI finishes editing files (persisted, off by default) |
 
 Inside the CLI terminal: single `<Esc>` exits to nvim normal mode; double `<Esc>` within 300ms sends a literal `ESC` to the CLI (cancel current operation). In **normal mode** the arrow keys resize the window (vertical → width, horizontal → height, float → both axes, kept centered); the size persists per position until you pick a named size preset. The arrows stay free for the CLI itself while in terminal/insert mode. While RosaAI is focused, the lualine mode block shows `ROSAAI`.
 

@@ -49,6 +49,7 @@ return {
 
       { '<leader>l', group = 'Tools', icon = ' ' },
       { '<leader>q', desc = 'Close Window', icon = '󰅖 ' },
+      { '<leader>C', desc = 'Close Everything Else', icon = ' ' },
       { '<leader>lo', desc = 'Rosasnippets', icon = '󰷆 ' },
       { '<leader>lq', group = 'Theme', icon = '' },
       { '<leader>lqd', group = 'Dashboard', icon = '' },
@@ -80,6 +81,8 @@ return {
       { '<leader>lau', group = 'Dropbar', icon = '󰜢 ' },
       { '<leader>lam', group = 'Rosamaximize', icon = '󰊓 ' },
       { '<leader>lat', group = 'Rosatag', icon = '󰗀 ' },
+      { '<leader>lar', group = 'Rosaterm', icon = '' },
+      { '<leader>laa', group = 'RosaAI', icon = ' ' },
 
       -- Rosakit
       { '<leader>k', group = 'Rosakit', icon = ' ' },
@@ -112,6 +115,15 @@ return {
     { '<leader>w', '<cmd>w!<cr>', desc = 'Save' },
     { '<leader>W', '<cmd>noa w<cr>', desc = 'Save Without Formatter' },
     { '<leader>h', '<cmd>nohlsearch<cr>', desc = 'No Highlight' },
+    {
+      '<leader>C',
+      function()
+        if require('rosavim.helpers.win_equal').only_all() > 0 then
+          Snacks.notify.info 'Closed all windows'
+        end
+      end,
+      desc = 'Close Everything Else',
+    },
     {
       '<leader>Q',
       function()
@@ -254,7 +266,7 @@ return {
       function()
         require('rosavim.helpers.win_equal').only()
       end,
-      desc = 'Close all Others',
+      desc = 'Close Other Editor Windows',
     },
     { '<leader>cc', '<cmd>close<cr>', desc = 'Close Window' },
     { '<leader>q', '<cmd>close<cr>', desc = 'Close Window' },

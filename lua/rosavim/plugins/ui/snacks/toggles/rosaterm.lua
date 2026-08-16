@@ -40,7 +40,19 @@ return function()
     set = function(state)
       toggles.set('rosaterm_autoinsert', state)
     end,
-  }):map '<leader>lqri'
+  }):map '<leader>lari'
+
+  -- Insert mode when directional focus lands on a terminal, vs staying in normal
+  Snacks.toggle({
+    name = 'Rosaterm Focus Insert',
+    wk_desc = { enabled = 'Disable ', disabled = 'Enable ' },
+    get = function()
+      return toggles.get 'rosaterm_focus_insert'
+    end,
+    set = function(state)
+      toggles.set('rosaterm_focus_insert', state)
+    end,
+  }):map '<leader>larf'
 
   -- Display name: ON = "Rosaterm", OFF = "Terminal"
   Snacks.toggle({
@@ -166,7 +178,7 @@ return function()
     end,
   }):map '<leader>lqrD'
 
-  -- Size picker (popup): compact / default / wide — like RosaAI's <leader>lqaz
+  -- Size picker (popup): compact / default / wide
   vim.keymap.set('n', '<leader>lqrz', function()
     require('rosavim.rosa_plugins.rosaterm').pick_size()
   end, { desc = 'Rosaterm: Select Size' })

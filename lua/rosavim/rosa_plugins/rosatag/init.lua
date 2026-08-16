@@ -1,5 +1,5 @@
 --- Rosatag - auto close and live rename html/jsx tags, part of Rosakit.
---- Text scanning only, no treesitter parser needed. Toggles: <leader>lat.
+--- Text scanning only, no treesitter parser needed.
 local M = {}
 
 local api = vim.api

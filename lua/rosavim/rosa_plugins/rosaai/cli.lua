@@ -480,7 +480,7 @@ local function show_layout_picker(on_pick)
   vim.keymap.set('n', 'q', close, kopts)
 end
 
---- Pick a CLI via vim.ui.select (matches the `<leader>as` flow).
+--- Pick a CLI via vim.ui.select (matches the CLI-picker flow).
 --- `items` is an array of { name = string, tool = table }.
 --- No `stopinsert` here — the picker's input field should open in insert
 --- mode so the user can type to filter. The layout picker is different;
@@ -563,7 +563,7 @@ end
 ---  - 1 alive session  → use it, no picker
 ---  - 2+ alive          → pick from the alive (open) ones
 --- Calls on_pick(name) with the chosen CLI. Used by the layout-open keys so
---- they mirror <leader>aa instead of always defaulting to the first tool.
+--- they mirror the default-CLI keybind instead of always defaulting to the first tool.
 local function select_cli_then(on_pick)
   local alive = state.alive()
   local count, only_name = 0, nil
@@ -703,7 +703,19 @@ function M.kill(name)
   state.remove(name)
 end
 
---- <leader>ad — pick one of the ALIVE CLIs (visible or hidden) and kill it.
+--- Kill the CLI whose slot occupies `win`. Returns false when the window
+--- isn't a RosaAI slot.
+function M.close_win(win)
+  local pos = state.pos_of_win(win)
+  local sl = pos and state.slots[pos]
+  if not sl then
+    return false
+  end
+  M.kill(sl.name)
+  return true
+end
+
+--- Pick one of the ALIVE CLIs (visible or hidden) and kill it.
 --- With a single alive CLI it kills straight away; with none it just warns.
 function M.close_pick()
   local items = {}
@@ -1438,7 +1450,7 @@ api.nvim_create_autocmd('WinLeave', {
 -- autocmd that keys off the 'background' option: a light colorscheme reports a
 -- WHITE background. TUIs like Cursor Agent query this to auto-theme, so on a
 -- light theme they paint a light input box even though our CLI float is forced
--- dark (rosaai_dark_bg / <leader>lqad). winhl can't change the OSC answer, and
+-- dark (rosaai_dark_bg). winhl can't change the OSC answer, and
 -- COLORFGBG is only a fallback the app uses when the query goes unanswered.
 -- So we replace Nvim's stock responder with one that reports DARK for our
 -- forced-dark CLI terminals, and preserves stock behavior for every other

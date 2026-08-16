@@ -147,9 +147,6 @@ Available which-key borders: `none`, `single`, `double`, `shadow`
 |:---------|:-------|:--------|
 | `<leader>lqat` | Title chip (show/hide) | On |
 | `<leader>lqah` | Time in chip (show/hide) | On |
-| `<leader>lqai` | Auto Insert when opening, focusing or sending to a CLI | On |
-| `<leader>lqaf` | Auto Focus when sending a message | On |
-| `<leader>lqar` | Auto Review — auto-open the review panel after the AI finishes editing files | Off |
 | `<leader>lqas` | Theme picker (popup) | garland |
 | `<leader>lqap` | Position picker (popup) | right |
 | `<leader>lqaz` | Size picker (popup) | default |
@@ -162,6 +159,22 @@ Available RosaAI themes: `bloom`, `petal`, `garland`, `stem`
 Available RosaAI positions: `right`, `left`, `bottom`, `float`
 
 Available RosaAI sizes: `compact`, `default`, `wide`
+
+### RosaAI Config (`<leader>laa`)
+
+Behaviour, not appearance — the looks stay under `<leader>lqa`.
+
+| Shortcut | Toggle | Default |
+|:---------|:-------|:--------|
+| `<leader>laai` | Auto Insert when opening, focusing or sending to a CLI | On |
+| `<leader>laaf` | Auto Focus when sending a message | On |
+
+The Review toggles live with the rest of the feature, under `<leader>a`:
+
+| Shortcut | Toggle | Default |
+|:---------|:-------|:--------|
+| `<leader>aR` | Review — master switch for the whole Review feature | On |
+| `<leader>aA` | Auto Review — auto-open the review panel after the AI finishes editing files | Off |
 
 ### Editor (`<leader>lae`)
 
@@ -190,7 +203,6 @@ Available RosaAI sizes: `compact`, `default`, `wide`
 |:---------|:-------|:--------|
 | `<leader>lqrt` | Title chip (show/hide) | On |
 | `<leader>lqrh` | Time in chip (show/hide) | On |
-| `<leader>lqri` | Auto Insert when opening a terminal | On |
 | `<leader>lqrn` | Display name: `Rosaterm` vs `Terminal` | Rosaterm |
 | `<leader>lqrc` | Chip icon (show/hide) | On |
 | `<leader>lqrC` | Chip icon style picker (Rosa / Terminal) | Terminal |
@@ -201,6 +213,15 @@ Available RosaAI sizes: `compact`, `default`, `wide`
 | `<leader>lqrd` / `<leader>lqrD` | Dark Background — force #000 in light / dark mode (else theme bg) | On / Off |
 
 Available rosaterm themes: `bloom`, `petal`, `garland`, `stem`
+
+### Rosaterm Config (`<leader>lar`)
+
+Behaviour, not appearance — the looks stay under `<leader>lqr`.
+
+| Shortcut | Toggle | Default |
+|:---------|:-------|:--------|
+| `<leader>lari` | Auto Insert when opening a terminal | On |
+| `<leader>larf` | Focus Insert — `<leader>1`..`<leader>4` enters insert on a terminal (off = stay in normal) | On |
 
 ### Rosamaximize (`<leader>lam`)
 

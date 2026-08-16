@@ -135,7 +135,8 @@
 | n | `<leader>cq` | Split vertical | `Space c q` para criar um split vertical |
 | n | `<leader>ce` | Split horizontal | `Space c e` para criar um split horizontal |
 | n | `<leader>cc` | Fechar janela | `Space c c` para fechar a janela atual |
-| n | `<leader>cC` | Fechar todas as outras | `Space c Shift+c` para fechar todas as janelas exceto a atual |
+| n | `<leader>cC` | Fechar as outras do editor | `Space c Shift+c` para fechar as outras janelas do editor, sem mexer nas sidebars nem nos painéis |
+| n | `<leader>C` | Fechar todo o resto | `Space Shift+c` para deixar só a janela focada - leva também os painéis Rosaterm e RosaAI, as outras sidebars e qualquer float perdido. O explorer do Snacks é a única exceção e continua aberto. Com o foco num painel, sobra um painel do editor (o Neovim sempre mantém uma janela nativa) |
 | n | `<leader>ch` | Trocar esquerda | `Space c h` para trocar a janela atual para a esquerda |
 | n | `<leader>cl` | Trocar direita | `Space c l` para trocar a janela atual para a direita |
 | n | `<leader>ck` | Trocar acima | `Space c k` para trocar a janela atual para cima |
@@ -145,10 +146,10 @@
 | n | `<leader>c3` | Redimensionar cima 1/3 | Redimensionar a janela atual para ocupar 1/3 de cima |
 | n | `<leader>c4` | Redimensionar baixo 2/3 | Redimensionar a janela atual para ocupar 2/3 de baixo |
 | n | `<leader>cr` | Resetar tamanhos | Resetar todas as janelas para tamanhos iguais |
-| n | `<leader>1` | Focar janela esquerda | `Space 1` para ir para a janela da esquerda |
-| n | `<leader>2` | Focar janela direita | `Space 2` para ir para a janela da direita |
-| n | `<leader>3` | Focar janela inferior | `Space 3` para ir para a janela de baixo |
-| n | `<leader>4` | Focar janela superior | `Space 4` para ir para a janela de cima |
+| n | `<leader>1` | Focar janela esquerda | `Space 1` para ir para a janela da esquerda, incluindo um painel Rosaterm/RosaAI ancorado ali |
+| n | `<leader>2` | Focar janela direita | `Space 2` para ir para a janela da direita, incluindo um painel Rosaterm/RosaAI ancorado ali |
+| n | `<leader>3` | Focar janela inferior | `Space 3` para ir para a janela de baixo, incluindo um painel Rosaterm/RosaAI ancorado ali |
+| n | `<leader>4` | Focar janela superior | `Space 4` para ir para a janela de cima, incluindo um painel Rosaterm/RosaAI ancorado ali |
 | n | `<leader>cm` | Rosamaximize | `Space c m` para maximizar a janela atual ou restaurar o layout (mostra um badge `max` + indicador na lualine) |
 | n | `<leader>m` | Escolher uma janela | `Space m` para escolher visualmente qual janela focar |
 
@@ -326,6 +327,8 @@ Integração nativa com CLIs de IA (Claude, Cursor, OpenClaude, OpenCode, Gemini
 | n | `<leader>ag` | Alternar Gemini | Abrir/esconder `gemini` |
 | n | `<leader>ar` | Revisar Mudanças da IA | `Space a r` para abrir/alternar a revisão das edições **só da IA** (diffs inline verde/vermelho + painel de visão geral) |
 | n | `<leader>ab` | Marcar Baseline do Review | `Space a b` para definir manualmente o ponto "antes" com que o review compara |
+| n | `<leader>aR` | Review (chave mestra) | `Space a R` para ligar/desligar a feature de Review inteira - desligada, `<leader>ar` / `<leader>ab` somem e nenhum baseline é capturado (persistido) |
+| n | `<leader>aA` | Auto Review | `Space a A` para abrir o painel de review automaticamente depois que a IA termina de editar arquivos (persistido, desligado por padrão) |
 
 Dentro do terminal do CLI: um `<Esc>` sai pro modo normal do nvim; `<Esc> <Esc>` em 300ms envia ESC literal pro CLI (cancela operação corrente). No **modo normal**, as setas redimensionam a janela (vertical → largura, horizontal → altura, float → ambos os eixos, mantida centralizada); o tamanho persiste por posição até você escolher um preset de tamanho. No modo terminal/inserção as setas continuam livres pro próprio CLI. Com o RosaAI focado, o bloco de modo do lualine mostra `ROSAAI`.
 

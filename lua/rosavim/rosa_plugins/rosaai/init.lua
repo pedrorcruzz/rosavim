@@ -39,6 +39,11 @@ function M.close_pick()
   cli.close_pick()
 end
 
+--- Kill the CLI whose slot occupies `win`, if any.
+function M.close_win(win)
+  return cli.close_win(win)
+end
+
 --- Kill every running CLI.
 function M.close_all()
   cli.close_all()
@@ -120,7 +125,7 @@ function M.mark_baseline()
   end)
 end
 
---- Create or remove the global review keybinds (<leader>ar / <leader>ab) based
+--- Create or remove the global review keybinds based
 --- on the master `rosaai_review` toggle, so they disappear from which-key when
 --- the feature is off. Called at startup and whenever the toggle flips.
 function M.apply_review_keymaps()

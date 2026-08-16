@@ -124,6 +124,78 @@ function M.only()
   M.equalize()
 end
 
+--- The Snacks explorer is not one window and none of its windows carries a
+--- `snacks_explorer` filetype: it's a native `snacks_layout_box` column
+--- framing the picker's list and input, which are floats. Ask Snacks whether
+--- an explorer is actually up, then spare every window of that shape.
+local EXPLORER_FILETYPES = {
+  ['snacks_layout_box'] = true,
+  ['snacks_picker_list'] = true,
+  ['snacks_picker_input'] = true,
+  ['snacks_explorer'] = true,
+}
+
+local function explorer_wins()
+  local keep = {}
+  local ok, pickers = pcall(function()
+    return Snacks.picker.get { source = 'explorer' }
+  end)
+  -- No explorer up: a plain picker's windows are fair game. If the query
+  -- itself failed, spare them — losing the explorer is the worse outcome.
+  if ok and (not pickers or #pickers == 0) then
+    return keep
+  end
+  for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+    if EXPLORER_FILETYPES[vim.bo[vim.api.nvim_win_get_buf(win)].filetype] then
+      keep[win] = true
+    end
+  end
+  return keep
+end
+
+--- Everything `only()` spares, gone too: the other sidebars, the stray floats
+--- and the Rosaterm / RosaAI panels, leaving just the focused window. The
+--- panels go through their own close path so the session and the space they
+--- reserved are released; their spacers disappear with them. Neovim keeps one
+--- native window alive, so focusing a float leaves an editor pane behind by
+--- design.
+---
+--- The Snacks explorer is the one exception: it survives wherever the cursor
+--- is, along with the layout box that frames it.
+function M.only_all()
+  local api = vim.api
+  local cur = api.nvim_get_current_win()
+  local closed = 0
+
+  local keep = explorer_wins()
+
+  for _, mod in ipairs { 'rosavim.rosa_plugins.rosaterm', 'rosavim.rosa_plugins.rosaai' } do
+    local ok, panel = pcall(require, mod)
+    if ok and panel.close_win then
+      for _, win in ipairs(api.nvim_tabpage_list_wins(0)) do
+        if win ~= cur and not keep[win] and api.nvim_win_is_valid(win) then
+          local pok, hit = pcall(panel.close_win, win)
+          if pok and hit then
+            closed = closed + 1
+          end
+        end
+      end
+    end
+  end
+
+  for _, win in ipairs(api.nvim_tabpage_list_wins(0)) do
+    if win ~= cur and not keep[win] and api.nvim_win_is_valid(win) then
+      local ft = vim.bo[api.nvim_win_get_buf(win)].filetype
+      if ft ~= 'rosa_spacer' and pcall(api.nvim_win_close, win, false) then
+        closed = closed + 1
+      end
+    end
+  end
+
+  M.equalize()
+  return closed
+end
+
 --- A sidebar takes its width from ONE editor pane, leaving an existing split
 --- lopsided. Re-equalize when one opens or closes.
 function M.watch_sidebars()

@@ -61,7 +61,7 @@ end
 --- Normal bg (which is already dark). Light mode forces #000 by default —
 --- the shell prompt assumes a dark terminal, and a light bg makes
 --- light-on-light prompts unreadable. The rosaterm_dark_bg toggle
---- (<leader>lqrd) lets the user opt back into the theme's light bg.
+--- lets the user opt back into the theme's light bg.
 local function term_winhl(border_on)
   local fb = border_on and (',FloatBorder:' .. term_bg.border_hl 'rosaterm') or ''
   return term_bg.winhl('rosaterm', fb)
@@ -1010,7 +1010,7 @@ end
 function M.toggle(id, direction, size, name)
   local term = terms[id]
   if not term then
-    -- Size is governed by the global size preset (<leader>lqrz). The legacy
+    -- Size is governed by the global size preset. The legacy
     -- `size` arg from callers is kept only for signature compatibility.
     local sizes = require 'rosavim.rosa_plugins.rosaterm.sizes'
     term = {

@@ -43,7 +43,7 @@ return function()
     set = function(state)
       toggles.set('rosaai_autoinsert', state)
     end,
-  }):map '<leader>lqai'
+  }):map '<leader>laai'
 
   -- Auto focus when sending a message
   Snacks.toggle({
@@ -54,11 +54,11 @@ return function()
     set = function(state)
       toggles.set('rosaai_auto_focus', state)
     end,
-  }):map '<leader>lqaf'
+  }):map '<leader>laaf'
 
   -- Master switch for the whole Review feature (keybinds, badge, auto-open).
-  -- When off, <leader>ar / <leader>ab are removed (hidden from which-key) and
-  -- no baseline is captured.
+  -- When off, the review keybinds are removed (hidden from which-key) and no
+  -- baseline is captured.
   Snacks.toggle({
     name = 'RosaAI Review',
     wk_desc = { enabled = 'Disable ', disabled = 'Enable ' },
@@ -82,7 +82,7 @@ return function()
         rosaai.refresh_chips()
       end
     end,
-  }):map '<leader>lqaR'
+  }):map '<leader>aR'
 
   -- Auto-open the review panel after the AI edits files
   Snacks.toggle({
@@ -94,7 +94,7 @@ return function()
     set = function(state)
       toggles.set('rosaai_auto_review', state)
     end,
-  }):map '<leader>lqar'
+  }):map '<leader>aA'
 
   -- Show the pending-review count badge on the CLI chip
   Snacks.toggle({
@@ -112,7 +112,7 @@ return function()
     end,
   }):map '<leader>lqac'
 
-  -- Theme picker (popup) — lives under <leader>lq (Theme group)
+  -- Theme picker (popup)
   vim.keymap.set('n', '<leader>lqas', function()
     require('rosavim.rosa_plugins.rosaai.ui').pick_theme()
   end, { desc = 'RosaAI: Select Theme' })
