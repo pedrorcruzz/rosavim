@@ -62,13 +62,15 @@ Available lualine separators: `rounded`, `bar`, `arrow`, `slant`
 
 ### Force Dark BG (`<leader>lqf`)
 
-Force-black background overrides for the yazi and lazygit floats (tools without their own Theme subgroup — RosaAI's live under `<leader>lqa`, Rosaterm's under `<leader>lqr`). Lowercase = light mode (default on), uppercase = dark mode (default off).
+Force-black background overrides for every tool that can be pinned to a black surface: Rosaterm, RosaAI, yazi and lazygit. Lowercase = light mode (default on), uppercase = dark mode (default off). RosaAI sits on `i` because `a` belongs to All.
 
-All covers every force-black tool at once, the two in this group plus RosaAI and Rosaterm. It has no state of its own: it reads as on only while all four are on, so flipping one of them off turns All off too.
+All covers the four tools at once. It has no state of its own: it reads as on only while all four are on, so flipping one of them off turns All off too.
 
 | Shortcut | Toggle | Default |
 |:---------|:-------|:--------|
 | `<leader>lqfa` / `<leader>lqfA` | All - rosaterm, rosaai, yazi and lazygit in light / dark mode | On / Off |
+| `<leader>lqfr` / `<leader>lqfR` | Rosaterm — force #000 in light / dark mode (else theme bg) | On / Off |
+| `<leader>lqfi` / `<leader>lqfI` | RosaAI — force #000 in light / dark mode (else theme bg) | On / Off |
 | `<leader>lqfy` / `<leader>lqfY` | Yazi — force #000 in light / dark mode (else theme bg) | On / Off |
 | `<leader>lqfg` / `<leader>lqfG` | Lazygit — force #000 in light / dark mode (else theme bg) | On / Off |
 
@@ -157,7 +159,8 @@ Available which-key borders: `none`, `single`, `double`, `shadow`
 | `<leader>lqaz` | Size picker (popup) | default |
 | `<leader>lqab` | Vertical border (right/left/float) | On |
 | `<leader>lqaB` | Horizontal border (bottom) | On |
-| `<leader>lqad` / `<leader>lqaD` | Dark Background — force #000 in light / dark mode (else theme bg) (All: `<leader>lqfa` / `<leader>lqfA`) | On / Off |
+
+The dark background override lives with the other tools in [Force Dark BG](#force-dark-bg-leaderlqf): `<leader>lqfi` / `<leader>lqfI`.
 
 Available RosaAI themes: `bloom`, `petal`, `garland`, `stem`
 
@@ -215,7 +218,8 @@ The Review toggles live with the rest of the feature, under `<leader>a`:
 | `<leader>lqrs` | Theme picker (popup) | garland |
 | `<leader>lqrb` | Vertical border (vsplit becomes a pinned float) | Off |
 | `<leader>lqrB` | Horizontal border (split becomes a pinned float) | Off |
-| `<leader>lqrd` / `<leader>lqrD` | Dark Background — force #000 in light / dark mode (else theme bg) (All: `<leader>lqfa` / `<leader>lqfA`) | On / Off |
+
+The dark background override lives with the other tools in [Force Dark BG](#force-dark-bg-leaderlqf): `<leader>lqfr` / `<leader>lqfR`.
 
 Available rosaterm themes: `bloom`, `petal`, `garland`, `stem`
 

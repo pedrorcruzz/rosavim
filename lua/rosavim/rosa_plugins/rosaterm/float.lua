@@ -96,10 +96,9 @@ local function open_chip()
     col = state.geom.col
     row = state.geom.row - 2
   else
-    -- Inline: small chip centered. Bordered uses 3 rows so subtract 1.
     width = vim.api.nvim_strwidth(bar.chip_plain())
     col = state.geom.col + math.floor((state.geom.width - width) / 2)
-    row = state.geom.row - (theme.border == 'none' and 0 or 1)
+    row = state.geom.row
   end
 
   if not state.chip_buf or not api.nvim_buf_is_valid(state.chip_buf) then

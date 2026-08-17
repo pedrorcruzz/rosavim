@@ -62,13 +62,15 @@ Separadores do Lualine disponíveis: `rounded`, `bar`, `arrow`, `slant`
 
 ### Forçar Fundo Escuro (`<leader>lqf`)
 
-Overrides de fundo preto para os floats do yazi e do lazygit (ferramentas sem subgrupo próprio no Theme — os do RosaAI ficam em `<leader>lqa`, os do Rosaterm em `<leader>lqr`). Minúscula = modo claro (padrão ativado), maiúscula = modo escuro (padrão desativado).
+Overrides de fundo preto para todas as ferramentas que podem ficar sobre uma superfície preta: Rosaterm, RosaAI, yazi e lazygit. Minúscula = modo claro (padrão ativado), maiúscula = modo escuro (padrão desativado). O RosaAI fica no `i` porque o `a` é do Todos.
 
-O Todos cobre todas as ferramentas com fundo preto de uma vez, as duas deste grupo mais o RosaAI e o Rosaterm. Ele não guarda estado próprio: aparece como ativado só enquanto as quatro estiverem ativadas, então desligar uma delas desliga o Todos também.
+O Todos cobre as quatro ferramentas de uma vez. Ele não guarda estado próprio: aparece como ativado só enquanto as quatro estiverem ativadas, então desligar uma delas desliga o Todos também.
 
 | Atalho | Toggle | Padrão |
 |:-------|:-------|:-------|
 | `<leader>lqfa` / `<leader>lqfA` | Todos - rosaterm, rosaai, yazi e lazygit no modo claro / escuro | Ativado / Desativado |
+| `<leader>lqfr` / `<leader>lqfR` | Rosaterm — força #000 no modo claro / escuro (senão bg do tema) | Ativado / Desativado |
+| `<leader>lqfi` / `<leader>lqfI` | RosaAI — força #000 no modo claro / escuro (senão bg do tema) | Ativado / Desativado |
 | `<leader>lqfy` / `<leader>lqfY` | Yazi — força #000 no modo claro / escuro (senão bg do tema) | Ativado / Desativado |
 | `<leader>lqfg` / `<leader>lqfG` | Lazygit — força #000 no modo claro / escuro (senão bg do tema) | Ativado / Desativado |
 
@@ -157,7 +159,8 @@ Bordas de which-key disponíveis: `none`, `single`, `double`, `shadow`
 | `<leader>lqaz` | Picker de tamanho (popup) | default |
 | `<leader>lqab` | Borda vertical (right/left/float) | Ativado |
 | `<leader>lqaB` | Borda horizontal (bottom) | Ativado |
-| `<leader>lqad` / `<leader>lqaD` | Fundo Escuro — força #000 no modo claro / escuro (senão bg do tema) (Todos: `<leader>lqfa` / `<leader>lqfA`) | Ativado / Desativado |
+
+O override de fundo escuro fica junto com as outras ferramentas em [Forçar Fundo Escuro](#forçar-fundo-escuro-leaderlqf): `<leader>lqfi` / `<leader>lqfI`.
 
 Temas RosaAI disponíveis: `bloom`, `petal`, `garland`, `stem`
 
@@ -215,7 +218,8 @@ Os toggles de Review ficam junto do resto da feature, em `<leader>a`:
 | `<leader>lqrs` | Picker de tema (popup) | garland |
 | `<leader>lqrb` | Borda vertical (vsplit vira float pinado) | Desativado |
 | `<leader>lqrB` | Borda horizontal (split vira float pinado) | Desativado |
-| `<leader>lqrd` / `<leader>lqrD` | Fundo Escuro — força #000 no modo claro / escuro (senão bg do tema) (Todos: `<leader>lqfa` / `<leader>lqfA`) | Ativado / Desativado |
+
+O override de fundo escuro fica junto com as outras ferramentas em [Forçar Fundo Escuro](#forçar-fundo-escuro-leaderlqf): `<leader>lqfr` / `<leader>lqfR`.
 
 Temas rosaterm disponíveis: `bloom`, `petal`, `garland`, `stem`
 

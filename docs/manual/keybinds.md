@@ -491,8 +491,8 @@ Want to review **everything** in the repo (your edits included), not just the AI
 | n | `<leader>lqni` | Borderless: RosaAI | `Space l q n i` to blend the RosaAI panel, chip and ask/preview borders |
 | n | `<leader>lqnn` | Borderless: Notify | `Space l q n n` to blend the notification borders on every level |
 | n | `<leader>lqfa` / `<leader>lqfA` | Force dark bg: All | `Space l q f a` (light mode) / `Space l q f A` (dark mode) to flip the #000 background on rosaterm, rosaai, yazi and lazygit at once; reads as on only while all four are on (persists) |
-| n | `<leader>lqad` / `<leader>lqaD` | RosaAI force dark bg | `Space l q a d` (light mode) / `Space l q a D` (dark mode) to force a #000 background on the RosaAI panel instead of the theme bg (persists) |
-| n | `<leader>lqrd` / `<leader>lqrD` | Rosaterm force dark bg | `Space l q r d` (light mode) / `Space l q r D` (dark mode) to force a #000 background on Rosaterm instead of the theme bg (persists) |
+| n | `<leader>lqfr` / `<leader>lqfR` | Rosaterm force dark bg | `Space l q f r` (light mode) / `Space l q f R` (dark mode) to force a #000 background on Rosaterm instead of the theme bg (persists) |
+| n | `<leader>lqfi` / `<leader>lqfI` | RosaAI force dark bg | `Space l q f i` (light mode) / `Space l q f I` (dark mode) to force a #000 background on the RosaAI panel instead of the theme bg (persists) |
 | n | `<leader>lqfy` / `<leader>lqfY` | Yazi force dark bg | `Space l q f y` (light mode) / `Space l q f Y` (dark mode) to force a #000 background on the yazi float instead of the theme bg (persists) |
 | n | `<leader>lqfg` / `<leader>lqfG` | Lazygit force dark bg | `Space l q f g` (light mode) / `Space l q f G` (dark mode) to force a #000 background on the lazygit float instead of the theme bg (persists) |
 | n | `<leader>lqy` | Toggle lualine bar-y transparency | `Space l q y` — on (default) blends the lualine centre/y bar with the theme bg; off shows the original solid `#1a1a1a` bar (works in both auto and custom lualine themes) |

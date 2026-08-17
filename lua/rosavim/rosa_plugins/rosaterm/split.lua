@@ -124,14 +124,6 @@ local function open_chip(term)
   end
 
   local width, col, row
-  -- Position the chip so its bottom border lands exactly on the float's
-  -- top border row (engraved look, zero gap). nvim_win_get_position
-  -- returns the float's FRAME top (= top border row), so chip outer
-  -- bottom must equal pos[1] → chip outer top = pos[1] - (outer_h - 1).
-  --   banner: bordered, 1 content row → outer_h = 3 → row = pos[1] - 2
-  --   inline: mirrors the float exactly so the chip sits ON the border
-  --     line (not above it). Bloom (rounded) borders 3 rows → -1; Petal
-  --     (borderless) is a single engraved row → -0.
   if theme.layout == 'banner' then
     width = outer_width
     col = outer_col
@@ -140,7 +132,7 @@ local function open_chip(term)
     local text = bar.chip_plain()
     width = vim.api.nvim_strwidth(text)
     col = outer_col + math.floor((outer_width - width) / 2)
-    row = pos[1] - (theme.border == 'none' and 0 or 1)
+    row = pos[1]
   end
   if row < 0 then
     row = 0

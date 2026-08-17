@@ -146,32 +146,6 @@ return function()
     end,
   }):map '<leader>lqrB'
 
-  -- Dark bg in LIGHT mode: on = force #000 (default), off = follow theme bg.
-  Snacks.toggle({
-    name = 'Rosaterm Dark Background (Light Mode)',
-    wk_desc = { enabled = 'Use theme bg ', disabled = 'Force dark bg ' },
-    get = function()
-      return toggles.get 'rosaterm_dark_bg'
-    end,
-    set = function(state)
-      toggles.set('rosaterm_dark_bg', state)
-      require('rosavim.helpers.term_bg').refresh_tool 'rosaterm'
-    end,
-  }):map '<leader>lqrd'
-
-  -- Dark bg in DARK mode: on = force #000, off = follow theme bg (default off).
-  Snacks.toggle({
-    name = 'Rosaterm Dark Background (Dark Mode)',
-    wk_desc = { enabled = 'Use theme bg ', disabled = 'Force dark bg ' },
-    get = function()
-      return toggles.get 'rosaterm_dark_bg_dm'
-    end,
-    set = function(state)
-      toggles.set('rosaterm_dark_bg_dm', state)
-      require('rosavim.helpers.term_bg').refresh_tool 'rosaterm'
-    end,
-  }):map '<leader>lqrD'
-
   -- Size picker (popup): compact / default / wide
   vim.keymap.set('n', '<leader>lqrz', function()
     require('rosavim.rosa_plugins.rosaterm').pick_size()

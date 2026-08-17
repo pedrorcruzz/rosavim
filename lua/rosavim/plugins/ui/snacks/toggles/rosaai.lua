@@ -158,30 +158,4 @@ return function()
       end
     end,
   }):map '<leader>lqaB'
-
-  -- Dark bg in LIGHT mode: on = force #000 (default), off = follow theme bg.
-  Snacks.toggle({
-    name = 'RosaAI Dark Background (Light Mode)',
-    wk_desc = { enabled = 'Use theme bg ', disabled = 'Force dark bg ' },
-    get = function()
-      return toggles.get 'rosaai_dark_bg'
-    end,
-    set = function(state)
-      toggles.set('rosaai_dark_bg', state)
-      require('rosavim.helpers.term_bg').refresh_tool 'rosaai'
-    end,
-  }):map '<leader>lqad'
-
-  -- Dark bg in DARK mode: on = force #000, off = follow theme bg (default off).
-  Snacks.toggle({
-    name = 'RosaAI Dark Background (Dark Mode)',
-    wk_desc = { enabled = 'Use theme bg ', disabled = 'Force dark bg ' },
-    get = function()
-      return toggles.get 'rosaai_dark_bg_dm'
-    end,
-    set = function(state)
-      toggles.set('rosaai_dark_bg_dm', state)
-      require('rosavim.helpers.term_bg').refresh_tool 'rosaai'
-    end,
-  }):map '<leader>lqaD'
 end
