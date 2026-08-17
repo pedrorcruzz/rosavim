@@ -100,6 +100,13 @@ function M.resize_arrow(dir)
   return split.resize_arrow(dir)
 end
 
+--- Swap the focused rosaterm panel with the rosaterm on its `dir` side
+--- ('left'/'right'/'up'/'down'). False when the focus isn't a rosaterm panel
+--- or no rosaterm sits that way, so the caller can fall back to `wincmd`.
+function M.swap(dir)
+  return split.swap(dir)
+end
+
 --- Reset open panels to their preset size.
 function M.reset_sizes()
   split.reset_sizes()

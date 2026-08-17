@@ -816,6 +816,93 @@ local function setup_resize_keymaps(buf, term)
   end
 end
 
+--- The split terminal shown in `win`, float-pinned or native.
+local function term_for_win(win)
+  for _, t in pairs(terms) do
+    if term_win_is_open(t) and t.win == win then
+      return t
+    end
+  end
+  return nil
+end
+
+--- Screen rect of a panel's window. Borders are ignored on purpose: the
+--- comparison below only needs centres and overlap, and a docked pair always
+--- wears the same frame, so the two cells cancel out.
+local function rect(term)
+  local pos = api.nvim_win_get_position(term.win)
+  return {
+    row = pos[1],
+    col = pos[2],
+    height = api.nvim_win_get_height(term.win),
+    width = api.nvim_win_get_width(term.win),
+  }
+end
+
+--- The open panel neighbouring `term` on the `dir` side. A candidate has to
+--- sit that way AND overlap on the other axis, so a panel diagonally across
+--- the band never answers a left/right press. Nearest centre wins.
+local function neighbour(term, dir)
+  local a = rect(term)
+  local sideways = dir == 'left' or dir == 'right'
+  local before = dir == 'left' or dir == 'up'
+  local a_mid = sideways and (a.col + a.width / 2) or (a.row + a.height / 2)
+  local best, best_dist = nil, math.huge
+  for _, t in pairs(terms) do
+    if t ~= term and term_win_is_open(t) then
+      local b = rect(t)
+      local b_mid = sideways and (b.col + b.width / 2) or (b.row + b.height / 2)
+      local overlaps
+      if sideways then
+        overlaps = b.row < a.row + a.height and a.row < b.row + b.height
+      else
+        overlaps = b.col < a.col + a.width and a.col < b.col + b.width
+      end
+      local towards = before and b_mid < a_mid or (not before and b_mid > a_mid)
+      local dist = math.abs(b_mid - a_mid)
+      if overlaps and towards and dist < best_dist then
+        best, best_dist = t, dist
+      end
+    end
+  end
+  return best
+end
+
+--- Trade the two panels' shell sessions. Geometry belongs to the slot, not to
+--- the session, so each panel keeps its shape and the terminals visibly change
+--- places. Everything keyed to the buffer - statusline tracking, the
+--- buffer-local resize arrows - is re-bound to the slot it landed in.
+local function exchange(a, b)
+  a.buf, b.buf = b.buf, a.buf
+  a.job, b.job = b.job, a.job
+  a.started, b.started = b.started, a.started
+  a.name, b.name = b.name, a.name
+  for _, t in ipairs { a, b } do
+    pcall(api.nvim_win_set_buf, t.win, t.buf)
+    bar.attach_split(t.win, t.buf, function()
+      refresh_chip(t)
+    end)
+    setup_resize_keymaps(t.buf, t)
+  end
+end
+
+--- Swap the focused rosaterm panel with the one on its `dir` side. Returns
+--- false when the focus isn't a rosaterm panel or nothing sits that way, which
+--- is what keeps `wincmd H/L/J/K` from tearing a pinned panel out of its band.
+function M.swap(dir)
+  local term = term_for_win(api.nvim_get_current_win())
+  if not term then
+    return false
+  end
+  local other = neighbour(term, dir)
+  if not other then
+    return false
+  end
+  exchange(term, other)
+  pcall(api.nvim_set_current_win, other.win)
+  return true
+end
+
 local function open_split(term)
   local border_on = border_for(term.direction)
   -- Borderless means "native split", but a native split can't dock next to a
@@ -898,10 +985,13 @@ local function open_split(term)
     if api.nvim_win_get_buf(term.win) ~= term.buf then
       api.nvim_win_set_buf(term.win, term.buf)
     end
+    -- Keyed to the buffer, not the slot: a swap moves the session to another
+    -- panel, and an id captured here would tear down whichever slot it left.
+    local session_buf = term.buf
     api.nvim_buf_call(term.buf, function()
       term.job = vim.fn.termopen(vim.o.shell, {
         on_exit = function()
-          M._on_exit(term.id)
+          M._on_exit(session_buf)
         end,
       })
     end)
@@ -1095,8 +1185,13 @@ function M.close_all()
   return #ids
 end
 
-function M._on_exit(id)
-  local term = terms[id]
+function M._on_exit(buf)
+  local term = nil
+  for _, t in pairs(terms) do
+    if t.buf == buf then
+      term = t
+    end
+  end
   if not term then
     return
   end
@@ -1112,7 +1207,7 @@ function M._on_exit(id)
     if term.buf and api.nvim_buf_is_valid(term.buf) then
       pcall(api.nvim_buf_delete, term.buf, { force = true })
     end
-    terms[id] = nil
+    terms[term.id] = nil
   end)
 end
 

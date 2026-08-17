@@ -137,10 +137,10 @@
 | n | `<leader>cc` | Fechar janela | `Space c c` para fechar a janela atual |
 | n | `<leader>cC` | Fechar as outras do editor | `Space c Shift+c` para fechar as outras janelas do editor, sem mexer nas sidebars nem nos painéis |
 | n | `<leader>C` | Fechar todo o resto | `Space Shift+c` para deixar só a janela focada - leva também os painéis Rosaterm e RosaAI, as outras sidebars e qualquer float perdido. O explorer do Snacks é a única exceção e continua aberto. Com o foco num painel, sobra um painel do editor (o Neovim sempre mantém uma janela nativa) |
-| n | `<leader>ch` | Trocar esquerda | `Space c h` para trocar a janela atual para a esquerda |
-| n | `<leader>cl` | Trocar direita | `Space c l` para trocar a janela atual para a direita |
-| n | `<leader>ck` | Trocar acima | `Space c k` para trocar a janela atual para cima |
-| n | `<leader>cj` | Trocar abaixo | `Space c j` para trocar a janela atual para baixo |
+| n | `<leader>ch` | Trocar esquerda | `Space c h` para trocar a janela atual para a esquerda. Com o foco num painel do Rosaterm, ele troca de lugar com o Rosaterm à esquerda e não mexe no layout do editor |
+| n | `<leader>cl` | Trocar direita | `Space c l` para trocar a janela atual para a direita. Com o foco num painel do Rosaterm, ele troca de lugar com o Rosaterm à direita |
+| n | `<leader>ck` | Trocar acima | `Space c k` para trocar a janela atual para cima. Com o foco num painel do Rosaterm, ele troca de lugar com o Rosaterm de cima |
+| n | `<leader>cj` | Trocar abaixo | `Space c j` para trocar a janela atual para baixo. Com o foco num painel do Rosaterm, ele troca de lugar com o Rosaterm de baixo |
 | n | `<leader>c1` | Redimensionar esq. 1/3 | Redimensionar a janela atual para ocupar 1/3 à esquerda |
 | n | `<leader>c2` | Redimensionar dir. 2/3 | Redimensionar a janela atual para ocupar 2/3 à direita |
 | n | `<leader>c3` | Redimensionar cima 1/3 | Redimensionar a janela atual para ocupar 1/3 de cima |

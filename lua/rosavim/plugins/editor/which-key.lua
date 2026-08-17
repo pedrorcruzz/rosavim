@@ -1,3 +1,19 @@
+--- Swap the focused window with its neighbour on `dir`. Rosaterm panels are
+--- pinned floats, and `wincmd H/L/K/J` would rip one out of its band and drop
+--- it into the editor layout as a plain split, so a focused panel only ever
+--- trades places with another rosaterm and never falls through to `wincmd`.
+local function swap(dir, wincmd)
+  return function()
+    if require('rosavim.rosa_plugins.rosaterm').swap(dir) then
+      return
+    end
+    if vim.bo.filetype == 'rosaterm' then
+      return
+    end
+    vim.cmd('wincmd ' .. wincmd)
+  end
+end
+
 return {
   -- Useful plugin to show you pending keybinds.
   'folke/which-key.nvim',
@@ -270,10 +286,10 @@ return {
     },
     { '<leader>cc', '<cmd>close<cr>', desc = 'Close Window' },
     { '<leader>q', '<cmd>close<cr>', desc = 'Close Window' },
-    { '<leader>ch', '<cmd>wincmd H<cr>', desc = 'Swap Left' },
-    { '<leader>cl', '<cmd>wincmd L<cr>', desc = 'Swap Right' },
-    { '<leader>ck', '<cmd>wincmd K<cr>', desc = 'Swap Up' },
-    { '<leader>cj', '<cmd>wincmd J<cr>', desc = 'Swap Down' },
+    { '<leader>ch', swap('left', 'H'), desc = 'Swap Left' },
+    { '<leader>cl', swap('right', 'L'), desc = 'Swap Right' },
+    { '<leader>ck', swap('up', 'K'), desc = 'Swap Up' },
+    { '<leader>cj', swap('down', 'J'), desc = 'Swap Down' },
     {
       '<leader>c1',
       function()
