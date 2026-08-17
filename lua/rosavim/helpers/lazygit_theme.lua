@@ -16,6 +16,11 @@
 --- chrome. Both define their own RosaLg* values in their overrides.lua (normal
 --- and transparent modes alike); apply() skips the canonical values while one
 --- of them is active so theirs win.
+---
+--- The palette follows the surface lazygit actually renders on, not just
+--- `background`: Force Dark BG pins the float to #000 in light mode, and the
+--- light palette's near-black text on that is unreadable, so a forced-black
+--- float gets the dark palette.
 local M = {}
 
 --- Themes that ship their own RosaLg* palette in overrides.lua.
@@ -64,16 +69,61 @@ M.theme = {
   unstagedChangesColor = { fg = 'RosaLgUnstaged' },
 }
 
---- (Re)define the RosaLg* highlight groups for the current background. Called on
+--- Whether lazygit renders on a dark surface: either the editor is in dark mode,
+--- or Force Dark BG pins the float to #000 while in light mode.
+local function on_dark_surface()
+  if vim.o.background ~= 'light' then
+    return true
+  end
+  local ok, term_bg = pcall(require, 'rosavim.helpers.term_bg')
+  return ok and term_bg.is_black 'lazygit' or false
+end
+
+--- The RosaLg* values a palette-owning theme declares for `mode`, so a
+--- forced-black float in light mode can borrow that theme's own dark values
+--- instead of falling back to the canonical ones.
+local function theme_palette(theme, mode)
+  local ok, overrides = pcall(require, 'rosavim.plugins.ui.colorschemes.' .. theme .. '.overrides')
+  if not ok then
+    return {}
+  end
+  local transparent = false
+  local ok_appearance, appearance = pcall(require, 'rosavim.config.appearance')
+  if ok_appearance then
+    transparent = appearance.get_transparent()
+  end
+  local ok_groups, groups = pcall(overrides.get, mode, transparent)
+  if not ok_groups or type(groups) ~= 'table' then
+    return {}
+  end
+  local hls = {}
+  for name, attrs in pairs(groups) do
+    if name:sub(1, 6) == 'RosaLg' then
+      hls[name] = attrs
+    end
+  end
+  return hls
+end
+
+--- (Re)define the RosaLg* highlight groups for the current surface. Called on
 --- setup and whenever the colorscheme/background changes, so Snacks reads fresh
 --- colors when it regenerates the theme file (it does so on ColorScheme).
 function M.apply()
+  local dark_surface = on_dark_surface()
+  local theme = vim.g.colors_name
   -- Themes that own their RosaLg* values (set in their overrides.lua) must not
-  -- be clobbered with the canonical palette.
-  if owns_lazygit_palette[vim.g.colors_name] then
+  -- be clobbered with the canonical palette. Their overrides already track
+  -- `background`, so only a forced-black float in light mode needs a hand: pull
+  -- in the same theme's dark values.
+  if owns_lazygit_palette[theme] then
+    if dark_surface and vim.o.background == 'light' then
+      for name, attrs in pairs(theme_palette(theme, 'dark')) do
+        api.nvim_set_hl(0, name, attrs)
+      end
+    end
     return
   end
-  local p = vim.o.background == 'light' and light or dark
+  local p = dark_surface and dark or light
   api.nvim_set_hl(0, 'RosaLg241', { fg = p.c241 })
   api.nvim_set_hl(0, 'RosaLgActive', { fg = p.active, bold = true })
   api.nvim_set_hl(0, 'RosaLgCherryBg', { fg = p.cherryBg })
@@ -83,6 +133,17 @@ function M.apply()
   api.nvim_set_hl(0, 'RosaLgOptions', { fg = p.options })
   api.nvim_set_hl(0, 'RosaLgSelected', { bg = p.selected })
   api.nvim_set_hl(0, 'RosaLgUnstaged', { fg = p.unstaged })
+end
+
+--- Re-apply the palette after the Force Dark BG toggle flipped. Snacks caches
+--- lazygit-theme.yml and only marks it stale on ColorScheme, so re-applying the
+--- scheme is what makes the new colors reach the next lazygit open.
+function M.refresh()
+  M.apply()
+  local ok, appearance = pcall(require, 'rosavim.config.appearance')
+  if ok then
+    appearance.reload()
+  end
 end
 
 function M.float_winhl()

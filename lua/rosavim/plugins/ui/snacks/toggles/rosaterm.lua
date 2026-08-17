@@ -155,10 +155,7 @@ return function()
     end,
     set = function(state)
       toggles.set('rosaterm_dark_bg', state)
-      local ok, rosaterm = pcall(require, 'rosavim.rosa_plugins.rosaterm')
-      if ok then
-        rosaterm.refresh_bg()
-      end
+      require('rosavim.helpers.term_bg').refresh_tool 'rosaterm'
     end,
   }):map '<leader>lqrd'
 
@@ -171,10 +168,7 @@ return function()
     end,
     set = function(state)
       toggles.set('rosaterm_dark_bg_dm', state)
-      local ok, rosaterm = pcall(require, 'rosavim.rosa_plugins.rosaterm')
-      if ok then
-        rosaterm.refresh_bg()
-      end
+      require('rosavim.helpers.term_bg').refresh_tool 'rosaterm'
     end,
   }):map '<leader>lqrD'
 

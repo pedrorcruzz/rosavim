@@ -64,10 +64,15 @@ Available lualine separators: `rounded`, `bar`, `arrow`, `slant`
 
 Force-black background overrides for the yazi and lazygit floats (tools without their own Theme subgroup — RosaAI's live under `<leader>lqa`, Rosaterm's under `<leader>lqr`). Lowercase = light mode (default on), uppercase = dark mode (default off).
 
+All covers every force-black tool at once, the two in this group plus RosaAI and Rosaterm. It has no state of its own: it reads as on only while all four are on, so flipping one of them off turns All off too.
+
 | Shortcut | Toggle | Default |
 |:---------|:-------|:--------|
+| `<leader>lqfa` / `<leader>lqfA` | All - rosaterm, rosaai, yazi and lazygit in light / dark mode | On / Off |
 | `<leader>lqfy` / `<leader>lqfY` | Yazi — force #000 in light / dark mode (else theme bg) | On / Off |
 | `<leader>lqfg` / `<leader>lqfG` | Lazygit — force #000 in light / dark mode (else theme bg) | On / Off |
+
+Lazygit's palette follows the surface it lands on, not just the mode: with the override on in light mode the panel text and borders switch to their dark-mode values, since the light ones are near-black and would vanish on #000.
 
 ### Plugins (`<leader>l`)
 
@@ -152,7 +157,7 @@ Available which-key borders: `none`, `single`, `double`, `shadow`
 | `<leader>lqaz` | Size picker (popup) | default |
 | `<leader>lqab` | Vertical border (right/left/float) | On |
 | `<leader>lqaB` | Horizontal border (bottom) | On |
-| `<leader>lqad` / `<leader>lqaD` | Dark Background — force #000 in light / dark mode (else theme bg) | On / Off |
+| `<leader>lqad` / `<leader>lqaD` | Dark Background — force #000 in light / dark mode (else theme bg) (All: `<leader>lqfa` / `<leader>lqfA`) | On / Off |
 
 Available RosaAI themes: `bloom`, `petal`, `garland`, `stem`
 
@@ -210,7 +215,7 @@ The Review toggles live with the rest of the feature, under `<leader>a`:
 | `<leader>lqrs` | Theme picker (popup) | garland |
 | `<leader>lqrb` | Vertical border (vsplit becomes a pinned float) | Off |
 | `<leader>lqrB` | Horizontal border (split becomes a pinned float) | Off |
-| `<leader>lqrd` / `<leader>lqrD` | Dark Background — force #000 in light / dark mode (else theme bg) | On / Off |
+| `<leader>lqrd` / `<leader>lqrD` | Dark Background — force #000 in light / dark mode (else theme bg) (All: `<leader>lqfa` / `<leader>lqfA`) | On / Off |
 
 Available rosaterm themes: `bloom`, `petal`, `garland`, `stem`
 

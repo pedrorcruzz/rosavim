@@ -43,7 +43,7 @@ guessing '--stdio' for everything will silently fail. Examples:
                        vscode-json-language-server --stdio
                        tailwindcss-language-server --stdio
                        pyright-langserver --stdio
-                       emmet-ls --stdio        tsgo --lsp --stdio
+                       emmet-ls --stdio        tsc --lsp --stdio
 
   a subcommand       Servers with their own CLI use a word, not a flag:
                        marksman server         <-- NOT --stdio
@@ -146,5 +146,14 @@ Server not attaching? Check in order:
 
 Do NOT enable two servers for the same language (e.g. pyright AND
 basedpyright) - you get duplicated completions and diagnostics.
+
+ONE EXCEPTION EXISTS: tsc and vtsls are both enabled, but each uses a
+'root_dir' function instead of 'root_markers', so they never share a buffer -
+tsc takes non-Vue projects, vtsls takes Vue projects. Returning without
+calling 'on_dir' is how native LSP is told "do not attach here", which is the
+general trick if you ever need a server to be project-conditional.
+
+  gate logic  lua/rosavim/helpers/vue_project.lua
+  why at all  header comment in lsp/vtsls.lua
 
 ==============================================================================

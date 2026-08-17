@@ -490,6 +490,7 @@ Want to review **everything** in the repo (your edits included), not just the AI
 | n | `<leader>lqnr` | Borderless: Rosaterm | `Space l q n r` to blend the rosaterm float, split and title chip borders |
 | n | `<leader>lqni` | Borderless: RosaAI | `Space l q n i` to blend the RosaAI panel, chip and ask/preview borders |
 | n | `<leader>lqnn` | Borderless: Notify | `Space l q n n` to blend the notification borders on every level |
+| n | `<leader>lqfa` / `<leader>lqfA` | Force dark bg: All | `Space l q f a` (light mode) / `Space l q f A` (dark mode) to flip the #000 background on rosaterm, rosaai, yazi and lazygit at once; reads as on only while all four are on (persists) |
 | n | `<leader>lqad` / `<leader>lqaD` | RosaAI force dark bg | `Space l q a d` (light mode) / `Space l q a D` (dark mode) to force a #000 background on the RosaAI panel instead of the theme bg (persists) |
 | n | `<leader>lqrd` / `<leader>lqrD` | Rosaterm force dark bg | `Space l q r d` (light mode) / `Space l q r D` (dark mode) to force a #000 background on Rosaterm instead of the theme bg (persists) |
 | n | `<leader>lqfy` / `<leader>lqfY` | Yazi force dark bg | `Space l q f y` (light mode) / `Space l q f Y` (dark mode) to force a #000 background on the yazi float instead of the theme bg (persists) |

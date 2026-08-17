@@ -64,10 +64,15 @@ Separadores do Lualine disponíveis: `rounded`, `bar`, `arrow`, `slant`
 
 Overrides de fundo preto para os floats do yazi e do lazygit (ferramentas sem subgrupo próprio no Theme — os do RosaAI ficam em `<leader>lqa`, os do Rosaterm em `<leader>lqr`). Minúscula = modo claro (padrão ativado), maiúscula = modo escuro (padrão desativado).
 
+O Todos cobre todas as ferramentas com fundo preto de uma vez, as duas deste grupo mais o RosaAI e o Rosaterm. Ele não guarda estado próprio: aparece como ativado só enquanto as quatro estiverem ativadas, então desligar uma delas desliga o Todos também.
+
 | Atalho | Toggle | Padrão |
 |:-------|:-------|:-------|
+| `<leader>lqfa` / `<leader>lqfA` | Todos - rosaterm, rosaai, yazi e lazygit no modo claro / escuro | Ativado / Desativado |
 | `<leader>lqfy` / `<leader>lqfY` | Yazi — força #000 no modo claro / escuro (senão bg do tema) | Ativado / Desativado |
 | `<leader>lqfg` / `<leader>lqfG` | Lazygit — força #000 no modo claro / escuro (senão bg do tema) | Ativado / Desativado |
+
+A paleta do lazygit segue a superfície onde ele aparece, não só o modo: com o override ativado no modo claro, o texto e as bordas dos painéis passam a usar os valores do modo escuro, já que os do claro são quase pretos e desapareceriam no #000.
 
 ### Plugins (`<leader>l`)
 
@@ -152,7 +157,7 @@ Bordas de which-key disponíveis: `none`, `single`, `double`, `shadow`
 | `<leader>lqaz` | Picker de tamanho (popup) | default |
 | `<leader>lqab` | Borda vertical (right/left/float) | Ativado |
 | `<leader>lqaB` | Borda horizontal (bottom) | Ativado |
-| `<leader>lqad` / `<leader>lqaD` | Fundo Escuro — força #000 no modo claro / escuro (senão bg do tema) | Ativado / Desativado |
+| `<leader>lqad` / `<leader>lqaD` | Fundo Escuro — força #000 no modo claro / escuro (senão bg do tema) (Todos: `<leader>lqfa` / `<leader>lqfA`) | Ativado / Desativado |
 
 Temas RosaAI disponíveis: `bloom`, `petal`, `garland`, `stem`
 
@@ -210,7 +215,7 @@ Os toggles de Review ficam junto do resto da feature, em `<leader>a`:
 | `<leader>lqrs` | Picker de tema (popup) | garland |
 | `<leader>lqrb` | Borda vertical (vsplit vira float pinado) | Desativado |
 | `<leader>lqrB` | Borda horizontal (split vira float pinado) | Desativado |
-| `<leader>lqrd` / `<leader>lqrD` | Fundo Escuro — força #000 no modo claro / escuro (senão bg do tema) | Ativado / Desativado |
+| `<leader>lqrd` / `<leader>lqrD` | Fundo Escuro — força #000 no modo claro / escuro (senão bg do tema) (Todos: `<leader>lqfa` / `<leader>lqfA`) | Ativado / Desativado |
 
 Temas rosaterm disponíveis: `bloom`, `petal`, `garland`, `stem`
 

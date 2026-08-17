@@ -9,6 +9,31 @@ return function()
     end,
   })
 
+  -- All — flips every Force Dark BG switch at once (rosaterm, rosaai, yazi,
+  -- lazygit), one per background. Reads as on only while every tool is on, so
+  -- it follows the individual toggles instead of keeping its own state.
+  Snacks.toggle({
+    name = 'Force Dark Background: All (Light Mode)',
+    wk_desc = { enabled = 'Use theme bg ', disabled = 'Force dark bg ' },
+    get = function()
+      return term_bg.all_enabled 'light'
+    end,
+    set = function(state)
+      term_bg.set_all('light', state)
+    end,
+  }):map '<leader>lqfa'
+
+  Snacks.toggle({
+    name = 'Force Dark Background: All (Dark Mode)',
+    wk_desc = { enabled = 'Use theme bg ', disabled = 'Force dark bg ' },
+    get = function()
+      return term_bg.all_enabled 'dark'
+    end,
+    set = function(state)
+      term_bg.set_all('dark', state)
+    end,
+  }):map '<leader>lqfA'
+
   -- Yazi — LIGHT mode (default on)
   Snacks.toggle({
     name = 'Yazi Dark Background (Light Mode)',
@@ -18,7 +43,7 @@ return function()
     end,
     set = function(state)
       toggles.set('yazi_dark_bg', state)
-      term_bg.define 'yazi'
+      term_bg.refresh_tool 'yazi'
     end,
   }):map '<leader>lqfy'
 
@@ -31,7 +56,7 @@ return function()
     end,
     set = function(state)
       toggles.set('yazi_dark_bg_dm', state)
-      term_bg.define 'yazi'
+      term_bg.refresh_tool 'yazi'
     end,
   }):map '<leader>lqfY'
 
@@ -43,7 +68,7 @@ return function()
     end,
     set = function(state)
       toggles.set('lazygit_dark_bg', state)
-      term_bg.define 'lazygit'
+      term_bg.refresh_tool 'lazygit'
     end,
   }):map '<leader>lqfg'
 
@@ -56,7 +81,7 @@ return function()
     end,
     set = function(state)
       toggles.set('lazygit_dark_bg_dm', state)
-      term_bg.define 'lazygit'
+      term_bg.refresh_tool 'lazygit'
     end,
   }):map '<leader>lqfG'
 end

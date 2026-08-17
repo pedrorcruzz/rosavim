@@ -21,7 +21,7 @@ Rosavim provides a complete development environment for many languages out of th
 
 | Component | Tool |
 |:----------|:-----|
-| **LSP** | [tsgo](https://github.com/microsoft/typescript-go) — native TypeScript/JavaScript language server (TypeScript 7 preview) |
+| **LSP** | [tsc](https://github.com/microsoft/typescript-go) - native TypeScript 7 language server. In Vue projects [vtsls](https://github.com/yioneko/vtsls) takes over instead, see the Vue section |
 | **Formatter** | Biome (primary), Prettier (fallback) |
 | **Linter** | Biome, eslint_d |
 | **Tests** | Jest, Vitest (via Rosatest) |

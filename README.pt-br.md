@@ -169,8 +169,8 @@ Suporte completo (LSP, formatação, linting, testes e debug) para as principais
 
 | Linguagem | LSP | Formatter | Linter | Testes | Debug |
 |:----------|:---:|:---------:|:------:|:------:|:-----:|
-| **TypeScript / JavaScript** | tsgo | Biome / Prettier | Biome / eslint_d | Jest / Vitest | - |
-| **React / JSX / TSX** | tsgo | Biome / Prettier | Biome / eslint_d | Jest / Vitest | - |
+| **TypeScript / JavaScript** | tsc | Biome / Prettier | Biome / eslint_d | Jest / Vitest | - |
+| **React / JSX / TSX** | tsc | Biome / Prettier | Biome / eslint_d | Jest / Vitest | - |
 | **Go** | gopls | goimports | golangci-lint | gotestsum | Delve |
 | **Python** | basedpyright | autopep8 | Mypy / Pylint | pytest | debugpy |
 | **Java** | JDTLS | google-java-format | Checkstyle | Gradle | Remote Attach |

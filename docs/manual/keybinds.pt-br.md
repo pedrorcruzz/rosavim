@@ -490,6 +490,7 @@ Quer revisar **tudo** no repositório (suas edições incluídas), não só as d
 | n | `<leader>lqnr` | Sem Bordas: Rosaterm | `Space l q n r` para fundir as bordas do float, do split e do chip do rosaterm |
 | n | `<leader>lqni` | Sem Bordas: RosaAI | `Space l q n i` para fundir as bordas do painel, do chip e dos floats de ask/preview do RosaAI |
 | n | `<leader>lqnn` | Sem Bordas: Notify | `Space l q n n` para fundir as bordas das notificações em todos os níveis |
+| n | `<leader>lqfa` / `<leader>lqfA` | Forçar fundo escuro: Todos | `Space l q f a` (modo claro) / `Space l q f A` (modo escuro) pra virar o fundo #000 do rosaterm, rosaai, yazi e lazygit de uma vez; aparece como ativado só enquanto os quatro estiverem ativados (persiste) |
 | n | `<leader>lqad` / `<leader>lqaD` | RosaAI forçar fundo escuro | `Space l q a d` (modo claro) / `Space l q a D` (modo escuro) para forçar fundo #000 no painel do RosaAI em vez do bg do tema (persiste) |
 | n | `<leader>lqrd` / `<leader>lqrD` | Rosaterm forçar fundo escuro | `Space l q r d` (modo claro) / `Space l q r D` (modo escuro) para forçar fundo #000 no Rosaterm em vez do bg do tema (persiste) |
 | n | `<leader>lqfy` / `<leader>lqfY` | Yazi forçar fundo escuro | `Space l q f y` (modo claro) / `Space l q f Y` (modo escuro) para forçar fundo #000 no float do yazi em vez do bg do tema (persiste) |

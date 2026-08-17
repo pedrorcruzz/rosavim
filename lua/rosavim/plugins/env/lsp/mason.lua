@@ -15,7 +15,10 @@ vim.lsp.config('*', {
 })
 
 vim.lsp.enable {
-  'tsgo',
+  'tsc',
+  -- vtsls is temporary, Vue projects only. Removal checklist in lsp/vtsls.lua
+  'vtsls',
+  'vue_language_server',
   'tailwindcss',
   'emmet_ls',
   'basedpyright',
@@ -50,9 +53,11 @@ return {
     opts = {
       ensure_installed = {
         -- LSP Servers
-        'tsgo',
+        'tsc',
+        'vtsls',
+        'vue-language-server',
         'tailwindcss-language-server',
-        'css_lsp',
+        'css-lsp',
         'emmet-ls',
         'superhtml',
         'basedpyright',
@@ -62,7 +67,7 @@ return {
         'sqlls',
         'lua-language-server',
         'marksman',
-        -- Fnrmatters
+        -- Formatters
         'stylua',
         'prettierd',
         'autopep8',

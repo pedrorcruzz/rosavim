@@ -168,10 +168,7 @@ return function()
     end,
     set = function(state)
       toggles.set('rosaai_dark_bg', state)
-      local ok, rosaai = pcall(require, 'rosavim.rosa_plugins.rosaai')
-      if ok then
-        rosaai.relayout()
-      end
+      require('rosavim.helpers.term_bg').refresh_tool 'rosaai'
     end,
   }):map '<leader>lqad'
 
@@ -184,10 +181,7 @@ return function()
     end,
     set = function(state)
       toggles.set('rosaai_dark_bg_dm', state)
-      local ok, rosaai = pcall(require, 'rosavim.rosa_plugins.rosaai')
-      if ok then
-        rosaai.relayout()
-      end
+      require('rosavim.helpers.term_bg').refresh_tool 'rosaai'
     end,
   }):map '<leader>lqaD'
 end
