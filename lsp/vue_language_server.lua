@@ -1,4 +1,4 @@
--- This server STAYS long term, but the on_init block below is temporary: it
+--WARN: This server STAYS long term, but the on_init block below is temporary: it
 -- only exists to forward TypeScript work to vtsls. See lsp/vtsls.lua for the
 -- reason and the removal checklist.
 
