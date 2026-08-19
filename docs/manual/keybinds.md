@@ -284,6 +284,8 @@
 | n | `<leader>cii` | Horizontal split | `Space c i i` to open a horizontal terminal split |
 | n | `<leader>cie` | Vertical split | `Space c i e` to open a vertical terminal split |
 
+With a Rosaterm panel focused, the arrow keys resize it in **normal mode** only (vertical panel changes width, horizontal changes height, docked pairs answer all four arrows). In terminal/insert mode the arrows stay free for the shell itself, so `<up>` still walks the command history. Press `<Esc>` to drop to normal mode first when you want to resize.
+
 ---
 
 ## AI (Copilot & RosaAI)

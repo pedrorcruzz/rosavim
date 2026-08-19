@@ -284,6 +284,8 @@
 | n | `<leader>cii` | Split horizontal | `Space c i i` para abrir um terminal em split horizontal |
 | n | `<leader>cie` | Split vertical | `Space c i e` para abrir um terminal em split vertical |
 
+Com um painel Rosaterm focado, as setas redimensionam ele só no **modo normal** (painel vertical muda a largura, horizontal muda a altura, pares encaixados respondem às quatro setas). No modo terminal/inserção as setas ficam livres pro próprio shell, então `<up>` continua percorrendo o histórico de comandos. Aperte `<Esc>` pra cair no modo normal antes de redimensionar.
+
 ---
 
 ## IA (Copilot & RosaAI)

@@ -799,20 +799,20 @@ end
 --- Buffer-local arrow resize: smart-splits can't see floats, so the arrows
 --- would be no-ops inside the terminal. A direction the panel can't use falls
 --- back to smart-splits, keeping the key's usual meaning.
+--- Normal mode only. Terminal mode keeps the arrows for the shell itself
+--- (command history, menu navigation) — drop to Normal first to resize.
 local function setup_resize_keymaps(buf, term)
   local opts = { buffer = buf, silent = true, nowait = true }
-  for _, mode in ipairs { 'n', 't' } do
-    for _, dir in ipairs { 'up', 'down', 'left', 'right' } do
-      vim.keymap.set(mode, '<' .. dir .. '>', function()
-        if arrow_resize(term, dir) then
-          return
-        end
-        local ok, ss = pcall(require, 'smart-splits')
-        if ok and type(ss['resize_' .. dir]) == 'function' then
-          pcall(ss['resize_' .. dir])
-        end
-      end, opts)
-    end
+  for _, dir in ipairs { 'up', 'down', 'left', 'right' } do
+    vim.keymap.set('n', '<' .. dir .. '>', function()
+      if arrow_resize(term, dir) then
+        return
+      end
+      local ok, ss = pcall(require, 'smart-splits')
+      if ok and type(ss['resize_' .. dir]) == 'function' then
+        pcall(ss['resize_' .. dir])
+      end
+    end, opts)
   end
 end
 
