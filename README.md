@@ -284,6 +284,7 @@ are all supported.
 |:----|:-------|
 | `<C-h/j/k/l>` | Move between splits |
 | `<leader>m` | Rosapick (window picker) |
+| `<leader>S` | Rosapick (window picker, left-hand alias) |
 | `<leader>cm` | Rosamaximize |
 | `<leader>lz` | Rosazen (distraction-free mode) |
 | `<C-\>` / `<S-z>` | Rosaterm: toggle float |

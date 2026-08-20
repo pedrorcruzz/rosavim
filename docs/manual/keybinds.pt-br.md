@@ -152,6 +152,7 @@
 | n | `<leader>4` | Focar janela superior | `Space 4` para ir para a janela de cima, incluindo um painel Rosaterm/RosaAI ancorado ali |
 | n | `<leader>cm` | Rosamaximize | `Space c m` para maximizar a janela atual ou restaurar o layout (mostra um badge `max` + indicador na lualine) |
 | n | `<leader>m` | Escolher uma janela | `Space m` para escolher visualmente qual janela focar |
+| n | `<leader>S` | Escolher uma janela | `Space S` faz o mesmo que `Space m`, alcançável só com a mão esquerda |
 
 ---
 

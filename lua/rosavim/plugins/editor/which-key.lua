@@ -43,6 +43,7 @@ return {
 
       { '<leader>n', group = 'Rosatest', icon = '󰙨' },
       { '<leader>m', group = 'Rosapick', icon = '' },
+      { '<leader>S', group = 'Rosapick', icon = '' },
       { '<leader>p', icon = '' },
       { '<leader>P', icon = '' },
 

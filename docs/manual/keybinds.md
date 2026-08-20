@@ -152,6 +152,7 @@
 | n | `<leader>4` | Focus top window | `Space 4` to jump to the top window, including a Rosaterm/RosaAI panel docked there |
 | n | `<leader>cm` | Rosamaximize | `Space c m` to maximize the current window or restore the layout (shows a `max` badge + lualine indicator) |
 | n | `<leader>m` | Pick a window | `Space m` to visually pick which window to focus |
+| n | `<leader>S` | Pick a window | `Space S` does the same as `Space m`, reachable with the left hand alone |
 
 ---
 

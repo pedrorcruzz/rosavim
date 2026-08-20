@@ -284,6 +284,7 @@ funcionam todos.
 |:-------|:-----|
 | `<C-h/j/k/l>` | Mover entre splits |
 | `<leader>m` | Rosapick (seletor de janela) |
+| `<leader>S` | Rosapick (seletor de janela, atalho para a mão esquerda) |
 | `<leader>cm` | Rosamaximize |
 | `<leader>lz` | Rosazen (modo sem distrações) |
 | `<C-\>` / `<S-z>` | Rosaterm: toggle float |
