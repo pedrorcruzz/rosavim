@@ -159,7 +159,12 @@ function M.get(mode, transparent_background)
 
       DiagnosticWarn = { fg = '#C18401' },
       DiagnosticInfo = { fg = '#0184BC' },
-      DiagnosticHint = { fg = '#7C3AED' },
+      -- Hint is the "unused import/variable" severity: comment grey, not the
+      -- theme purple, so it reads as faded next to real warnings.
+      DiagnosticHint = { fg = '#848484' },
+      DiagnosticUnderlineWarn = { undercurl = true, sp = '#C18401' },
+      DiagnosticUnderlineInfo = { undercurl = true, sp = '#0184BC' },
+      DiagnosticUnderlineHint = { undercurl = true, sp = '#848484' },
 
       SnacksNotifierBorderInfo = { fg = '#C0C0C0' },
       SnacksNotifierBorderWarn = { fg = '#C18401' },
@@ -432,7 +437,12 @@ function M.get(mode, transparent_background)
     -- diagnosticerror = { fg = '#be5046' },
     DiagnosticWarn = { fg = '#ffa868' },
     DiagnosticInfo = { fg = '#64baff' },
-    DiagnosticHint = { fg = '#c18efe' },
+    -- Hint is the "unused import/variable" severity: comment grey, not the
+    -- theme purple, so it reads as faded next to real warnings.
+    DiagnosticHint = { fg = '#6b737c' },
+    DiagnosticUnderlineWarn = { undercurl = true, sp = '#ffa868' },
+    DiagnosticUnderlineInfo = { undercurl = true, sp = '#64baff' },
+    DiagnosticUnderlineHint = { undercurl = true, sp = '#6b737c' },
 
     -- snacks notifier
     SnacksNotifierBorderInfo = { fg = '#4c4c4c' },

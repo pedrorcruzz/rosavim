@@ -160,15 +160,21 @@ local function set_groups()
 		DiagnosticError = { link = "Error" },
 		DiagnosticWarn = { link = "WarningMsg" },
 		DiagnosticInfo = { fg = colors.blue },
-		DiagnosticHint = { fg = colors.yellowDark },
+		-- Hints are mostly "unused import/variable" noise, so they stay at the
+		-- comment grey rather than taking a syntax colour.
+		DiagnosticHint = { fg = colors.comment },
 		DiagnosticVirtualTextError = { link = "DiagnosticError" },
 		DiagnosticVirtualTextWarn = { link = "DiagnosticWarn" },
 		DiagnosticVirtualTextInfo = { link = "DiagnosticInfo" },
 		DiagnosticVirtualTextHint = { link = "DiagnosticHint" },
-		DiagnosticUnderlineError = { undercurl = true, link = "DiagnosticError" },
-		DiagnosticUnderlineWarn = { undercurl = true, link = "DiagnosticWarn" },
-		DiagnosticUnderlineInfo = { undercurl = true, link = "DiagnosticInfo" },
-		DiagnosticUnderlineHint = { undercurl = true, link = "DiagnosticHint" },
+		-- `link` overrides every other key in nvim_set_hl, so pairing it with
+		-- `undercurl` drops the squiggle and repaints the whole diagnostic range
+		-- in the severity colour instead. `sp` has to be spelled out.
+		DiagnosticUnderlineError = { undercurl = true, sp = colors.red },
+		DiagnosticUnderlineWarn = { undercurl = true, sp = colors.orange },
+		DiagnosticUnderlineInfo = { undercurl = true, sp = colors.blue },
+		DiagnosticUnderlineHint = { undercurl = true, sp = colors.comment },
+		DiagnosticUnnecessary = { link = "Comment" },
 		-- DiagnosticFloatingError = {},
 		-- DiagnosticFloatingWarn = {},
 		-- DiagnosticFloatingInfo = {},
