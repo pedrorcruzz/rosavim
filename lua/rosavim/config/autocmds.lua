@@ -387,18 +387,45 @@ vim.api.nvim_create_autocmd('FileType', {
   end,
 })
 
--- Rosaterm: a thin bar cursor while typing (insert/terminal), and a
--- hidden cursor in normal mode, plus no full-width CursorLine, so the
--- terminal stays clean instead of showing a heavy block on the current line.
+-- Rosaterm: a thin bar cursor while typing (insert/terminal), a block in
+-- visual so you can tell which end of the selection moves, and no cursor at
+-- all in normal mode, plus no full-width CursorLine, so the terminal stays
+-- clean instead of showing a heavy block on the current line.
+--
+-- A terminal buffer owns the real cursor and a redraw re-applies its own shape
+-- even after the mode went back to normal, so it flashed back on every motion.
+-- Nvim doesn't report every mode change from a terminal buffer either, so the
+-- shape can't be picked per mode inside a single option: each state gets a
+-- whole 'guicursor' whose entries all look the same, switched here on
+-- ModeChanged.
 do
   local bar_fts = { rosaterm = true }
   local saved
+  local GUICURSOR = {
+    typing = 'a:ver25',
+    visual = 'a:block',
+    normal = 'a:block-RosatermHiddenCursor/RosatermHiddenCursor',
+  }
   local grp = vim.api.nvim_create_augroup('rosaterm_bar_cursor', { clear = true })
   local function set_hidden_hl()
     vim.api.nvim_set_hl(0, 'RosatermHiddenCursor', { blend = 100, nocombine = true })
   end
-  set_hidden_hl()
-  vim.api.nvim_create_autocmd('ColorScheme', { group = grp, callback = set_hidden_hl })
+  on_colorscheme(set_hidden_hl)
+  local function state()
+    local mode = vim.fn.mode()
+    if mode == 't' then
+      return 'typing'
+    end
+    -- v, V, <C-v> and their select-mode counterparts
+    if mode:find '^[vVsS\22\19]' then
+      return 'visual'
+    end
+    return 'normal'
+  end
+  local function apply()
+    set_hidden_hl()
+    vim.o.guicursor = GUICURSOR[state()]
+  end
   vim.api.nvim_create_autocmd({ 'BufEnter', 'WinEnter' }, {
     group = grp,
     callback = function(ev)
@@ -406,12 +433,19 @@ do
         if not saved then
           saved = vim.o.guicursor
         end
-        set_hidden_hl()
-        vim.o.guicursor = 'a:ver25,n-v-c:block-RosatermHiddenCursor/RosatermHiddenCursor'
+        apply()
         vim.wo.cursorline = false
       elseif saved then
         vim.o.guicursor = saved
         saved = nil
+      end
+    end,
+  })
+  vim.api.nvim_create_autocmd('ModeChanged', {
+    group = grp,
+    callback = function(ev)
+      if bar_fts[vim.bo[ev.buf].filetype] then
+        apply()
       end
     end,
   })
