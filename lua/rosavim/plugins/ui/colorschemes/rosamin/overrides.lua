@@ -266,7 +266,12 @@ function M.get(mode, transparent_background)
     Visual = { bg = transparent_background and '#4c4c4c' or '#4c4c4c' }, --606060
     CursorLine = { bg = '#323232' },
     CursorLineNr = { fg = '#C6C6C6' },
-    SignColumn = { bg = transparent_background and 'none' or '#323232' },
+    -- No bg of its own: the gutter has to sit on whatever Normal is, so the
+    -- signs render-markdown paints there (which take their bg from
+    -- SignColumn) match the buffer instead of showing as a lighter column.
+    -- Leaving it unset also keeps it right under transparency and when the
+    -- editor/chrome shades are swapped.
+    SignColumn = { bg = 'none' },
     LineNr = { fg = '#505050' }, --#4b5263 #727272
     FloatBorder = { fg = '#4c4c4c' }, --#4c4c4c
     Border = { fg = '#4c4c4c' },
