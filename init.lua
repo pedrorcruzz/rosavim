@@ -1,4 +1,9 @@
--- Silencia a depreciação `client.supports_method` (vem de plugins, não do config)
+vim.loader.enable()
+
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
+
+-- Silence the `client.supports_method` deprecation (comes from plugins, not this config)
 do
   local original = vim.deprecate
   ---@diagnostic disable-next-line: duplicate-set-field
@@ -24,6 +29,9 @@ if not vim.uv.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- Some plugins call get_node_text on nodes from parsers this distro does not
+-- ship (bundled-parsers-only policy) and would error; swallow that into an
+-- empty string. Remove if the no-extra-parsers policy ever changes.
 do
   local original = vim.treesitter.get_node_text
   ---@diagnostic disable-next-line: duplicate-set-field
@@ -48,6 +56,19 @@ require('lazy').setup({
   { import = 'rosavim.plugins.ai' },
   { import = 'rosavim.plugins.test' },
 }, {
+  performance = {
+    rtp = {
+      disabled_plugins = {
+        'gzip',
+        'matchit',
+        'netrwPlugin',
+        'tarPlugin',
+        'tohtml',
+        'tutor',
+        'zipPlugin',
+      },
+    },
+  },
   ui = {
     icons = vim.g.have_nerd_font and {} or {
       cmd = '⌘',

@@ -90,6 +90,11 @@ function M.setup(opts)
   local initial_ms = config.retirement_mins * 60 * 1000
 
   timer:start(initial_ms, interval_ms, vim.schedule_wrap(retire_buffers))
+
+  vim.api.nvim_create_autocmd('VimLeavePre', {
+    group = vim.api.nvim_create_augroup('Rosasweep', { clear = true }),
+    callback = M.stop,
+  })
 end
 
 function M.stop()

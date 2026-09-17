@@ -124,7 +124,6 @@ local function set_groups()
 
     -- Splits & tabs
     VertSplit = { fg = colors.separator, bg = bg },
-    Winseparator = { fg = colors.separator, bg = bg },
     WinSeparator = { fg = colors.separator, bg = bg },
     TabLine = { fg = colors.fgInactive, bg = bl_bg },
     TabLineSel = { fg = colors.fgAlt, bg = bl_bg, bold = true },
@@ -551,11 +550,6 @@ function M.setup(values)
 end
 
 function M.colorscheme()
-  if vim.version().minor < 8 then
-    vim.notify('Neovim 0.8+ is required for rosajet colorscheme', vim.log.levels.ERROR, { title = 'Rosajet' })
-    return
-  end
-
   -- Sync transparent state from appearance module
   local ok, appearance = pcall(require, 'rosavim.config.appearance')
   if ok then

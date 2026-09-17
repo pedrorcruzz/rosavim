@@ -100,11 +100,23 @@ local function occurrences(line, name)
 end
 
 --- Whether the tag opening at (row, col) ends in `/>`.
-local function self_closing(buf, row, col)
+--- `win` (optional): lines already fetched by the caller, starting at
+--- 0-indexed row `win.base` - reused so each occurrence does not cost an
+--- extra API read. Falls back to reading when the range is not covered.
+local function self_closing(buf, row, col, win)
   local stop = math.min(api.nvim_buf_line_count(buf), row + 1 + TAG_LINES)
-  local lines = api.nvim_buf_get_lines(buf, row, stop, false)
-  for i, line in ipairs(lines) do
-    local s = line:find('>', i == 1 and col + 1 or 1, true)
+  local lines, first_idx
+  if win and row >= win.base and stop <= win.base + #win.lines then
+    lines, first_idx = win.lines, row - win.base + 1
+  else
+    lines, first_idx = api.nvim_buf_get_lines(buf, row, stop, false), 1
+  end
+  for i = first_idx, first_idx + (stop - row) - 1 do
+    local line = lines[i]
+    if not line then
+      break
+    end
+    local s = line:find('>', i == first_idx and col + 1 or 1, true)
     if s then
       return line:sub(s - 1, s - 1) == '/'
     end
@@ -126,6 +138,7 @@ function M.pair_of(buf, tag, limit)
   if not tag.closing then
     local stop = math.min(api.nvim_buf_line_count(buf), tag.row + 1 + PAIR_LINES)
     local lines = api.nvim_buf_get_lines(buf, tag.row, stop, false)
+    local win = { base = tag.row, lines = lines }
     for i, line in ipairs(lines) do
       local row = tag.row + i - 1
       for _, occ in ipairs(occurrences(line, tag.name)) do
@@ -141,7 +154,7 @@ function M.pair_of(buf, tag, limit)
               }
             end
             depth = depth - 1
-          elseif not self_closing(buf, row, occ.col) then
+          elseif not self_closing(buf, row, occ.col, win) then
             depth = depth + 1
           end
         end
@@ -152,6 +165,7 @@ function M.pair_of(buf, tag, limit)
 
   local first = math.max(0, tag.row - PAIR_LINES)
   local lines = api.nvim_buf_get_lines(buf, first, tag.row + 1, false)
+  local win = { base = first, lines = lines }
   for i = #lines, 1, -1 do
     local row = first + i - 1
     local occs = occurrences(lines[i], tag.name)
@@ -160,7 +174,7 @@ function M.pair_of(buf, tag, limit)
       if row ~= tag.row or occ.start_col < tag.start_col then
         if occ.closing then
           depth = depth + 1
-        elseif not self_closing(buf, row, occ.col) then
+        elseif not self_closing(buf, row, occ.col, win) then
           if depth == 0 then
             return {
               name = tag.name,

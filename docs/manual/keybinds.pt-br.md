@@ -14,7 +14,6 @@
 - [Testes](#testes)
 - [Debugging](#debugging)
 - [Formatação & Code Actions](#formatação--code-actions)
-- [Refatoração](#refatoração)
 - [Terminal](#terminal)
 - [IA (Copilot & RosaAI)](#ia-copilot--rosaai)
 - [Operações de Arquivo](#operações-de-arquivo)
@@ -112,9 +111,9 @@
 | n | `gy` | Ir para definição de tipo | Pressione `gy` para ir para a definição de tipo do símbolo |
 | n | `gp` | Rosapreview: Definição | Pressione `gp` para ver a definição em uma janela flutuante |
 | n | `gP` | Rosapreview: Fechar Todos | Pressione `gP` para fechar todas as janelas de preview |
-| n | `<leader>lr` | Renomear símbolo | `Space l r` em uma variável, digite o novo nome — renomeia em todo o projeto |
+| n | `<leader>r` | Renomear símbolo | `Space r` em uma variável, digite o novo nome - renomeia em todo o projeto |
 | n | `<leader>la` | Code action | `Space l a` para ver ações de código disponíveis (imports, correções, refatorações) |
-| n | `<leader>lv` | Renomear arquivo | `Space l v` para renomear o arquivo atual e atualizar todos os imports |
+| n | `<leader>R` | Renomear arquivo | `Space Shift+r` para renomear o arquivo atual e atualizar todos os imports |
 | n | `<leader>Q` | Rosapreview: Expandir Vsplit | Abrir a definição do preview em um split vertical |
 | n | `<leader>M` | Rosapreview: Substituir Janela | Abrir a definição do preview substituindo a janela atual |
 
@@ -254,24 +253,6 @@
 | Modo | Tecla | Ação | Exemplo |
 |:----:|:------|:-----|:--------|
 | n,v | `<leader>lf` | Formatar arquivo/seleção | `Space l f` para formatar o arquivo atual — ou selecione linhas primeiro para formatar apenas aquelas |
-
----
-
-## Refatoração
-
-| Modo | Tecla | Ação | Exemplo |
-|:----:|:------|:-----|:--------|
-| n,x | `<leader>rr` | Selecionar refatoração | `Space r r` para abrir o menu de refatoração |
-| v | `<leader>rs` | Refatorar (visual) | Selecione código, depois `Space r s` para escolher uma ação de refatoração |
-| n,v | `<leader>ri` | Inline de variável | `Space r i` em uma variável para fazer inline do seu valor em todos os lugares |
-| n | `<leader>rb` | Extrair bloco | `Space r b` para extrair o bloco atual para uma nova função |
-| n | `<leader>rf` | Extrair bloco para arquivo | `Space r f` para extrair o bloco para um novo arquivo |
-| v | `<leader>rf` | Extrair função | Selecione código, `Space r f` para extrair para uma nova função |
-| v | `<leader>rF` | Extrair função para arquivo | Selecione código, `Space r Shift+f` para extrair para um novo arquivo |
-| v | `<leader>rx` | Extrair variável | Selecione uma expressão, `Space r x` para extrair para uma variável |
-| n | `<leader>rP` | Debug print | `Space r Shift+p` para inserir uma instrução de debug print |
-| n,v | `<leader>rp` | Debug print variável | `Space r p` para imprimir o valor da variável sob o cursor |
-| n | `<leader>rc` | Limpeza de debug | `Space r c` para remover todas as instruções de debug print |
 
 ---
 
@@ -523,6 +504,7 @@ Quer revisar **tudo** no repositório (suas edições incluídas), não só as d
 | n | `<leader>lamb` | Badge no buffer (Rosamaximize) | `Space l a m b` para mostrar/esconder o badge flutuante `max` no buffer |
 | n | `<leader>lamn` | Nome/ícone (Rosamaximize) | `Space l a m n` para alternar entre o texto `max` e só o ícone |
 | n | `<leader>lqx` | Borda (Rosamaximize) | `Space l q x` para abrir um popup e escolher a borda do badge (none / rounded / reta) |
+| n | `<leader>lv` | Ligar/desligar o Rosatag | `Space l v` para ligar/desligar o plugin Rosatag inteiro (auto close + live rename, padrão: ligado) |
 | n | `<leader>latc` | Auto close tag (Rosatag) | `Space l a t c` para ligar/desligar o fechamento automático de tags (padrão: ligado) |
 | n | `<leader>latr` | Auto live rename tag (Rosatag) | `Space l a t r` para ligar/desligar a renomeação ao vivo da tag par (padrão: ligado) |
 | n | `<leader>lqp` | Picker Layout | `Space l q p` para abrir popup de seleção de layout do picker |
@@ -716,7 +698,7 @@ Toda operação entra num único passo de undo. O bloco de modo do lualine mostr
 
 | Modo | Tecla | Ação | Exemplo |
 |:----:|:------|:-----|:--------|
-| n | `<leader>R` | Rosavim | `Space Shift+r` para executar o comando Rosavim |
+| n | `<leader>lR` | Rosavim | `Space l Shift+r` para executar o comando Rosavim |
 | n | `<leader>N` | Histórico de notificações | `Space Shift+n` para navegar notificações anteriores |
 | n | `<leader>.` | Dispensar notificação | `Space .` para dispensar a notificação atual |
 | n | `<leader>lxs` | Selecionar venv Python | `Space l x s` para escolher um ambiente virtual Python |

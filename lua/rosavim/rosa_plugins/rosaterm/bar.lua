@@ -2,40 +2,23 @@
 local M = {}
 
 local api = vim.api
-local tracked = {} -- win -> { kind = 'float'|'split', buf = N }
-local timer = nil
-
-local function hex(n)
-  if not n then
-    return nil
-  end
-  return string.format('#%06x', n)
-end
+local chip_bar = require 'rosavim.helpers.chip_bar'
+local chip = chip_bar.new { ns = 'rosaterm_chip' }
+local hex = chip_bar.hex
+local get_time = chip_bar.get_time
 
 local ICON_ROSA = '󰧱'
 -- nf-md-console (U+F018D). Built via nr2char so the 4-byte glyph survives
 -- saves intact — a raw paste was being stripped to an empty string before.
-local ICON_TERMINAL = ' '
+local ICON_TERMINAL = ' '
 local ICONS = { rosa = ICON_ROSA, terminal = ICON_TERMINAL }
 
 local function icon_visible()
-  local ok, toggles = pcall(require, 'rosavim.config.toggles')
-  if not ok then
-    return true
-  end
-  local v = toggles.get 'rosaterm_icon_visible'
-  if v == nil then
-    return true
-  end
-  return v
+  return chip_bar.toggle('rosaterm_icon_visible', true)
 end
 
 local function icon_glyph()
-  local ok, toggles = pcall(require, 'rosavim.config.toggles')
-  if not ok then
-    return ICON_ROSA
-  end
-  return ICONS[toggles.get 'rosaterm_icon_style'] or ICON_ROSA
+  return ICONS[chip_bar.toggle 'rosaterm_icon_style'] or ICON_ROSA
 end
 
 M.icon_visible = icon_visible
@@ -43,11 +26,9 @@ M.icon_glyph = icon_glyph
 
 function M.setup_hl()
   local normal = api.nvim_get_hl(0, { name = 'Normal' })
-  local err = api.nvim_get_hl(0, { name = 'DiagnosticError' })
   local fb = api.nvim_get_hl(0, { name = 'FloatBorder' })
 
   local nfg = hex(normal.fg) or '#cdd6f4'
-  local red = hex(err and err.fg) or '#f38ba8'
   local border_fg = hex(fb and fb.fg) or nfg
 
   api.nvim_set_hl(0, 'RosatermBarIcon', { fg = '#A9B2C0', bold = true })
@@ -64,63 +45,30 @@ vim.api.nvim_create_autocmd('ColorScheme', {
   end,
 })
 
-local function get_time()
-  return os.date '%H:%M'
-end
-
 --- Whether the chip should be shown at all (rosaterm_title toggle)
 function M.chip_enabled()
-  local ok, toggles = pcall(require, 'rosavim.config.toggles')
-  if not ok then
-    return true
-  end
-  local v = toggles.get 'rosaterm_title'
-  if v == nil then
-    return true
-  end
-  return v
+  return chip_bar.toggle('rosaterm_title', true)
 end
 
 --- Whether the time should be shown inside the chip (rosaterm_time toggle)
 function M.time_enabled()
-  local ok, toggles = pcall(require, 'rosavim.config.toggles')
-  if not ok then
-    return true
-  end
-  local v = toggles.get 'rosaterm_time'
-  if v == nil then
-    return true
-  end
-  return v
+  return chip_bar.toggle('rosaterm_time', true)
 end
 
 --- Whether to auto-start in insert mode when opening a terminal
 function M.autoinsert_enabled()
-  local ok, toggles = pcall(require, 'rosavim.config.toggles')
-  if not ok then
-    return true
-  end
-  local v = toggles.get 'rosaterm_autoinsert'
-  if v == nil then
-    return true
-  end
-  return v
+  return chip_bar.toggle('rosaterm_autoinsert', true)
 end
 
 --- Display name in the chip: 'Rosaterm' when full toggle on, 'Terminal' when off
 function M.name_text()
-  local ok, toggles = pcall(require, 'rosavim.config.toggles')
-  if not ok then
-    return 'Rosaterm'
-  end
-  local v = toggles.get 'rosaterm_name_full'
-  if v == false then
+  if chip_bar.toggle('rosaterm_name_full', true) == false then
     return 'Terminal'
   end
   return 'Rosaterm'
 end
 
-local CLOCK = '󰥔'
+local CLOCK = chip_bar.CLOCK
 
 --- Inline segments: small chip with `󰧱 Rosaterm hh:mm`
 local function inline_segments()
@@ -187,11 +135,7 @@ end
 
 --- Plain text version (for width measurement / buffer content)
 function M.chip_plain(width)
-  local s = ''
-  for _, seg in ipairs(M.chip_segments(width)) do
-    s = s .. seg[1]
-  end
-  return s
+  return chip_bar.segs_text(M.chip_segments(width))
 end
 
 --- Winbar-format text (`%#HlGroup#text...`) so the chip can be rendered
@@ -207,85 +151,31 @@ function M.winbar_text(width)
   return table.concat(parts) .. '%*'
 end
 
-local CHIP_NS = api.nvim_create_namespace 'rosaterm_chip'
-
-local function apply_segs(buf, row, segs)
-  local col = 0
-  for _, seg in ipairs(segs) do
-    local end_col = col + #seg[1]
-    api.nvim_buf_set_extmark(buf, CHIP_NS, row, col, {
-      end_row = row,
-      end_col = end_col,
-      hl_group = seg[2],
-    })
-    col = end_col
-  end
-end
-
 --- Write the chip text + colored extmarks to the given buffer.
 function M.write_chip_buf(buf, width)
   if not buf or not api.nvim_buf_is_valid(buf) then
     return
   end
-  api.nvim_buf_clear_namespace(buf, CHIP_NS, 0, -1)
-
-  local segs = M.chip_segments(width)
-  local text = M.chip_plain(width)
-  api.nvim_buf_set_lines(buf, 0, -1, false, { text })
-  apply_segs(buf, 0, segs)
-end
-
-local function ensure_timer()
-  if timer then
-    return
-  end
-  timer = vim.uv.new_timer()
-  timer:start(
-    0,
-    30000,
-    vim.schedule_wrap(function()
-      local any = false
-      for win, info in pairs(tracked) do
-        if api.nvim_win_is_valid(win) then
-          any = true
-          if info.refresh then
-            info.refresh()
-          end
-        else
-          tracked[win] = nil
-        end
-      end
-      if not any then
-        M._stop_timer()
-      end
-    end)
-  )
+  chip.clear(buf)
+  chip.write_line(buf, M.chip_segments(width))
 end
 
 function M._stop_timer()
-  if timer then
-    pcall(function()
-      timer:stop()
-      timer:close()
-    end)
-    timer = nil
-  end
+  chip.stop_timer()
 end
 
 function M.attach_float(win, buf, refresh_fn)
   M.setup_hl()
-  tracked[win] = { kind = 'float', buf = buf, refresh = refresh_fn }
-  ensure_timer()
+  chip.track(win, { kind = 'float', buf = buf, refresh = refresh_fn })
 end
 
 function M.attach_split(win, buf, refresh_fn)
   M.setup_hl()
-  tracked[win] = { kind = 'split', buf = buf, refresh = refresh_fn }
-  ensure_timer()
+  chip.track(win, { kind = 'split', buf = buf, refresh = refresh_fn })
 end
 
 function M.detach(win)
-  tracked[win] = nil
+  chip.untrack(win)
 end
 
 return M

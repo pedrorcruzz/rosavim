@@ -104,6 +104,7 @@ local defaults = {
   rosaterm_dark_bg = true, -- light mode: force #000
   rosaterm_dark_bg_dm = false, -- dark mode: force #000
   -- Rosatag
+  rosatag = true, -- master switch: off disables the whole plugin
   rosatag_close = true, -- auto close tag
   rosatag_rename = true, -- auto live rename tag
   -- Yazi / Lazygit background overrides (force #000, same light+dark scheme)
@@ -172,6 +173,27 @@ end
 function M.set(key, value)
   local state = M._load()
   state[key] = value
+  M._save()
+end
+
+--- Like get(), but with a fallback when the module may not be loaded yet or
+--- the key is unset. Lets callers drop the pcall(require) + nil-check dance.
+function M.get_or(key, default)
+  local value = M.get(key)
+  if value == nil then
+    return default
+  end
+  return value
+end
+
+--- Set several keys with a single disk write (set() writes the whole JSON
+--- file per call, so batch updates like "force dark bg: all" should not pay
+--- one write per key).
+function M.set_many(values)
+  local state = M._load()
+  for key, value in pairs(values) do
+    state[key] = value
+  end
   M._save()
 end
 

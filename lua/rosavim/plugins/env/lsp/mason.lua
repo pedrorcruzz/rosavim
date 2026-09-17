@@ -3,17 +3,9 @@ if not vim.env.PATH:find(mason_bin, 1, true) then
   vim.env.PATH = mason_bin .. ':' .. vim.env.PATH
 end
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-local ok, blink = pcall(require, 'blink.cmp')
-if ok then
-  capabilities = blink.get_lsp_capabilities(capabilities)
-end
-
-vim.lsp.config('*', {
-  capabilities = capabilities,
-})
-
+-- Capabilities are registered by blink.cmp itself (plugin/blink-cmp.lua calls
+-- vim.lsp.config('*', ...) on load); blink is non-lazy so this happens before
+-- the first server starts.
 vim.lsp.enable {
   'tsc',
   -- vtsls is temporary, Vue projects only. Removal checklist in lsp/vtsls.lua
@@ -49,8 +41,9 @@ return {
   },
   {
     'WhoIsSethDaniel/mason-tool-installer.nvim',
-    event = 'VeryLazy',
+    cmd = { 'MasonToolsInstall', 'MasonToolsUpdate', 'MasonToolsClean' },
     opts = {
+      run_on_start = false,
       ensure_installed = {
         -- LSP Servers
         'tsc',

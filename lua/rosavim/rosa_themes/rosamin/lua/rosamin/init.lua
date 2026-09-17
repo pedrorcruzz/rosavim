@@ -58,7 +58,6 @@ local function set_groups()
 		TermCursorNC = { link = "Cursor" },
 		ErrorMsg = { fg = colors.red },
 		VertSplit = { fg = colors.border, bg = bg },
-		Winseparator = { link = "VertSplit" },
 		SignColumn = { link = "Normal" },
 		Folded = { fg = colors.fg, bg = colors.bgDarker },
 		FoldColumn = { link = "SignColumn" },
@@ -218,9 +217,8 @@ local function set_groups()
 		["@texcolors.diff.delete"] = { fg = colors.redDark },
 
 		["@constant"] = { link = "Constant" },
-		["@constant.builtin"] = { fg = colors.blue },
-		["@constancolors.builtin"] = { link = "Keyword" },
-		-- ["@constancolors.macro"] = {},
+		["@constant.builtin"] = { link = "Keyword" },
+		-- ["@constant.macro"] = {},
 		-- ["@define"] = {},
 		-- ["@macro"] = {},
 		["@string"] = { link = "String" },
@@ -368,11 +366,6 @@ function min.setup(values)
 end
 
 function min.colorscheme()
-	if vim.version().minor < 8 then
-		vim.notify("Neovim 0.8+ is required for rosamin colorscheme", vim.log.levels.ERROR, { title = "Rosamin" })
-		return
-	end
-
 	-- Sync transparent state from appearance module
 	local ok, appearance = pcall(require, "rosavim.config.appearance")
 	if ok then

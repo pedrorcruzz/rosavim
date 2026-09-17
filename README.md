@@ -328,7 +328,7 @@ Full reference: **[Keybindings Manual](docs/manual/keybinds.md)**.
 │   │   ├── ai/                    # Copilot, RosaAI
 │   │   ├── ui/                    # themes, statusline, dashboard, bufferline, noice
 │   │   ├── editor/                # terminal, navigation, file ops, projects
-│   │   ├── coding/                # flash, surround, multi-cursor, refactoring
+│   │   ├── coding/                # flash, surround, multi-cursor
 │   │   ├── language/              # language-specific (Laravel, Spring, Django, etc)
 │   │   └── test/                  # Rosatest
 │   ├── rosa_plugins/              # built-in plugins (see Features)

@@ -15,45 +15,22 @@
 --- where `mode` is 'float' | 'vertical' | 'horizontal' (or 'all' for apply()).
 local M = {}
 
-local api = vim.api
-local ns = api.nvim_create_namespace 'rosasizepopup'
+local menu = require 'rosavim.helpers.rosa_menu'
 
 local MODES = { 'float', 'vertical', 'horizontal' }
 local ROW_LABELS = { float = 'Float', vertical = 'Vertical', horizontal = 'Horizontal' }
 
 local function setup_highlights()
-  local p = require('rosavim.helpers.palette').get()
-  api.nvim_set_hl(0, 'RosaSizeTitle', { fg = p.title, bold = true })
-  api.nvim_set_hl(0, 'RosaSizeBorder', { fg = p.border })
-  api.nvim_set_hl(0, 'RosaSizeKey', { fg = p.key, bold = true })
-  api.nvim_set_hl(0, 'RosaSizeAction', { fg = p.text })
-  api.nvim_set_hl(0, 'RosaSizeValue', { fg = p.pink, bold = true })
-  api.nvim_set_hl(0, 'RosaSizeDim', { fg = p.dim })
-end
-
-local function create_float(opts)
-  local width = opts.width or 52
-  local height = opts.height or 14
-  local row = math.floor((vim.o.lines - height) / 2)
-  local col = math.floor((vim.o.columns - width) / 2)
-
-  local buf = api.nvim_create_buf(false, true)
-  local win = api.nvim_open_win(buf, true, {
-    relative = 'editor',
-    width = width,
-    height = height,
-    row = row,
-    col = col,
-    style = 'minimal',
-    border = 'rounded',
-    title = opts.title,
-    title_pos = 'center',
-    footer = opts.footer,
-    footer_pos = opts.footer and 'center' or nil,
-  })
-  vim.wo[win].winhl = 'Normal:Normal,FloatBorder:RosaSizeBorder,FloatTitle:RosaSizeTitle,FloatFooter:RosaSizeDim'
-  vim.bo[buf].bufhidden = 'wipe'
-  return buf, win
+  require('rosavim.helpers.palette').define('RosaSize', function(p)
+    return {
+      Title = { fg = p.title, bold = true },
+      Border = { fg = p.border },
+      Key = { fg = p.key, bold = true },
+      Action = { fg = p.text },
+      Value = { fg = p.pink, bold = true },
+      Dim = { fg = p.dim },
+    }
+  end)
 end
 
 --- Resolve a preset's display label from its name.
@@ -96,7 +73,7 @@ function M.open(spec)
   local gap = '  '
   local label_w = 13
 
-  local buf, win
+  local buf
 
   local function render()
     local lines, hls, ln = {}, {}, 0
@@ -150,31 +127,8 @@ function M.open(spec)
 
     add ''
 
-    vim.bo[buf].modifiable = true
-    api.nvim_buf_set_lines(buf, 0, -1, false, lines)
-    vim.bo[buf].modifiable = false
-    api.nvim_buf_clear_namespace(buf, ns, 0, -1)
-    for _, h in ipairs(hls) do
-      api.nvim_buf_add_highlight(buf, ns, h[1], h[2], h[3] or 0, h[4] or -1)
-    end
+    menu.set_content(buf, lines, hls)
   end
-
-  buf, win = create_float {
-    title = spec.title,
-    footer = ' q: close ',
-    width = 52,
-    height = 15,
-  }
-  render()
-
-  local kopts = { buffer = buf, silent = true, nowait = true }
-  local function close()
-    if api.nvim_win_is_valid(win) then
-      api.nvim_win_close(win, true)
-    end
-  end
-  vim.keymap.set('n', 'q', close, kopts)
-  vim.keymap.set('n', '<Esc>', close, kopts)
 
   local function cycle_mode(mode)
     local nxt = next_name(spec.list, spec.get(mode))
@@ -183,26 +137,53 @@ function M.open(spec)
     render()
   end
 
-  vim.keymap.set('n', 'f', function()
-    cycle_mode 'float'
-  end, kopts)
-  vim.keymap.set('n', 'v', function()
-    cycle_mode 'vertical'
-  end, kopts)
-  vim.keymap.set('n', 'h', function()
-    cycle_mode 'horizontal'
-  end, kopts)
-  vim.keymap.set('n', 'a', function()
-    -- Base the cycle on the shared value (or 'default' when modes differ),
-    -- then set every mode to the next preset.
-    local base = combined(spec) or 'default'
-    local nxt = next_name(spec.list, base)
-    for _, mode in ipairs(MODES) do
-      spec.set(mode, nxt)
-    end
-    spec.apply 'all'
-    render()
-  end, kopts)
+  local ctx = menu.open {
+    title = spec.title,
+    footer = ' q: close ',
+    width = 52,
+    height = 15,
+    hl_prefix = 'RosaSize',
+    keys = {
+      {
+        'n',
+        'f',
+        function()
+          cycle_mode 'float'
+        end,
+      },
+      {
+        'n',
+        'v',
+        function()
+          cycle_mode 'vertical'
+        end,
+      },
+      {
+        'n',
+        'h',
+        function()
+          cycle_mode 'horizontal'
+        end,
+      },
+      {
+        'n',
+        'a',
+        function()
+          -- Base the cycle on the shared value (or 'default' when modes differ),
+          -- then set every mode to the next preset.
+          local base = combined(spec) or 'default'
+          local nxt = next_name(spec.list, base)
+          for _, mode in ipairs(MODES) do
+            spec.set(mode, nxt)
+          end
+          spec.apply 'all'
+          render()
+        end,
+      },
+    },
+  }
+  buf = ctx.buf
+  render()
 end
 
 return M

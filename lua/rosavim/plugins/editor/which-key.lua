@@ -36,14 +36,13 @@ return {
       { '<leader>ft', group = 'Todo Comments', icon = ' ' },
       { '<leader>z', group = 'Dropbar', icon = '󰳯' },
       { '<leader>,', group = 'Trouble Diagnostic', icon = '󰁨' },
-      { '<leader>j', group = 'Windows', icon = '' },
       { '<leader>v', group = 'DBUI', icon = '' },
       { '<leader>b', group = 'BufferLine', icon = '' },
       { '<leader>x', group = 'Rosafile', icon = '' },
 
       { '<leader>n', group = 'Rosatest', icon = '󰙨' },
-      { '<leader>m', group = 'Rosapick', icon = '' },
-      { '<leader>S', group = 'Rosapick', icon = '' },
+      { '<leader>m', desc = 'Rosapick: Pick Window', icon = '' },
+      { '<leader>S', desc = 'Rosapick: Swap Window', icon = '' },
       { '<leader>p', icon = '' },
       { '<leader>P', icon = '' },
 
@@ -58,10 +57,7 @@ return {
       { '<leader>o', group = 'Rosapoon', icon = '󰛢' },
 
       { '<leader>j', group = 'Obsidian', icon = '' },
-      { '<leader>vb', group = 'Buffers', icon = '' },
-      { '<leader>vt', group = 'Tabs', icon = '' },
 
-      { '<leader>R', icon = '' },
       { '<leader>L', group = 'Lazy', icon = '󰒲 ' },
 
       { '<leader>l', group = 'Tools', icon = ' ' },
@@ -116,19 +112,19 @@ return {
       { '<leader>d', group = 'Debug' },
       { '<leader>f', group = 'Find' },
       { '<leader>g', group = 'Git', icon = { name = 'git', cat = 'filetype' } },
-      { '<leader>r', group = 'Refactor' },
       { '<leader>s', group = 'Search' },
       { '<leader>1', group = 'Focus Left', icon = '󰛁' },
       { '<leader>2', group = 'Focus Right', icon = '󰛂' },
       { '<leader>3', group = 'Focus Down', icon = '󰛀' },
       { '<leader>4', group = 'Focus Up', icon = '󰛃' },
 
-      { '<leader>R', group = 'Rosavim', icon = '󰧱' },
+      { '<leader>R', icon = '󰳽 ' },
+      { '<leader>lR', desc = 'Rosavim', icon = '󰧱' },
     }
   end,
 
   keys = {
-    { '<leader>R', '<cmd>Rosavim<cr>', desc = 'Rosavim' },
+    { '<leader>lR', '<cmd>Rosavim<cr>', desc = 'Rosavim' },
     { '<leader>w', '<cmd>w!<cr>', desc = 'Save' },
     { '<leader>W', '<cmd>noa w<cr>', desc = 'Save Without Formatter' },
     { '<leader>h', '<cmd>nohlsearch<cr>', desc = 'No Highlight' },

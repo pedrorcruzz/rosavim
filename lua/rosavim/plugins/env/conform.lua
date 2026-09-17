@@ -19,6 +19,8 @@ return {
           vue = { 'prettierd', 'prettier', stop_after_first = true },
           html = { 'superhtml', 'prettierd', 'prettier', stop_after_first = true },
           css = { 'prettierd', 'prettier', stop_after_first = true },
+          scss = { 'prettierd', 'prettier', stop_after_first = true },
+          less = { 'prettierd', 'prettier', stop_after_first = true },
           htmldjango = { 'djlint' },
           python = { 'black', 'autopep8', stop_after_first = true },
           ruby = { 'rubocop' },
@@ -42,7 +44,7 @@ return {
         },
 
         format_on_save = {
-          lsp_fallback = true,
+          lsp_format = 'fallback',
           async = false,
           timeout_ms = 500,
         },
@@ -50,7 +52,7 @@ return {
 
       vim.keymap.set({ 'n', 'v' }, '<leader>lf', function()
         conform.format {
-          lsp_fallback = true,
+          lsp_format = 'fallback',
           async = false,
           timeout_ms = 500,
         }

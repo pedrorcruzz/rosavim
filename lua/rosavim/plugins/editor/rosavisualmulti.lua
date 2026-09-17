@@ -2,7 +2,6 @@ return {
   dir = vim.fn.stdpath 'config' .. '/lua/rosavim/rosa_plugins/rosavisualmulti',
   name = 'rosavisualmulti',
   lazy = true,
-  event = 'VeryLazy',
   config = function()
     require('rosavim.rosa_plugins.rosavisualmulti').setup()
   end,

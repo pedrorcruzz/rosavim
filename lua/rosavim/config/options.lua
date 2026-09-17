@@ -1,16 +1,13 @@
 require('rosavim.config.appearance').setup()
 
--- Enable loader (speed up startup time)
-vim.loader.enable()
+-- Global indent default (2 spaces). Per-language overrides live in
+-- after/ftplugin/*.lua; without this, filetypes with no ftplugin fall back
+-- to Vim's ts=8 noexpandtab.
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.softtabstop = 2
+vim.opt.expandtab = true
 
-vim.opt.lazyredraw = false
-
-vim.opt.fileencoding = 'utf-8'
-
--- vim.opt.tabstop = 2
--- vim.opt.shiftwidth = 2
--- vim.opt.softtabstop = 2
--- vim.opt.expandtab = true
 vim.opt.title = true
 vim.opt.titlestring = '%{fnamemodify(getcwd(), ":t")}%( — %t%)'
 
@@ -37,7 +34,9 @@ local set_root = function()
     root_cache[path] = root
   end
 
-  vim.fn.chdir(root)
+  if root ~= vim.fn.getcwd() then
+    vim.fn.chdir(root)
+  end
 end
 
 -- Terminal toggle term
@@ -58,8 +57,7 @@ vim.g.loaded_netrwPlugin = 1
 
 -- Line numbers are set via toggles persistence (end of file)
 
--- Enable mouse mode, can be useful for resizing splits for example!
-vim.opt.mouse = 'a'
+-- Mouse is already enabled by default; mousemoveevent is needed for hover UI
 vim.opt.mousemoveevent = true
 
 -- Don't show the mode, since it's already in the status line
@@ -73,11 +71,10 @@ vim.opt.clipboard = 'unnamedplus'
 -- Enable break indent
 vim.opt.breakindent = true
 
--- Enable line wrap
--- Wrap is set via toggles persistence (end of file)
--- Set the line wrap to be at 100 characters
+-- Wrap is set via toggles persistence (end of file).
+-- textwidth drives `gq` and comment reflow only; the `t` flag is NOT set
+-- globally because it hard-wraps source code at column 100 while typing.
 vim.opt.textwidth = 100
-vim.opt.formatoptions:append 't'
 
 -- Save undo history
 vim.opt.undofile = true
@@ -95,9 +92,6 @@ vim.opt.signcolumn = 'yes'
 -- while you pause mid-thought.
 vim.opt.updatetime = 400
 
--- Reload files changed outside of Neovim (RosaAI, git, etc.)
-vim.opt.autoread = true
-
 -- Decrease mapped sequence wait time
 -- Displays which-key popup sooner
 vim.opt.timeoutlen = 500
@@ -109,14 +103,11 @@ vim.opt.splitbelow = true
 -- Sets how neovim will display certain whitespace characters in the editor.
 --  See `:help 'list'`
 --  and `:help 'listchars'`
-vim.opt.list = false
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 vim.opt.fillchars:append { eob = ' ' }
 
 -- Preview substitutions live, as you type!
 vim.opt.inccommand = 'split'
-
-vim.opt.cursorcolumn = false
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10

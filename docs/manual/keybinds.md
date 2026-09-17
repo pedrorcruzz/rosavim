@@ -14,7 +14,6 @@
 - [Testing](#testing)
 - [Debugging](#debugging)
 - [Formatting & Code Actions](#formatting--code-actions)
-- [Refactoring](#refactoring)
 - [Terminal](#terminal)
 - [AI (Copilot & RosaAI)](#ai-copilot--rosaai)
 - [File Operations](#file-operations)
@@ -112,9 +111,9 @@
 | n | `gy` | Go to type definition | Press `gy` to jump to the type definition of the symbol |
 | n | `gp` | Rosapreview: Definition | Press `gp` to see the definition in a floating preview window |
 | n | `gP` | Rosapreview: Close All | Press `gP` to close all preview windows |
-| n | `<leader>lr` | Rename symbol | `Space l r` on a variable, type the new name — renames across the project |
+| n | `<leader>r` | Rename symbol | `Space r` on a variable, type the new name - renames across the project |
 | n | `<leader>la` | Code action | `Space l a` to see available code actions (imports, fixes, refactors) |
-| n | `<leader>lv` | Rename file | `Space l v` to rename the current file and update all imports |
+| n | `<leader>R` | Rename file | `Space Shift+r` to rename the current file and update all imports |
 | n | `<leader>Q` | Rosapreview: Expand Vsplit | Open the preview definition in a vertical split |
 | n | `<leader>M` | Rosapreview: Replace Window | Open the preview definition replacing the current window |
 
@@ -254,24 +253,6 @@
 | Mode | Key | Action | Example |
 |:----:|:----|:-------|:--------|
 | n,v | `<leader>lf` | Format file/selection | `Space l f` to format the current file — or select lines first to format only those |
-
----
-
-## Refactoring
-
-| Mode | Key | Action | Example |
-|:----:|:----|:-------|:--------|
-| n,x | `<leader>rr` | Select refactor | `Space r r` to open the refactoring menu |
-| v | `<leader>rs` | Select refactor (visual) | Select code, then `Space r s` to pick a refactoring action |
-| n,v | `<leader>ri` | Inline variable | `Space r i` on a variable to inline its value everywhere |
-| n | `<leader>rb` | Extract block | `Space r b` to extract the current block into a new function |
-| n | `<leader>rf` | Extract block to file | `Space r f` to extract the block into a new file |
-| v | `<leader>rf` | Extract function | Select code, `Space r f` to extract into a new function |
-| v | `<leader>rF` | Extract function to file | Select code, `Space r Shift+f` to extract into a new file |
-| v | `<leader>rx` | Extract variable | Select an expression, `Space r x` to extract into a variable |
-| n | `<leader>rP` | Debug print | `Space r Shift+p` to insert a debug print statement |
-| n,v | `<leader>rp` | Debug print variable | `Space r p` to print the value of the variable under cursor |
-| n | `<leader>rc` | Debug cleanup | `Space r c` to remove all debug print statements |
 
 ---
 
@@ -523,6 +504,7 @@ Want to review **everything** in the repo (your edits included), not just the AI
 | n | `<leader>lamb` | Rosamaximize buffer badge | `Space l a m b` to show/hide the floating `max` badge on the buffer |
 | n | `<leader>lamn` | Rosamaximize name/icon | `Space l a m n` to switch between the `max` text and icon-only |
 | n | `<leader>lqx` | Rosamaximize border | `Space l q x` to open a popup to select the badge border (none / rounded / straight) |
+| n | `<leader>lv` | Toggle Rosatag | `Space l v` to enable/disable the whole Rosatag plugin (auto close + live rename, default: on) |
 | n | `<leader>latc` | Rosatag auto close tag | `Space l a t c` to enable/disable auto closing tags (default: on) |
 | n | `<leader>latr` | Rosatag auto live rename tag | `Space l a t r` to enable/disable live renaming of the paired tag (default: on) |
 | n | `<leader>lqp` | Picker Layout | `Space l q p` to open a popup to select picker layout preset |
@@ -716,7 +698,7 @@ Every operation lands in a single undo step. The lualine mode block shows `ROSAV
 
 | Mode | Key | Action | Example |
 |:----:|:----|:-------|:--------|
-| n | `<leader>R` | Rosavim | `Space Shift+r` to run the Rosavim command |
+| n | `<leader>lR` | Rosavim | `Space l Shift+r` to run the Rosavim command |
 | n | `<leader>N` | Notification history | `Space Shift+n` to browse past notifications |
 | n | `<leader>.` | Dismiss notification | `Space .` to dismiss the current notification |
 | n | `<leader>lxs` | Select Python venv | `Space l x s` to pick a Python virtual environment |

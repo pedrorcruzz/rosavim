@@ -1,8 +1,9 @@
 local toggles = require 'rosavim.config.toggles'
 
 local lsp_group = vim.api.nvim_create_augroup('UserLspConfig', { clear = true })
-local highlight_group = vim.api.nvim_create_augroup('UserLspDocumentHighlight', { clear = true })
 
+-- Document highlight is handled by snacks.words (one request stream, plus
+-- ]]/[[ reference navigation); no manual CursorHold pipeline here.
 vim.api.nvim_create_autocmd('LspAttach', {
   group = lsp_group,
   callback = function(event)
@@ -10,38 +11,22 @@ vim.api.nvim_create_autocmd('LspAttach', {
       vim.keymap.set('n', keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
     end
 
-    map('<leader>lr', vim.lsp.buf.rename, 'Rename')
+    map('<leader>r', vim.lsp.buf.rename, 'Rename')
     map('<leader>la', vim.lsp.buf.code_action, 'Code Action')
-
-    local client = vim.lsp.get_client_by_id(event.data.client_id)
-    if client and client:supports_method('textDocument/documentHighlight') then
-      vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
-        group = highlight_group,
-        buffer = event.buf,
-        callback = vim.lsp.buf.document_highlight,
-      })
-      vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
-        group = highlight_group,
-        buffer = event.buf,
-        callback = vim.lsp.buf.clear_references,
-      })
-    end
   end,
 })
 
-vim.api.nvim_create_autocmd('LspDetach', {
-  group = lsp_group,
-  callback = function(event)
-    local detaching = event.data.client_id
-    for _, client in ipairs(vim.lsp.get_clients { bufnr = event.buf }) do
-      if client.id ~= detaching and client:supports_method('textDocument/documentHighlight') then
-        return
-      end
+-- superhtml exits with code 1 on malformed HTML; keep that noise out of the
+-- notifier. Wrapped here (after snacks owns vim.notify) via lazy scheduling.
+vim.schedule(function()
+  local orig_notify = vim.notify
+  vim.notify = function(msg, ...)
+    if type(msg) == 'string' and msg:find('Client superhtml quit', 1, true) then
+      return
     end
-    vim.api.nvim_clear_autocmds { group = highlight_group, buffer = event.buf }
-    vim.lsp.util.buf_clear_references(event.buf)
-  end,
-})
+    return orig_notify(msg, ...)
+  end
+end)
 
 local severity = vim.diagnostic.severity
 vim.diagnostic.config {

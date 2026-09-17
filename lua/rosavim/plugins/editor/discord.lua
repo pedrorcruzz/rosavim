@@ -3,38 +3,40 @@ return {
   lazy = true,
   event = 'VeryLazy',
   config = function()
-    local is_discord_running = os.execute 'pgrep Discord > /dev/null'
+    -- Async check so startup never blocks on a process scan
+    vim.system({ 'pgrep', 'Discord' }, {}, function(out)
+      if out.code ~= 0 then
+        return
+      end
+      vim.schedule(function()
+        require('discord').setup {
+          auto_connect = false,
+          logo = 'https://raw.githubusercontent.com/pedrorcruzz/rosavim/main/assets/logo/rosavim.png',
+          logo_tooltip = 'Rosavim',
+          main_image = 'language',
+          client_id = '1342537926969524325', -- Neovim: 1233867420330889286 || Rosavim: 1342537926969524325
+          log_level = nil,
+          debounce_timeout = 10,
+          blacklist = {},
+          file_assets = {},
+          show_time = true,
+          global_timer = true,
 
-    if is_discord_running ~= 0 then
-      return
-    end
-
-    require('discord').setup {
-      auto_connect = false,
-      logo = 'https://raw.githubusercontent.com/pedrorcruzz/rosavim/main/assets/logo/rosavim.png',
-      logo_tooltip = 'Rosavim',
-      main_image = 'language',
-      client_id = '1342537926969524325', -- Neovim: 1233867420330889286 || Rosavim: 1342537926969524325
-      log_level = nil,
-      debounce_timeout = 10,
-      blacklist = {},
-      file_assets = {},
-      show_time = true,
-      global_timer = true,
-
-      editing_text = 'Editing %s',
-      file_explorer_text = 'Browsing %s',
-      git_commit_text = 'Committing changes',
-      plugin_manager_text = 'Managing plugins',
-      reading_text = 'Reading %s',
-      workspace_text = 'Working on %s',
-      line_number_text = 'Line %s out of %s',
-      terminal_text = function()
-        if vim.bo.filetype == 'rosaai' then
-          return 'Using RosaAI'
-        end
-        return 'Using Terminal'
-      end,
-    }
+          editing_text = 'Editing %s',
+          file_explorer_text = 'Browsing %s',
+          git_commit_text = 'Committing changes',
+          plugin_manager_text = 'Managing plugins',
+          reading_text = 'Reading %s',
+          workspace_text = 'Working on %s',
+          line_number_text = 'Line %s out of %s',
+          terminal_text = function()
+            if vim.bo.filetype == 'rosaai' then
+              return 'Using RosaAI'
+            end
+            return 'Using Terminal'
+          end,
+        }
+      end)
+    end)
   end,
 }

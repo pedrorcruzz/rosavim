@@ -102,7 +102,7 @@ function M.rg_wrapper()
       out:close()
     end
   end
-  pcall((vim.uv or vim.loop).fs_chmod, path, 493) -- 0755
+  pcall(vim.uv.fs_chmod, path, 493) -- 0755
   return path
 end
 

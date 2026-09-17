@@ -1,5 +1,9 @@
 local M = {}
 
+-- Resolved once; the component/cond callbacks below run on every statusline
+-- redraw, so they must not pay a pcall(require) each time.
+local rm_ok, rosamaximize = pcall(require, 'rosavim.rosa_plugins.rosamaximize')
+
 M.sep = {
   section = { left = '', right = '' },
   component = { left = '', right = '' },
@@ -101,12 +105,10 @@ function M.build(sep)
     lualine_x = {
       {
         function()
-          local ok, rm = pcall(require, 'rosavim.rosa_plugins.rosamaximize')
-          return ok and rm.lualine_label() or ''
+          return rm_ok and rosamaximize.lualine_label() or ''
         end,
         cond = function()
-          local ok, rm = pcall(require, 'rosavim.rosa_plugins.rosamaximize')
-          return ok and rm.lualine_visible()
+          return rm_ok and rosamaximize.lualine_visible()
         end,
         color = function()
           local fg = vim.o.background == 'light' and '#000000' or '#A3AAB8'

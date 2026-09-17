@@ -842,13 +842,18 @@ end
 local function when_ready(name, cb)
   local interval, min_ms, max_ms = 100, 500, 8000
   local elapsed, last, stable = 0, nil, 0
+  -- Only the tail matters for the stability check; concatenating the whole
+  -- terminal buffer every tick regex-scans megabytes of scrollback.
+  local TAIL = 200
   local function tick()
     local s = state.get(name)
     if not s or not s.job or not (s.buf and api.nvim_buf_is_valid(s.buf)) then
       return
     end
-    local joined = table.concat(api.nvim_buf_get_lines(s.buf, 0, -1, false), '\n')
-    local rendered = joined:gsub('%s+', '') ~= ''
+    local total = api.nvim_buf_line_count(s.buf)
+    local first = math.max(0, total - TAIL)
+    local joined = table.concat(api.nvim_buf_get_lines(s.buf, first, -1, false), '\n')
+    local rendered = joined:find '%S' ~= nil
     if rendered and joined == last then
       stable = stable + 1
     else
@@ -1077,7 +1082,7 @@ function M.ask_with_preview()
   -- - In normal mode after 300ms: <Esc> does nothing — use q to cancel.
   local double_esc_ms = 300
   local esc_window_until = 0
-  local now = (vim.uv and vim.uv.now) or vim.loop.now
+  local now = vim.uv.now
 
   vim.keymap.set('i', '<Esc>', function()
     esc_window_until = now() + double_esc_ms
@@ -1159,7 +1164,7 @@ local function install_esc_handler(buf)
   local opts = { buffer = buf, silent = true, nowait = true }
   local double_esc_window_ms = 300
   local esc_window_until = 0
-  local now = (vim.uv and vim.uv.now) or vim.loop.now
+  local now = vim.uv.now
 
   vim.keymap.set('t', '<Esc>', function()
     esc_window_until = now() + double_esc_window_ms

@@ -47,9 +47,10 @@ local function regex_matches(cur)
   if not ok then
     return out
   end
-  local total = api.nvim_buf_line_count(cur.buf)
-  for row = 0, total - 1 do
-    local text = line(cur.buf, row)
+  -- One bulk read instead of one API call per line
+  local lines = api.nvim_buf_get_lines(cur.buf, 0, -1, false)
+  for i, text in ipairs(lines) do
+    local row = i - 1
     local init = 0
     while init <= #text do
       local s, e = re:match_str(text:sub(init + 1))

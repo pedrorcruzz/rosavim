@@ -10,6 +10,18 @@ end
 
 return function()
   Snacks.toggle({
+    name = 'Rosatag',
+    wk_desc = { enabled = 'Disable ', disabled = 'Enable ' },
+    get = function()
+      return toggles.get 'rosatag'
+    end,
+    set = function(state)
+      toggles.set('rosatag', state)
+      refresh()
+    end,
+  }):map '<leader>lv'
+
+  Snacks.toggle({
     name = 'Rosatag Auto Close Tag',
     wk_desc = { enabled = 'Disable ', disabled = 'Enable ' },
     get = function()

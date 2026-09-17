@@ -1,6 +1,3 @@
-vim.fn.sign_define('DapBreakpoint', { text = '󰃤', texthl = 'DiagnosticError', linehl = '', numhl = '' })
-vim.fn.sign_define('DapBreakpointCondition', { text = '', texthl = 'DiagnosticWarn', linehl = '', numhl = '' })
-vim.fn.sign_define('DapStopped', { text = '', texthl = 'DiagnosticInfo', linehl = 'Visual', numhl = '' })
 return {
   {
     'mfussenegger/nvim-dap',
@@ -31,24 +28,15 @@ return {
         end,
       },
 
-      {
-        'williamboman/mason.nvim',
-        opts = function(_, opts)
-          opts.ensure_installed = {
-            'debugpy',
-            'delve',
-            'php-debug-adapter',
-            'java-debug-adapter',
-          }
-        end,
-      },
-
-      'jay-babu/mason-nvim-dap.nvim',
       'leoluz/nvim-dap-go',
     },
 
     opts = function()
       local dap = require 'dap'
+
+      vim.fn.sign_define('DapBreakpoint', { text = '󰃤', texthl = 'DiagnosticError', linehl = '', numhl = '' })
+      vim.fn.sign_define('DapBreakpointCondition', { text = '', texthl = 'DiagnosticWarn', linehl = '', numhl = '' })
+      vim.fn.sign_define('DapStopped', { text = '', texthl = 'DiagnosticInfo', linehl = 'Visual', numhl = '' })
 
       -- Python DAP config
       if not dap.adapters.python then

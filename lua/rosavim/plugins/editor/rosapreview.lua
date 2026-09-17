@@ -1,7 +1,6 @@
 return {
   dir = vim.fn.stdpath 'config' .. '/lua/rosavim/rosa_plugins/rosapreview',
   name = 'rosapreview',
-  event = 'LspAttach',
   config = function()
     require('rosavim.rosa_plugins.rosapreview').setup()
   end,

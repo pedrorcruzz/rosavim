@@ -86,7 +86,10 @@ return function()
   -- with its explorer/tab chrome surface. One persisted toggle per theme, so
   -- each can be inverted independently; the swap itself lives in
   -- rosavim.config.invert_bg, which also owns the shade pairs.
-  for key, theme in pairs { j = 'rosajet', m = 'rosamin', v = 'rosavintage' } do
+  -- Array, not a map: pairs() order is nondeterministic and would shuffle
+  -- the which-key listing between sessions.
+  for _, entry in ipairs { { 'j', 'rosajet' }, { 'm', 'rosamin' }, { 'v', 'rosavintage' } } do
+    local key, theme = entry[1], entry[2]
     Snacks.toggle({
       name = 'Invert BG: ' .. theme,
       get = function()

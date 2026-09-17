@@ -152,12 +152,17 @@ end
 
 function M.setup()
   M.apply()
-  api.nvim_create_autocmd({ 'ColorScheme', 'OptionSet' }, {
-    group = api.nvim_create_augroup('RosavimLazygitTheme', { clear = true }),
-    callback = function(ev)
-      if ev.event == 'OptionSet' and ev.match ~= 'background' then
-        return
-      end
+  local group = api.nvim_create_augroup('RosavimLazygitTheme', { clear = true })
+  api.nvim_create_autocmd('ColorScheme', {
+    group = group,
+    callback = function()
+      M.apply()
+    end,
+  })
+  api.nvim_create_autocmd('OptionSet', {
+    group = group,
+    pattern = 'background',
+    callback = function()
       M.apply()
     end,
   })

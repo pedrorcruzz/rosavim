@@ -2,18 +2,13 @@
 local M = {}
 
 local api = vim.api
-local tracked = {} -- win -> { buf, refresh }
-local timer = nil
+local chip_bar = require 'rosavim.helpers.chip_bar'
+local chip = chip_bar.new { ns = 'rosaai_chip' }
+local hex = chip_bar.hex
+local get_time = chip_bar.get_time
 
-local function hex(n)
-  if not n then
-    return nil
-  end
-  return string.format('#%06x', n)
-end
-
-local ICON = ''
-local CLOCK = '󰥔'
+local ICON = ''
+local CLOCK = chip_bar.CLOCK
 
 function M.setup_hl()
   local normal = api.nvim_get_hl(0, { name = 'Normal' })
@@ -44,42 +39,26 @@ vim.api.nvim_create_autocmd('ColorScheme', {
   end,
 })
 
-local function get_time()
-  return os.date '%H:%M'
-end
-
-local function tog_get(key, default)
-  local ok, toggles = pcall(require, 'rosavim.config.toggles')
-  if not ok then
-    return default
-  end
-  local v = toggles.get(key)
-  if v == nil then
-    return default
-  end
-  return v
-end
-
 function M.chip_enabled()
-  return tog_get('rosaai_title', true)
+  return chip_bar.toggle('rosaai_title', true)
 end
 
 function M.time_enabled()
-  return tog_get('rosaai_time', true)
+  return chip_bar.toggle('rosaai_time', true)
 end
 
 function M.autoinsert_enabled()
-  return tog_get('rosaai_autoinsert', true)
+  return chip_bar.toggle('rosaai_autoinsert', true)
 end
 
 --- Master Review toggle (default true). Gates the pending-review badge.
 function M.review_enabled()
-  return tog_get('rosaai_review', true)
+  return chip_bar.toggle('rosaai_review', true)
 end
 
 --- Whether the pending-review count badge is shown (default true).
 function M.badge_enabled()
-  return tog_get('rosaai_review_badge', true)
+  return chip_bar.toggle('rosaai_review_badge', true)
 end
 
 local REVIEW_ICON = '󰈈'
@@ -193,104 +172,45 @@ function M.chip_segments(width, tool_name)
 end
 
 function M.chip_plain(width, tool_name)
-  local s = ''
-  for _, seg in ipairs(M.chip_segments(width, tool_name)) do
-    s = s .. seg[1]
-  end
-  return s
-end
-
-local CHIP_NS = api.nvim_create_namespace 'rosaai_chip'
-
-local function apply_segs(buf, row, segs)
-  local col = 0
-  for _, seg in ipairs(segs) do
-    local end_col = col + #seg[1]
-    api.nvim_buf_set_extmark(buf, CHIP_NS, row, col, {
-      end_row = row,
-      end_col = end_col,
-      hl_group = seg[2],
-    })
-    col = end_col
-  end
+  return chip_bar.segs_text(M.chip_segments(width, tool_name))
 end
 
 function M.write_chip_buf(buf, width, tool_name)
   if not buf or not api.nvim_buf_is_valid(buf) then
     return
   end
-  api.nvim_buf_clear_namespace(buf, CHIP_NS, 0, -1)
+  chip.clear(buf)
 
   local ok, themes = pcall(require, 'rosavim.rosa_plugins.rosaai.themes')
   local theme = ok and themes.current() or nil
 
   if theme and theme.layout == 'stem' then
     local segs = banner_segments(width or 0, tool_name)
-    local text = ''
-    for _, seg in ipairs(segs) do
-      text = text .. seg[1]
-    end
+    local text = chip_bar.segs_text(segs)
     local sep = string.rep('─', width or 0)
     api.nvim_buf_set_lines(buf, 0, -1, false, { text, sep })
-    apply_segs(buf, 0, segs)
-    api.nvim_buf_set_extmark(buf, CHIP_NS, 1, 0, {
+    chip.apply_segs(buf, 0, segs)
+    api.nvim_buf_set_extmark(buf, chip.ns, 1, 0, {
       end_row = 1,
       end_col = #sep,
       hl_group = 'RosaaiBarBracket',
     })
   else
-    local segs = M.chip_segments(width, tool_name)
-    local text = M.chip_plain(width, tool_name)
-    api.nvim_buf_set_lines(buf, 0, -1, false, { text })
-    apply_segs(buf, 0, segs)
+    chip.write_line(buf, M.chip_segments(width, tool_name))
   end
-end
-
-local function ensure_timer()
-  if timer then
-    return
-  end
-  timer = vim.uv.new_timer()
-  timer:start(
-    0,
-    30000,
-    vim.schedule_wrap(function()
-      local any = false
-      for win, info in pairs(tracked) do
-        if api.nvim_win_is_valid(win) then
-          any = true
-          if info.refresh then
-            info.refresh()
-          end
-        else
-          tracked[win] = nil
-        end
-      end
-      if not any then
-        M._stop_timer()
-      end
-    end)
-  )
 end
 
 function M._stop_timer()
-  if timer then
-    pcall(function()
-      timer:stop()
-      timer:close()
-    end)
-    timer = nil
-  end
+  chip.stop_timer()
 end
 
 function M.attach(win, buf, refresh_fn)
   M.setup_hl()
-  tracked[win] = { buf = buf, refresh = refresh_fn }
-  ensure_timer()
+  chip.track(win, { buf = buf, refresh = refresh_fn })
 end
 
 function M.detach(win)
-  tracked[win] = nil
+  chip.untrack(win)
 end
 
 --- Esc-hint winbar fragment showing the terminal escape shortcuts.

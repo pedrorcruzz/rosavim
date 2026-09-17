@@ -106,7 +106,6 @@ local function set_groups()
     TabLineFill = { fg = colors.bgDark, bg = colors.bgDark },
     ToolbarLine = { fg = colors.bgDark, bg = colors.bgDark },
     VertSplit = { fg = vim.o.background == 'dark' and '#121212' or colors.border, bg = bg },
-    Winseparator = { fg = vim.o.background == 'dark' and '#121212' or colors.border, bg = bg },
     WinSeparator = { fg = vim.o.background == 'dark' and '#121212' or colors.border, bg = bg },
 
     SpellBad = { undercurl = true, sp = colors.spellRed },
@@ -402,11 +401,6 @@ function M.setup(values)
 end
 
 function M.colorscheme()
-  if vim.version().minor < 8 then
-    vim.notify('Neovim 0.8+ is required for rosavintage colorscheme', vim.log.levels.ERROR, { title = 'Rosavintage' })
-    return
-  end
-
   -- Sync transparent state from appearance module
   local ok, appearance = pcall(require, 'rosavim.config.appearance')
   if ok then

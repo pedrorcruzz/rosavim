@@ -16,7 +16,14 @@ local M = {}
 
 local fn = vim.fn
 
-local root_cache = nil -- cached absolute path of the git worktree root
+local root_cache = nil -- cached absolute path of the git worktree root, or false when not in a repo
+
+vim.api.nvim_create_autocmd('DirChanged', {
+  group = vim.api.nvim_create_augroup('RosaaiSnapshotRoot', { clear = true }),
+  callback = function()
+    root_cache = nil
+  end,
+})
 local baseline = nil -- active baseline commit SHA, or nil
 local ai_content = nil -- map abs path -> lines, the AI's result frozen at turn end
 
@@ -63,14 +70,17 @@ end
 --- `git rev-parse --show-toplevel`. Re-discovers if the cache is nil.
 --- Returns nil when the editor's cwd is not inside a git repository.
 function M.repo_root()
-  if root_cache then
-    return root_cache
+  if root_cache ~= nil then
+    return root_cache or nil
   end
   local ok, out = pcall(fn.systemlist, { 'git', 'rev-parse', '--show-toplevel' })
   if ok and vim.v.shell_error == 0 and out and out[1] and out[1] ~= '' then
     root_cache = out[1]
     return root_cache
   end
+  -- Cache the negative result too: outside a repo this is hit from WinLeave,
+  -- and re-forking git on every call would block the editor.
+  root_cache = false
   return nil
 end
 

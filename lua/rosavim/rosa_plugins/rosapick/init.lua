@@ -7,6 +7,8 @@ local label_hl = 'RosapickLabel'
 local label_active_hl = 'RosapickLabelActive'
 local border_hl = 'RosapickBorder'
 
+local ns = vim.api.nvim_create_namespace 'rosapick'
+
 --- A window whose `winhighlight` does NOT remap `Normal`. `nvim_get_hl`
 --- resolves through the CURRENT window's `winhighlight`, so reading `Normal`
 --- from inside a rosaterm/RosaAI panel with the Dark toggle on hands back the
@@ -88,7 +90,7 @@ local function create_label(win, char, is_current)
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, { text })
 
   local hl = is_current and label_active_hl or label_hl
-  vim.api.nvim_buf_add_highlight(buf, -1, hl, 0, 0, -1)
+  vim.api.nvim_buf_set_extmark(buf, ns, 0, 0, { end_row = 1, end_col = 0, hl_group = hl })
 
   local float = vim.api.nvim_open_win(buf, false, {
     relative = 'win',

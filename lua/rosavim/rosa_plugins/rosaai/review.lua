@@ -154,16 +154,19 @@ end
 
 --- Register the Rosa review highlight groups from the shared palette.
 local function setup_highlights()
-  local p = require('rosavim.helpers.palette').get()
-  api.nvim_set_hl(0, 'RosaReviewAdd', { fg = p.green })
-  api.nvim_set_hl(0, 'RosaReviewDel', { fg = p.red })
-  api.nvim_set_hl(0, 'RosaReviewTitle', { fg = p.title, bold = true })
-  api.nvim_set_hl(0, 'RosaReviewBorder', { fg = p.border })
-  api.nvim_set_hl(0, 'RosaReviewKey', { fg = p.key, bold = true })
-  api.nvim_set_hl(0, 'RosaReviewDim', { fg = p.dim })
-  api.nvim_set_hl(0, 'RosaReviewText', { fg = p.text })
-  api.nvim_set_hl(0, 'RosaReviewKept', { fg = p.green, bold = true })
-  api.nvim_set_hl(0, 'RosaReviewReject', { fg = p.red, bold = true })
+  require('rosavim.helpers.palette').define('RosaReview', function(p)
+    return {
+      Add = { fg = p.green },
+      Del = { fg = p.red },
+      Title = { fg = p.title, bold = true },
+      Border = { fg = p.border },
+      Key = { fg = p.key, bold = true },
+      Dim = { fg = p.dim },
+      Text = { fg = p.text },
+      Kept = { fg = p.green, bold = true },
+      Reject = { fg = p.red, bold = true },
+    }
+  end)
 end
 
 --- Give the gitsigns whole-line groups the Cursor-style green/red fill.
@@ -617,14 +620,19 @@ local function reject_current()
   -- Position at the hunk so gitsigns resolves the right one from the range.
   local last = api.nvim_buf_line_count(buf)
   pcall(api.nvim_win_set_cursor, win, { math.min(s, last), 0 })
-  local ok = pcall(gs.reset_hunk, { s, e }, nil, vim.schedule_wrap(function()
-    if S and entry then
-      entry.resolved[sig] = 'reject'
-    end
-    write_buf(buf)
-    nav 'next'
-    after_action()
-  end))
+  local ok = pcall(
+    gs.reset_hunk,
+    { s, e },
+    nil,
+    vim.schedule_wrap(function()
+      if S and entry then
+        entry.resolved[sig] = 'reject'
+      end
+      write_buf(buf)
+      nav 'next'
+      after_action()
+    end)
+  )
   if not ok then
     notify(mode_cfg().prefix .. ': could not reject hunk', vim.log.levels.WARN)
   end
@@ -876,7 +884,12 @@ render_panel = function()
   vim.bo[buf].modifiable = false
   api.nvim_buf_clear_namespace(buf, panel_ns, 0, -1)
   for _, h in ipairs(hls) do
-    pcall(api.nvim_buf_add_highlight, buf, panel_ns, h[1], h[2], h[3], h[4])
+    local col_end = h[4]
+    pcall(api.nvim_buf_set_extmark, buf, panel_ns, h[2], h[3], {
+      end_row = col_end == -1 and h[2] + 1 or h[2],
+      end_col = col_end == -1 and 0 or col_end,
+      hl_group = h[1],
+    })
   end
   sync_list_cursor()
 end
@@ -1001,7 +1014,7 @@ open_panel = function()
     local c = pad
     for _, s in ipairs(segs) do
       local ec = c + #s[1]
-      pcall(api.nvim_buf_add_highlight, cbuf, panel_ns, s[2], hint_row, c, ec)
+      pcall(api.nvim_buf_set_extmark, cbuf, panel_ns, hint_row, c, { end_col = ec, hl_group = s[2] })
       c = ec
     end
   end
@@ -1416,15 +1429,25 @@ finalize = function(entries)
   end
 
   -- Keep the chip in sync as the cursor moves through reviewed buffers.
+  -- Gated on line/buffer change: the chip content only depends on the line,
+  -- so column-only moves skip the whole hunk-lookup + repaint pipeline.
+  local last_buf, last_line
   api.nvim_create_autocmd('CursorMoved', {
     group = S.au,
     callback = function()
       if not S then
         return
       end
-      if entry_for_buf(api.nvim_get_current_buf()) then
-        update_chip()
+      local buf = api.nvim_get_current_buf()
+      if not entry_for_buf(buf) then
+        return
       end
+      local line = api.nvim_win_get_cursor(0)[1]
+      if buf == last_buf and line == last_line then
+        return
+      end
+      last_buf, last_line = buf, line
+      update_chip()
     end,
   })
 
@@ -1477,10 +1500,10 @@ local function needs_git_popup()
   vim.wo[win].winhl = 'Normal:Normal,FloatBorder:RosaReviewBorder,FloatTitle:RosaReviewTitle,FloatFooter:RosaReviewDim'
   vim.wo[win].cursorline = false
 
-  api.nvim_buf_add_highlight(buf, ns, 'RosaReviewText', 1, 0, -1)
-  api.nvim_buf_add_highlight(buf, ns, 'RosaReviewDim', 3, 0, -1)
-  api.nvim_buf_add_highlight(buf, ns, 'RosaReviewDim', 4, 0, -1)
-  api.nvim_buf_add_highlight(buf, ns, 'RosaReviewKey', 6, 0, -1)
+  api.nvim_buf_set_extmark(buf, ns, 1, 0, { end_row = 2, end_col = 0, hl_group = 'RosaReviewText' })
+  api.nvim_buf_set_extmark(buf, ns, 3, 0, { end_row = 4, end_col = 0, hl_group = 'RosaReviewDim' })
+  api.nvim_buf_set_extmark(buf, ns, 4, 0, { end_row = 5, end_col = 0, hl_group = 'RosaReviewDim' })
+  api.nvim_buf_set_extmark(buf, ns, 6, 0, { end_row = 7, end_col = 0, hl_group = 'RosaReviewKey' })
 
   local function close()
     if api.nvim_win_is_valid(win) then
@@ -1574,109 +1597,109 @@ local function open(mode)
         return
       end
       local ok = pcall(gs.change_base, sha, true, function()
-      local entries = {}
-      -- gitsigns only diffs a buffer that is shown in a window; a purely
-      -- bufadd'd (hidden) buffer attaches but never computes hunks. So each
-      -- changed buffer is briefly displayed in a tiny off-side, non-focusable
-      -- float to prime the diff. The hunks persist after the float closes, so
-      -- the panel counts, highlights and keep/reject all work afterwards.
-      local prime_wins = {}
-      for _, f in ipairs(files) do
-        local path = f.path
-        local b = fn.bufadd(path)
-        pcall(fn.bufload, b)
-        -- Reload unmodified buffers that were already open before the AI edited
-        -- them (a stale buffer would otherwise diff against the wrong content).
-        pcall(api.nvim_buf_call, b, function()
-          if not vim.bo.modified then
-            vim.cmd 'silent! edit'
-          end
-        end)
-        -- Untracked new files can't be hunk-diffed by gitsigns; they are
-        -- reviewed whole-file, so they need no priming.
-        if not f.new then
-          pcall(function()
-            gs.detach(b)
-          end)
-          local pok, pw = pcall(api.nvim_open_win, b, false, {
-            relative = 'editor',
-            row = 0,
-            col = 0,
-            width = 1,
-            height = 1,
-            focusable = false,
-            style = 'minimal',
-            zindex = 1,
-          })
-          if pok then
-            prime_wins[#prime_wins + 1] = pw
-          end
-          pcall(function()
-            gs.attach(b)
-          end)
-        end
-        entries[#entries + 1] = { file = path, bufnr = b, total = 0, resolved = {}, is_new = f.new or false }
-        -- AI mode: build the membership set of the AI's frozen file lines so
-        -- get_hunks_of can drop hunks the AI did not author.
-        if cfg.filter then
-          local ai = snapshot.ai_content_of(path)
-          if ai then
-            local set = {}
-            for _, ln in ipairs(ai) do
-              set[ln] = true
+        local entries = {}
+        -- gitsigns only diffs a buffer that is shown in a window; a purely
+        -- bufadd'd (hidden) buffer attaches but never computes hunks. So each
+        -- changed buffer is briefly displayed in a tiny off-side, non-focusable
+        -- float to prime the diff. The hunks persist after the float closes, so
+        -- the panel counts, highlights and keep/reject all work afterwards.
+        local prime_wins = {}
+        for _, f in ipairs(files) do
+          local path = f.path
+          local b = fn.bufadd(path)
+          pcall(fn.bufload, b)
+          -- Reload unmodified buffers that were already open before the AI edited
+          -- them (a stale buffer would otherwise diff against the wrong content).
+          pcall(api.nvim_buf_call, b, function()
+            if not vim.bo.modified then
+              vim.cmd 'silent! edit'
             end
-            ai_lines_by_buf[b] = set
+          end)
+          -- Untracked new files can't be hunk-diffed by gitsigns; they are
+          -- reviewed whole-file, so they need no priming.
+          if not f.new then
+            pcall(function()
+              gs.detach(b)
+            end)
+            local pok, pw = pcall(api.nvim_open_win, b, false, {
+              relative = 'editor',
+              row = 0,
+              col = 0,
+              width = 1,
+              height = 1,
+              focusable = false,
+              style = 'minimal',
+              zindex = 1,
+            })
+            if pok then
+              prime_wins[#prime_wins + 1] = pw
+            end
+            pcall(function()
+              gs.attach(b)
+            end)
+          end
+          entries[#entries + 1] = { file = path, bufnr = b, total = 0, resolved = {}, is_new = f.new or false }
+          -- AI mode: build the membership set of the AI's frozen file lines so
+          -- get_hunks_of can drop hunks the AI did not author.
+          if cfg.filter then
+            local ai = snapshot.ai_content_of(path)
+            if ai then
+              local set = {}
+              for _, ln in ipairs(ai) do
+                set[ln] = true
+              end
+              ai_lines_by_buf[b] = set
+            end
           end
         end
-      end
 
-      pcall(gs.toggle_linehl, true)
-      pcall(gs.toggle_deleted, true)
-      pcall(gs.refresh)
+        pcall(gs.toggle_linehl, true)
+        pcall(gs.toggle_deleted, true)
+        pcall(gs.refresh)
 
-      local function close_prime()
-        for _, w in ipairs(prime_wins) do
-          if api.nvim_win_is_valid(w) then
-            pcall(api.nvim_win_close, w, true)
+        local function close_prime()
+          for _, w in ipairs(prime_wins) do
+            if api.nvim_win_is_valid(w) then
+              pcall(api.nvim_win_close, w, true)
+            end
           end
+          prime_wins = {}
         end
-        prime_wins = {}
-      end
 
-      -- Poll (while the priming floats keep the buffers diffed) until the total
-      -- hunk count is non-zero AND stable across several reads, so we never
-      -- capture a transient count before the baseline re-diff has settled.
-      local tries, stable, last = 0, 0, -1
-      local function ready()
-        if not opening then
-          close_prime()
-          return
-        end
-        tries = tries + 1
-        local total = 0
-        for _, e in ipairs(entries) do
-          if e.is_new then
-            e.total = 1 -- a new file is one whole-file decision
+        -- Poll (while the priming floats keep the buffers diffed) until the total
+        -- hunk count is non-zero AND stable across several reads, so we never
+        -- capture a transient count before the baseline re-diff has settled.
+        local tries, stable, last = 0, 0, -1
+        local function ready()
+          if not opening then
+            close_prime()
+            return
+          end
+          tries = tries + 1
+          local total = 0
+          for _, e in ipairs(entries) do
+            if e.is_new then
+              e.total = 1 -- a new file is one whole-file decision
+            else
+              e.total = #get_hunks_of(e.bufnr)
+            end
+            total = total + e.total
+          end
+          if total > 0 and total == last then
+            stable = stable + 1
           else
-            e.total = #get_hunks_of(e.bufnr)
+            stable = 0
           end
-          total = total + e.total
+          last = total
+          if (total > 0 and stable >= 3) or tries >= 30 then
+            close_prime()
+            finalize(entries)
+          else
+            vim.defer_fn(ready, 150)
+          end
         end
-        if total > 0 and total == last then
-          stable = stable + 1
-        else
-          stable = 0
-        end
-        last = total
-        if (total > 0 and stable >= 3) or tries >= 30 then
-          close_prime()
-          finalize(entries)
-        else
-          vim.defer_fn(ready, 150)
-        end
-      end
-      vim.defer_fn(ready, 150)
-    end)
+        vim.defer_fn(ready, 150)
+      end)
 
       if not ok then
         opening = false
@@ -1884,7 +1907,7 @@ function M.notify_ai_edit()
       debounce_timer:stop()
     end)
   end
-  debounce_timer = debounce_timer or (vim.uv or vim.loop).new_timer()
+  debounce_timer = debounce_timer or vim.uv.new_timer()
   debounce_timer:start(
     800,
     0,

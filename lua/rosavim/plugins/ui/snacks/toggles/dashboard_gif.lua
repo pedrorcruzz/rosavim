@@ -230,7 +230,12 @@ local function config_popup()
   vim.bo[buf].modifiable = false
 
   for _, hl in ipairs(highlights) do
-    vim.api.nvim_buf_add_highlight(buf, ns, hl[1], hl[2], hl[3] or 0, hl[4] or -1)
+    local col_end = hl[4] or -1
+    vim.api.nvim_buf_set_extmark(buf, ns, hl[2], hl[3] or 0, {
+      end_row = col_end == -1 and hl[2] + 1 or hl[2],
+      end_col = col_end == -1 and 0 or col_end,
+      hl_group = hl[1],
+    })
   end
 
   local function close()

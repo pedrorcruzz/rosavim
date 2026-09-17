@@ -119,5 +119,5 @@ return {
   -- Misc
   { '<leader>;', function() Snacks.dashboard() end, desc = 'Dashboard' },
   { '<leader>.', function() Snacks.notifier.hide() end, desc = 'Dimiss Notification' },
-  { '<leader>lv', function() Snacks.rename.rename_file() end, desc = 'Snacks: Rename Current File' },
+  { '<leader>R', function() Snacks.rename.rename_file() end, desc = 'Rename Current File' },
 }

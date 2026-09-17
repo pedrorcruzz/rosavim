@@ -1,7 +1,27 @@
 return {
   dir = vim.fn.stdpath 'config' .. '/lua/rosavim/rosa_plugins/rosatag',
   name = 'rosatag',
-  ft = require('rosavim.rosa_plugins.rosatag.config').filetypes,
+  -- Kept in sync with rosatag/config.lua M.filetypes; inlined so the spec
+  -- import does not require the module at startup.
+  ft = {
+    'html',
+    'htmldjango',
+    'xml',
+    'svg',
+    'php',
+    'blade',
+    'javascript',
+    'javascriptreact',
+    'typescript',
+    'typescriptreact',
+    'vue',
+    'svelte',
+    'astro',
+    'templ',
+    'eruby',
+    'handlebars',
+    'twig',
+  },
   config = function()
     require('rosavim.rosa_plugins.rosatag').setup()
   end,

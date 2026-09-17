@@ -328,7 +328,7 @@ Referência completa: **[Manual de Atalhos](docs/manual/keybinds.pt-br.md)**.
 │   │   ├── ai/                    # Copilot, RosaAI
 │   │   ├── ui/                    # temas, statusline, dashboard, bufferline, noice
 │   │   ├── editor/                # terminal, navegação, operações de arquivo, projetos
-│   │   ├── coding/                # flash, surround, multi-cursor, refactoring
+│   │   ├── coding/                # flash, surround, multi-cursor
 │   │   ├── language/              # específicos de linguagem (Laravel, Spring, Django, etc)
 │   │   └── test/                  # Rosatest
 │   ├── rosa_plugins/              # plugins próprios (ver Funcionalidades)

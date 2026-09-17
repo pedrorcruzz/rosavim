@@ -1,9 +1,16 @@
--- Custom Colorscheme
+local group = vim.api.nvim_create_augroup('RosavimColorscheme', { clear = true })
+
+-- Everything that must run after a theme sets its groups, in one handler so
+-- the order is explicit instead of registration-order dependent:
+-- 1. plugin highlight fallbacks (`default = true` keeps theme-set groups)
+-- 2. terminal tool backgrounds
+-- 3. Borderless mode (<leader>lqn): repaint which-key and snacks
+--    picker/explorer borders to blend into their own bg
+-- 4. Invert Backgrounds (<leader>lqi<theme>): swap the editor surface with
+--    the explorer/tab chrome surface
 vim.api.nvim_create_autocmd('ColorScheme', {
-  pattern = '*',
+  group = group,
   callback = function()
-    -- Fallbacks only: `default` keeps a theme that styles blink itself (and the
-    -- Borderless repaint, which runs later) from being overwritten here.
     vim.api.nvim_set_hl(0, 'BlinkCmpMenuBorder', { fg = '#4c4c4c', default = true })
     vim.api.nvim_set_hl(0, 'BlinkCmpDocBorder', { fg = '#4c4c4c', default = true })
     vim.api.nvim_set_hl(0, 'BlinkCmpSignatureHelpBorder', { fg = '#4c4c4c', default = true })
@@ -17,35 +24,9 @@ vim.api.nvim_create_autocmd('ColorScheme', {
     vim.api.nvim_set_hl(0, 'MiniIconsYellow', { fg = '#FFDE21', bg = 'none' })
     vim.api.nvim_set_hl(0, 'MiniIconsRed', { fg = '#F87171', bg = 'none' })
     vim.api.nvim_set_hl(0, 'MiniIconsGreen', { fg = '#9FF8BB', bg = 'none' })
-  end,
-})
 
-vim.api.nvim_create_autocmd('ColorScheme', {
-  pattern = '*',
-  callback = function()
     require('rosavim.helpers.term_bg').refresh()
-  end,
-})
-
--- Borderless mode (<leader>lqn): repaint the which-key and snacks
--- picker/explorer borders the same colour as their own bg so they blend in —
--- the seamless look rosanight used to hard-code, now opt-in for every rosa
--- theme. Runs after the theme has set its groups (ColorScheme fires when
--- :colorscheme finishes), so turning the toggle off and re-applying the
--- colorscheme restores each theme's own border colour.
-vim.api.nvim_create_autocmd('ColorScheme', {
-  pattern = '*',
-  callback = function()
     require('rosavim.config.borderless').apply()
-  end,
-})
-
--- Invert Backgrounds (<leader>lqi<theme>): swap the active theme's editor
--- surface with its explorer/tab chrome surface. Runs after the theme has set
--- its groups, so toggling it off and re-applying restores the real palette.
-vim.api.nvim_create_autocmd('ColorScheme', {
-  pattern = '*',
-  callback = function()
     require('rosavim.config.invert_bg').apply()
   end,
 })
@@ -73,9 +54,11 @@ local function sync_terminal_cursor_color()
 end
 
 vim.api.nvim_create_autocmd('ColorScheme', {
+  group = group,
   callback = vim.schedule_wrap(sync_terminal_cursor_color),
 })
 vim.api.nvim_create_autocmd('VimEnter', {
+  group = group,
   once = true,
   callback = function()
     -- Emit once now and again after a short delay: at startup the terminal may
@@ -88,6 +71,7 @@ vim.api.nvim_create_autocmd('VimEnter', {
   end,
 })
 vim.api.nvim_create_autocmd('VimLeave', {
+  group = group,
   callback = function()
     io.write '\027]112\007' -- reset cursor color to terminal default
     io.flush()
@@ -131,12 +115,14 @@ local function apply_default_colorscheme()
 end
 
 vim.api.nvim_create_autocmd('User', {
+  group = group,
   pattern = 'LazyDone',
   once = true,
   callback = apply_default_colorscheme,
 })
 
 vim.api.nvim_create_autocmd('VimEnter', {
+  group = group,
   once = true,
   callback = function()
     -- Last-resort: if nothing set a colorscheme by VimEnter (e.g. LazyDone

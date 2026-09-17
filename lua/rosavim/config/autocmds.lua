@@ -1,5 +1,8 @@
+local misc_group = vim.api.nvim_create_augroup('rosavim_misc', { clear = true })
+
 -- Disable background colors for LSP document colors (Tailwind CSS, etc.)
 vim.api.nvim_create_autocmd('LspAttach', {
+  group = misc_group,
   callback = function()
     vim.lsp.document_color.enable(false)
   end,
@@ -11,17 +14,9 @@ local toggles = require 'rosavim.config.toggles'
 -- opens or closes over an existing split.
 require('rosavim.helpers.win_equal').watch_sidebars()
 
--- Trigger the Snacks picker if Neovim is started with a single directory as an argument
-local opened_with_dir = false
-vim.api.nvim_create_autocmd('VimEnter', {
-  callback = function()
-    local arg = vim.fn.argv(0)
-    if vim.fn.argc() == 1 and vim.fn.isdirectory(arg) == 1 then
-      opened_with_dir = true
-      Snacks.picker.smart()
-    end
-  end,
-})
+-- Startup behavior for the directory-argument picker and the auto explorer
+-- lives in one VimEnter handler further down (after open_snacks_explorer is
+-- defined) so their ordering is explicit instead of registration-dependent.
 
 --last cursor position
 local grp_lastpos = vim.api.nvim_create_augroup('LastCursorPos', { clear = true })
@@ -54,15 +49,16 @@ vim.api.nvim_create_autocmd('BufReadPost', {
 -- Initialize spell checking on buffer read
 local spell_group = vim.api.nvim_create_augroup('SpellByDefault', { clear = true })
 
-vim.api.nvim_create_autocmd({ 'BufEnter', 'FileType' }, {
+vim.api.nvim_create_autocmd('FileType', {
   group = spell_group,
-  pattern = { 'markdown', '*.md', 'text' },
+  pattern = { 'markdown', 'text' },
   callback = function()
     vim.opt_local.spell = toggles.get 'spell'
   end,
 })
 
 vim.api.nvim_create_autocmd('FileType', {
+  group = misc_group,
   pattern = 'dashboard',
   command = 'setlocal nolist',
 })
@@ -71,7 +67,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
   callback = function()
-    vim.highlight.on_yank()
+    vim.hl.on_yank()
   end,
 })
 
@@ -137,7 +133,7 @@ end
 -- CursorHoldI is deliberately absent: doing this mid-typing (every `updatetime`
 -- pause in insert mode) buys nothing — the file cannot have changed under you
 -- while you type into it, and CursorHold covers the moment you stop.
-vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'WinEnter', 'CursorHold', 'TermLeave' }, {
+vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'TermLeave' }, {
   group = autoread_group,
   callback = function()
     if not toggles.get 'autoread' then
@@ -201,19 +197,28 @@ function _G.set_terminal_keymaps()
 end
 
 vim.api.nvim_create_autocmd('FileType', {
+  group = misc_group,
   pattern = 'rosaterm',
   callback = set_terminal_keymaps,
 })
 
 -- Snacks Explorer
 local function focus_buffer_after_snacks(bufnr)
-  local attempts = 0
+  local attempts, settled = 0, 0
   local function try_focus()
-    if vim.api.nvim_buf_is_valid(bufnr) then
-      local current_buf = vim.api.nvim_get_current_buf()
-      if current_buf ~= bufnr then
-        vim.api.nvim_set_current_buf(bufnr)
+    if not vim.api.nvim_buf_is_valid(bufnr) then
+      return
+    end
+    if vim.api.nvim_get_current_buf() == bufnr then
+      -- Focus can still be stolen back while the explorer settles; stop only
+      -- after it has held for two consecutive checks.
+      settled = settled + 1
+      if settled >= 2 then
+        return
       end
+    else
+      settled = 0
+      vim.api.nvim_set_current_buf(bufnr)
     end
     attempts = attempts + 1
     if attempts < 10 then
@@ -244,27 +249,25 @@ local function open_snacks_explorer()
 end
 
 vim.api.nvim_create_autocmd('VimEnter', {
+  group = vim.api.nvim_create_augroup('rosavim_startup', { clear = true }),
   callback = function()
-    if not toggles.get 'snacks_explorer' then
-      return
-    end
-
-    -- Skip when dashboard is shown (no args)
-    if vim.fn.argc() == 0 then
-      return
-    end
-
-    -- Skip when opened with a directory (nvim .) — picker handles that
+    -- `nvim <dir>`: hand off to the picker
+    local opened_with_dir = vim.fn.argc() == 1 and vim.fn.isdirectory(vim.fn.argv(0)) == 1
     if opened_with_dir then
+      Snacks.picker.smart()
       return
     end
-
-    open_snacks_explorer()
+    -- `nvim <file>`: optionally open the explorer alongside. Skipped with no
+    -- args (dashboard is shown instead).
+    if vim.fn.argc() > 0 and toggles.get 'snacks_explorer' then
+      open_snacks_explorer()
+    end
   end,
 })
 
 -- Open explorer when navigating away from dashboard to a file
 vim.api.nvim_create_autocmd('BufReadPost', {
+  group = misc_group,
   once = true,
   callback = function(args)
     if not toggles.get 'snacks_explorer' then
@@ -276,14 +279,12 @@ vim.api.nvim_create_autocmd('BufReadPost', {
       return
     end
 
-    -- Change cwd to the file's directory (or its git root) so the explorer opens in the right place
+    -- Change cwd to the file's directory (or its git root) so the explorer
+    -- opens in the right place. vim.fs.root instead of forking git: this runs
+    -- on the first BufReadPost, before the first paint.
     local file_dir = vim.fn.fnamemodify(bufname, ':p:h')
-    local git_root = vim.fn.systemlist('git -C ' .. vim.fn.shellescape(file_dir) .. ' rev-parse --show-toplevel')[1]
-    if vim.v.shell_error == 0 and git_root and git_root ~= '' then
-      vim.cmd('cd ' .. vim.fn.fnameescape(git_root))
-    else
-      vim.cmd('cd ' .. vim.fn.fnameescape(file_dir))
-    end
+    local git_root = vim.fs.root(file_dir, '.git')
+    vim.cmd('cd ' .. vim.fn.fnameescape(git_root or file_dir))
 
     open_snacks_explorer()
   end,
@@ -291,18 +292,30 @@ vim.api.nvim_create_autocmd('BufReadPost', {
 
 local my_highlights = vim.api.nvim_create_augroup('MyHighlights', { clear = true })
 
+-- One ColorScheme + one VimEnter pair shared by every registered callback
+-- (each on_colorscheme() call used to create its own two autocmds).
+-- ColorScheme never fires on boot, so VimEnter covers startup.
+local colorscheme_callbacks = {}
+
+local function run_colorscheme_callbacks()
+  for _, fn in ipairs(colorscheme_callbacks) do
+    fn()
+  end
+end
+
+vim.api.nvim_create_autocmd('ColorScheme', {
+  group = my_highlights,
+  callback = run_colorscheme_callbacks,
+})
+vim.api.nvim_create_autocmd('VimEnter', {
+  group = my_highlights,
+  callback = function()
+    vim.schedule(run_colorscheme_callbacks)
+  end,
+})
+
 local function on_colorscheme(fn)
-  vim.api.nvim_create_autocmd('ColorScheme', {
-    group = my_highlights,
-    pattern = '*',
-    callback = fn,
-  })
-  vim.api.nvim_create_autocmd('VimEnter', {
-    group = my_highlights,
-    callback = function()
-      vim.schedule(fn)
-    end,
-  })
+  table.insert(colorscheme_callbacks, fn)
 end
 
 local function lsp_reference_highlights()
@@ -339,6 +352,7 @@ on_colorscheme(bg_only_match_highlights)
 
 -- Re-apply lualine state after colorscheme change
 vim.api.nvim_create_autocmd('ColorScheme', {
+  group = my_highlights,
   callback = function()
     vim.schedule(function()
       local ok, lualine = pcall(require, 'lualine')
@@ -379,6 +393,7 @@ vim.api.nvim_create_autocmd('ColorScheme', {
 
 -- DBUI NO FOLDING
 vim.api.nvim_create_autocmd('FileType', {
+  group = misc_group,
   pattern = 'dbout',
   callback = function()
     if toggles.get 'dbout_no_folding' then

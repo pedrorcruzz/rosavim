@@ -13,11 +13,14 @@ local config = {}
 
 --- Setup highlights
 local function setup_highlights()
-  local p = require('rosavim.helpers.palette').get()
-  vim.api.nvim_set_hl(0, 'RosapreviewBorder', { fg = p.border })
-  vim.api.nvim_set_hl(0, 'RosapreviewTitle', { fg = p.title, bold = true })
-  vim.api.nvim_set_hl(0, 'RosapreviewFooter', { fg = p.dim, italic = true })
-  vim.api.nvim_set_hl(0, 'RosapreviewFooterKey', { fg = p.key, bold = true })
+  require('rosavim.helpers.palette').define('Rosapreview', function(p)
+    return {
+      Border = { fg = p.border },
+      Title = { fg = p.title, bold = true },
+      Footer = { fg = p.dim, italic = true },
+      FooterKey = { fg = p.key, bold = true },
+    }
+  end)
 end
 
 --- Build styled footer with highlighted keys. When `close_only` is set the
@@ -161,7 +164,7 @@ local function lsp_preview(method)
   local bufnr = vim.api.nvim_get_current_buf()
   local clients = vim.lsp.get_clients { bufnr = bufnr }
   if #clients == 0 then
-    Snacks.notify.warn('Rosapreview: no LSP client attached')
+    Snacks.notify.warn 'Rosapreview: no LSP client attached'
     return
   end
   local params = vim.lsp.util.make_position_params(0, clients[1].offset_encoding)
@@ -177,7 +180,7 @@ local function lsp_preview(method)
       return
     end
     if not result or (type(result) == 'table' and vim.tbl_isempty(result)) then
-      Snacks.notify.info('Rosapreview: no results')
+      Snacks.notify.info 'Rosapreview: no results'
       return
     end
 

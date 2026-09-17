@@ -154,8 +154,24 @@ local TEMPLATES = {
     { label = 'Console log', body = { 'console.log(${1:value})$0' } },
   },
   react = {
-    { label = 'React · Component (export default)', body = { 'export default function ${1:Component}(${2:props}) {', '\treturn (', '\t\t<div>', '\t\t\t$0', '\t\t</div>', '\t)', '}' } },
-    { label = 'React · Arrow component', body = { 'const ${1:Component} = (${2:props}) => {', '\treturn (', '\t\t<div>', '\t\t\t$0', '\t\t</div>', '\t)', '}', '', 'export default ${1:Component}' } },
+    {
+      label = 'React · Component (export default)',
+      body = { 'export default function ${1:Component}(${2:props}) {', '\treturn (', '\t\t<div>', '\t\t\t$0', '\t\t</div>', '\t)', '}' },
+    },
+    {
+      label = 'React · Arrow component',
+      body = {
+        'const ${1:Component} = (${2:props}) => {',
+        '\treturn (',
+        '\t\t<div>',
+        '\t\t\t$0',
+        '\t\t</div>',
+        '\t)',
+        '}',
+        '',
+        'export default ${1:Component}',
+      },
+    },
     { label = 'React · useState', body = { 'const [${1:state}, set${2:State}] = useState(${3:initial})$0' } },
     { label = 'React · useEffect', body = { 'useEffect(() => {', '\t${1:// effect}', '\treturn () => {', '\t\t${2:// cleanup}', '\t}', '}, [${3:deps}])' } },
     { label = 'React · Props type (TS)', body = { 'type ${1:Component}Props = {', '\t${2:prop}: ${3:string}', '}' } },
@@ -191,7 +207,17 @@ local TEMPLATES = {
     { label = 'For loop', body = { 'for ${1:i} := 0; ${1:i} < ${2:n}; ${1:i}++ {', '\t${3:// code}', '}' } },
     { label = 'For range', body = { 'for ${1:i}, ${2:v} := range ${3:items} {', '\t${4:// code}', '}' } },
     { label = 'Goroutine', body = { 'go func() {', '\t${1:// code}', '}()' } },
-    { label = 'Test func', body = { 'func Test${1:Name}(t *testing.T) {', '\t${2:// arrange}', '\tif ${3:got} != ${4:want} {', '\t\tt.Errorf("got %v, want %v", ${3:got}, ${4:want})', '\t}', '}' } },
+    {
+      label = 'Test func',
+      body = {
+        'func Test${1:Name}(t *testing.T) {',
+        '\t${2:// arrange}',
+        '\tif ${3:got} != ${4:want} {',
+        '\t\tt.Errorf("got %v, want %v", ${3:got}, ${4:want})',
+        '\t}',
+        '}',
+      },
+    },
   },
   php = {
     { label = 'Function', body = { 'function ${1:name}(${2:args})', '{', '\t${3:// code}', '}' } },
@@ -225,7 +251,21 @@ local TEMPLATES = {
     { label = 'Join', body = { 'SELECT ${1:columns}', 'FROM ${2:a}', 'JOIN ${3:b} ON ${2:a}.${4:id} = ${3:b}.${5:a_id}', 'WHERE ${6:condition};' } },
   },
   html = {
-    { label = 'HTML5 boilerplate', body = { '<!doctype html>', '<html lang="${1:en}">', '\t<head>', '\t\t<meta charset="utf-8" />', '\t\t<title>${2:Title}</title>', '\t</head>', '\t<body>', '\t\t$0', '\t</body>', '</html>' } },
+    {
+      label = 'HTML5 boilerplate',
+      body = {
+        '<!doctype html>',
+        '<html lang="${1:en}">',
+        '\t<head>',
+        '\t\t<meta charset="utf-8" />',
+        '\t\t<title>${2:Title}</title>',
+        '\t</head>',
+        '\t<body>',
+        '\t\t$0',
+        '\t</body>',
+        '</html>',
+      },
+    },
     { label = 'Tag', body = { '<${1:div} class="${2:class}">', '\t$0', '</${1:div}>' } },
     { label = 'Form', body = { '<form action="${1:/submit}" method="${2:post}">', '\t$0', '</form>' } },
   },
@@ -298,13 +338,16 @@ end
 -- --- UI helpers ------------------------------------------------------------
 
 local function setup_highlights()
-  local p = require('rosavim.helpers.palette').get()
-  api.nvim_set_hl(0, 'RosasnippetsBorder', { fg = p.border })
-  api.nvim_set_hl(0, 'RosasnippetsTitle', { fg = p.title, bold = true })
-  api.nvim_set_hl(0, 'RosasnippetsKey', { fg = p.key, bold = true })
-  api.nvim_set_hl(0, 'RosasnippetsDim', { fg = p.dim, italic = true })
-  api.nvim_set_hl(0, 'RosasnippetsFiletype', { fg = p.title, bold = true })
-  api.nvim_set_hl(0, 'RosasnippetsPrefix', { fg = p.key, bold = true })
+  require('rosavim.helpers.palette').define('Rosasnippets', function(p)
+    return {
+      Border = { fg = p.border },
+      Title = { fg = p.title, bold = true },
+      Key = { fg = p.key, bold = true },
+      Dim = { fg = p.dim, italic = true },
+      Filetype = { fg = p.title, bold = true },
+      Prefix = { fg = p.key, bold = true },
+    }
+  end)
 end
 
 local function session_open()
@@ -534,10 +577,14 @@ function M.edit_body(item)
     callback = function()
       stop_timer()
       timer = vim.uv.new_timer()
-      timer:start(400, 0, vim.schedule_wrap(function()
-        timer = nil
-        save_now()
-      end))
+      timer:start(
+        400,
+        0,
+        vim.schedule_wrap(function()
+          timer = nil
+          save_now()
+        end)
+      )
     end,
   })
   api.nvim_create_autocmd('WinClosed', {
@@ -801,10 +848,14 @@ local function edit_preset_body(key, idx)
     callback = function()
       stop_timer()
       timer = vim.uv.new_timer()
-      timer:start(400, 0, vim.schedule_wrap(function()
-        timer = nil
-        save_now()
-      end))
+      timer:start(
+        400,
+        0,
+        vim.schedule_wrap(function()
+          timer = nil
+          save_now()
+        end)
+      )
     end,
   })
   api.nvim_create_autocmd('WinClosed', {
@@ -976,10 +1027,18 @@ local function browse_presets(ft)
     sel = sel + delta
     draw()
   end
-  vim.keymap.set('n', 'j', function() bmove(1) end, bopts)
-  vim.keymap.set('n', 'k', function() bmove(-1) end, bopts)
-  vim.keymap.set('n', '<Down>', function() bmove(1) end, bopts)
-  vim.keymap.set('n', '<Up>', function() bmove(-1) end, bopts)
+  vim.keymap.set('n', 'j', function()
+    bmove(1)
+  end, bopts)
+  vim.keymap.set('n', 'k', function()
+    bmove(-1)
+  end, bopts)
+  vim.keymap.set('n', '<Down>', function()
+    bmove(1)
+  end, bopts)
+  vim.keymap.set('n', '<Up>', function()
+    bmove(-1)
+  end, bopts)
   vim.keymap.set('n', 'q', close_browser, bopts)
   vim.keymap.set('n', '<Esc>', close_browser, bopts)
   vim.keymap.set('n', 'e', function()
@@ -1068,7 +1127,7 @@ local function preset_menu(item)
     if not choice then
       return
     end
-    if choice:find('^Save') then
+    if choice:find '^Save' then
       save_as_preset(item)
     else
       browse_presets(item.ft)

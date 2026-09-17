@@ -38,4 +38,29 @@ function M.get()
   return dark
 end
 
+--- Define `<prefix><Suffix>` highlight groups from the current palette.
+---
+--- `spec` maps suffix -> highlight attrs, where attrs is a static table or a
+--- function(palette) -> attrs. The whole spec may also be a single
+--- function(palette) returning that map, which keeps call sites compact:
+---   palette.define('Rosafile', function(p)
+---     return { Title = { fg = p.title, bold = true }, Dim = { fg = p.dim } }
+---   end)
+--- Setting groups is idempotent and cheap, so plugins keep calling this on
+--- every popup open to stay in sync with light/dark switches.
+--- @param prefix string
+--- @param spec table|fun(palette: table): table
+function M.define(prefix, spec)
+  local p = M.get()
+  if type(spec) == 'function' then
+    spec = spec(p)
+  end
+  for suffix, attrs in pairs(spec) do
+    if type(attrs) == 'function' then
+      attrs = attrs(p)
+    end
+    vim.api.nvim_set_hl(0, prefix .. suffix, attrs)
+  end
+end
+
 return M

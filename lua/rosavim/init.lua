@@ -7,7 +7,7 @@ M.name = 'Rosavim'
 local function browse_dir(title, dir)
   local files = vim.fn.globpath(dir, '**/*.lua', false, true)
   if #files == 0 then
-    Snacks.notify.info('No files found')
+    Snacks.notify.info 'No files found'
     return
   end
 
@@ -51,15 +51,19 @@ function M.info()
     end
   end
 
-  -- Highlights
+  -- Highlights (palette-driven so the popup stays readable in light mode)
   local ns = vim.api.nvim_create_namespace 'rosavim_info'
-  vim.api.nvim_set_hl(0, 'RosavimInfoTitle', { fg = '#cba6f7', bold = true })
-  vim.api.nvim_set_hl(0, 'RosavimInfoBorder', { fg = '#6c7086' })
-  vim.api.nvim_set_hl(0, 'RosavimInfoLabel', { fg = '#89b4fa', bold = true })
-  vim.api.nvim_set_hl(0, 'RosavimInfoValue', { fg = '#cdd6f4' })
-  vim.api.nvim_set_hl(0, 'RosavimInfoDim', { fg = '#6c7086' })
-  vim.api.nvim_set_hl(0, 'RosavimInfoGreen', { fg = '#a6e3a1', bold = true })
-  vim.api.nvim_set_hl(0, 'RosavimInfoKey', { fg = '#f9e2af', bold = true })
+  require('rosavim.helpers.palette').define('RosavimInfo', function(p)
+    return {
+      Title = { fg = p.title, bold = true },
+      Border = { fg = p.border },
+      Label = { fg = p.key, bold = true },
+      Value = { fg = p.text },
+      Dim = { fg = p.dim },
+      Green = { fg = p.green, bold = true },
+      Key = { fg = p.yellow, bold = true },
+    }
+  end)
 
   local pad = '            '
   local gap = '     '
@@ -136,7 +140,12 @@ function M.info()
   vim.bo[buf].modifiable = false
 
   for _, hl in ipairs(highlights) do
-    vim.api.nvim_buf_add_highlight(buf, ns, hl[1], hl[2], hl[3] or 0, hl[4] or -1)
+    local col_end = hl[4] or -1
+    vim.api.nvim_buf_set_extmark(buf, ns, hl[2], hl[3] or 0, {
+      end_row = col_end == -1 and hl[2] + 1 or hl[2],
+      end_col = col_end == -1 and 0 or col_end,
+      hl_group = hl[1],
+    })
   end
 
   local function close()

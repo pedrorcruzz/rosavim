@@ -89,14 +89,19 @@ function M.all_enabled(mode)
 end
 
 --- Flip every tool at once for `mode`, then repaint them all.
+--- One batched toggle write and one refresh pass per tool - the per-tool
+--- set()+refresh_tool() loop used to cost a disk write per tool plus a full
+--- theme reload for each tool whose refresh chains into appearance.reload().
 function M.set_all(mode, state)
   local ok, toggles = pcall(require, 'rosavim.config.toggles')
   if not ok then
     return
   end
+  local values = {}
   for _, tool in ipairs(M.order) do
-    toggles.set(M.key(tool, mode), state)
+    values[M.key(tool, mode)] = state
   end
+  toggles.set_many(values)
   for _, tool in ipairs(M.order) do
     M.refresh_tool(tool)
   end

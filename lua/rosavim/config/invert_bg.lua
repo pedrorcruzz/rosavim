@@ -61,7 +61,6 @@ local SURFACES = {
   'EndOfBuffer',
   'VertSplit',
   'WinSeparator',
-  'Winseparator',
   'WinBar',
   'WinBarNC',
   'InclineNormal',
@@ -91,7 +90,6 @@ local SURFACE_PREFIXES = {
   'WhichKey',
   'Whichkey',
   'BlinkCmp',
-  'nvimtree',
 }
 
 local exact = {}

@@ -15,24 +15,18 @@ return {
     'svelte',
     'php',
     'blade',
-    'heex',
-    'eelixir',
   },
+  -- Only start where Tailwind is actually configured; package.json/node_modules
+  -- here would spin the server up in every Node project.
   root_markers = {
     'tailwind.config.js',
     'tailwind.config.ts',
+    'tailwind.config.cjs',
+    'tailwind.config.mjs',
     'postcss.config.js',
     'postcss.config.ts',
-    'package.json',
-    'node_modules',
-    '.git',
-  },
-  init_options = {
-    userLanguages = {
-      elixir = 'html-eex',
-      eelixir = 'html-eex',
-      heex = 'html-eex',
-    },
+    'postcss.config.cjs',
+    'postcss.config.mjs',
   },
   settings = {
     tailwindCSS = {
@@ -46,12 +40,11 @@ return {
         recommendedVariantOrder = 'warning',
       },
       experimental = {
+        -- No catch-all '"..."' pattern: matching every quoted string makes the
+        -- server run completion/hover/color queries on unrelated strings.
         classRegex = {
           [[class= "([^"]*)]],
           [[class: "([^"]*)]],
-          '~H""".*class="([^"]*)".*"""',
-          '~F""".*class="([^"]*)".*"""',
-          '"([^"]*)"',
         },
       },
       validate = true,

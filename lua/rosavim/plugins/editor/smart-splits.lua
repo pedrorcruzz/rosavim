@@ -124,13 +124,6 @@ return {
       desc = 'Move to right split',
     },
     {
-      '<C-\\>',
-      function()
-        require('smart-splits').move_cursor_previous()
-      end,
-      desc = 'Move to previous split',
-    },
-    {
       '<left>',
       function()
         resize 'left'

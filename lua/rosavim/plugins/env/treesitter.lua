@@ -9,6 +9,10 @@ vim.filetype.add {
 
 local group = vim.api.nvim_create_augroup('RosavimTreesitter', { clear = true })
 
+-- Both runtimepath scans run at spec-collection time, before plugin dirs join
+-- the rtp, so these tables see ONLY the parsers/queries bundled with Neovim.
+-- That is the point: the distro policy is native treesitter with the bundled
+-- parsers only, and freezing the tables here enforces it for the session.
 local has_parser = {}
 for _, path in ipairs(vim.api.nvim_get_runtime_file('parser/*', true)) do
   has_parser[vim.fn.fnamemodify(path, ':t:r')] = true

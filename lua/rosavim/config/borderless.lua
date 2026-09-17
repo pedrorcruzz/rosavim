@@ -112,9 +112,11 @@ function M.set_all(state)
   if not ok then
     return
   end
+  local values = {}
   for _, tool in ipairs(M.tools) do
-    toggles.set(tool.key, state)
+    values[tool.key] = state
   end
+  toggles.set_many(values)
 end
 
 function M.apply()

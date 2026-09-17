@@ -513,13 +513,6 @@ function M.get(mode, transparent_background)
     FzfLuaTabTitle = { fg = '#ffffff' },
     FzfLuaSearch = { fg = '#ffffff' },
 
-    -- nvim tree
-    nvimtreenormal = { bg = transparent_background and 'none' or '#1a1a1a' },
-    nvimtreeendofbuffer = { fg = '#1a1a1a', bg = nil }, -- fundo para o final do buffer no nvimtree
-    nvimtreeemptyfoldername = { fg = '#666666' }, -- nome de pastas vazias no nvimtree
-    nvimtreeopenedfoldername = { fg = '#579fdc' }, -- nome de pastas abertas no nvimtree
-    nvimtreefoldername = { fg = '#aaaaaa' }, -- nome de pastas no nvimtree
-
     bufferlinefill = { bg = '#1a1a1a' }, -- cor de fundo do bufferline
 
     -- flash.nvim

@@ -22,6 +22,22 @@ local function line_len(buf, row)
   return l and #l or 0
 end
 
+--- Line-length lookup for one draw pass. With many cursors a single bulk
+--- read beats one API call per cursor; with few, per-line reads stay cheaper
+--- than copying the whole buffer.
+local function make_line_len(buf, region_count)
+  if region_count <= 16 then
+    return function(row)
+      return line_len(buf, row)
+    end
+  end
+  local lines = api.nvim_buf_get_lines(buf, 0, -1, false)
+  return function(row)
+    local l = lines[row + 1]
+    return l and #l or 0
+  end
+end
+
 function M.clear()
   local cur = state.session()
   if cur and api.nvim_buf_is_valid(cur.buf) then
@@ -36,6 +52,7 @@ function M.draw()
   end
   M.define()
   M.clear()
+  local llen = make_line_len(cur.buf, #cur.regions)
   for i, region in ipairs(cur.regions) do
     local srow, scol, erow, ecol = state.range(region)
     if srow then
@@ -49,7 +66,7 @@ function M.draw()
       end
       local hl = i == cur.index and 'RosavmMain' or 'RosavmCursor'
       local head_col = (srow == erow and scol == ecol) and scol or math.max(scol, ecol - 1)
-      if head_col < line_len(cur.buf, erow) then
+      if head_col < llen(erow) then
         pcall(api.nvim_buf_set_extmark, cur.buf, state.ns_hl, erow, head_col, {
           end_col = head_col + 1,
           hl_group = hl,
@@ -73,12 +90,13 @@ function M.draw_pending(skip_id)
   end
   M.define()
   M.clear()
+  local llen = make_line_len(cur.buf, #cur.regions)
   for _, region in ipairs(cur.regions) do
     if region.id ~= skip_id then
       local srow, scol, erow, ecol = state.range(region)
       if srow then
         local col = scol
-        if col < line_len(cur.buf, srow) then
+        if col < llen(srow) then
           pcall(api.nvim_buf_set_extmark, cur.buf, state.ns_hl, srow, col, {
             end_col = col + 1,
             hl_group = 'RosavmCursor',

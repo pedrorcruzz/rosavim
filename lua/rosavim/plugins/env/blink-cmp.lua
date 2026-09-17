@@ -7,16 +7,17 @@ return {
 
   {
     'saghen/blink.cmp',
-    event = 'InsertEnter',
+    -- Non-lazy on purpose: blink's plugin file registers LSP capabilities via
+    -- vim.lsp.config('*'), which must run before the first server starts.
+    -- Blink defers its own heavy parts internally.
+    lazy = false,
     version = '1.*',
     dependencies = {
       -- VSCode-format snippet library, picked up from the runtimepath by
       -- blink's built-in snippets source (no engine plugin needed).
       { 'rafamadriz/friendly-snippets', event = 'InsertEnter' },
 
-      { 'mikavilpas/blink-ripgrep.nvim', lazy = true },
       { 'kristijanhusak/vim-dadbod-completion', ft = { 'sql', 'mysql', 'plsql' }, lazy = true },
-      -- { 'bydlw98/blink-cmp-env', lazy = true },
     },
 
     opts = {
@@ -98,45 +99,6 @@ return {
               },
             },
           },
-          ripgrep = {
-            module = 'blink-ripgrep',
-            name = 'Ripgrep',
-            opts = {
-              prefix_min_len = 3,
-              context_size = 5,
-              max_filesize = '1M',
-              project_root_marker = '.git',
-              project_root_fallback = true,
-              search_casing = '--ignore-case',
-              additional_rg_options = {},
-              fallback_to_regex_highlighting = true,
-              ignore_paths = {},
-              additional_paths = {},
-              toggles = {
-                on_off = nil,
-                debug = nil,
-              },
-              future_features = {
-                backend = { use = 'ripgrep' },
-              },
-              debug = false,
-            },
-            transform_items = function(_, items)
-              for _, item in ipairs(items) do
-                item.labelDetails = { description = '(rg)' }
-              end
-              return items
-            end,
-          },
-          -- env = {
-          --   name = 'Env',
-          --   module = 'blink-cmp-env',
-          --   opts = {
-          --     item_kind = vim.lsp.protocol.CompletionItemKind.Variable,
-          --     show_braces = false,
-          --     show_documentation_window = true,
-          --   },
-          -- },
           emoji = {
             module = 'blink-emoji',
             name = 'Emoji',

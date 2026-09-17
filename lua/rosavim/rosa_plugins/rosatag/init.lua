@@ -9,6 +9,9 @@ local scan = require 'rosavim.rosa_plugins.rosatag.scan'
 local NS = api.nvim_create_namespace 'rosatag'
 local attached = {}
 local marks = {}
+-- Last "no pair found" query per buffer, so moving along an unpaired tag
+-- does not rescan the 400-line window on every cursor move.
+local last_nil = {}
 
 M.filetypes = config.filetypes
 M.supported = config.supported
@@ -91,10 +94,19 @@ local function update_marks(buf)
   end
 
   tag.row = row
-  local other = scan.pair_of(buf, tag)
-  if not other then
+  local tick = api.nvim_buf_get_changedtick(buf)
+  local key = tag.name .. ':' .. row .. ':' .. tag.start_col
+  local prev = last_nil[buf]
+  if prev and prev.tick == tick and prev.key == key then
     return clear_marks(buf)
   end
+
+  local other = scan.pair_of(buf, tag)
+  if not other then
+    last_nil[buf] = { tick = tick, key = key }
+    return clear_marks(buf)
+  end
+  last_nil[buf] = nil
 
   clear_marks(buf)
   marks[buf] = {
@@ -207,11 +219,19 @@ function M.attach(buf)
   end
   attached[buf] = true
 
+  -- clear=true wipes the previous feature autocmds, so a re-attach with the
+  -- master switch off leaves only the cleanup one below.
   local group = api.nvim_create_augroup('rosatag_buf_' .. buf, { clear = true })
 
-  vim.keymap.set('n', '<leader>kr', M.rename, { buffer = buf, desc = 'Rosakit: Rename Tag' })
+  local enabled = config.enabled()
+  if enabled then
+    vim.keymap.set('n', '<leader>kr', M.rename, { buffer = buf, desc = 'Rosakit: Rename Tag' })
+  else
+    pcall(vim.keymap.del, 'n', '<leader>kr', { buffer = buf })
+    clear_marks(buf)
+  end
 
-  if config.close_enabled() then
+  if enabled and config.close_enabled() then
     api.nvim_create_autocmd('InsertCharPre', {
       group = group,
       buffer = buf,
@@ -226,7 +246,7 @@ function M.attach(buf)
     })
   end
 
-  if config.rename_enabled() then
+  if enabled and config.rename_enabled() then
     api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
       group = group,
       buffer = buf,
@@ -249,12 +269,15 @@ function M.attach(buf)
     clear_marks(buf)
   end
 
-  api.nvim_create_autocmd('BufWipeout', {
+  -- BufDelete too: buffers retired via nvim_buf_delete{unload=false} (e.g.
+  -- rosasweep) never reach BufWipeout and would leak these tables.
+  api.nvim_create_autocmd({ 'BufDelete', 'BufWipeout' }, {
     group = group,
     buffer = buf,
     callback = function()
       attached[buf] = nil
       marks[buf] = nil
+      last_nil[buf] = nil
       vim.schedule(function()
         pcall(api.nvim_del_augroup_by_name, 'rosatag_buf_' .. buf)
       end)

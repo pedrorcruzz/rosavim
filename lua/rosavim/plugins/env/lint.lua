@@ -131,7 +131,9 @@ return {
     end
 
     local lint_augroup = vim.api.nvim_create_augroup('lint', { clear = true })
-    vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'InsertLeave' }, {
+    -- BufReadPost, not BufEnter: re-entering an already-linted buffer should
+    -- not respawn linter processes.
+    vim.api.nvim_create_autocmd({ 'BufReadPost', 'BufWritePost', 'InsertLeave' }, {
       group = lint_augroup,
       callback = function(args)
         if not web_filetypes[vim.bo[args.buf].filetype] then

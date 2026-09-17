@@ -43,10 +43,8 @@ Os plugins do Rosavim são gerenciados pelo [Lazy.nvim](https://github.com/folke
 | [blink.cmp](https://github.com/Saghen/blink.cmp) | Engine de completion em Rust — autocompleção extremamente rápida |
 | [friendly-snippets](https://github.com/rafamadriz/friendly-snippets) | Coleção de snippets mantida pela comunidade para muitas linguagens |
 | [lazydev.nvim](https://github.com/folke/lazydev.nvim) | Helpers de desenvolvimento para criação de plugins Lua/Neovim |
-| [nvim-lsp-file-operations](https://github.com/antosha417/nvim-lsp-file-operations) | Atualização automática de imports ao renomear/mover arquivos |
 | [blink-copilot](https://github.com/giuxtaposition/blink-copilot) | Fonte do Copilot para blink.cmp |
 | [blink-emoji.nvim](https://github.com/moyiz/blink-emoji.nvim) | Fonte de completion de emojis |
-| [blink-ripgrep.nvim](https://github.com/mikavilpas/blink-ripgrep.nvim) | Fonte de completion via ripgrep — completa a partir de texto de todo o projeto |
 
 ---
 
@@ -79,7 +77,6 @@ Rosavim usa **treesitter nativo do Neovim 0.12+** — nenhum plugin necessário 
 | [nvim-dap-virtual-text](https://github.com/theHamsta/nvim-dap-virtual-text) | Valores de variáveis inline durante debugging |
 | [nvim-dap-python](https://github.com/mfussenegger/nvim-dap-python) | Adaptador de debug Python (debugpy) |
 | [nvim-dap-go](https://github.com/leoluz/nvim-dap-go) | Adaptador de debug Go (delve) |
-| [mason-nvim-dap.nvim](https://github.com/jay-babu/mason-nvim-dap.nvim) | Ponte entre Mason e nvim-dap para auto-instalar adaptadores de debug |
 
 ---
 
@@ -138,7 +135,6 @@ Rosavim vem com seus próprios temas built-in, armazenados em `lua/rosavim/rosa_
 | [nvim-surround](https://github.com/kylechui/nvim-surround) | Adicionar, mudar e deletar caracteres ao redor |
 | [vim-matchup](https://github.com/andymass/vim-matchup) | Correspondência `%` estendida para construções de linguagem |
 | Rosavisualmulti (built-in) | Edição com múltiplos cursores sobre extmarks — cursores por ocorrência, coluna e regex, replay de insert, comandos normais e macros em todos os cursores, align, popup de rename, menu dinâmico de ações (`<leader>kv`) |
-| [refactoring.nvim](https://github.com/ThePrimeagen/refactoring.nvim) | Operações de refatoração de código (extrair, inline, debug print) |
 | Rosayank (built-in) | Histórico de yank com persistência — ring buffer de 50 entradas, limpeza automática |
 | Rosatag (built-in) | Fecha e renomeia tags html/jsx ao vivo, varredura de texto puro, sem precisar de parser do treesitter (toggles em `<leader>lat`, rename manual `<leader>kr`) |
 | [todo-comments.nvim](https://github.com/folke/todo-comments.nvim) | Destacar e buscar TODO, FIXME, HACK, etc. |

@@ -1,6 +1,24 @@
 return {
   'brenoprata10/nvim-highlight-colors',
-  event = 'BufReadPost',
+  -- Only filetypes where inline color values actually appear
+  ft = {
+    'css',
+    'scss',
+    'sass',
+    'less',
+    'html',
+    'htmldjango',
+    'javascript',
+    'javascriptreact',
+    'typescript',
+    'typescriptreact',
+    'vue',
+    'lua',
+    'conf',
+    'toml',
+    'yaml',
+    'json',
+  },
   config = function()
     require('nvim-highlight-colors').setup {
       render = 'virtual', --foreground or background or virtual

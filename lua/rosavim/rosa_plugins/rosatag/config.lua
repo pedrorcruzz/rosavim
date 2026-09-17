@@ -44,6 +44,10 @@ local function get(key, default)
   return v
 end
 
+function M.enabled()
+  return get('rosatag', true)
+end
+
 function M.close_enabled()
   return get('rosatag_close', true)
 end

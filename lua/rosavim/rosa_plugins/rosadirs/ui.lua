@@ -1,7 +1,7 @@
 --- Rosadirs UI - Floating popups for the directory manager
 local M = {}
 
-local ns = vim.api.nvim_create_namespace 'rosadirs'
+local menu = require 'rosavim.helpers.rosa_menu'
 
 local SECTION_LABEL = {
   projects = 'Projects',
@@ -9,54 +9,31 @@ local SECTION_LABEL = {
 }
 
 local function setup_highlights()
-  local p = require('rosavim.helpers.palette').get()
-  vim.api.nvim_set_hl(0, 'RosadirsTitle', { fg = p.title, bold = true })
-  vim.api.nvim_set_hl(0, 'RosadirsBorder', { fg = p.border })
-  vim.api.nvim_set_hl(0, 'RosadirsKey', { fg = p.key, bold = true })
-  vim.api.nvim_set_hl(0, 'RosadirsAction', { fg = p.text })
-  vim.api.nvim_set_hl(0, 'RosadirsCreate', { fg = p.green })
-  vim.api.nvim_set_hl(0, 'RosadirsDanger', { fg = p.red, bold = true })
-  vim.api.nvim_set_hl(0, 'RosadirsDim', { fg = p.dim })
-  vim.api.nvim_set_hl(0, 'RosadirsInfo', { fg = p.teal })
-  vim.api.nvim_set_hl(0, 'RosadirsWarn', { fg = p.yellow, bold = true })
-  vim.api.nvim_set_hl(0, 'RosadirsCount', { fg = p.pink, bold = true })
+  require('rosavim.helpers.palette').define('Rosadirs', function(p)
+    return {
+      Title = { fg = p.title, bold = true },
+      Border = { fg = p.border },
+      Key = { fg = p.key, bold = true },
+      Action = { fg = p.text },
+      Create = { fg = p.green },
+      Danger = { fg = p.red, bold = true },
+      Dim = { fg = p.dim },
+      Info = { fg = p.teal },
+      Warn = { fg = p.yellow, bold = true },
+      Count = { fg = p.pink, bold = true },
+    }
+  end)
 end
 
---- Create a centered floating window
-local function create_float(opts)
-  local width = opts.width or 56
-  local height = opts.height or 12
-  local row = math.floor((vim.o.lines - height) / 2)
-  local col = math.floor((vim.o.columns - width) / 2)
-
-  local buf = vim.api.nvim_create_buf(false, true)
-  vim.bo[buf].bufhidden = 'wipe'
-  vim.bo[buf].filetype = 'rosadirs'
-
-  local win_opts = {
-    relative = 'editor',
-    row = row,
-    col = col,
-    width = width,
-    height = height,
-    style = 'minimal',
-    border = 'rounded',
-    title = ' ' .. (opts.title or 'Rosadirs') .. ' ',
-    title_pos = 'center',
-    zindex = 50,
-  }
-
+--- Open a centered rosadirs menu (adds this plugin's title/footer padding)
+local function open_menu(opts)
+  opts.title = ' ' .. (opts.title or 'Rosadirs') .. ' '
   if opts.footer then
-    win_opts.footer = ' ' .. opts.footer .. ' '
-    win_opts.footer_pos = 'center'
+    opts.footer = ' ' .. opts.footer .. ' '
   end
-
-  local win = vim.api.nvim_open_win(buf, true, win_opts)
-  vim.wo[win].winhl = 'Normal:Normal,FloatBorder:RosadirsBorder,FloatTitle:RosadirsTitle,FloatFooter:RosadirsDim'
-  vim.wo[win].cursorline = false
-  vim.wo[win].wrap = false
-
-  return buf, win
+  opts.hl_prefix = 'Rosadirs'
+  opts.filetype = 'rosadirs'
+  return menu.open(opts)
 end
 
 --- Apply changes to live plugins and emit a friendly notification.
@@ -199,21 +176,8 @@ function M.main_menu()
   local pad = '       '
   local gap = '    '
 
-  local lines = {}
-  local highlights = {}
-  local ln = 0
-
-  local function add(text, hl)
-    table.insert(lines, text)
-    if hl then
-      table.insert(highlights, { hl, ln })
-    end
-    ln = ln + 1
-  end
-
-  local function add_hl(hl_name, line_nr, col_start, col_end)
-    table.insert(highlights, { hl_name, line_nr, col_start, col_end })
-  end
+  local b = menu.builder()
+  local add, add_hl = b.add, b.add_hl
 
   -- Section counts
   local label_w = 12
@@ -221,15 +185,13 @@ function M.main_menu()
     return pad .. label .. string.rep(' ', label_w - #label) .. count
   end
 
-  local p_line = counts_row('Projects', tostring(#projects))
-  add(p_line)
-  add_hl('RosadirsAction', ln - 1, #pad, #pad + label_w)
-  add_hl('RosadirsCount', ln - 1, #pad + label_w, -1)
+  add(counts_row('Projects', tostring(#projects)))
+  add_hl('RosadirsAction', b.line(), #pad, #pad + label_w)
+  add_hl('RosadirsCount', b.line(), #pad + label_w, -1)
 
-  local o_line = counts_row('Obsidian', tostring(#obsidian))
-  add(o_line)
-  add_hl('RosadirsAction', ln - 1, #pad, #pad + label_w)
-  add_hl('RosadirsCount', ln - 1, #pad + label_w, -1)
+  add(counts_row('Obsidian', tostring(#obsidian)))
+  add_hl('RosadirsAction', b.line(), #pad, #pad + label_w)
+  add_hl('RosadirsCount', b.line(), #pad + label_w, -1)
 
   add(pad .. string.rep('─', 38), 'RosadirsDim')
   add ''
@@ -245,39 +207,12 @@ function M.main_menu()
       local label_end = label_start + #a.label
 
       add(line)
-      add_hl('RosadirsKey', ln - 1, key_start, key_end)
-      add_hl(a.hl, ln - 1, label_start, label_end)
+      add_hl('RosadirsKey', b.line(), key_start, key_end)
+      add_hl(a.hl, b.line(), label_start, label_end)
     end
   end
 
   add ''
-
-  local width = 56
-  local height = #lines
-
-  local buf, win = create_float {
-    title = ' Rosadirs',
-    footer = 'q: close',
-    width = width,
-    height = height,
-  }
-
-  vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
-  vim.bo[buf].modifiable = false
-
-  for _, hl in ipairs(highlights) do
-    vim.api.nvim_buf_add_highlight(buf, ns, hl[1], hl[2], hl[3] or 0, hl[4] or -1)
-  end
-
-  local function close()
-    if vim.api.nvim_win_is_valid(win) then
-      vim.api.nvim_win_close(win, true)
-    end
-  end
-
-  local kopts = { buffer = buf, silent = true, nowait = true }
-  vim.keymap.set('n', 'q', close, kopts)
-  vim.keymap.set('n', '<Esc>', close, kopts)
 
   local action_handlers = {
     add_project = function()
@@ -303,19 +238,34 @@ function M.main_menu()
     end,
   }
 
+  local keys = {}
   for _, a in ipairs(actions) do
     if not a.sep then
-      vim.keymap.set('n', a.key, function()
-        close()
-        vim.schedule(function()
-          local handler = action_handlers[a.action]
-          if handler then
-            handler()
-          end
-        end)
-      end, kopts)
+      table.insert(keys, {
+        'n',
+        a.key,
+        function(ctx)
+          ctx.close()
+          vim.schedule(function()
+            local handler = action_handlers[a.action]
+            if handler then
+              handler()
+            end
+          end)
+        end,
+      })
     end
   end
+
+  open_menu {
+    title = ' Rosadirs',
+    footer = 'q: close',
+    width = 56,
+    height = #b.lines,
+    lines = b.lines,
+    highlights = b.highlights,
+    keys = keys,
+  }
 end
 
 --- Confirm popup for destructive actions
@@ -325,74 +275,58 @@ function M.confirm_popup(opts)
 
   local pad = '       '
 
-  local lines = { '' }
-  local highlights = {}
-  local ln = 1
+  local b = menu.builder()
+  local add, add_hl = b.add, b.add_hl
 
-  table.insert(lines, pad .. opts.message)
-  table.insert(highlights, { 'RosadirsWarn', ln })
-  ln = ln + 1
-
-  table.insert(lines, '')
-  ln = ln + 1
+  add ''
+  add(pad .. opts.message, 'RosadirsWarn')
+  add ''
 
   if opts.detail then
-    table.insert(lines, pad .. opts.detail)
-    table.insert(highlights, { 'RosadirsDim', ln })
-    ln = ln + 1
-
-    table.insert(lines, '')
-    ln = ln + 1
+    add(pad .. opts.detail, 'RosadirsDim')
+    add ''
   end
 
-  table.insert(lines, pad .. string.rep('─', 30))
-  table.insert(highlights, { 'RosadirsDim', ln })
-  ln = ln + 1
+  add(pad .. string.rep('─', 30), 'RosadirsDim')
+  add ''
 
-  table.insert(lines, '')
-  ln = ln + 1
-
-  local confirm_line = pad .. 'y    Confirm          n    Cancel'
-  table.insert(lines, confirm_line)
+  add(pad .. 'y    Confirm          n    Cancel')
   local y_start = #pad
-  table.insert(highlights, { 'RosadirsDanger', ln, y_start, y_start + 1 })
-  table.insert(highlights, { 'RosadirsAction', ln, y_start + 4, y_start + 11 })
+  add_hl('RosadirsDanger', b.line(), y_start, y_start + 1)
+  add_hl('RosadirsAction', b.line(), y_start + 4, y_start + 11)
   local n_start = y_start + 22
-  table.insert(highlights, { 'RosadirsKey', ln, n_start, n_start + 1 })
-  table.insert(highlights, { 'RosadirsAction', ln, n_start + 4, n_start + 10 })
-  ln = ln + 1
+  add_hl('RosadirsKey', b.line(), n_start, n_start + 1)
+  add_hl('RosadirsAction', b.line(), n_start + 4, n_start + 10)
+  add ''
 
-  table.insert(lines, '')
-
-  local buf, win = create_float {
-    title = opts.title or ' Confirm',
-    width = 52,
-    height = #lines,
+  local keys = {
+    {
+      'n',
+      'n',
+      function(ctx)
+        ctx.close()
+      end,
+    },
+    {
+      'n',
+      'y',
+      function(ctx)
+        ctx.close()
+        vim.schedule(function()
+          opts.on_confirm()
+        end)
+      end,
+    },
   }
 
-  vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
-  vim.bo[buf].modifiable = false
-
-  for _, hl in ipairs(highlights) do
-    vim.api.nvim_buf_add_highlight(buf, ns, hl[1], hl[2], hl[3] or 0, hl[4] or -1)
-  end
-
-  local function close()
-    if vim.api.nvim_win_is_valid(win) then
-      vim.api.nvim_win_close(win, true)
-    end
-  end
-
-  local kopts = { buffer = buf, silent = true, nowait = true }
-  vim.keymap.set('n', 'n', close, kopts)
-  vim.keymap.set('n', 'q', close, kopts)
-  vim.keymap.set('n', '<Esc>', close, kopts)
-  vim.keymap.set('n', 'y', function()
-    close()
-    vim.schedule(function()
-      opts.on_confirm()
-    end)
-  end, kopts)
+  open_menu {
+    title = opts.title or ' Confirm',
+    width = 52,
+    height = #b.lines,
+    lines = b.lines,
+    highlights = b.highlights,
+    keys = keys,
+  }
 end
 
 return M
