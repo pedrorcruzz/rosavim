@@ -2,7 +2,11 @@ local colors = require("rosamin.colors")
 local config = require("rosamin.config")
 local min = {}
 
-local bg = config.transparent and "NONE" or colors.bg
+-- Spelled "None" on purpose: lualine caches this string raw and its no-colour
+-- check is case-sensitive. "NONE" slips through as a real colour, so next to a
+-- non-empty diff the branch->diff transitional separator gets created with no
+-- usable foreground and draws a grey cap with StatusLine's fallback fg.
+local bg = config.transparent and "None" or colors.bg
 -- The mode chip (a — and the location, which falls back to it) is painted in an
 -- accent colour and takes the editor background as its TEXT colour. Transparent
 -- mode turns colors.bg into "NONE", which would leave that text with no
