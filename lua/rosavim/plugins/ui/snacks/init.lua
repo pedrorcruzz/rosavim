@@ -58,7 +58,7 @@ return {
     scroll = {
       enabled = require('rosavim.config.toggles').get 'scroll',
       animate = {
-        duration = { step = 10, total = 150 },
+        duration = { step = 10, total = 120 },
       },
       filter = function(buf)
         return vim.g.snacks_scroll ~= false
