@@ -393,6 +393,12 @@ end
 --- panes are kept as part of the main area so a horizontal rosaterm
 --- spans across them. Skips rosaterm windows so they don't constrain
 --- themselves recursively.
+--- RosaAI's right/left slots are a special case: the vertical float takes
+--- priority over the horizontal rosaterm, so they ALWAYS count as a sidebar
+--- here regardless of width — unlike the generic narrow-edge heuristic below,
+--- which can miss a wide RosaAI panel (Wide preset, or a wide screen where
+--- even Default stays over the 35% cutoff) and let rosaterm's bottom band
+--- extend underneath it. Mirrors rosaai/layout.lua's own compute_main_area.
 local function compute_main_area(skip_terms)
   local cols = vim.o.columns
   local lines = vim.o.lines - vim.o.cmdheight - 1
@@ -403,6 +409,16 @@ local function compute_main_area(skip_terms)
     for _, t in ipairs(skip_terms) do
       if t.win then
         skip[t.win] = true
+      end
+    end
+  end
+  local rosaai_side = {}
+  local ok_state, rosaai_state = pcall(require, 'rosavim.rosa_plugins.rosaai.state')
+  if ok_state then
+    for _, p in ipairs { 'right', 'left' } do
+      local sl = rosaai_state.slot(p)
+      if sl then
+        rosaai_side[sl.win] = true
       end
     end
   end
@@ -427,12 +443,13 @@ local function compute_main_area(skip_terms)
         local right_edge = outer_col + outer_w
         local touches_left = outer_col <= 2
         local touches_right = right_edge >= cols - 2
-        -- Two ways to count as a sidebar:
+        -- Three ways to count as a sidebar:
         --   1. Known sidebar filetype (Snacks Explorer, etc.) anchored to an edge
         --   2. Narrow non-file window (< 35% of total cols) anchored to an edge
+        --   3. RosaAI's own right/left slot, always (its full float width)
         -- Editor panes from :vsplit / diff view are never sidebars, even when a
         -- third split drops them under the threshold.
-        local is_known_sidebar = SIDEBAR_FILETYPES[ft] == true
+        local is_known_sidebar = SIDEBAR_FILETYPES[ft] == true or rosaai_side[win] == true
         local is_narrow_edge = vim.bo[buf].buftype ~= '' and outer_w < cols * 0.35
         if (is_known_sidebar or is_narrow_edge) and (touches_left or touches_right) then
           if touches_left then
