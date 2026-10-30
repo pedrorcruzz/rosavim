@@ -30,7 +30,10 @@ local center
 if not ok_t or toggles.get 'lualine_bar_y_transparent' then
   center = transparent and 'NONE' or editor_bg
 else
-  center = transparent and 'NONE' or status_bar
+  -- Always the solid bar here, even in transparent mode: this is the OFF
+  -- state, so it must stay visually distinct from the ON branch above (which
+  -- already owns the "NONE in transparent mode" behavior).
+  center = status_bar
 end
 
 local fg = light and '#080808' or '#bcbec4'

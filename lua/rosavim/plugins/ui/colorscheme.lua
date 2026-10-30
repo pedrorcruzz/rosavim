@@ -41,7 +41,7 @@ vim.api.nvim_create_autocmd('ColorScheme', {
 -- Only our own themes define an explicit Cursor bg; guard on them so we never
 -- emit the default reverse cursor (which resolves to black) before a theme has
 -- been applied at startup.
-local rosa_schemes = { rosamin = true, rosavintage = true, rosanight = true, rosajet = true }
+local rosa_schemes = { rosamin = true, rosavintage = true, rosanight = true, rosajet = true, rosagawa = true }
 local function sync_terminal_cursor_color()
   if not rosa_schemes[vim.g.colors_name] then
     return
@@ -87,7 +87,7 @@ vim.api.nvim_create_autocmd('VimLeave', {
 vim.keymap.set('n', '<leader>lqs', function()
   local current = vim.g.colors_name
   -- Only the schemes we ship (not every installed scheme).
-  local items = { 'rosamin', 'rosavintage', 'rosanight', 'rosajet' }
+  local items = { 'rosamin', 'rosavintage', 'rosanight', 'rosajet', 'rosagawa' }
   vim.ui.select(items, {
     prompt = 'Theme · select',
     kind = 'colorscheme',

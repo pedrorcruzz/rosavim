@@ -113,7 +113,7 @@ Guias detalhados ficam em [`docs/manual`](docs/manual/):
 
 <br>
 
-- **4 temas próprios**: **Rosamin** (padrão, minimal), **Rosavintage** (quente, terroso), **Rosanight** (monocromático, OLED preto) e **Rosajet** (palette das JetBrains), todos com dark/light mode e transparência
+- **5 temas próprios**: **Rosamin** (padrão, minimal), **Rosavintage** (quente, terroso), **Rosanight** (monocromático, OLED preto), **Rosajet** (palette das JetBrains) e **Rosagawa** (palette do Kanagawa), todos com dark/light mode e transparência
 - **Dashboard**, statusline **Lualine** (separadores selecionáveis), abas **Bufferline**, breadcrumbs **Dropbar**, nomes flutuantes **Incline** e **Noice** para mensagens modernas
 - Troca de **dark/light** e de **tema** com um atalho
 
@@ -186,7 +186,7 @@ Suporte completo (LSP, formatação, linting, testes e debug) para as principais
 
 ## Temas
 
-O Rosavim vem com 4 temas próprios, todos ligados aos toggles de dark/light e transparência.
+O Rosavim vem com 5 temas próprios, todos ligados aos toggles de dark/light e transparência.
 
 <details>
 <summary><b>Rosamin</b>: minimal, limpo e focado (padrão)</summary>
@@ -233,6 +233,19 @@ annotations oliva e texto normal para classes e identificadores. Portado de
 [nickkadutskyi/jb.nvim](https://github.com/nickkadutskyi/jb.nvim), e os chips de
 modo do lualine reusam as cores de modo do IdeaVim. Dark, light e transparência
 funcionam todos.
+
+</details>
+
+<details>
+<summary><b>Rosagawa</b>: palettes dragon & lotus do Kanagawa (portado)</summary>
+
+<br>
+
+Um port do [kanagawa.nvim](https://github.com/rebelot/kanagawa.nvim), usando a
+palette dragon (quente e suave) no dark e a palette lotus no light. Bordas,
+cursor e os fundos do explorer/picker do Snacks foram ajustados para o mesmo
+cinza neutro dos outros temas Rosa, em vez dos tons mais azulados do próprio
+kanagawa. Dark, light e transparência funcionam todos.
 
 </details>
 
@@ -296,7 +309,7 @@ funcionam todos.
 | Atalho | Ação |
 |:-------|:-----|
 | `<leader>lqt` | Alternar dark/light mode |
-| `<leader>lqs` | Trocar tema (rosamin / rosavintage / rosanight / rosajet) |
+| `<leader>lqs` | Trocar tema (rosamin / rosavintage / rosanight / rosajet / rosagawa) |
 | `<leader>lqi` | Inverter BG (rosajet `j` / rosamin `m` / rosavintage `v`) |
 | `<leader>lqy` | Alternar transparência da barra-y do lualine |
 | `<leader>lp` | Rosadirs (gerenciar diretórios) |
@@ -341,7 +354,8 @@ Referência completa: **[Manual de Atalhos](docs/manual/keybinds.pt-br.md)**.
 │       ├── rosamin/               # tema padrão (minimal)
 │       ├── rosavintage/          # tema quente e terroso
 │       ├── rosanight/            # monocromático minimalista (OLED)
-│       └── rosajet/              # palette das IDEs JetBrains (portado), Inverter BG em config/invert_bg.lua
+│       ├── rosajet/              # palette das IDEs JetBrains (portado), Inverter BG em config/invert_bg.lua
+│       └── rosagawa/             # palette dragon/lotus do Kanagawa (portado)
 ├── lsp/                           # configs individuais de LSP
 ├── snippets/                      # snippets em formato VSCode (gerenciados pelo Rosasnippets, <leader>lo)
 └── assets/                        # logo e screenshots

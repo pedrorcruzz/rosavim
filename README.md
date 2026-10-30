@@ -113,7 +113,7 @@ Detailed guides live in [`docs/manual`](docs/manual/):
 
 <br>
 
-- **4 built-in themes**: **Rosamin** (default, minimal), **Rosavintage** (warm, earthy), **Rosanight** (monochrome, OLED black), and **Rosajet** (JetBrains palette), all with dark/light mode and transparency
+- **5 built-in themes**: **Rosamin** (default, minimal), **Rosavintage** (warm, earthy), **Rosanight** (monochrome, OLED black), **Rosajet** (JetBrains palette), and **Rosagawa** (Kanagawa palette), all with dark/light mode and transparency
 - **Dashboard**, **Lualine** statusline (selectable separators), **Bufferline** tabs, **Dropbar** breadcrumbs, **Incline** floating filenames, and **Noice** for modern messages
 - One-shortcut **dark/light** and **theme** switching
 
@@ -186,7 +186,7 @@ Full support (LSP, formatting, linting, testing, debugging) for the most popular
 
 ## Themes
 
-Rosavim comes with 4 themes of its own, all wired into the dark/light and transparency toggles.
+Rosavim comes with 5 themes of its own, all wired into the dark/light and transparency toggles.
 
 <details>
 <summary><b>Rosamin</b>: minimal, clean, focused (default)</summary>
@@ -233,6 +233,19 @@ olive annotations, and plain text for classes and identifiers. Ported from
 [nickkadutskyi/jb.nvim](https://github.com/nickkadutskyi/jb.nvim), and the
 lualine mode chips reuse the IdeaVim mode colors. Dark, light, and transparency
 are all supported.
+
+</details>
+
+<details>
+<summary><b>Rosagawa</b>: Kanagawa's dragon & lotus palettes (ported)</summary>
+
+<br>
+
+A port of [kanagawa.nvim](https://github.com/rebelot/kanagawa.nvim), using its
+warm, muted dragon palette for dark mode and the lotus palette for light mode.
+Borders, cursor, and the Snacks explorer/picker backgrounds are tuned to match
+the neutral grey chrome the other Rosa themes share instead of kanagawa's own
+bluer tones. Dark, light, and transparency are all supported.
 
 </details>
 
@@ -296,7 +309,7 @@ are all supported.
 | Key | Action |
 |:----|:-------|
 | `<leader>lqt` | Toggle dark/light mode |
-| `<leader>lqs` | Switch theme (rosamin / rosavintage / rosanight / rosajet) |
+| `<leader>lqs` | Switch theme (rosamin / rosavintage / rosanight / rosajet / rosagawa) |
 | `<leader>lqi` | Invert BG (rosajet `j` / rosamin `m` / rosavintage `v`) |
 | `<leader>lqy` | Toggle lualine bar-y transparency |
 | `<leader>lp` | Rosadirs (manage project dirs) |
@@ -341,7 +354,8 @@ Full reference: **[Keybindings Manual](docs/manual/keybinds.md)**.
 │       ├── rosamin/               # default theme (minimal)
 │       ├── rosavintage/          # earthy, warm theme
 │       ├── rosanight/            # minimalist monochrome (OLED)
-│       └── rosajet/              # JetBrains IDE palette (ported), Invert BG in config/invert_bg.lua
+│       ├── rosajet/              # JetBrains IDE palette (ported), Invert BG in config/invert_bg.lua
+│       └── rosagawa/             # Kanagawa dragon/lotus palette (ported)
 ├── lsp/                           # individual LSP configs
 ├── snippets/                      # VSCode-format snippets (managed by Rosasnippets, <leader>lo)
 └── assets/                        # logo and screenshots

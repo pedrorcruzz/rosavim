@@ -22,7 +22,10 @@ local center
 if not ok_t or toggles.get 'lualine_bar_y_transparent' then
   center = transparent and 'NONE' or (light and '#D3D2CE' or '#000000')
 else
-  center = transparent and 'NONE' or '#1a1a1a'
+  -- Always the solid bar here, even in transparent mode: this is the OFF
+  -- state, so it must stay visually distinct from the ON branch above (which
+  -- already owns the "NONE in transparent mode" behavior).
+  center = '#1a1a1a'
 end
 local fg = light and '#2A2A2A' or '#FFFFFF'
 local muted_fg = light and '#7a7a76' or '#8C8C9A'
