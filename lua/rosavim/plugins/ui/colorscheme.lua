@@ -8,6 +8,15 @@ local group = vim.api.nvim_create_augroup('RosavimColorscheme', { clear = true }
 --    picker/explorer borders to blend into their own bg
 -- 4. Invert Backgrounds (<leader>lqi<theme>): swap the editor surface with
 --    the explorer/tab chrome surface
+--
+-- mini.icons' MiniIcons* palette is NOT centralized here on purpose: each
+-- theme's own overrides.lua sets it directly as part of `set_groups()`/
+-- `highlights.setup()`, which runs synchronously while `:colorscheme X` is
+-- sourcing the theme (before this autocmd fires). Setting it here instead
+-- raced mini.icons' own lazy load at startup — whichever finished loading
+-- last (the theme's `:colorscheme` call vs. mini.icons' first `require`)
+-- won, so the icons would sometimes start on mini.icons' built-in colors
+-- until the next theme switch repainted them.
 vim.api.nvim_create_autocmd('ColorScheme', {
   group = group,
   callback = function()
@@ -15,15 +24,6 @@ vim.api.nvim_create_autocmd('ColorScheme', {
     vim.api.nvim_set_hl(0, 'BlinkCmpDocBorder', { fg = '#4c4c4c', default = true })
     vim.api.nvim_set_hl(0, 'BlinkCmpSignatureHelpBorder', { fg = '#4c4c4c', default = true })
     vim.api.nvim_set_hl(0, 'BlinkCmpDocSeparator', { fg = '#3a3a3a', default = true })
-    vim.api.nvim_set_hl(0, 'MiniIconsPurple', { fg = '#777BB4', bg = 'none' })
-    vim.api.nvim_set_hl(0, 'MiniIconsAzure', { fg = '#007FFF', bg = 'none' })
-    vim.api.nvim_set_hl(0, 'MiniIconsBlue', { fg = '#0000FF', bg = 'none' })
-    vim.api.nvim_set_hl(0, 'MiniIconsCyan', { fg = '#60A5FA', bg = 'none' })
-    vim.api.nvim_set_hl(0, 'MiniIconsGrey', { fg = '#A0A0A0', bg = 'none' })
-    vim.api.nvim_set_hl(0, 'MiniIconsOrange', { fg = '#F59E0C', bg = 'none' })
-    vim.api.nvim_set_hl(0, 'MiniIconsYellow', { fg = '#FFDE21', bg = 'none' })
-    vim.api.nvim_set_hl(0, 'MiniIconsRed', { fg = '#F87171', bg = 'none' })
-    vim.api.nvim_set_hl(0, 'MiniIconsGreen', { fg = '#9FF8BB', bg = 'none' })
 
     require('rosavim.helpers.term_bg').refresh()
     require('rosavim.config.borderless').apply()

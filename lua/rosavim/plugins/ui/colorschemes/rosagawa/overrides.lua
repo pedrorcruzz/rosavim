@@ -266,6 +266,19 @@ function M.get(mode, transparent_background)
     DiagnosticFloatingWarn = { link = 'DiagnosticWarn' },
     DiagnosticFloatingInfo = { link = 'DiagnosticInfo' },
     DiagnosticFloatingHint = { link = 'DiagnosticHint' },
+
+    -- mini.icons: match rosamin's fixed palette instead of kanagawa's own
+    -- (which linked these groups to Function/Diagnostic* and turned file
+    -- icons purple/yellow). Same values in light and dark, like rosamin.
+    MiniIconsAzure = { fg = '#79b8ff', bg = 'none' },
+    MiniIconsBlue = { fg = '#64BAFF', bg = 'none' },
+    MiniIconsCyan = { fg = '#7DD3FC', bg = 'none' },
+    MiniIconsPurple = { fg = '#b392f0', bg = 'none' },
+    MiniIconsRed = { fg = '#F67582', bg = 'none' },
+    MiniIconsGreen = { fg = '#A0D6A0', bg = 'none' },
+    MiniIconsOrange = { fg = '#FFA868', bg = 'none' },
+    MiniIconsYellow = { fg = '#FFD580', bg = 'none' },
+    MiniIconsGrey = { fg = '#9C9EA4', bg = 'none' },
   }
 
   return result

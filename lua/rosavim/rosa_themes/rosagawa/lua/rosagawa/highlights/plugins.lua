@@ -355,16 +355,11 @@ function M.setup(colors, config)
         MiniHipatternsNote = { fg = theme.ui.bg, bg = theme.diag.info, bold = true },
         MiniHipatternsTodo = { fg = theme.ui.bg, bg = theme.diag.hint, bold = true },
 
-        MiniIconsAzure = { fg = theme.syn.special1 },
-        MiniIconsBlue = { fg = theme.syn.fun },
-        MiniIconsCyan = { fg = theme.syn.type },
-        MiniIconsGreen = { fg = theme.syn.string },
-        MiniIconsGrey = { fg = theme.ui.fg },
-        MiniIconsOrange = { fg = theme.syn.constant },
-        MiniIconsPurple = { fg = theme.syn.keyword },
-        MiniIconsRed = { fg = theme.syn.special3 },
-        MiniIconsYellow = { fg = theme.syn.identifier },
-
+        -- MiniIcons* intentionally left unset here: Rosavim centralizes the
+        -- file-icon palette in rosavim/plugins/ui/colorscheme.lua (applied
+        -- via a `default = true` ColorScheme autocmd) so it's identical
+        -- across every rosa theme instead of following kanagawa's own syntax
+        -- colors.
         MiniIndentscopeSymbol = { fg = theme.syn.special1 },
         MiniIndentscopePrefix = { nocombine = true }, -- Make it invisible
 
