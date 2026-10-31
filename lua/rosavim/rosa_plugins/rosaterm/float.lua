@@ -289,6 +289,22 @@ api.nvim_create_autocmd('WinEnter', {
     end
   end,
 })
+--- Same ghosting bug as above, triggered by any floating window closing on
+--- top of the terminal — most commonly the Snacks notifier popup, whose
+--- zindex (100) sits well above the rosaterm float (55) and whose own
+--- auto-hide timeout closes it without repainting what was underneath,
+--- leaving stray border/content fragments composited over the terminal.
+api.nvim_create_autocmd('WinClosed', {
+  group = redraw_group,
+  callback = function()
+    if not rosaterm_visible_here() then
+      return
+    end
+    vim.schedule(function()
+      pcall(vim.cmd, 'redraw!')
+    end)
+  end,
+})
 
 --- Autocmd to clean up the chip if the main float window is closed externally
 api.nvim_create_autocmd('WinClosed', {

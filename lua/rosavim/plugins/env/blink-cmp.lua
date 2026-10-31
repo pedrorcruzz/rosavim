@@ -17,7 +17,11 @@ return {
       -- blink's built-in snippets source (no engine plugin needed).
       { 'rafamadriz/friendly-snippets', event = 'InsertEnter' },
 
-      { 'kristijanhusak/vim-dadbod-completion', ft = { 'sql', 'mysql', 'plsql' }, lazy = true },
+      -- vim-dadbod-completion is NOT listed here on purpose: lazy.nvim force-loads
+      -- every entry in a non-lazy plugin's `dependencies` (blink.cmp is lazy=false),
+      -- ignoring that entry's own `ft`. It stays declared only as a dependency of
+      -- dadbod-ui.lua, so it loads via its own `ft` trigger (opening a sql/mysql/
+      -- plsql buffer) or when dadbod-ui's cmd-triggered load pulls it in.
     },
 
     opts = {

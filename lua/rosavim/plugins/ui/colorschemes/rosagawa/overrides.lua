@@ -125,6 +125,19 @@ local NOTIFIER_TITLE_FG = {
   light = '#1A1A1A',
 }
 
+-- rosamin's Snacks input (the "Add a new file or directory" prompt, rename,
+-- etc.): snacks/input.lua registers SnacksInputBorder/Title as `default =
+-- true` links to DiagnosticInfo, and SnacksInputIcon to DiagnosticHint.
+-- rosagawa overrides DiagnosticInfo to a bright blue (diag.info above), so
+-- without an explicit override here the whole prompt box — border and title
+-- text — rendered in that same blue. Pin it to rosamin's neutral look
+-- instead: icon at the normal buffer fg, title at the bright title colour,
+-- border at the shared border grey.
+local SNACKS_INPUT_ICON_FG = {
+  dark = '#c5c9c5',
+  light = '#616161',
+}
+
 function M.get(mode, transparent_background)
   local border_fg = BORDER_FG[mode] or BORDER_FG.dark
   local cursor_fg = CURSOR_FG[mode] or CURSOR_FG.dark
@@ -137,10 +150,18 @@ function M.get(mode, transparent_background)
   local prompt_fg = PROMPT_FG[mode] or PROMPT_FG.dark
   local diag = DIAGNOSTIC[mode] or DIAGNOSTIC.dark
   local visual_bg = VISUAL_BG[mode] or VISUAL_BG.dark
-  local pmenu_bg = PMENU_BG[mode] or PMENU_BG.dark
+  -- Unlike the rest of this file's flat per-mode colours, the completion
+  -- menu bg has to drop out under transparency (same as Normal/NormalFloat
+  -- already do via the base plugin): otherwise blink.cmp's menu — which
+  -- links straight to Pmenu — keeps this solid colour behind it even with
+  -- `transparent_background` on, showing a visible box instead of blending
+  -- with the terminal. The selected row keeps its solid bg either way so the
+  -- highlighted item stays legible against a see-through menu.
+  local pmenu_bg = transparent_background and 'none' or (PMENU_BG[mode] or PMENU_BG.dark)
   local pmenu_sel_bg = PMENU_SEL_BG[mode] or PMENU_SEL_BG.dark
   local notifier_error_fg = NOTIFIER_ERROR_FG[mode] or NOTIFIER_ERROR_FG.dark
   local notifier_title_fg = NOTIFIER_TITLE_FG[mode] or NOTIFIER_TITLE_FG.dark
+  local snacks_input_icon_fg = SNACKS_INPUT_ICON_FG[mode] or SNACKS_INPUT_ICON_FG.dark
   -- rosamin keeps VertSplit at the editor bg shade under transparency so it
   -- doesn't draw a solid line over a see-through buffer.
   local vertsplit_fg = (mode ~= 'light' and transparent_background) and '#1F1F1F' or separator_fg
@@ -209,6 +230,12 @@ function M.get(mode, transparent_background)
     SnacksNotifierBorderWarn = { fg = diag.warn },
     SnacksNotifierBorderError = { fg = notifier_error_fg },
     SnacksNotifierTitleInfo = { fg = notifier_title_fg },
+
+    -- rosamin's Snacks input prompt instead of kanagawa's DiagnosticInfo blue
+    -- (see SNACKS_INPUT_ICON_FG above for why this was needed at all).
+    SnacksInputIcon = { fg = snacks_input_icon_fg },
+    SnacksInputTitle = { fg = notifier_title_fg },
+    SnacksInputBorder = { fg = border_fg },
 
     WinSeparator = { fg = separator_fg },
     VertSplit = { fg = vertsplit_fg },
