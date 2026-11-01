@@ -5,6 +5,7 @@ local M = {}
 function M.setup(colors, config)
     config = config or require("rosagawa").config
     local theme = colors.theme
+    local gutter_bg = not config.transparent and theme.ui.bg_gutter or "NONE"
     return {
         -- Neovcs
         -- NeovcsBranch = {},
@@ -21,9 +22,9 @@ function M.setup(colors, config)
         -- vcsSignsDeleteLn = { bg = theme.diff.delete },
 
         -- Gitsigns
-        GitSignsAdd = { fg = theme.vcs.added, bg = theme.ui.bg_gutter },
-        GitSignsChange = { fg = theme.vcs.changed, bg = theme.ui.bg_gutter },
-        GitSignsDelete = { fg = theme.vcs.removed, bg = theme.ui.bg_gutter },
+        GitSignsAdd = { fg = theme.vcs.added, bg = gutter_bg },
+        GitSignsChange = { fg = theme.vcs.changed, bg = gutter_bg },
+        GitSignsDelete = { fg = theme.vcs.removed, bg = gutter_bg },
         -- Neogit
         NeogitDiffContextHighlight = { bg = theme.diff.change }, --[[  guibg=#333333 guifg=#b2b2b2 ]]
         NeogitHunkHeader = { fg = theme.syn.fun }, --[[  guifg=#cccccc guibg=#404040 ]]
@@ -333,9 +334,9 @@ function M.setup(colors, config)
         MiniDepsTitleSame = { link = "DiffText" },
         MiniDepsTitleUpdate = { link = "DiffAdd" },
 
-        MiniDiffSignAdd = { fg = theme.vcs.added, bg = theme.ui.bg_gutter },
-        MiniDiffSignChange = { fg = theme.vcs.changed, bg = theme.ui.bg_gutter },
-        MiniDiffSignDelete = { fg = theme.vcs.removed, bg = theme.ui.bg_gutter },
+        MiniDiffSignAdd = { fg = theme.vcs.added, bg = gutter_bg },
+        MiniDiffSignChange = { fg = theme.vcs.changed, bg = gutter_bg },
+        MiniDiffSignDelete = { fg = theme.vcs.removed, bg = gutter_bg },
         MiniDiffOverAdd = { link = "DiffAdd" },
         MiniDiffOverChange = { link = "DiffText" },
         MiniDiffOverContext = { link = "DiffChange" },
