@@ -40,6 +40,8 @@ local CURSOR_BG = {
 -- greys. light matches the one grey the rest of light mode now uses
 -- (bg_gutter/bg_m1/bg_p1/bg_p2, see themes.lua's lotus()); dark keeps its
 -- existing float-bg look explicitly instead of relying on the fallback.
+-- Both drop to NONE under transparency (see M.get below) so the picker
+-- actually goes see-through instead of keeping this solid colour.
 local SNACKS_EXPLORER_BG = {
   dark = '#0D0C0C',
   light = '#E0E0E0',
@@ -180,24 +182,33 @@ local BUFFERLINE_MODIFIED = {
   light = '#707070',
 }
 
--- rosamin's LineNr fg — kanagawa's own (theme.ui.nontext) reads too
--- muted/green against rosagawa's palette. Flat across dark and transparent
--- (only the gutter bg itself drops under transparency, via the
--- rosagawa_gutter_flat toggle below); light gets its own darker tone.
+-- rosamin's LineNr fg, exact match — kanagawa's own (theme.ui.nontext) reads
+-- too muted/green against rosagawa's palette. Flat across dark and
+-- transparent (only the gutter bg itself drops under transparency, via the
+-- rosagawa_gutter_flat toggle below).
 local LINENR_FG = {
-  dark = '#C1C1C1',
-  light = '#383A43',
+  dark = '#505050', -- brighter alternative tried: #6A6A6A
+  light = '#B0B0B0', -- brighter alternative tried: #909090
+}
+
+-- rosamin's CursorLineNr fg — kanagawa's own (theme.diag.warning, bold) paints
+-- the cursor line's number bright orange; rosamin never varies this by
+-- transparency, so match it flat here too, dark and light.
+local CURSOR_LINE_NR_FG = {
+  dark = '#C6C6C6',
+  light = '#383A42',
 }
 
 function M.get(mode, transparent_background)
   local border_fg = BORDER_FG[mode] or BORDER_FG.dark
   local cursor_fg = CURSOR_FG[mode] or CURSOR_FG.dark
   local cursor_bg = CURSOR_BG[mode] or CURSOR_BG.dark
-  local snacks_explorer_bg = SNACKS_EXPLORER_BG[mode] or SNACKS_EXPLORER_BG.dark
+  local snacks_explorer_bg = transparent_background and 'none'
+    or (SNACKS_EXPLORER_BG[mode] or SNACKS_EXPLORER_BG.dark)
   local cursorline_bg = EXPLORER_CURSORLINE_BG[mode] or EXPLORER_CURSORLINE_BG.dark
   local directory_fg = DIRECTORY_FG[mode] or DIRECTORY_FG.dark
   local separator_fg = SEPARATOR_FG[mode] or SEPARATOR_FG.dark
-  local float_bg = FLOAT_BG[mode] or FLOAT_BG.dark
+  local float_bg = transparent_background and 'none' or (FLOAT_BG[mode] or FLOAT_BG.dark)
   local prompt_fg = PROMPT_FG[mode] or PROMPT_FG.dark
   local diag = DIAGNOSTIC[mode] or DIAGNOSTIC.dark
   local visual_bg = VISUAL_BG[mode] or VISUAL_BG.dark
@@ -223,6 +234,7 @@ function M.get(mode, transparent_background)
   local bl_fg_inactive = BUFFERLINE_FG_INACTIVE[mode] or BUFFERLINE_FG_INACTIVE.dark
   local bl_modified = BUFFERLINE_MODIFIED[mode] or BUFFERLINE_MODIFIED.dark
   local linenr_fg = LINENR_FG[mode] or LINENR_FG.dark
+  local cursorlinenr_fg = CURSOR_LINE_NR_FG[mode] or CURSOR_LINE_NR_FG.dark
   -- rosamin keeps VertSplit at the editor bg shade under transparency so it
   -- doesn't draw a solid line over a see-through buffer.
   local vertsplit_fg = (mode ~= 'light' and transparent_background) and '#1F1F1F' or separator_fg
@@ -238,6 +250,7 @@ function M.get(mode, transparent_background)
     SnacksPickerTree = { link = 'NonText' },
 
     LineNr = { fg = linenr_fg },
+    CursorLineNr = { fg = cursorlinenr_fg },
 
     -- Float borders (which-key, Snacks pickers/explorer, Mini* floats, ...)
     -- all cascade from FloatBorder/Border via `default = true` links, so
@@ -386,7 +399,7 @@ function M.get(mode, transparent_background)
   if toggles.get_or('rosagawa_gutter_flat', false) then
     local gutter_bg = transparent_background and 'none' or (EDITOR_BG[mode] or EDITOR_BG.dark)
     result.LineNr = { fg = linenr_fg, bg = gutter_bg }
-    result.CursorLineNr = { bg = gutter_bg }
+    result.CursorLineNr = { fg = cursorlinenr_fg, bg = gutter_bg }
     result.SignColumn = { bg = gutter_bg }
     result.FoldColumn = { bg = gutter_bg }
   end
