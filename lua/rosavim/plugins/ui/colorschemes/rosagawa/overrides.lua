@@ -151,6 +151,33 @@ local SNACKS_INPUT_ICON_FG = {
   light = '#616161',
 }
 
+-- rosamin's bufferline (tab bar). rosagawa never defined a single BufferLine*
+-- group, so bufferline.nvim fell back to its own defaults derived from
+-- Normal: under transparency that left the bar looking broken/see-through
+-- instead of rosamin's solid dark strip, and the auto-derived file-icon
+-- square landed on a shade different from the rest of the tab (the
+-- race-condition fix in plugins/ui/bufferline.lua forces the icon bg to
+-- match BufferLineFill, but that only helps once BufferLineFill itself is
+-- actually set). rosamin draws selected vs. inactive purely through
+-- fg/bold, never a different bg, so every group below shares one flat bg
+-- per mode: rosamin's own #1A1A1A dark / #dddddd light, exactly.
+local BUFFERLINE_BG = {
+  dark = '#1A1A1A',
+  light = '#dddddd',
+}
+local BUFFERLINE_FG = {
+  dark = '#c1c1c1',
+  light = '#616161',
+}
+local BUFFERLINE_FG_INACTIVE = {
+  dark = '#484848',
+  light = '#9E9E9E',
+}
+local BUFFERLINE_ORANGE = {
+  dark = '#FF9800',
+  light = '#f29718',
+}
+
 function M.get(mode, transparent_background)
   local border_fg = BORDER_FG[mode] or BORDER_FG.dark
   local cursor_fg = CURSOR_FG[mode] or CURSOR_FG.dark
@@ -175,6 +202,15 @@ function M.get(mode, transparent_background)
   local notifier_error_fg = NOTIFIER_ERROR_FG[mode] or NOTIFIER_ERROR_FG.dark
   local notifier_title_fg = NOTIFIER_TITLE_FG[mode] or NOTIFIER_TITLE_FG.dark
   local snacks_input_icon_fg = SNACKS_INPUT_ICON_FG[mode] or SNACKS_INPUT_ICON_FG.dark
+  -- Drop to NONE under transparency instead of a solid colour, so the
+  -- bufferline bar is actually see-through (matches rosajet's bl_bg).
+  -- bl_hidden keeps the separator/indicator glyphs a real (if faint) colour
+  -- instead of leaking to the default fg once bg is NONE.
+  local bl_bg = transparent_background and 'NONE' or (BUFFERLINE_BG[mode] or BUFFERLINE_BG.dark)
+  local bl_hidden = transparent_background and separator_fg or bl_bg
+  local bl_fg = BUFFERLINE_FG[mode] or BUFFERLINE_FG.dark
+  local bl_fg_inactive = BUFFERLINE_FG_INACTIVE[mode] or BUFFERLINE_FG_INACTIVE.dark
+  local bl_orange = BUFFERLINE_ORANGE[mode] or BUFFERLINE_ORANGE.dark
   -- rosamin keeps VertSplit at the editor bg shade under transparency so it
   -- doesn't draw a solid line over a see-through buffer.
   local vertsplit_fg = (mode ~= 'light' and transparent_background) and '#1F1F1F' or separator_fg
@@ -292,6 +328,45 @@ function M.get(mode, transparent_background)
     MiniIconsOrange = { fg = '#FFA868', bg = 'none' },
     MiniIconsYellow = { fg = '#FFD580', bg = 'none' },
     MiniIconsGrey = { fg = '#9C9EA4', bg = 'none' },
+
+    -- rosamin's bufferline (see BUFFERLINE_BG above): one flat bg per mode,
+    -- selected vs. inactive drawn through fg/bold only.
+    BufferLineBackground = { fg = bl_fg_inactive, bg = bl_bg },
+    BufferLineBufferSelected = { fg = bl_fg, bg = bl_bg, bold = true },
+    BufferLineBufferVisible = { fg = bl_fg_inactive, bg = bl_bg },
+    BufferLineFill = { bg = bl_bg },
+    BufferLineSeparator = { fg = bl_hidden, bg = bl_bg },
+    BufferLineSeparatorSelected = { fg = bl_hidden, bg = bl_bg },
+    BufferLineSeparatorVisible = { fg = bl_hidden, bg = bl_bg },
+    BufferLineModified = { fg = bl_orange, bg = bl_bg },
+    BufferLineModifiedSelected = { fg = bl_orange, bg = bl_bg },
+    BufferLineModifiedVisible = { fg = bl_orange, bg = bl_bg },
+    -- Invisible (fg == bg), not rosamin's blue accent bar — asked to drop it.
+    BufferLineIndicatorSelected = { fg = bl_hidden, bg = bl_bg },
+    BufferLineIndicatorVisible = { fg = bl_hidden, bg = bl_bg },
+    BufferLineCloseButton = { fg = bl_fg_inactive, bg = bl_bg },
+    BufferLineCloseButtonSelected = { fg = bl_fg, bg = bl_bg },
+    BufferLineCloseButtonVisible = { fg = bl_fg_inactive, bg = bl_bg },
+    BufferLineTab = { fg = bl_fg_inactive, bg = bl_bg },
+    BufferLineTabSelected = { fg = bl_fg, bg = bl_bg },
+    BufferLineTabSeparator = { fg = bl_hidden, bg = bl_bg },
+    BufferLineTabSeparatorSelected = { fg = bl_hidden, bg = bl_bg },
+    BufferLineTabClose = { fg = bl_fg_inactive, bg = bl_bg },
+    BufferLineDuplicate = { fg = bl_fg_inactive, bg = bl_bg },
+    BufferLineDuplicateSelected = { fg = bl_fg, bg = bl_bg },
+    BufferLineDuplicateVisible = { fg = bl_fg_inactive, bg = bl_bg },
+    BufferLineTruncMarker = { fg = bl_fg_inactive, bg = bl_bg },
+    BufferLineOffset = { fg = bl_fg, bg = bl_bg, bold = true },
+    BufferLineOffsetSeparator = { fg = bl_hidden, bg = bl_bg },
+    BufferLinePick = { fg = diag.error, bg = bl_bg, bold = true },
+    BufferLinePickSelected = { fg = diag.error, bg = bl_bg, bold = true },
+    BufferLinePickVisible = { fg = diag.error, bg = bl_bg, bold = true },
+    BufferLineNumbers = { fg = bl_fg_inactive, bg = bl_bg },
+    BufferLineNumbersSelected = { fg = bl_fg, bg = bl_bg },
+    BufferLineNumbersVisible = { fg = bl_fg_inactive, bg = bl_bg },
+    BufferLineDiagnostic = { fg = bl_fg_inactive, bg = bl_bg },
+    BufferLineDiagnosticSelected = { fg = bl_fg, bg = bl_bg },
+    BufferLineDiagnosticVisible = { fg = bl_fg_inactive, bg = bl_bg },
   }
 
   if toggles.get_or('rosagawa_gutter_flat', false) then
