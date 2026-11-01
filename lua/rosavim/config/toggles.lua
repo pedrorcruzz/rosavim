@@ -56,6 +56,7 @@ local defaults = {
   copilot_lualine = true, -- show the copilot icon on lualine
   incline = true,
   bufferline = true,
+  bufferline_diagnostics = true, -- show the error/warn/info/hint counts (<leader>labb)
   picker_hidden = false,
   picker_ignored = true,
   picker_layout = 'default',

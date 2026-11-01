@@ -10,15 +10,12 @@ vim.opt.expandtab = true
 
 vim.opt.title = true
 vim.opt.titlestring = '%{fnamemodify(getcwd(), ":t")}%( — %t%)'
-
 -- Global floating window border (Neovim 0.12+). Driven by the picker_border
 -- toggle (<leader>lqo) so vim.ui.select popups — which use `border = true`,
 -- resolving to `winborder` — stay in sync with the picker border style.
 vim.opt.winborder = require('rosavim.config.toggles').get 'picker_border'
-
 -- Auto root detection using vim.fs.root() (Neovim 0.12+)
 local root_cache = {}
-
 local set_root = function()
   local path = vim.api.nvim_buf_get_name(0)
   if path == '' then

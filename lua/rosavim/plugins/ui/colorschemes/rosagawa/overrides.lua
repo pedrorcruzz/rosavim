@@ -173,9 +173,20 @@ local BUFFERLINE_FG_INACTIVE = {
   dark = '#484848',
   light = '#9E9E9E',
 }
-local BUFFERLINE_ORANGE = {
-  dark = '#FF9800',
-  light = '#f29718',
+-- rosamin's bufferline "modified" dot/fg — exact match, dark and light.
+-- rosamin never varies this by transparency, so the dark value covers both.
+local BUFFERLINE_MODIFIED = {
+  dark = '#A9A9A9',
+  light = '#707070',
+}
+
+-- rosamin's LineNr fg — kanagawa's own (theme.ui.nontext) reads too
+-- muted/green against rosagawa's palette. Flat across dark and transparent
+-- (only the gutter bg itself drops under transparency, via the
+-- rosagawa_gutter_flat toggle below); light gets its own darker tone.
+local LINENR_FG = {
+  dark = '#C1C1C1',
+  light = '#383A43',
 }
 
 function M.get(mode, transparent_background)
@@ -210,7 +221,8 @@ function M.get(mode, transparent_background)
   local bl_hidden = transparent_background and separator_fg or bl_bg
   local bl_fg = BUFFERLINE_FG[mode] or BUFFERLINE_FG.dark
   local bl_fg_inactive = BUFFERLINE_FG_INACTIVE[mode] or BUFFERLINE_FG_INACTIVE.dark
-  local bl_orange = BUFFERLINE_ORANGE[mode] or BUFFERLINE_ORANGE.dark
+  local bl_modified = BUFFERLINE_MODIFIED[mode] or BUFFERLINE_MODIFIED.dark
+  local linenr_fg = LINENR_FG[mode] or LINENR_FG.dark
   -- rosamin keeps VertSplit at the editor bg shade under transparency so it
   -- doesn't draw a solid line over a see-through buffer.
   local vertsplit_fg = (mode ~= 'light' and transparent_background) and '#1F1F1F' or separator_fg
@@ -224,6 +236,8 @@ function M.get(mode, transparent_background)
     -- float's bg. NonText has the same fg with no bg, so link there instead
     -- (every other rosa theme does the same for SnacksPickerTree).
     SnacksPickerTree = { link = 'NonText' },
+
+    LineNr = { fg = linenr_fg },
 
     -- Float borders (which-key, Snacks pickers/explorer, Mini* floats, ...)
     -- all cascade from FloatBorder/Border via `default = true` links, so
@@ -338,9 +352,9 @@ function M.get(mode, transparent_background)
     BufferLineSeparator = { fg = bl_hidden, bg = bl_bg },
     BufferLineSeparatorSelected = { fg = bl_hidden, bg = bl_bg },
     BufferLineSeparatorVisible = { fg = bl_hidden, bg = bl_bg },
-    BufferLineModified = { fg = bl_orange, bg = bl_bg },
-    BufferLineModifiedSelected = { fg = bl_orange, bg = bl_bg },
-    BufferLineModifiedVisible = { fg = bl_orange, bg = bl_bg },
+    BufferLineModified = { fg = bl_modified, bg = bl_bg },
+    BufferLineModifiedSelected = { fg = bl_modified, bg = bl_bg },
+    BufferLineModifiedVisible = { fg = bl_modified, bg = bl_bg },
     -- Invisible (fg == bg), not rosamin's blue accent bar — asked to drop it.
     BufferLineIndicatorSelected = { fg = bl_hidden, bg = bl_bg },
     BufferLineIndicatorVisible = { fg = bl_hidden, bg = bl_bg },
@@ -371,7 +385,7 @@ function M.get(mode, transparent_background)
 
   if toggles.get_or('rosagawa_gutter_flat', false) then
     local gutter_bg = transparent_background and 'none' or (EDITOR_BG[mode] or EDITOR_BG.dark)
-    result.LineNr = { bg = gutter_bg }
+    result.LineNr = { fg = linenr_fg, bg = gutter_bg }
     result.CursorLineNr = { bg = gutter_bg }
     result.SignColumn = { bg = gutter_bg }
     result.FoldColumn = { bg = gutter_bg }

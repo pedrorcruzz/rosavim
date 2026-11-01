@@ -47,11 +47,17 @@ return {
       right_mouse_command = delete_buf_keep_layout,
       diagnostics = 'nvim_lsp',
       diagnostics_indicator = function(_, _, diagnostics)
+        -- <leader>labb toggle (toggles.bufferline_diagnostics, default on).
+        if not toggles.get_or('bufferline_diagnostics', true) then
+          return ''
+        end
+        -- Same glyphs as the LSP sign icons (lsp/lsp-handlers.lua), so the
+        -- icons match wherever a diagnostic count shows up.
         local symbols = {
-          error = { icon = '', hl = 'DiagnosticError' },
-          warning = { icon = '', hl = 'DiagnosticWarn' },
-          info = { icon = '', hl = 'DiagnosticInfo' },
-          hint = { icon = '', hl = 'DiagnosticHint' },
+          error = { icon = ' ', hl = 'DiagnosticError' },
+          warning = { icon = ' ', hl = 'DiagnosticWarn' },
+          info = { icon = ' ', hl = 'DiagnosticInfo' },
+          hint = { icon = '󱠇 ', hl = 'DiagnosticHint' },
         }
         local result = {}
         for name, count in pairs(diagnostics) do

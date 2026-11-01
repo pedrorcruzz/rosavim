@@ -88,6 +88,7 @@ return {
 
       { '<leader>lj', group = 'Spell', icon = '󰓆 ' },
       { '<leader>la', group = 'Tools Toggles', icon = '󰒓' },
+      { '<leader>lab', group = 'BufferLine', icon = '' },
       { '<leader>las', group = 'Snacks', icon = '󰡰' },
       { '<leader>lae', group = 'Editor', icon = '' },
       { '<leader>lal', group = 'LSP', icon = '' },
