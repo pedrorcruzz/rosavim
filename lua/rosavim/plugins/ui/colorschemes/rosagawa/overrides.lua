@@ -1,4 +1,17 @@
+local toggles = require 'rosavim.config.toggles'
+
 local M = {}
+
+-- Gutter BG toggle (<leader>lqu) — rosagawa's own LineNr/CursorLineNr/
+-- SignColumn/FoldColumn paint theme.ui.bg_gutter (dragon #282727 / lotus
+-- #dddddd), a shade distinct from the editor's own Normal bg on purpose —
+-- that grey strip down the left edge is part of rosagawa's look. When flat,
+-- the gutter is repainted to match the editor bg instead: theme.ui.bg per
+-- mode, or NONE under transparency (same rule Normal itself follows).
+local EDITOR_BG = {
+  dark = '#181616',
+  light = '#ffffff',
+}
 
 -- kanagawa's own float border colour (dragon #54546D / lotus #716e61) reads
 -- too blue/saturated next to the other rosa themes' neutral grey borders
@@ -280,6 +293,14 @@ function M.get(mode, transparent_background)
     MiniIconsYellow = { fg = '#FFD580', bg = 'none' },
     MiniIconsGrey = { fg = '#9C9EA4', bg = 'none' },
   }
+
+  if toggles.get_or('rosagawa_gutter_flat', false) then
+    local gutter_bg = transparent_background and 'none' or (EDITOR_BG[mode] or EDITOR_BG.dark)
+    result.LineNr = { bg = gutter_bg }
+    result.CursorLineNr = { bg = gutter_bg }
+    result.SignColumn = { bg = gutter_bg }
+    result.FoldColumn = { bg = gutter_bg }
+  end
 
   return result
 end

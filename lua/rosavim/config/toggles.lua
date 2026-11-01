@@ -23,6 +23,12 @@ local defaults = {
   rosajet_invert = false,
   rosamin_invert = false,
   rosavintage_invert = false,
+  -- Rosagawa Gutter BG (<leader>lqu): rosagawa's LineNr/CursorLineNr/
+  -- SignColumn/FoldColumn paint a grey gutter strip distinct from the editor
+  -- bg by design. false (default) keeps that characteristic look; true
+  -- flattens the gutter to match the editor bg instead. See the overrides in
+  -- rosavim.plugins.ui.colorschemes.rosagawa.overrides.
+  rosagawa_gutter_flat = false,
   dropbar = true,
   autosave = false,
   virtual_text_current_line = false,

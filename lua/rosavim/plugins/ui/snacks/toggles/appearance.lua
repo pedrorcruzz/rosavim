@@ -188,6 +188,24 @@ return function()
     end,
   }):map '<leader>lqy'
 
+  -- Rosagawa Gutter BG — OFF (default) keeps the characteristic grey gutter
+  -- strip (LineNr/CursorLineNr/SignColumn/FoldColumn); ON flattens it to
+  -- match the editor bg (dark bg in dark mode, transparent under
+  -- transparency, light bg in light mode). The repaint itself lives in the
+  -- rosagawa overrides; only reload live when rosagawa is the active theme.
+  Snacks.toggle({
+    name = 'Rosagawa Gutter BG',
+    get = function()
+      return toggles.get 'rosagawa_gutter_flat'
+    end,
+    set = function(state)
+      toggles.set('rosagawa_gutter_flat', state)
+      if vim.g.colors_name == 'rosagawa' then
+        require('rosavim.config.appearance').reload()
+      end
+    end,
+  }):map '<leader>lqu'
+
   -- Lualine separator preset selector (rounded / bar / arrow / slant).
   -- Same vim.ui.select popup style as the rosaterm/rosaai theme pickers.
   vim.keymap.set('n', '<leader>lqg', function()

@@ -73,6 +73,7 @@ return {
       { '<leader>lqm', desc = 'Render Markdown: Select Theme', icon = '' },
       { '<leader>lqg', desc = 'Lualine: Select Separator' },
       { '<leader>lqy', desc = 'Lualine: Bar Y Transparent (toggle)' },
+      { '<leader>lqu', desc = 'Rosagawa: Gutter BG (toggle)' },
       { '<leader>ly', desc = 'Toggle Cursor Shape (bar/block)' },
       { '<leader>lY', desc = 'Toggle Cursor Line' },
       { '<leader>lqc', group = 'TODO', icon = '󱩽 ' },
