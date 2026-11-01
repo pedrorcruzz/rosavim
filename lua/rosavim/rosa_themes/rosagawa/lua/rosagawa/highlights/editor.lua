@@ -76,7 +76,7 @@ function M.setup(colors, config)
         -- Normal		Normal text.
         Normal = { fg = theme.ui.fg, bg = not config.transparent and theme.ui.bg or "NONE" },
         -- NormalFloat	Normal text in floating windows.
-        NormalFloat = { fg = theme.ui.float.fg, bg = theme.ui.float.bg },
+        NormalFloat = { fg = theme.ui.float.fg, bg = not config.transparent and theme.ui.float.bg or "NONE" },
         -- FloatBorder	Border of floating windows.
         FloatBorder = { fg = theme.ui.float.fg_border, bg = theme.ui.float.bg_border },
         -- FloatTitle	Title of floating windows.
