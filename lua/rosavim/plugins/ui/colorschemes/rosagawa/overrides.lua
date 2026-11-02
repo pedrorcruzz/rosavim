@@ -199,6 +199,30 @@ local CURSOR_LINE_NR_FG = {
   light = '#383A42',
 }
 
+-- rosamin's flash.nvim colours — kanagawa never styles flash.nvim at all, so
+-- it fell back to Search/IncSearch instead of its own match/label/backdrop
+-- colours. Match rosamin's values exactly, dark and light.
+local FLASH_MATCH_FG = {
+  dark = '#000000',
+  light = '#1c1c1e',
+}
+local FLASH_MATCH_BG = {
+  dark = '#c6c6ce',
+  light = '#c4c3bd',
+}
+local FLASH_LABEL_FG = {
+  dark = '#FFFFFF',
+  light = '#d3d2ce',
+}
+local FLASH_LABEL_BG = {
+  dark = '#606060',
+  light = '#38383c',
+}
+local FLASH_BACKDROP_FG = {
+  dark = '#505050',
+  light = '#a8a7a1',
+}
+
 function M.get(mode, transparent_background)
   local border_fg = BORDER_FG[mode] or BORDER_FG.dark
   local cursor_fg = CURSOR_FG[mode] or CURSOR_FG.dark
@@ -235,6 +259,11 @@ function M.get(mode, transparent_background)
   local bl_modified = BUFFERLINE_MODIFIED[mode] or BUFFERLINE_MODIFIED.dark
   local linenr_fg = LINENR_FG[mode] or LINENR_FG.dark
   local cursorlinenr_fg = CURSOR_LINE_NR_FG[mode] or CURSOR_LINE_NR_FG.dark
+  local flash_match_fg = FLASH_MATCH_FG[mode] or FLASH_MATCH_FG.dark
+  local flash_match_bg = FLASH_MATCH_BG[mode] or FLASH_MATCH_BG.dark
+  local flash_label_fg = FLASH_LABEL_FG[mode] or FLASH_LABEL_FG.dark
+  local flash_label_bg = FLASH_LABEL_BG[mode] or FLASH_LABEL_BG.dark
+  local flash_backdrop_fg = FLASH_BACKDROP_FG[mode] or FLASH_BACKDROP_FG.dark
   -- rosamin keeps VertSplit at the editor bg shade under transparency so it
   -- doesn't draw a solid line over a see-through buffer.
   local vertsplit_fg = (mode ~= 'light' and transparent_background) and '#1F1F1F' or separator_fg
@@ -342,6 +371,12 @@ function M.get(mode, transparent_background)
     DiagnosticFloatingWarn = { link = 'DiagnosticWarn' },
     DiagnosticFloatingInfo = { link = 'DiagnosticInfo' },
     DiagnosticFloatingHint = { link = 'DiagnosticHint' },
+
+    -- rosamin's flash.nvim colours, exact match.
+    FlashMatch = { fg = flash_match_fg, bg = flash_match_bg },
+    FlashCurrent = { fg = flash_match_fg, bg = flash_match_bg },
+    FlashLabel = { fg = flash_label_fg, bg = flash_label_bg, bold = true },
+    FlashBackdrop = { fg = flash_backdrop_fg },
 
     -- mini.icons: match rosamin's fixed palette instead of kanagawa's own
     -- (which linked these groups to Function/Diagnostic* and turned file
