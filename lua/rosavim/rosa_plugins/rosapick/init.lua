@@ -3,6 +3,15 @@ local M = {}
 
 local chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
 
+-- Snacks picker windows (the explorer's list and its filter input) get fixed,
+-- mnemonic labels instead of whatever letter their position in the window
+-- list happens to land on, so S always means "the Snacks list" and F always
+-- means "its filter box", independent of how many other windows are open.
+local fixed_labels = {
+  snacks_picker_list = 'S',
+  snacks_picker_input = 'F',
+}
+
 local label_hl = 'RosapickLabel'
 local label_active_hl = 'RosapickLabelActive'
 local border_hl = 'RosapickBorder'
@@ -58,8 +67,11 @@ local function get_windows(filter)
     -- panel_reserve spacers are invisible native splits pinned UNDER a RosaAI/
     -- rosaterm float; their label would overlap the float's and picking one
     -- bounces focus straight back (panel_reserve's WinEnter guard), so the CLI
-    -- would never receive focus. Skip them.
-    local is_spacer = vim.bo[buf].filetype == 'rosa_spacer'
+    -- would never receive focus. Skip them. snacks_layout_box is the same
+    -- shape for the Snacks explorer: a native split reserving the sidebar
+    -- column with the picker's list float layered on top, so it would double
+    -- up with the list's own label.
+    local is_spacer = vim.bo[buf].filetype == 'rosa_spacer' or vim.bo[buf].filetype == 'snacks_layout_box'
     if not is_spacer and (cfg.relative == '' or cfg.focusable ~= false) then
       if not filter or filter(win, buf) then
         table.insert(wins, { id = win, is_current = win == current })
@@ -115,6 +127,35 @@ local function create_label(win, char, is_current)
   return { float = float, buf = buf }
 end
 
+--- Assign each window a label: the fixed ones from `fixed_labels` by filetype
+--- first (S/F stay put no matter the layout), then the rest take the
+--- leftover letters from `chars` in order, skipping any already claimed.
+local function assign_labels(wins)
+  local used = {}
+  local unlabeled = {}
+
+  for _, win in ipairs(wins) do
+    local ft = vim.bo[vim.api.nvim_win_get_buf(win.id)].filetype
+    local label = fixed_labels[ft]
+    if label and not used[label] then
+      win.char = label
+      used[label] = true
+    else
+      table.insert(unlabeled, win)
+    end
+  end
+
+  local i = 1
+  for _, win in ipairs(unlabeled) do
+    while used[chars:sub(i, i)] do
+      i = i + 1
+    end
+    win.char = chars:sub(i, i)
+    used[win.char] = true
+    i = i + 1
+  end
+end
+
 --- Label every pickable window and return the one whose letter is pressed.
 --- opts.filter(win, buf) narrows the candidates; opts.single returns a lone
 --- match outright instead of bailing out.
@@ -129,12 +170,13 @@ function M.select(opts)
   end
 
   setup_highlights()
+  assign_labels(wins)
 
   local targets = {}
   local floats = {}
 
-  for i, win in ipairs(wins) do
-    local char = chars:sub(i, i)
+  for _, win in ipairs(wins) do
+    local char = win.char
     targets[char] = win.id
     local label = create_label(win.id, char, win.is_current)
     table.insert(floats, label)

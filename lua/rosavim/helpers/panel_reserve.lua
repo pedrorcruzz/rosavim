@@ -195,8 +195,8 @@ local function close_vspacer(side)
 end
 
 --- Ensure a bottom spacer of `rows` real rows exists (or is gone when rows<=0).
---- `rows` intentionally over-reserves by ~1 vs the float's outer height so the
---- last editor line always clears the float border. Idempotent: only creates or
+--- `rows` matches the float's outer height exactly, so the spacer sits flush
+--- under the float with no visible dead rows above it. Idempotent: only creates or
 --- resizes when the height actually differs, so repeated apply() calls are free.
 local function ensure_spacer(rows)
   if rows <= 0 then
@@ -413,7 +413,7 @@ function M.track(id, win, axis)
   end
   local pad = (cfg.border and cfg.border ~= 'none') and 2 or 0
   if axis == 'horizontal' then
-    M.set(id, { rows = cfg.height + pad + 1 }) -- inner + border + 1 gap
+    M.set(id, { rows = cfg.height + pad }) -- inner + border, flush against the float
   else
     -- Reserve exactly the float's outer width so the reserved columns sit under
     -- the float; which edge it docks to is derived from the window's center.

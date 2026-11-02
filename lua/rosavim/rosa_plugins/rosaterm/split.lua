@@ -376,11 +376,15 @@ local SIDEBAR_FILETYPES = {
 --- be mistaken for a side panel: they anchor to the cursor and are focusable,
 --- so a narrow completion menu near the left edge would otherwise shrink and
 --- slide the horizontal rosaterm every keystroke. Skip anything cursor-anchored
---- or carrying a known completion-popup filetype.
+--- or carrying a known completion-popup filetype. Snacks notifier toasts are
+--- the same shape (narrow, edge-anchored, top-right by default) and would
+--- otherwise shrink the panel every time one pops up.
 local POPUP_FILETYPES = {
   ['blink-cmp-menu'] = true,
   ['blink-cmp-documentation'] = true,
   ['blink-cmp-signature'] = true,
+  ['snacks_notif'] = true,
+  ['snacks_notif_history'] = true,
 }
 
 local function is_transient_popup(cfg, ft)
