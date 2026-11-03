@@ -3,11 +3,14 @@ local toggles = require 'rosavim.config.toggles'
 local M = {}
 
 -- Gutter BG toggle (<leader>lqu) — rosagawa's own LineNr/CursorLineNr/
--- SignColumn/FoldColumn paint theme.ui.bg_gutter (dragon #282727 / lotus
--- #dddddd), a shade distinct from the editor's own Normal bg on purpose —
--- that grey strip down the left edge is part of rosagawa's look. When flat,
--- the gutter is repainted to match the editor bg instead: theme.ui.bg per
--- mode, or NONE under transparency (same rule Normal itself follows).
+-- SignColumn/FoldColumn/GitSigns*/TreesitterContextLineNumber all paint
+-- theme.ui.bg_gutter (dragon #282727 / lotus #dddddd), a shade distinct from
+-- the editor's own Normal bg on purpose — that grey strip down the left edge
+-- is part of rosagawa's look. When flat, the whole strip (gutter numbers,
+-- git signs, treesitter context line number) is repainted to match the
+-- editor bg instead: theme.ui.bg per mode, or NONE under transparency (same
+-- rule Normal itself follows) — otherwise the git signs/context line number
+-- would be the only part left showing the old gutter shade.
 local EDITOR_BG = {
   dark = '#181616',
   light = '#ffffff',
@@ -468,6 +471,15 @@ function M.get(mode, transparent_background)
     result.CursorLineNr = { fg = cursorlinenr_fg, bg = gutter_bg }
     result.SignColumn = { bg = gutter_bg }
     result.FoldColumn = { bg = gutter_bg }
+    -- rosagawa's base GitSignsAdd/Change/Delete and TreesitterContextLineNumber
+    -- (rosagawa/highlights/plugins.lua) are painted once at load from
+    -- theme.ui.bg_gutter and only react to `transparent`, never to this
+    -- toggle — so without this they stay the old gutter shade (dragon
+    -- #282727 / lotus #dddddd) even after the rest of the gutter goes flat.
+    result.GitSignsAdd = { bg = gutter_bg }
+    result.GitSignsChange = { bg = gutter_bg }
+    result.GitSignsDelete = { bg = gutter_bg }
+    result.TreesitterContextLineNumber = { bg = gutter_bg }
   end
 
   return result
