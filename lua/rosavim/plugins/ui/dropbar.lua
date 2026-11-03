@@ -31,6 +31,22 @@ return {
       mode = 'n',
       desc = 'Pick symbols in winbar',
     },
+    {
+      '<leader>zs',
+      function()
+        require('dropbar.api').goto_context_start()
+      end,
+      mode = 'n',
+      desc = 'Go to start of current context',
+    },
+    {
+      '<leader>zn',
+      function()
+        require('dropbar.api').select_next_context()
+      end,
+      mode = 'n',
+      desc = 'Select next context',
+    },
     -- Dropbar toggle moved to snacks/toggles.lua
   },
 }

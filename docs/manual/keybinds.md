@@ -516,6 +516,8 @@ Want to review **everything** in the repo (your edits included), not just the AI
 | n | `<leader>uu` | Toggle Render Markdown | `Space u t` to toggle enhanced markdown rendering |
 | n | `<leader>ua` | Markdown preview | `Space u a` to open markdown preview in the browser |
 | n | `<leader>zz` | Pick winbar symbol | `Space z z` to pick a symbol from the breadcrumb bar |
+| n | `<leader>zs` | Go to context start | `Space z s` to jump to the start of the current symbol/context |
+| n | `<leader>zn` | Select next context | `Space z n` to open a menu and pick a sibling context at the same level |
 
 ---
 

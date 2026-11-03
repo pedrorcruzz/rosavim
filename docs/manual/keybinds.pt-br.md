@@ -516,6 +516,8 @@ Quer revisar **tudo** no repositório (suas edições incluídas), não só as d
 | n | `<leader>uu` | Alternar Render Markdown | `Space u t` para alternar renderização aprimorada de markdown |
 | n | `<leader>ua` | Preview de markdown | `Space u a` para abrir preview de markdown no navegador |
 | n | `<leader>zz` | Escolher símbolo da winbar | `Space z z` para escolher um símbolo da barra de breadcrumb |
+| n | `<leader>zs` | Ir para início do contexto | `Space z s` para saltar para o início do símbolo/contexto atual |
+| n | `<leader>zn` | Selecionar próximo contexto | `Space z n` para abrir um menu e escolher um contexto irmão no mesmo nível |
 
 ---
 
