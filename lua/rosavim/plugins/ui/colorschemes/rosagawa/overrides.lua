@@ -98,6 +98,23 @@ local PROMPT_FG = {
   light = '#6693bf',
 }
 
+-- rosamin's Noice Cmdline popup (the ":"/"/" input box). Every group here is
+-- fg-only, exactly like rosamin's own NoiceCmdline* overrides: none of them
+-- carry a bg, so the popup just inherits NormalFloat/transparency for free
+-- instead of needing a float_bg-style conditional of its own.
+local NOICE_CMDLINE_PROMPT_FG = {
+  dark = '#4c4c4c',
+  light = '#909090',
+}
+local NOICE_CMDLINE_ICON_FG = {
+  dark = '#abb2bf',
+  light = '#383A42',
+}
+local NOICE_CMDLINE_ICON_SEARCH_FG = {
+  dark = '#c18efe',
+  light = '#7C3AED',
+}
+
 -- rosamin's diagnostic severity colours.
 local DIAGNOSTIC = {
   dark = { error = '#FF7A84', warn = '#ffa868', info = '#64baff', hint = '#6b737c' },
@@ -247,6 +264,9 @@ function M.get(mode, transparent_background)
   local pmenu_sel_bg = PMENU_SEL_BG[mode] or PMENU_SEL_BG.dark
   local notifier_error_fg = NOTIFIER_ERROR_FG[mode] or NOTIFIER_ERROR_FG.dark
   local notifier_title_fg = NOTIFIER_TITLE_FG[mode] or NOTIFIER_TITLE_FG.dark
+  local noice_prompt_fg = NOICE_CMDLINE_PROMPT_FG[mode] or NOICE_CMDLINE_PROMPT_FG.dark
+  local noice_icon_fg = NOICE_CMDLINE_ICON_FG[mode] or NOICE_CMDLINE_ICON_FG.dark
+  local noice_icon_search_fg = NOICE_CMDLINE_ICON_SEARCH_FG[mode] or NOICE_CMDLINE_ICON_SEARCH_FG.dark
   local snacks_input_icon_fg = SNACKS_INPUT_ICON_FG[mode] or SNACKS_INPUT_ICON_FG.dark
   -- Drop to NONE under transparency instead of a solid colour, so the
   -- bufferline bar is actually see-through (matches rosajet's bl_bg).
@@ -341,6 +361,17 @@ function M.get(mode, transparent_background)
     SnacksInputIcon = { fg = snacks_input_icon_fg },
     SnacksInputTitle = { fg = notifier_title_fg },
     SnacksInputBorder = { fg = border_fg },
+
+    -- rosamin's Noice Cmdline popup instead of kanagawa's DiagnosticSignInfo
+    -- defaults (see NOICE_CMDLINE_* above).
+    NoiceConfirmBorder = { fg = border_fg },
+    NoiceCmdlinePrompt = { fg = noice_prompt_fg },
+    NoiceCmdlinePopupBorder = { fg = border_fg },
+    NoiceCmdlinePopupTitleCmdline = { fg = notifier_title_fg },
+    NoiceCmdlinePopupTitle = { fg = notifier_title_fg },
+    NoiceCmdlineTitle = { fg = notifier_title_fg },
+    NoiceCmdlineIcon = { fg = noice_icon_fg },
+    NoiceCmdlineIconSearch = { fg = noice_icon_search_fg },
 
     WinSeparator = { fg = separator_fg },
     VertSplit = { fg = vertsplit_fg },
