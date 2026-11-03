@@ -34,12 +34,10 @@ return function()
       local side = state and 'right' or 'left'
       local panel = require 'rosavim.helpers.panel_side'
       panel.set_explorer(side)
-      local pos = toggles.get 'rosaai_position'
-      if pos == 'right' or pos == 'left' then
-        panel.set_panel(side == 'right' and 'left' or 'right')
-      else
-        panel.apply()
-      end
+      -- RosaAI vertical slot + Rosaterm vertical splits always mirror the
+      -- OPPOSITE side dynamically (panel_side.vertical()); just re-apply so
+      -- they slide over. Explorer is the only side the user sets directly.
+      panel.apply()
     end,
   }):map '<leader>lasr'
 

@@ -13,6 +13,15 @@ local bar = require 'rosavim.rosa_plugins.rosaai.bar'
 local themes = require 'rosavim.rosa_plugins.rosaai.themes'
 local reserve = require 'rosavim.helpers.panel_reserve'
 local snapshot = require 'rosavim.rosa_plugins.rosaai.snapshot'
+local panel_side = require 'rosavim.helpers.panel_side'
+
+--- Resolve a requested layout slot ('vertical'/'right'/'left'/'bottom'/
+--- 'float', or nil for the current preference) to the concrete slot key
+--- used by state/geometry. 'vertical' (and the legacy literal sides) is
+--- always dynamic: opposite the explorer's current side.
+local function resolve_pos(pos)
+  return panel_side.resolve_position(pos or layout.current_position())
+end
 
 -- One chip overlay per layout slot: pos -> { win, buf }. Several CLIs can be
 -- visible at once, so each visible slot carries its own title chip.
@@ -345,7 +354,7 @@ function M.show(name, pos)
     return
   end
 
-  pos = pos or layout.current_position()
+  pos = resolve_pos(pos)
 
   -- Relocate: if this CLI is already shown elsewhere, drop that slot first.
   local prev_pos = state.pos_of(name)
@@ -466,9 +475,8 @@ local function show_layout_picker(on_pick)
 
   local kopts = { buffer = buf, nowait = true, silent = true }
   vim.keymap.set('n', 'v', function()
-    -- vertical = whichever vertical position is currently configured (right/left)
-    local cur = require('rosavim.rosa_plugins.rosaai.layout').current_position()
-    pick(cur == 'left' and 'left' or 'right')
+    -- vertical = dynamic slot, opposite the explorer's current side
+    pick 'vertical'
   end, kopts)
   vim.keymap.set('n', 'h', function()
     pick 'bottom'
@@ -639,6 +647,7 @@ end
 --- already shows this CLI (and is focused) toggles it off; otherwise it
 --- shows/replaces the slot, keeping every OTHER slot visible.
 function M.show_in(position, tool_name)
+  position = resolve_pos(position)
   local sl = state.slot(position)
   if sl and (not tool_name or sl.name == tool_name) and focused_pos() == position then
     M.hide(position)
@@ -653,6 +662,7 @@ end
 --- among the open ones when several are. Pressing the same layout key while
 --- that slot is showing toggles it off. Every other slot stays visible.
 function M.open_in_layout(position)
+  position = resolve_pos(position)
   if state.slot(position) then
     M.hide(position)
     return

@@ -294,7 +294,7 @@ Native AI CLI integration for Claude, Cursor, OpenClaude, OpenCode, Gemini and f
 | n,t,i,x | `<C-.>` | Focus RosaAI | `Ctrl+.` to focus the RosaAI window |
 | n | `<leader>aa` | Toggle CLI (smart) | First time prompts layout `v/h/f`; afterwards toggles last layout |
 | x | `<leader>aa` | Ask AI (preview + prompt) | Select code, `Space a a` to open a preview window + prompt below |
-| n | `<leader>av` | Open Vertical | Opens (or hides if already vertical) on the right/left edge |
+| n | `<leader>av` | Open Vertical | Opens (or hides if already vertical) on the edge opposite the Snacks Explorer, dynamically |
 | n | `<leader>ah` | Open Horizontal | Opens (or hides if already horizontal) at the bottom |
 | n | `<leader>af` | Open Float | Opens (or hides if already float) as a centered floating window |
 | n | `<leader>as` | Select CLI | Pick from the list of CLIs whose binary is installed |

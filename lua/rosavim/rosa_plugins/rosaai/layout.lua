@@ -9,8 +9,7 @@ local api = vim.api
 local term_bg = require 'rosavim.helpers.term_bg'
 
 M.positions = {
-  { name = 'right', label = 'Right', icon = '󰕴 ', desc = 'Pinned to the right edge' },
-  { name = 'left', label = 'Left', icon = '󰕶 ', desc = 'Pinned to the left edge' },
+  { name = 'vertical', label = 'Vertical', icon = '󰕴 ', desc = 'Pinned to the vertical slot, opposite the explorer' },
   { name = 'bottom', label = 'Bottom', icon = '󰜨 ', desc = 'Pinned to the bottom edge' },
   { name = 'float', label = 'Float', icon = '󰕯 ', desc = 'Centered floating window' },
 }
@@ -51,15 +50,25 @@ local function tog_get(key, default)
   return v
 end
 
+--- Resolves the stored preference ('vertical' | 'bottom' | 'float') to a
+--- concrete slot: 'vertical' is dynamic, always opposite the explorer.
 function M.current_position()
-  return tog_get('rosaai_position', 'right')
+  local pref = tog_get('rosaai_position', 'vertical')
+  local ok, panel_side = pcall(require, 'rosavim.helpers.panel_side')
+  if ok then
+    return panel_side.resolve_position(pref)
+  end
+  if pref == 'bottom' or pref == 'float' then
+    return pref
+  end
+  return 'right'
 end
 
 --- Sizes are configured INDEPENDENTLY per display mode. Positions map to a
 --- mode: float → float, right/left → vertical, bottom → horizontal. So a
 --- vertical (right/left) panel can be Compact while the centered float is Wide.
 local SIZE_MODES = { 'float', 'vertical', 'horizontal' }
-local POS_MODE = { right = 'vertical', left = 'vertical', bottom = 'horizontal', float = 'float' }
+local POS_MODE = { right = 'vertical', left = 'vertical', vertical = 'vertical', bottom = 'horizontal', float = 'float' }
 
 function M.mode_for(pos)
   return POS_MODE[pos or M.current_position()] or 'vertical'

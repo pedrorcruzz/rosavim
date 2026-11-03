@@ -52,7 +52,7 @@ return {
     {
       '<leader>av',
       function()
-        require('rosavim.rosa_plugins.rosaai').open_in_layout 'right'
+        require('rosavim.rosa_plugins.rosaai').open_in_layout 'vertical'
       end,
       desc = 'RosaAI: Open Vertical',
     },

@@ -67,7 +67,7 @@ local defaults = {
   explorer_right = false,
   explorer_preview = false,
   -- RosaAI
-  rosaai_position = 'right',
+  rosaai_position = 'vertical',
   rosaai_size = 'default',
   rosaai_theme = 'garland',
   rosaai_title = true,

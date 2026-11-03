@@ -5,17 +5,26 @@ local function store()
   return ok and toggles or nil
 end
 
-local function opposite(side)
-  return side == 'right' and 'left' or 'right'
-end
-
+--- The vertical slot (RosaAI 'vertical' mode + Rosaterm vertical splits)
+--- is always the OPPOSITE of wherever the explorer currently sits. The
+--- explorer's side is the single source of truth (<leader>lasr); this never
+--- writes back to it.
 function M.vertical()
   local t = store()
-  local pos = t and t.get 'rosaai_position'
-  if pos == 'right' or pos == 'left' then
-    return pos
-  end
   return (t and t.get 'explorer_right') and 'left' or 'right'
+end
+
+--- Resolve a stored rosaai_position preference ('vertical' | 'bottom' |
+--- 'float', or a legacy literal 'right'/'left') into the concrete slot used
+--- for geometry/state. Only 'vertical' is dynamic; bottom/float pass through.
+function M.resolve_position(pref)
+  if pref == 'right' or pref == 'left' or pref == nil then
+    pref = 'vertical'
+  end
+  if pref == 'vertical' then
+    return M.vertical()
+  end
+  return pref
 end
 
 function M.explorer()
@@ -77,16 +86,20 @@ function M.set_explorer(side)
   return true
 end
 
-function M.set_panel(side, opts)
+--- Set the RosaAI position preference ('vertical' | 'bottom' | 'float').
+--- A concrete 'right'/'left' (from a resolved slot, e.g. cli.lua re-syncing
+--- after a move) normalizes to 'vertical' — the explorer is never touched
+--- here; the vertical slot's actual side is always derived from it.
+function M.set_panel(pref, opts)
   local t = store()
   if not t then
     return
   end
-  local changed = t.get 'rosaai_position' ~= side
-  t.set('rosaai_position', side)
-  if side == 'right' or side == 'left' then
-    changed = M.set_explorer(opposite(side)) or changed
+  if pref == 'right' or pref == 'left' then
+    pref = 'vertical'
   end
+  local changed = t.get 'rosaai_position' ~= pref
+  t.set('rosaai_position', pref)
   if changed then
     M.apply(opts)
   end

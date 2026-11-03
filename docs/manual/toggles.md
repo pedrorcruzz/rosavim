@@ -155,7 +155,7 @@ Available which-key borders: `none`, `single`, `double`, `shadow`
 | `<leader>lqat` | Title chip (show/hide) | On |
 | `<leader>lqah` | Time in chip (show/hide) | On |
 | `<leader>lqas` | Theme picker (popup) | garland |
-| `<leader>lqap` | Position picker (popup) | right |
+| `<leader>lqap` | Position picker (popup) | vertical |
 | `<leader>lqaz` | Size picker (popup) | default |
 | `<leader>lqab` | Vertical border (right/left/float) | On |
 | `<leader>lqaB` | Horizontal border (bottom) | On |
@@ -164,7 +164,7 @@ The dark background override lives with the other tools in [Force Dark BG](#forc
 
 Available RosaAI themes: `bloom`, `petal`, `garland`, `stem`
 
-Available RosaAI positions: `right`, `left`, `bottom`, `float`
+Available RosaAI positions: `vertical`, `bottom`, `float`. `vertical` is dynamic — it always pins to the edge opposite the Snacks Explorer (`<leader>lasr`), and never moves the explorer itself.
 
 Available RosaAI sizes: `compact`, `default`, `wide`
 

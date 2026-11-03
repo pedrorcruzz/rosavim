@@ -155,7 +155,7 @@ Bordas de which-key disponíveis: `none`, `single`, `double`, `shadow`
 | `<leader>lqat` | Chip de título (mostrar/esconder) | Ativado |
 | `<leader>lqah` | Relógio no chip (mostrar/esconder) | Ativado |
 | `<leader>lqas` | Picker de tema (popup) | garland |
-| `<leader>lqap` | Picker de posição (popup) | right |
+| `<leader>lqap` | Picker de posição (popup) | vertical |
 | `<leader>lqaz` | Picker de tamanho (popup) | default |
 | `<leader>lqab` | Borda vertical (right/left/float) | Ativado |
 | `<leader>lqaB` | Borda horizontal (bottom) | Ativado |
@@ -164,7 +164,7 @@ O override de fundo escuro fica junto com as outras ferramentas em [Forçar Fund
 
 Temas RosaAI disponíveis: `bloom`, `petal`, `garland`, `stem`
 
-Posições RosaAI disponíveis: `right`, `left`, `bottom`, `float`
+Posições RosaAI disponíveis: `vertical`, `bottom`, `float`. `vertical` é dinâmico — sempre fica no lado oposto ao Snacks Explorer (`<leader>lasr`), e nunca move o explorer.
 
 Tamanhos RosaAI disponíveis: `compact`, `default`, `wide`
 
