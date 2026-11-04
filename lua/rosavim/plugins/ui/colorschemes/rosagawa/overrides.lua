@@ -331,6 +331,11 @@ function M.get(mode, transparent_background)
     -- this one needs its bg pulled off the blue pmenu shade too, or the
     -- border still reads as a solid blue frame around the menu.
     BlinkCmpMenuBorder = { fg = border_fg, bg = pmenu_bg },
+    -- The doc preview's separator line (between the snippet body and the
+    -- "Function" kind label) defaults to NormalFloat's fg, which is kanagawa's
+    -- own warm cream (dragon oldWhite) — reads as a gold line. Match
+    -- rosamin's grey border instead, same bg as the doc float itself.
+    BlinkCmpDocSeparator = { fg = border_fg, bg = float_bg },
 
     SnacksPickerListCursorLine = { bg = cursorline_bg },
     SnacksPickerCursorLine = { bg = cursorline_bg },
