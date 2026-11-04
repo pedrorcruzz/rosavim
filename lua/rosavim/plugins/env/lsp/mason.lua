@@ -41,9 +41,10 @@ return {
   },
   {
     'WhoIsSethDaniel/mason-tool-installer.nvim',
+    event = 'VeryLazy',
     cmd = { 'MasonToolsInstall', 'MasonToolsUpdate', 'MasonToolsClean' },
     opts = {
-      run_on_start = false,
+      run_on_start = true,
       ensure_installed = {
         -- LSP Servers
         'tsc',
