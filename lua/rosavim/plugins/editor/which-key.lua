@@ -251,7 +251,8 @@ return {
     -- { '<leader>gs', '<cmd>FzfLua git_status<CR>', desc = 'Git: Status' },
     -- { '<leader>gl', '<cmd>FzfLua git_blame<CR>', desc = 'Git: Blame' },
     -- { '<leader>gt', '<cmd>FzfLua git_stash<CR>', desc = 'Git: Stash' },
-    { '<leader>gw', function() Snacks.gitbrowse() end, desc = 'Browse Repo' },
+    { '<leader>gw', function() Snacks.gitbrowse({ what = 'repo' }) end, desc = 'Browse Repo' },
+    { '<leader>gW', function() Snacks.gitbrowse({ what = 'file' }) end, desc = 'Browse File' },
 
     --Window
     -- Directional focus falls back to the RosaAI CLI float if there's no
