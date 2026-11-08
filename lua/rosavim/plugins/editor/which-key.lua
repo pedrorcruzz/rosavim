@@ -1,16 +1,37 @@
---- Swap the focused window with its neighbour on `dir`. Rosaterm panels are
---- pinned floats, and `wincmd H/L/K/J` would rip one out of its band and drop
---- it into the editor layout as a plain split, so a focused panel only ever
---- trades places with another rosaterm and never falls through to `wincmd`.
-local function swap(dir, wincmd)
+--- Rosaterm/RosaAI panels (pinned floats or splits) and sidebar tool windows
+--- (Snacks explorer, Trouble, dbui, ...) must never move position or receive
+--- a swapped-in buffer.
+local function is_protected(buf)
+  local ft = vim.bo[buf].filetype
+  if ft:sub(1, 8) == 'rosaterm' or ft:sub(1, 6) == 'rosaai' then
+    return true
+  end
+  return require('rosavim.helpers.win_equal').sidebar_filetypes[ft] == true
+end
+
+--- Swap BUFFERS (never window position) between the focused window and its
+--- neighbour on `dir` ('h'/'j'/'k'/'l'). `wincmd H/L/K/J` reflows the whole
+--- layout and drags pinned panels/sidebars along with it, so this trades
+--- buffer content between the two windows instead - each window keeps its
+--- place, and a Rosaterm/RosaAI panel or sidebar on either side is skipped.
+local function swap(dir)
   return function()
-    if require('rosavim.rosa_plugins.rosaterm').swap(dir) then
+    if is_protected(vim.api.nvim_get_current_buf()) then
       return
     end
-    if vim.bo.filetype == 'rosaterm' then
+    local cur_win = vim.api.nvim_get_current_win()
+    local target_nr = vim.fn.winnr(dir)
+    if target_nr == vim.fn.winnr() then
       return
     end
-    vim.cmd('wincmd ' .. wincmd)
+    local target_win = vim.fn.win_getid(target_nr)
+    local target_buf = vim.api.nvim_win_get_buf(target_win)
+    if is_protected(target_buf) then
+      return
+    end
+    local cur_buf = vim.api.nvim_win_get_buf(cur_win)
+    vim.api.nvim_win_set_buf(cur_win, target_buf)
+    vim.api.nvim_win_set_buf(target_win, cur_buf)
   end
 end
 
@@ -230,6 +251,7 @@ return {
     -- { '<leader>gs', '<cmd>FzfLua git_status<CR>', desc = 'Git: Status' },
     -- { '<leader>gl', '<cmd>FzfLua git_blame<CR>', desc = 'Git: Blame' },
     -- { '<leader>gt', '<cmd>FzfLua git_stash<CR>', desc = 'Git: Stash' },
+    { '<leader>gw', function() Snacks.gitbrowse() end, desc = 'Browse Repo' },
 
     --Window
     -- Directional focus falls back to the RosaAI CLI float if there's no
@@ -285,10 +307,33 @@ return {
     },
     { '<leader>cc', '<cmd>close<cr>', desc = 'Close Window' },
     { '<leader>q', '<cmd>close<cr>', desc = 'Close Window' },
-    { '<leader>ch', swap('left', 'H'), desc = 'Swap Left' },
-    { '<leader>cl', swap('right', 'L'), desc = 'Swap Right' },
-    { '<leader>ck', swap('up', 'K'), desc = 'Swap Up' },
-    { '<leader>cj', swap('down', 'J'), desc = 'Swap Down' },
+    { '<leader>ch', swap 'h', desc = 'Swap Left' },
+    { '<leader>cl', swap 'l', desc = 'Swap Right' },
+    { '<leader>ck', swap 'k', desc = 'Swap Up' },
+    { '<leader>cj', swap 'j', desc = 'Swap Down' },
+    {
+      '<leader>cs',
+      function()
+        local cur = vim.api.nvim_get_current_win()
+        if is_protected(vim.api.nvim_win_get_buf(cur)) then
+          return
+        end
+        local win = require('rosavim.rosa_plugins.rosapick').select {
+          single = true,
+          filter = function(w, buf)
+            return w ~= cur and not is_protected(buf)
+          end,
+        }
+        if not win then
+          return
+        end
+        local cur_buf = vim.api.nvim_win_get_buf(cur)
+        local other_buf = vim.api.nvim_win_get_buf(win)
+        vim.api.nvim_win_set_buf(cur, other_buf)
+        vim.api.nvim_win_set_buf(win, cur_buf)
+      end,
+      desc = 'Rosapick: Swap Buffer',
+    },
     {
       '<leader>c1',
       function()
