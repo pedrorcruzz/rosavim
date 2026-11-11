@@ -487,6 +487,9 @@ function M.get(mode, transparent_background)
     result.TreesitterContextLineNumber = { bg = gutter_bg }
   end
 
+  -- Min Icons: Files (<leader>lqh, all themes): see rosavim.config.min_icons.
+  result = require('rosavim.config.min_icons').apply(result, mode)
+
   return result
 end
 

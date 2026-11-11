@@ -51,6 +51,8 @@ O `<leader>ly` vem **ativado** por padrão (cursor em bloco no modo normal, o vi
 | `<leader>lql` | Tema Custom do Lualine (Auto/Default) | Default |
 | `<leader>lqg` | Separador do Lualine (seletor popup) | rounded |
 | `<leader>lqy` | Barra Y do Lualine Transparente (funde com o bg do tema vs sólido `#1a1a1a`) | Ativado |
+| `<leader>lqh` | Min Icons: Arquivos (achata o MiniIcons* pra um cinza único, em todos os temas) | Desativado |
+| `<leader>lqj` | Min Icons: Pastas (glifos de pasta fechada/aberta minimalistas, independente de Arquivos) | Desativado |
 | `<leader>lqs` | Picker de theme (rosamin / rosavintage / rosanight / rosajet) | rosamin |
 | `<leader>lqij` | Inverter BG: rosajet — troca a superfície do editor com a do explorer/tabs (dark: editor `#272729` por padrão, `#191a1c` quando ativado) | Desativado |
 | `<leader>lqim` | Inverter BG: rosamin — mesma troca | Desativado |

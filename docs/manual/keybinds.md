@@ -480,6 +480,8 @@ Want to review **everything** in the repo (your edits included), not just the AI
 | n | `<leader>lqfy` / `<leader>lqfY` | Yazi force dark bg | `Space l q f y` (light mode) / `Space l q f Y` (dark mode) to force a #000 background on the yazi float instead of the theme bg (persists) |
 | n | `<leader>lqfg` / `<leader>lqfG` | Lazygit force dark bg | `Space l q f g` (light mode) / `Space l q f G` (dark mode) to force a #000 background on the lazygit float instead of the theme bg (persists) |
 | n | `<leader>lqy` | Toggle lualine bar-y transparency | `Space l q y` — on (default) blends the lualine centre/y bar with the theme bg; off shows the original solid `#1a1a1a` bar (works in both auto and custom lualine themes) |
+| n | `<leader>lqh` | Toggle Min Icons: Files | `Space l q h` — off (default) keeps mini.icons' per-category colours; on flattens every MiniIcons* glyph to a single neutral grey, in every theme |
+| n | `<leader>lqj` | Toggle Min Icons: Folders | `Space l q j` — off (default) keeps the current nerd-font folder glyphs; on swaps the explorer's closed/open folder glyphs for a minimalist pair (independent of the Files toggle above); takes effect immediately on an already-open explorer, no restart needed |
 | n | `<leader>lqdt` | Toggle dashboard gif | `Space l q d t` to enable/disable the chafa gif (persisted, hot-reload) |
 | n | `<leader>lqds` | Search dashboard gif | `Space l q d s` to pick a new image from `dashboard_img/` (persisted, hot-reload) |
 | n | `<leader>lqdc` | Configure dashboard gif | `Space l q d c` opens a popup — press `h`, `w`, or `i` to edit just height/width/indent (persisted, hot-reload) |

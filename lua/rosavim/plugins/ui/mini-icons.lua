@@ -101,7 +101,13 @@ return {
       end
 
       if use_theme_directory_color and category == 'directory' then
-        return '', 'Directory'
+        -- Min Icons: Folders (<leader>lqj): mini.icons has no open/closed
+        -- concept (one glyph per category), so this is the glyph for a
+        -- closed folder everywhere mini.icons resolves 'directory' --
+        -- including the Snacks explorer's non-expanded rows, which is why
+        -- dir_open alone (set via Snacks.config.picker.icons.files) didn't
+        -- flip it.
+        return require('rosavim.config.min_icons').dir_icon_glyph(), 'Directory'
       end
 
       return original_get(category, name)

@@ -3,7 +3,7 @@ local M = {}
 function M.get(mode, transparent_background)
   local lualine_on = require('rosavim.config.toggles').get 'lualine'
   if mode == 'light' then
-    return {
+    local light = {
       -- Cursor: explicit fg/bg instead of the default reverse cursor, which
       -- takes the bg color and is nearly invisible on this light palette. The
       -- bg also drives the terminal cursor color via OSC 12 (colorscheme.lua),
@@ -89,8 +89,10 @@ function M.get(mode, transparent_background)
       DiagnosticUnderlineInfo = { undercurl = true, sp = '#0184BC' },
       DiagnosticUnderlineHint = { undercurl = true, sp = '#7C3AED' },
     }
+    -- Min Icons: Files (<leader>lqh, all themes): see rosavim.config.min_icons.
+    return require('rosavim.config.min_icons').apply(light, 'light')
   end
-  return {
+  local dark = {
     EndOfBuffer = { bg = 'none' },
     SnacksPickerPreview = { link = 'Normal' },
 
@@ -197,6 +199,7 @@ function M.get(mode, transparent_background)
     DiagnosticUnderlineInfo = { undercurl = true, sp = '#64baff' },
     DiagnosticUnderlineHint = { undercurl = true, sp = '#c18efe' },
   }
+  return require('rosavim.config.min_icons').apply(dark, 'dark')
 end
 
 return M

@@ -206,6 +206,43 @@ return function()
     end,
   }):map '<leader>lqu'
 
+  -- Min Icons: Files (<leader>lqh) — flattens mini.icons' MiniIcons* palette
+  -- to a single neutral grey, across every theme (not theme-specific). Read
+  -- theme-side from each overrides.lua (rosavim.config.min_icons), same
+  -- reason borderless/invert_bg can't just paint MiniIcons* centrally here —
+  -- mini.icons' lazy load races a centralized ColorScheme autocmd. Highlight
+  -- colours are looked up by name on every redraw, so reload() is enough —
+  -- no separate cache to invalidate, unlike the folder glyphs below.
+  Snacks.toggle({
+    name = 'Min Icons: Files',
+    get = function()
+      return toggles.get 'min_icons_files'
+    end,
+    set = function(state)
+      toggles.set('min_icons_files', state)
+      require('rosavim.config.appearance').reload()
+    end,
+  }):map '<leader>lqh'
+
+  -- Min Icons: Folders (<leader>lqj) — swaps the explorer's closed/open
+  -- folder glyphs for the minimalist pair, independent of the Files toggle
+  -- above (some people want plain folders but minimalist files, or vice
+  -- versa). Folder glyph TEXT is baked into the picker's rendered buffer
+  -- lines, so a config mutation alone is invisible to an already-open
+  -- picker — refresh_open_pickers() forces those rows to reformat now.
+  Snacks.toggle({
+    name = 'Min Icons: Folders',
+    get = function()
+      return toggles.get 'min_icons_dir'
+    end,
+    set = function(state)
+      toggles.set('min_icons_dir', state)
+      local min_icons = require 'rosavim.config.min_icons'
+      min_icons.apply_picker()
+      min_icons.refresh_open_pickers()
+    end,
+  }):map '<leader>lqj'
+
   -- Lualine separator preset selector (rounded / bar / arrow / slant).
   -- Same vim.ui.select popup style as the rosaterm/rosaai theme pickers.
   vim.keymap.set('n', '<leader>lqg', function()

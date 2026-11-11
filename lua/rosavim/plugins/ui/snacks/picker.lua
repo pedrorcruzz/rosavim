@@ -1,4 +1,6 @@
 local toggles = require 'rosavim.config.toggles'
+local min_icons = require 'rosavim.config.min_icons'
+local dir_icon, dir_open_icon = min_icons.dir_icons()
 
 return {
   enabled = true,
@@ -145,8 +147,11 @@ return {
   icons = {
     files = {
       enabled = true,
-      dir = ' ',
-      dir_open = '󰝰 ',
+      -- Min Icons: Folders (<leader>lqj) swaps these for the minimalist pair
+      -- at runtime (rosavim.config.min_icons.apply_picker); these are just
+      -- the startup values for whichever state the toggle is in.
+      dir = dir_icon,
+      dir_open = dir_open_icon,
       file = ' ',
       test_dir = ' ',
     },

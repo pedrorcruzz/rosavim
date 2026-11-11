@@ -51,6 +51,8 @@ The orchestrator at `lua/rosavim/plugins/ui/snacks/toggles.lua` loads all module
 | `<leader>lql` | Lualine Custom Theme (Auto/Default) | Default |
 | `<leader>lqg` | Lualine Separator (popup selector) | rounded |
 | `<leader>lqy` | Lualine Bar Y Transparent (blend with theme bg vs solid `#1a1a1a`) | On |
+| `<leader>lqh` | Min Icons: Files (flattens MiniIcons* to a single grey, all themes) | Off |
+| `<leader>lqj` | Min Icons: Folders (minimalist closed/open folder glyphs, independent of Files) | Off |
 | `<leader>lqs` | Theme picker (rosamin / rosavintage / rosanight / rosajet) | rosamin |
 | `<leader>lqij` | Invert BG: rosajet — swap the editor surface with the explorer/tab chrome (dark: `#272729` editor by default, `#191a1c` when on) | Off |
 | `<leader>lqim` | Invert BG: rosamin — same swap | Off |

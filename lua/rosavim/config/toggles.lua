@@ -29,6 +29,14 @@ local defaults = {
   -- flattens the gutter to match the editor bg instead. See the overrides in
   -- rosavim.plugins.ui.colorschemes.rosagawa.overrides.
   rosagawa_gutter_flat = false,
+  -- Min Icons: two independent toggles (some people want plain folders but
+  -- minimalist files, or vice versa). See rosavim.config.min_icons.
+  -- <leader>lqh: flattens mini.icons' MiniIconsAzure/Blue/Cyan/Purple/Red/
+  -- Green/Orange/Yellow/Grey palette to a single neutral grey, in every theme.
+  min_icons_files = false,
+  -- <leader>lqj: swaps the explorer's closed/open folder glyphs for a
+  -- minimalist pair (M.folder_glyphs.mono in rosavim.config.min_icons).
+  min_icons_dir = false,
   dropbar = true,
   autosave = false,
   virtual_text_current_line = false,

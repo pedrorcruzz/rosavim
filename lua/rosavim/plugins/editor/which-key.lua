@@ -95,6 +95,8 @@ return {
       { '<leader>lqg', desc = 'Lualine: Select Separator' },
       { '<leader>lqy', desc = 'Lualine: Bar Y Transparent (toggle)' },
       { '<leader>lqu', desc = 'Rosagawa: Gutter BG (toggle)' },
+      { '<leader>lqh', desc = 'Min Icons: Files (toggle)' },
+      { '<leader>lqj', desc = 'Min Icons: Folders (toggle)' },
       { '<leader>ly', desc = 'Toggle Cursor Shape (bar/block)' },
       { '<leader>lY', desc = 'Toggle Cursor Line' },
       { '<leader>lqc', group = 'TODO', icon = '󱩽 ' },

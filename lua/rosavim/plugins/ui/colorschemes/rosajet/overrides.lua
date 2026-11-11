@@ -11,7 +11,7 @@ function M.get(mode, transparent_background)
   local lualine_on = require('rosavim.config.toggles').get 'lualine'
   local editor = editor_bg(mode)
   if mode == 'light' then
-    return {
+    local light = {
       EndOfBuffer = { bg = 'none' },
       SnacksPickerPreview = { link = 'Normal' },
 
@@ -77,8 +77,10 @@ function M.get(mode, transparent_background)
       StatusLineTerm = { link = 'StatusLine' },
       StatusLineTermNC = { link = 'StatusLineNC' },
     }
+    -- Min Icons: Files (<leader>lqh, all themes): see rosavim.config.min_icons.
+    return require('rosavim.config.min_icons').apply(light, 'light')
   end
-  return {
+  local dark = {
     EndOfBuffer = { bg = 'none' },
     SnacksPickerPreview = { link = 'Normal' },
 
@@ -137,6 +139,7 @@ function M.get(mode, transparent_background)
     StatusLineTerm = { link = 'StatusLine' },
     StatusLineTermNC = { link = 'StatusLineNC' },
   }
+  return require('rosavim.config.min_icons').apply(dark, 'dark')
 end
 
 return M

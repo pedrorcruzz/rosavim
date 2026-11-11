@@ -480,6 +480,8 @@ Quer revisar **tudo** no repositório (suas edições incluídas), não só as d
 | n | `<leader>lqfy` / `<leader>lqfY` | Yazi forçar fundo escuro | `Space l q f y` (modo claro) / `Space l q f Y` (modo escuro) para forçar fundo #000 no float do yazi em vez do bg do tema (persiste) |
 | n | `<leader>lqfg` / `<leader>lqfG` | Lazygit forçar fundo escuro | `Space l q f g` (modo claro) / `Space l q f G` (modo escuro) para forçar fundo #000 no float do lazygit em vez do bg do tema (persiste) |
 | n | `<leader>lqy` | Alternar transparência da barra-y do lualine | `Space l q y` — ativado (padrão) funde a barra central/y do lualine com o bg do tema; desativado mostra a barra sólida original `#1a1a1a` (funciona nos temas auto e custom do lualine) |
+| n | `<leader>lqh` | Alternar Min Icons: Arquivos | `Space l q h` — desativado (padrão) mantém as cores por categoria do mini.icons; ativado achata todo glifo MiniIcons* pra um cinza neutro único, em todos os temas |
+| n | `<leader>lqj` | Alternar Min Icons: Pastas | `Space l q j` — desativado (padrão) mantém os glifos de pasta nerdfont atuais; ativado troca os glifos de pasta fechada/aberta do explorer por um par minimalista (independente do toggle de Arquivos acima); já aplica na hora num explorer já aberto, sem precisar reiniciar |
 | n | `<leader>lqdt` | Liga/desliga gif do dashboard | `Space l q d t` pra ativar/desativar o gif chafa (persistido, hot-reload) |
 | n | `<leader>lqds` | Buscar gif do dashboard | `Space l q d s` pra escolher uma imagem em `dashboard_img/` (persistido, hot-reload) |
 | n | `<leader>lqdc` | Configurar gif do dashboard | `Space l q d c` abre popup — aperta `h`, `w` ou `i` pra editar só height/width/indent (persistido, hot-reload) |

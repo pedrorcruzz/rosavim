@@ -2,7 +2,7 @@ local M = {}
 
 function M.get(mode, transparent_background)
   if mode == 'light' then
-    return {
+    local light = {
       Directory = { fg = '#3B6E8F' },
       MiniPickIconDirectory = { fg = '#3B6E8F' },
       Normal = { fg = '#383A42', bg = '#FAFAFA' },
@@ -249,8 +249,10 @@ function M.get(mode, transparent_background)
       MiniIconsYellow = { fg = '#FFD580', bg = 'none' },
       MiniIconsGrey = { fg = '#9C9EA4', bg = 'none' },
     }
+    -- Min Icons: Files (<leader>lqh, all themes): see rosavim.config.min_icons.
+    return require('rosavim.config.min_icons').apply(light, 'light')
   end
-  return {
+  local dark = {
     Cursor = { fg = '#212121', bg = '#C1C1C1' },
     lCursor = { link = 'Cursor' },
     TermCursor = { link = 'Cursor' },
@@ -535,6 +537,7 @@ function M.get(mode, transparent_background)
     MiniIconsYellow = { fg = '#FFD580', bg = 'none' },
     MiniIconsGrey = { fg = '#9C9EA4', bg = 'none' },
   }
+  return require('rosavim.config.min_icons').apply(dark, 'dark')
 end
 
 return M

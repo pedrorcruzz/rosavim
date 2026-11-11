@@ -2,7 +2,7 @@ local M = {}
 
 function M.get(mode, transparent_background)
   if mode == 'light' then
-    return {
+    local light = {
       -- Cursor: explicit fg/bg instead of the default reverse cursor, which
       -- takes the bg color and is nearly invisible on this light palette. The
       -- bg also drives the terminal cursor color via OSC 12 (colorscheme.lua),
@@ -54,8 +54,10 @@ function M.get(mode, transparent_background)
       StatusLine = { fg = '#454135' },
       StatusLineNC = { fg = '#454135' },
     }
+    -- Min Icons: Files (<leader>lqh, all themes): see rosavim.config.min_icons.
+    return require('rosavim.config.min_icons').apply(light, 'light')
   end
-  return {
+  local dark = {
     EndOfBuffer = { bg = 'none' },
     SnacksPickerPreview = { link = 'Normal' },
 
@@ -109,6 +111,7 @@ function M.get(mode, transparent_background)
     StatusLine = { bg = transparent_background and 'NONE' or '#1a1a1a', fg = '#606060' },
     StatusLineNC = { bg = transparent_background and 'NONE' or '#1a1a1a', fg = '#606060' },
   }
+  return require('rosavim.config.min_icons').apply(dark, 'dark')
 end
 
 return M
