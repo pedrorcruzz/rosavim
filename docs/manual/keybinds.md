@@ -135,11 +135,12 @@
 | n | `<leader>ce` | Split horizontal | `Space c e` to create a horizontal split |
 | n | `<leader>cc` | Close window | `Space c c` to close the current window |
 | n | `<leader>cC` | Close other editor windows | `Space c Shift+c` to close the other editor windows, leaving the sidebars and the panels alone |
-| n | `<leader>C` | Close everything else | `Space Shift+c` to leave only the focused window - it also takes the Rosaterm and RosaAI panels, the other sidebars and any stray float. The Snacks explorer is the one exception and stays open. Focused on a panel, one editor pane stays behind (Neovim always keeps a native window) |
+| n | `<leader>cX` | Close everything else | `Space c Shift+x` to leave only the focused window - it also takes the Rosaterm and RosaAI panels, the other sidebars and any stray float. The Snacks explorer is the one exception and stays open. Focused on a panel, one editor pane stays behind (Neovim always keeps a native window) |
 | n | `<leader>ch` | Swap left | `Space c h` to swap the current window to the left. Focused on a Rosaterm panel, it trades places with the Rosaterm on its left and never touches the editor layout |
 | n | `<leader>cl` | Swap right | `Space c l` to swap the current window to the right. Focused on a Rosaterm panel, it trades places with the Rosaterm on its right |
 | n | `<leader>ck` | Swap up | `Space c k` to swap the current window up. Focused on a Rosaterm panel, it trades places with the Rosaterm above it |
 | n | `<leader>cj` | Swap down | `Space c j` to swap the current window down. Focused on a Rosaterm panel, it trades places with the Rosaterm below it |
+| n | `<leader>cs` | Pick & swap | `Space c s` picks another file window and swaps buffers with it. Focused on a Rosaterm/RosaAI panel instead, it trades sessions with another open panel of the same kind - straight away when there are 2, Rosapicker to choose among 3+ |
 | n | `<leader>c1` | Resize left 1/3 | Resize the current window to occupy 1/3 from the left |
 | n | `<leader>c2` | Resize right 2/3 | Resize the current window to occupy 2/3 from the right |
 | n | `<leader>c3` | Resize up 1/3 | Resize the current window to occupy 1/3 from the top |
@@ -149,7 +150,8 @@
 | n | `<leader>2` | Focus right window | `Space 2` to jump to the right window, including a Rosaterm/RosaAI panel docked there |
 | n | `<leader>3` | Focus bottom window | `Space 3` to jump to the bottom window, including a Rosaterm/RosaAI panel docked there |
 | n | `<leader>4` | Focus top window | `Space 4` to jump to the top window, including a Rosaterm/RosaAI panel docked there |
-| n | `<leader>cm` | Rosamaximize | `Space c m` to maximize the current window or restore the layout (shows a `max` badge + lualine indicator) |
+| n | `<leader>cm` | Rosamaximize (files) | `Space c m` to maximize the current window among the file/editor windows only, or restore the layout - any open Rosaterm/RosaAI panel stays exactly as it was (shows a `max` badge + lualine indicator) |
+| n | `<leader>cM` | Rosamaximize (all) | `Space c Shift+m` to maximize the current window and hide everything else too, including any open Rosaterm/RosaAI panel, or restore the layout (shows a `max` badge + lualine indicator) |
 | n | `<leader>m` | Pick a window | `Space m` to visually pick which window to focus |
 | n | `<leader>S` | Pick a window | `Space S` does the same as `Space m`, reachable with the left hand alone |
 

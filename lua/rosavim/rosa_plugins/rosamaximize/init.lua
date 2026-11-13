@@ -70,6 +70,17 @@ local function is_special_buf(buf)
   return vim.bo[buf].filetype == 'snacks_explorer' or vim.b[buf].rosaai_cli ~= nil
 end
 
+--- Same as `is_special_buf`, plus any Rosaterm/RosaAI panel. Used by the
+--- file-only maximize (<leader>cm): those panels are never captured, closed
+--- or reopened — they just stay exactly where they are.
+local function is_panel_buf(buf)
+  if is_special_buf(buf) then
+    return true
+  end
+  local ft = vim.bo[buf].filetype
+  return ft:sub(1, 8) == 'rosaterm' or ft:sub(1, 6) == 'rosaai'
+end
+
 local function explorer_is_open()
   for _, win in ipairs(vim.api.nvim_list_wins()) do
     if vim.bo[vim.api.nvim_win_get_buf(win)].filetype == 'snacks_explorer' then
@@ -88,12 +99,12 @@ local function rosaai_is_open()
   return false
 end
 
---- Save the layout tree, filtering out special windows
-local function snapshot(layout)
+--- Save the layout tree, filtering out windows `is_special` flags.
+local function snapshot(layout, is_special)
   if layout[1] == 'leaf' then
     local win = layout[2]
     local buf = vim.api.nvim_win_get_buf(win)
-    if is_special_buf(buf) then
+    if is_special(buf) then
       return nil
     end
     return {
@@ -108,7 +119,7 @@ local function snapshot(layout)
 
   local children = {}
   for _, child in ipairs(layout[2]) do
-    local node = snapshot(child)
+    local node = snapshot(child, is_special)
     if node then
       children[#children + 1] = node
     end
@@ -179,7 +190,7 @@ function M.maximize(opts)
   end
 
   -- Snapshot AFTER closing — layout now only has real buffer windows
-  local tree = snapshot(vim.fn.winlayout())
+  local tree = snapshot(vim.fn.winlayout(), is_special_buf)
   if not tree then
     return
   end
@@ -273,6 +284,118 @@ function M.toggle()
   end
 end
 
+--- File-only maximize (<leader>cm): collapses the OTHER file/editor windows
+--- onto the current one, but never touches a Rosaterm/RosaAI panel — those
+--- stay open, at their own size, exactly where they were.
+local state_files = nil
+
+function M.is_maximized_files()
+  return state_files ~= nil
+end
+
+function M.maximize_files()
+  if state_files then
+    return
+  end
+
+  local had_explorer = explorer_is_open()
+  if had_explorer then
+    pcall(function()
+      Snacks.explorer()
+    end)
+  end
+
+  local tree = snapshot(vim.fn.winlayout(), is_panel_buf)
+  if not tree then
+    return
+  end
+
+  state_files = { tree = tree, had_explorer = had_explorer }
+
+  local cur = vim.api.nvim_get_current_win()
+  local win_equal = require 'rosavim.helpers.win_equal'
+  win_equal.with_panels_pinned(function()
+    for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+      if win ~= cur and vim.api.nvim_win_get_config(win).relative == '' then
+        local buf = vim.api.nvim_win_get_buf(win)
+        if not is_panel_buf(buf) and vim.bo[buf].filetype ~= 'rosa_spacer' then
+          pcall(vim.api.nvim_win_close, win, false)
+        end
+      end
+    end
+  end)
+
+  show_indicator()
+  refresh_statusline()
+end
+
+function M.restore_files()
+  if not state_files then
+    return
+  end
+
+  hide_indicator()
+
+  local s = state_files
+  state_files = nil
+
+  local win = vim.api.nvim_get_current_win()
+  local win_equal = require 'rosavim.helpers.win_equal'
+  local wins
+  win_equal.with_panels_pinned(function()
+    wins = rebuild(s.tree, win)
+  end)
+
+  for _, w in ipairs(wins) do
+    if vim.api.nvim_win_is_valid(w.win) then
+      vim.api.nvim_win_set_width(w.win, w.width)
+    end
+  end
+  for _, w in ipairs(wins) do
+    if vim.api.nvim_win_is_valid(w.win) then
+      vim.api.nvim_win_set_height(w.win, w.height)
+    end
+  end
+
+  local focus_win = nil
+  for _, w in ipairs(wins) do
+    if vim.api.nvim_win_is_valid(w.win) then
+      pcall(vim.api.nvim_win_set_cursor, w.win, w.cursor)
+      if w.is_current then
+        focus_win = w.win
+      end
+    end
+  end
+
+  if focus_win and vim.api.nvim_win_is_valid(focus_win) then
+    vim.api.nvim_set_current_win(focus_win)
+  end
+
+  if s.had_explorer then
+    pcall(function()
+      local existing = Snacks.picker.get { source = 'explorer' }
+      for _, p in ipairs(existing) do
+        p:close()
+      end
+      Snacks.explorer()
+    end)
+  end
+
+  if focus_win and vim.api.nvim_win_is_valid(focus_win) then
+    vim.api.nvim_set_current_win(focus_win)
+  end
+
+  refresh_statusline()
+end
+
+function M.toggle_files()
+  if M.is_maximized_files() then
+    M.restore_files()
+  else
+    M.maximize_files()
+  end
+end
+
 --- Text shown on the lualine indicator, honoring the name/icon toggle.
 function M.lualine_label()
   return opt 'rosamaximize_name' == false and '󰊓' or '󰊓 max'
@@ -280,12 +403,12 @@ end
 
 --- Whether the lualine indicator should render right now.
 function M.lualine_visible()
-  return M.is_maximized() and opt 'rosamaximize_lualine' ~= false
+  return (M.is_maximized() or M.is_maximized_files()) and opt 'rosamaximize_lualine' ~= false
 end
 
 --- Re-render the badge and statusline to reflect the current toggle states.
 function M.refresh()
-  if M.is_maximized() then
+  if M.is_maximized() or M.is_maximized_files() then
     show_indicator()
   else
     hide_indicator()

@@ -107,6 +107,12 @@ function M.swap(dir)
   return split.swap(dir)
 end
 
+--- Swap the focused rosaterm panel with whichever rosaterm panel is open in
+--- `win`, picked by id (Rosapick's <leader>cs) instead of by direction.
+function M.swap_win(win)
+  return split.swap_win(win)
+end
+
 --- Reset open panels to their preset size.
 function M.reset_sizes()
   split.reset_sizes()

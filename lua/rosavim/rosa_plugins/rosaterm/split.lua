@@ -924,6 +924,21 @@ function M.swap(dir)
   return true
 end
 
+--- Trade the focused rosaterm panel's session with whichever rosaterm panel
+--- is open in `win`, picked by id (Rosapick) instead of by screen neighbour.
+--- Same `exchange` as `M.swap` above, just a different way of choosing the
+--- other side.
+function M.swap_win(win)
+  local term = term_for_win(api.nvim_get_current_win())
+  local other = term_for_win(win)
+  if not term or not other or term == other then
+    return false
+  end
+  exchange(term, other)
+  pcall(api.nvim_set_current_win, other.win)
+  return true
+end
+
 local function open_split(term)
   local border_on = border_for(term.direction)
   -- Borderless means "native split", but a native split can't dock next to a

@@ -69,10 +69,26 @@ return function()
     end,
   }):map '<leader>ail'
 
-  -- Rosamaximize
+  -- Rosamaximize: file buffers only, Rosaterm/RosaAI panels stay untouched
   local rosamaximize = require 'rosavim.rosa_plugins.rosamaximize'
   Snacks.toggle({
     name = 'Rosamaximize',
+    notify = false,
+    get = function()
+      return rosamaximize.is_maximized_files()
+    end,
+    set = function(state)
+      if state then
+        rosamaximize.maximize_files()
+      else
+        rosamaximize.restore_files()
+      end
+    end,
+  }):map '<leader>cm'
+
+  -- Rosamaximize: everything else hidden too, Rosaterm/RosaAI included
+  Snacks.toggle({
+    name = 'Rosamaximize All',
     notify = false,
     get = function()
       return rosamaximize.is_maximized()
@@ -84,7 +100,7 @@ return function()
         rosamaximize.restore()
       end
     end,
-  }):map '<leader>cm'
+  }):map '<leader>cM'
 
   -- Git Blame
   Snacks.toggle({

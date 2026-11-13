@@ -266,6 +266,44 @@ local function refresh_chip(pos)
   end)
 end
 
+--- Trade the sessions shown in two slots in place: each window keeps its own
+--- position/geometry, only the buffer + tool name it shows changes. Mirrors
+--- rosaterm's `exchange`, picked by layout position instead of screen
+--- neighbour - RosaAI slots are keyed by position, not direction.
+local function exchange(pos_a, pos_b)
+  local sl_a, sl_b = state.slots[pos_a], state.slots[pos_b]
+  if not sl_a or not sl_b then
+    return false
+  end
+  local name_a, name_b = sl_a.name, sl_b.name
+  local win_a, win_b = sl_a.win, sl_b.win
+  local sess_a, sess_b = state.get(name_a), state.get(name_b)
+
+  bar.detach(win_a)
+  bar.detach(win_b)
+  close_chip(pos_a)
+  close_chip(pos_b)
+
+  api.nvim_win_set_buf(win_a, sess_b.buf)
+  api.nvim_win_set_buf(win_b, sess_a.buf)
+
+  state.set_slot(pos_a, win_a, name_b)
+  state.set_slot(pos_b, win_b, name_a)
+
+  set_winbar(win_a)
+  set_winbar(win_b)
+  open_chip(pos_a, win_a, name_b)
+  open_chip(pos_b, win_b, name_a)
+  bar.attach(win_a, sess_b.buf, function()
+    refresh_chip(pos_a)
+  end)
+  bar.attach(win_b, sess_a.buf, function()
+    refresh_chip(pos_b)
+  end)
+  update_reservations()
+  return true
+end
+
 --- Live-resize the focused CLI float by a width/height delta and persist the
 --- new size as a per-position override (so it survives hide/show/relayout).
 --- Geometry is recomputed through layout so the float stays pinned to its
@@ -689,6 +727,42 @@ function M.focus()
   else
     M.toggle()
   end
+end
+
+--- Focus a specific slot by its window id (<leader>cs panel-cycling). Goes
+--- through focus_slot so `state.active`/`state.win` stay in sync - a raw
+--- `nvim_set_current_win` would move the cursor there but leave RosaAI
+--- still thinking the PREVIOUS slot is the active one.
+function M.focus_win(win)
+  local pos = state.pos_of_win(win)
+  if pos then
+    return focus_slot(pos)
+  end
+  api.nvim_set_current_win(win)
+  return true
+end
+
+--- Swap the focused slot's session with whichever slot is open in `win`
+--- (Rosapick's <leader>cs), by layout position rather than screen direction.
+--- Focus follows the session the user started in to its new window, same as
+--- rosaterm's directional swap.
+function M.swap_win(win)
+  local pos_a = focused_pos()
+  local pos_b = state.pos_of_win(win)
+  if not pos_a or not pos_b or pos_a == pos_b then
+    return false
+  end
+  local name_a = state.slots[pos_a].name
+  if not exchange(pos_a, pos_b) then
+    return false
+  end
+  api.nvim_set_current_win(win)
+  state.win = win
+  state.active = name_a
+  if bar.autoinsert_enabled() then
+    vim.cmd 'startinsert'
+  end
+  return true
 end
 
 --- Hide the focused/active window and drop that one session (kills its job)

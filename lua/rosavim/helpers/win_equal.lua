@@ -66,6 +66,11 @@ local function with_sidebars_pinned(fn)
   end
 end
 
+--- Public: pin every sidebar/Rosaterm/RosaAI window for the duration of `fn`.
+--- Lets callers outside this module (rosamaximize) run native split/close
+--- commands without `equalalways` dragging those panels along.
+M.with_panels_pinned = with_sidebars_pinned
+
 function M.equalize()
   with_sidebars_pinned(function()
     pcall(vim.cmd, 'wincmd =')
@@ -95,20 +100,21 @@ function M.split(cmd)
   vim.schedule(M.equalize)
 end
 
---- `:only` minus the sidebars: closes the editor windows and re-equalizes,
---- leaving the explorer and the invisible spacers in place.
+--- `:only` minus the sidebars AND the Rosaterm/RosaAI panels: closes only the
+--- other FILE editor windows and re-equalizes, leaving the explorer, the
+--- invisible spacers and any open Rosaterm/RosaAI panel in place.
 function M.only()
   local cur = vim.api.nvim_get_current_win()
   local keep = {}
-  local cur_is_sidebar = false
-  for _, win in ipairs(sidebars()) do
+  local cur_is_panel = false
+  for _, win in ipairs(pinnable()) do
     keep[win] = true
-    cur_is_sidebar = cur_is_sidebar or win == cur
+    cur_is_panel = cur_is_panel or win == cur
   end
   keep[cur] = true
-  -- Focused ON a sidebar: keep one editor window, or nothing is left but
-  -- panels.
-  if cur_is_sidebar then
+  -- Focused ON a sidebar/panel: keep one editor window, or nothing is left
+  -- but panels.
+  if cur_is_panel then
     for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
       if not keep[win] and vim.api.nvim_win_get_config(win).relative == '' then
         keep[win] = true

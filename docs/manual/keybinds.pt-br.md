@@ -135,11 +135,12 @@
 | n | `<leader>ce` | Split horizontal | `Space c e` para criar um split horizontal |
 | n | `<leader>cc` | Fechar janela | `Space c c` para fechar a janela atual |
 | n | `<leader>cC` | Fechar as outras do editor | `Space c Shift+c` para fechar as outras janelas do editor, sem mexer nas sidebars nem nos painéis |
-| n | `<leader>C` | Fechar todo o resto | `Space Shift+c` para deixar só a janela focada - leva também os painéis Rosaterm e RosaAI, as outras sidebars e qualquer float perdido. O explorer do Snacks é a única exceção e continua aberto. Com o foco num painel, sobra um painel do editor (o Neovim sempre mantém uma janela nativa) |
+| n | `<leader>cX` | Fechar todo o resto | `Space c Shift+x` para deixar só a janela focada - leva também os painéis Rosaterm e RosaAI, as outras sidebars e qualquer float perdido. O explorer do Snacks é a única exceção e continua aberto. Com o foco num painel, sobra um painel do editor (o Neovim sempre mantém uma janela nativa) |
 | n | `<leader>ch` | Trocar esquerda | `Space c h` para trocar a janela atual para a esquerda. Com o foco num painel do Rosaterm, ele troca de lugar com o Rosaterm à esquerda e não mexe no layout do editor |
 | n | `<leader>cl` | Trocar direita | `Space c l` para trocar a janela atual para a direita. Com o foco num painel do Rosaterm, ele troca de lugar com o Rosaterm à direita |
 | n | `<leader>ck` | Trocar acima | `Space c k` para trocar a janela atual para cima. Com o foco num painel do Rosaterm, ele troca de lugar com o Rosaterm de cima |
 | n | `<leader>cj` | Trocar abaixo | `Space c j` para trocar a janela atual para baixo. Com o foco num painel do Rosaterm, ele troca de lugar com o Rosaterm de baixo |
+| n | `<leader>cs` | Escolher e trocar | `Space c s` escolhe outra janela de arquivo e troca os buffers com ela. Com o foco num painel Rosaterm/RosaAI, ele troca a sessão com outro painel aberto do mesmo tipo - direto quando tem 2, abre o Rosapicker pra escolher entre 3 ou mais |
 | n | `<leader>c1` | Redimensionar esq. 1/3 | Redimensionar a janela atual para ocupar 1/3 à esquerda |
 | n | `<leader>c2` | Redimensionar dir. 2/3 | Redimensionar a janela atual para ocupar 2/3 à direita |
 | n | `<leader>c3` | Redimensionar cima 1/3 | Redimensionar a janela atual para ocupar 1/3 de cima |
@@ -149,7 +150,8 @@
 | n | `<leader>2` | Focar janela direita | `Space 2` para ir para a janela da direita, incluindo um painel Rosaterm/RosaAI ancorado ali |
 | n | `<leader>3` | Focar janela inferior | `Space 3` para ir para a janela de baixo, incluindo um painel Rosaterm/RosaAI ancorado ali |
 | n | `<leader>4` | Focar janela superior | `Space 4` para ir para a janela de cima, incluindo um painel Rosaterm/RosaAI ancorado ali |
-| n | `<leader>cm` | Rosamaximize | `Space c m` para maximizar a janela atual ou restaurar o layout (mostra um badge `max` + indicador na lualine) |
+| n | `<leader>cm` | Rosamaximize (arquivos) | `Space c m` para maximizar a janela atual entre as janelas de arquivo/editor só - qualquer painel Rosaterm/RosaAI aberto continua exatamente como estava (mostra um badge `max` + indicador na lualine) |
+| n | `<leader>cM` | Rosamaximize (tudo) | `Space c Shift+m` para maximizar a janela atual e ocultar todo o resto também, incluindo qualquer painel Rosaterm/RosaAI aberto, ou restaurar o layout (mostra um badge `max` + indicador na lualine) |
 | n | `<leader>m` | Escolher uma janela | `Space m` para escolher visualmente qual janela focar |
 | n | `<leader>S` | Escolher uma janela | `Space S` faz o mesmo que `Space m`, alcançável só com a mão esquerda |
 

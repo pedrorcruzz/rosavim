@@ -58,6 +58,14 @@ function M.focus()
   cli.focus()
 end
 
+function M.focus_win(win)
+  return cli.focus_win(win)
+end
+
+function M.swap_win(win)
+  return cli.swap_win(win)
+end
+
 function M.select()
   cli.select()
 end

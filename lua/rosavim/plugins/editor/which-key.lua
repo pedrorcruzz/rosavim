@@ -9,14 +9,36 @@ local function is_protected(buf)
   return require('rosavim.helpers.win_equal').sidebar_filetypes[ft] == true
 end
 
+--- 'rosaterm' or 'rosaai' for a panel filetype, nil for anything else. Used
+--- by <leader>cs to cycle between open panels of the SAME kind only.
+local function panel_kind(ft)
+  if ft:sub(1, 8) == 'rosaterm' then
+    return 'rosaterm'
+  end
+  if ft:sub(1, 6) == 'rosaai' then
+    return 'rosaai'
+  end
+  return nil
+end
+
+local arrow_dir = { h = 'left', l = 'right', k = 'up', j = 'down' }
+
 --- Swap BUFFERS (never window position) between the focused window and its
 --- neighbour on `dir` ('h'/'j'/'k'/'l'). `wincmd H/L/K/J` reflows the whole
 --- layout and drags pinned panels/sidebars along with it, so this trades
 --- buffer content between the two windows instead - each window keeps its
---- place, and a Rosaterm/RosaAI panel or sidebar on either side is skipped.
+--- place, and a sidebar or a RosaAI panel on either side is skipped.
+--- Focused ON a Rosaterm panel, delegates to rosaterm's own swap instead:
+--- it trades shell sessions with the neighbouring Rosaterm panel (by screen
+--- geometry, not `winnr`) rather than touching file buffers.
 local function swap(dir)
   return function()
-    if is_protected(vim.api.nvim_get_current_buf()) then
+    local cur_buf = vim.api.nvim_get_current_buf()
+    if vim.bo[cur_buf].filetype:sub(1, 8) == 'rosaterm' then
+      require('rosavim.rosa_plugins.rosaterm').swap(arrow_dir[dir])
+      return
+    end
+    if is_protected(cur_buf) then
       return
     end
     local cur_win = vim.api.nvim_get_current_win()
@@ -29,7 +51,6 @@ local function swap(dir)
     if is_protected(target_buf) then
       return
     end
-    local cur_buf = vim.api.nvim_win_get_buf(cur_win)
     vim.api.nvim_win_set_buf(cur_win, target_buf)
     vim.api.nvim_win_set_buf(target_win, cur_buf)
   end
@@ -83,7 +104,6 @@ return {
 
       { '<leader>l', group = 'Tools', icon = ' ' },
       { '<leader>q', desc = 'Close Window', icon = '󰅖 ' },
-      { '<leader>C', desc = 'Close Everything Else', icon = ' ' },
       { '<leader>lo', desc = 'Rosasnippets', icon = '󰷆 ' },
       { '<leader>lq', group = 'Theme', icon = '' },
       { '<leader>lqd', group = 'Dashboard', icon = '' },
@@ -153,15 +173,6 @@ return {
     { '<leader>w', '<cmd>w!<cr>', desc = 'Save' },
     { '<leader>W', '<cmd>noa w<cr>', desc = 'Save Without Formatter' },
     { '<leader>h', '<cmd>nohlsearch<cr>', desc = 'No Highlight' },
-    {
-      '<leader>C',
-      function()
-        if require('rosavim.helpers.win_equal').only_all() > 0 then
-          Snacks.notify.info 'Closed all windows'
-        end
-      end,
-      desc = 'Close Everything Else',
-    },
     {
       '<leader>Q',
       function()
@@ -308,6 +319,15 @@ return {
       end,
       desc = 'Close Other Editor Windows',
     },
+    {
+      '<leader>cX',
+      function()
+        if require('rosavim.helpers.win_equal').only_all() > 0 then
+          Snacks.notify.info 'Closed all windows'
+        end
+      end,
+      desc = 'Close Everything Else',
+    },
     { '<leader>cc', '<cmd>close<cr>', desc = 'Close Window' },
     { '<leader>q', '<cmd>close<cr>', desc = 'Close Window' },
     { '<leader>ch', swap 'h', desc = 'Swap Left' },
@@ -318,7 +338,30 @@ return {
       '<leader>cs',
       function()
         local cur = vim.api.nvim_get_current_win()
-        if is_protected(vim.api.nvim_win_get_buf(cur)) then
+        local cur_buf = vim.api.nvim_win_get_buf(cur)
+
+        -- Focused on a Rosaterm/RosaAI panel: swap with another OPEN panel of
+        -- the same kind (exactly 2 swaps straight away, 3+ opens Rosapicker
+        -- limited to that kind), instead of swapping file buffers. Each side
+        -- has its own `swap_win(win)` that trades sessions by id (mirrors
+        -- the directional swap on ch/cl/ck/cj).
+        local kind = panel_kind(vim.bo[cur_buf].filetype)
+        if kind then
+          local win = require('rosavim.rosa_plugins.rosapick').select {
+            single = true,
+            filter = function(w, buf)
+              return w ~= cur and panel_kind(vim.bo[buf].filetype) == kind
+            end,
+          }
+          if not win then
+            return
+          end
+          local mod = kind == 'rosaterm' and 'rosavim.rosa_plugins.rosaterm' or 'rosavim.rosa_plugins.rosaai'
+          require(mod).swap_win(win)
+          return
+        end
+
+        if is_protected(cur_buf) then
           return
         end
         local win = require('rosavim.rosa_plugins.rosapick').select {
@@ -330,12 +373,11 @@ return {
         if not win then
           return
         end
-        local cur_buf = vim.api.nvim_win_get_buf(cur)
         local other_buf = vim.api.nvim_win_get_buf(win)
         vim.api.nvim_win_set_buf(cur, other_buf)
         vim.api.nvim_win_set_buf(win, cur_buf)
       end,
-      desc = 'Rosapick: Swap Buffer',
+      desc = 'Rosapick: Swap Buffer / Switch Panel',
     },
     {
       '<leader>c1',
