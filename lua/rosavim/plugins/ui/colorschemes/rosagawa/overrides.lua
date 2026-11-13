@@ -71,6 +71,22 @@ local DIRECTORY_FG = {
   light = '#3B6E8F',
 }
 
+-- Explorer/picker file text. Snacks never sets SnacksPickerFile's own colour
+-- (it registers it empty, `default = true`), so it inherited whatever the
+-- window's NormalFloat ultimately resolves to through SnacksPickerList's own
+-- `default = true` link (set every time the picker window opens) — which for
+-- rosagawa is kanagawa's "oldWhite" (#C8C093, a warm gold), not the plain
+-- editor fg. Harmless-looking over a solid float bg, but that same
+-- `default = true` link chain goes fully empty once transparency drops
+-- NormalFloat's bg to NONE, so the terminal's own foreground shows through —
+-- reported as every explorer filename/icon turning yellow in transparent mode.
+-- Pin it straight to the editor's own fg (kanagawa dragon/lotus ui.fg, same as
+-- Normal) instead, mirroring rosajet/rosamin's own SnacksPickerFile override.
+local FILE_FG = {
+  dark = '#C5C9C5',
+  light = '#616161',
+}
+
 -- rosamin's split divider — kanagawa's own WinSeparator/VertSplit (bg_m3,
 -- dragon #0D0C0C / lotus bg_m3) is nearly invisible against the float bg,
 -- which also uses bg_m3. rosamin's greys stay visible without standing out.
@@ -251,6 +267,7 @@ function M.get(mode, transparent_background)
     or (SNACKS_EXPLORER_BG[mode] or SNACKS_EXPLORER_BG.dark)
   local cursorline_bg = EXPLORER_CURSORLINE_BG[mode] or EXPLORER_CURSORLINE_BG.dark
   local directory_fg = DIRECTORY_FG[mode] or DIRECTORY_FG.dark
+  local file_fg = FILE_FG[mode] or FILE_FG.dark
   local separator_fg = SEPARATOR_FG[mode] or SEPARATOR_FG.dark
   local float_bg = transparent_background and 'none' or (FLOAT_BG[mode] or FLOAT_BG.dark)
   local prompt_fg = PROMPT_FG[mode] or PROMPT_FG.dark
@@ -342,6 +359,7 @@ function M.get(mode, transparent_background)
     SnacksPickerBoxCursorLine = { bg = cursorline_bg },
 
     Directory = { fg = directory_fg },
+    SnacksPickerFile = { fg = file_fg },
 
     -- rosamin's Visual selection instead of kanagawa's saturated blue.
     -- VisualNOS already links to Visual (set in highlights/editor.lua), so it

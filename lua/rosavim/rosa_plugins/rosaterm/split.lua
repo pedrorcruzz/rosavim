@@ -16,6 +16,10 @@ local resize_au = nil
 -- ensure_resize_au() before reposition_floats() is defined further down.
 local reposition_floats
 
+-- Forward declaration: schedule_reposition (defined next) calls this before
+-- its own definition further down the file.
+local schedule_repaint
+
 local function vertical_side()
   return require('rosavim.helpers.panel_side').vertical()
 end
@@ -215,6 +219,14 @@ local function schedule_reposition()
       reposition_floats()
       reposition_all_chips()
       update_reservations()
+      -- Repositioning a chip closes its old float and opens a new one
+      -- elsewhere (open_chip always does close_chip() then re-creates):
+      -- the cells the old chip covered sit over live terminal content, which
+      -- Nvim doesn't repaint on its own (see schedule_repaint below), so a
+      -- reflow triggered by another panel opening/closing (e.g. RosaAI's
+      -- vertical float appearing beside a docked pair) could otherwise leave
+      -- a ghost of the chip at its previous position.
+      schedule_repaint()
     end)
   )
 end
@@ -235,7 +247,7 @@ end
 -- until it is focused. Repaint proactively when such a float closes while a
 -- terminal is open. Debounced so a burst of closes coalesces into one redraw.
 local repaint_timer = nil
-local function schedule_repaint()
+schedule_repaint = function()
   if not any_term_open() then
     return
   end
@@ -432,10 +444,21 @@ local function compute_main_area(skip_terms)
       local buf = api.nvim_win_get_buf(win)
       local ft = vim.bo[buf].filetype
       local is_rosaterm = ft == 'rosaterm'
+      -- Only a FLOATING rosaterm is skipped here: a float sibling is handled
+      -- by find_sibling()'s own docking math (and, during a reflow, by the
+      -- explicit `skip_terms` list above). A NATIVE-SPLIT rosaterm (opened
+      -- with its direction's border toggle off — see border_for()) is real
+      -- nvim layout space exactly like Snacks Explorer, so skipping it
+      -- unconditionally here let a perpendicular rosaterm float compute its
+      -- area as if that split didn't exist, landing right on top of it
+      -- instead of beside it (only reproduces when the two directions have
+      -- different border toggles, so one dock as a float and the other as a
+      -- plain split).
+      local is_rosaterm_float = is_rosaterm and cfg.relative ~= ''
       -- panel_reserve spacers are invisible layout-only reservations pinned
       -- under a float; never let one masquerade as a side panel.
       local is_spacer = ft == 'rosa_spacer'
-      if not is_rosaterm and not is_spacer and cfg.focusable ~= false and not is_transient_popup(cfg, ft) then
+      if not is_rosaterm_float and not is_spacer and cfg.focusable ~= false and not is_transient_popup(cfg, ft) then
         local pos = api.nvim_win_get_position(win)
         local w = api.nvim_win_get_width(win)
         local is_float = cfg.relative ~= ''
@@ -447,13 +470,15 @@ local function compute_main_area(skip_terms)
         local right_edge = outer_col + outer_w
         local touches_left = outer_col <= 2
         local touches_right = right_edge >= cols - 2
-        -- Three ways to count as a sidebar:
+        -- Four ways to count as a sidebar:
         --   1. Known sidebar filetype (Snacks Explorer, etc.) anchored to an edge
         --   2. Narrow non-file window (< 35% of total cols) anchored to an edge
         --   3. RosaAI's own right/left slot, always (its full float width)
+        --   4. A native-split rosaterm that reached here (float already
+        --      excluded above), always — same reasoning as RosaAI's slot
         -- Editor panes from :vsplit / diff view are never sidebars, even when a
         -- third split drops them under the threshold.
-        local is_known_sidebar = SIDEBAR_FILETYPES[ft] == true or rosaai_side[win] == true
+        local is_known_sidebar = SIDEBAR_FILETYPES[ft] == true or rosaai_side[win] == true or is_rosaterm
         local is_narrow_edge = vim.bo[buf].buftype ~= '' and outer_w < cols * 0.35
         if (is_known_sidebar or is_narrow_edge) and (touches_left or touches_right) then
           if touches_left then
