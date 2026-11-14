@@ -202,6 +202,25 @@ function M.only_all()
   return closed
 end
 
+--- Flip the current split's orientation: a vertical (side-by-side) split
+--- becomes horizontal (stacked) and vice versa. Neovim has no single command
+--- for this — `wincmd H`/`wincmd K` move the CURRENT window to the full-
+--- height-left/full-width-top edge, which rebuilds the layout as a clean
+--- row/col split as a side effect. `winlayout()`'s top-level 'row' means
+--- side-by-side (as from `:vsplit`), 'col' means stacked (as from `:split`) -
+--- the opposite of what the names suggest at a glance.
+function M.toggle_orientation()
+  local layout = vim.fn.winlayout()
+  if layout[1] == 'leaf' then
+    return
+  end
+  with_sidebars_pinned(function()
+    vim.cmd(layout[1] == 'row' and 'wincmd K' or 'wincmd H')
+    pcall(vim.cmd, 'wincmd =')
+  end)
+  vim.schedule(M.equalize)
+end
+
 --- A sidebar takes its width from ONE editor pane, leaving an existing split
 --- lopsided. Re-equalize when one opens or closes.
 function M.watch_sidebars()

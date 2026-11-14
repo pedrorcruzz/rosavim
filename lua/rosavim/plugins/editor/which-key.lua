@@ -313,6 +313,13 @@ return {
       desc = 'Split Horizontal',
     },
     {
+      '<leader>ca',
+      function()
+        require('rosavim.helpers.win_equal').toggle_orientation()
+      end,
+      desc = 'Toggle Split Orientation',
+    },
+    {
       '<leader>cC',
       function()
         require('rosavim.helpers.win_equal').only()

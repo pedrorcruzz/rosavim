@@ -133,6 +133,7 @@
 | n | `<right>` | Redimensionar direita | Seta direita para diminuir/aumentar o split horizontalmente |
 | n | `<leader>cq` | Split vertical | `Space c q` para criar um split vertical |
 | n | `<leader>ce` | Split horizontal | `Space c e` para criar um split horizontal |
+| n | `<leader>ca` | Alternar orientação do split | `Space c a` alterna o split atual entre vertical (lado a lado) e horizontal (empilhado) |
 | n | `<leader>cc` | Fechar janela | `Space c c` para fechar a janela atual |
 | n | `<leader>cC` | Fechar as outras do editor | `Space c Shift+c` para fechar as outras janelas do editor, sem mexer nas sidebars nem nos painéis |
 | n | `<leader>cX` | Fechar todo o resto | `Space c Shift+x` para deixar só a janela focada - leva também os painéis Rosaterm e RosaAI, as outras sidebars e qualquer float perdido. O explorer do Snacks é a única exceção e continua aberto. Com o foco num painel, sobra um painel do editor (o Neovim sempre mantém uma janela nativa) |

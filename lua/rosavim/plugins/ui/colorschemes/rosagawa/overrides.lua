@@ -270,6 +270,15 @@ function M.get(mode, transparent_background)
   local file_fg = FILE_FG[mode] or FILE_FG.dark
   local separator_fg = SEPARATOR_FG[mode] or SEPARATOR_FG.dark
   local float_bg = transparent_background and 'none' or (FLOAT_BG[mode] or FLOAT_BG.dark)
+  -- rosapick (window picker) label border: rosagawa never defined
+  -- RosapickBorder at all, so it fell back to rosapick's own seamless
+  -- bg-on-bg strip regardless of the Borderless toggle (<leader>lqnp) state.
+  -- Same border_fg as FloatBorder/Border above, over the label strip's own
+  -- bg (editor bg, with the same solid black/white fallback rosapick itself
+  -- uses in transparent mode, so the strip stays opaque instead of the
+  -- border vanishing into the see-through backdrop).
+  local rosapick_bg = transparent_background and (mode == 'light' and '#ffffff' or '#000000')
+    or (EDITOR_BG[mode] or EDITOR_BG.dark)
   local prompt_fg = PROMPT_FG[mode] or PROMPT_FG.dark
   local diag = DIAGNOSTIC[mode] or DIAGNOSTIC.dark
   local visual_bg = VISUAL_BG[mode] or VISUAL_BG.dark
@@ -327,6 +336,7 @@ function M.get(mode, transparent_background)
     FloatBorder = { fg = border_fg },
     Border = { fg = border_fg },
     FloatShadow = { fg = border_fg },
+    RosapickBorder = { fg = border_fg, bg = rosapick_bg },
 
     -- rosamin's Cursor instead of kanagawa's flat grey block. lCursor/
     -- CursorIM/TermCursor/TermCursorNC already link to Cursor (set in

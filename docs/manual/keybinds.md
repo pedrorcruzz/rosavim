@@ -133,6 +133,7 @@
 | n | `<right>` | Resize right | Arrow right to shrink/grow the split horizontally |
 | n | `<leader>cq` | Split vertical | `Space c q` to create a vertical split |
 | n | `<leader>ce` | Split horizontal | `Space c e` to create a horizontal split |
+| n | `<leader>ca` | Toggle split orientation | `Space c a` flips the current split between vertical (side-by-side) and horizontal (stacked) |
 | n | `<leader>cc` | Close window | `Space c c` to close the current window |
 | n | `<leader>cC` | Close other editor windows | `Space c Shift+c` to close the other editor windows, leaving the sidebars and the panels alone |
 | n | `<leader>cX` | Close everything else | `Space c Shift+x` to leave only the focused window - it also takes the Rosaterm and RosaAI panels, the other sidebars and any stray float. The Snacks explorer is the one exception and stays open. Focused on a panel, one editor pane stays behind (Neovim always keeps a native window) |
