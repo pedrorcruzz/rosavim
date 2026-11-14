@@ -348,8 +348,8 @@ function M.setup(colors, config)
         MiniFilesDirectory = { link = "Directory" },
         MiniFilesFile = { fg = theme.ui.fg },
         MiniFilesNormal = { link = "NormalFloat" },
-        MiniFilesTitle = { fg = theme.ui.special, bg = theme.ui.float.bg_border, bold = true },
-        MiniFilesTitleFocused = { fg = theme.ui.fg, bg = theme.ui.float.bg_border, bold = true },
+        MiniFilesTitle = { fg = theme.ui.special, bg = not config.transparent and theme.ui.float.bg_border or "NONE", bold = true },
+        MiniFilesTitleFocused = { fg = theme.ui.fg, bg = not config.transparent and theme.ui.float.bg_border or "NONE", bold = true },
 
         MiniHipatternsFixme = { fg = theme.ui.bg, bg = theme.diag.error, bold = true },
         MiniHipatternsHack = { fg = theme.ui.bg, bg = theme.diag.warning, bold = true },
@@ -394,7 +394,7 @@ function M.setup(colors, config)
         MiniPickNormal = { link = "NormalFloat" },
         MiniPickPreviewLine = { link = "CursorLine" },
         MiniPickPreviewRegion = { link = "IncSearch" },
-        MiniPickPrompt = { fg = theme.syn.fun, bg = theme.ui.float.bg_border },
+        MiniPickPrompt = { fg = theme.syn.fun, bg = not config.transparent and theme.ui.float.bg_border or "NONE" },
 
         MiniStarterCurrent = { nocombine = true },
         MiniStarterFooter = { fg = theme.syn.deprecated },
