@@ -202,22 +202,67 @@ function M.only_all()
   return closed
 end
 
---- Flip the current split's orientation: a vertical (side-by-side) split
---- becomes horizontal (stacked) and vice versa. Neovim has no single command
---- for this — `wincmd H`/`wincmd K` move the CURRENT window to the full-
---- height-left/full-width-top edge, which rebuilds the layout as a clean
---- row/col split as a side effect. `winlayout()`'s top-level 'row' means
---- side-by-side (as from `:vsplit`), 'col' means stacked (as from `:split`) -
---- the opposite of what the names suggest at a glance.
+--- Flip the orientation between the FOCUSED window and ONE neighbor: a
+--- side-by-side pair becomes stacked and vice versa. Same model as the
+--- `<leader>ch/cj/ck/cl` swaps (which only ever touch `cur` and the single
+--- window found via `winnr(dir)`) — with 3+ file windows open, an orientation
+--- flip has to stay just as local, or it drags every other file window along
+--- with it. `wincmd H`/`wincmd K` can't give that: they reposition the
+--- current window against the whole tabpage tree, not its immediate split,
+--- which is also what dragged the sidebar/Rosaterm/RosaAI panels along when
+--- this was first written.
+---
+--- `cur` is never closed, only re-split around, so its cursor/scroll/fold
+--- state survives. Only the one neighbor is closed and recreated; any other
+--- window (a third file split, panels) is never touched.
 function M.toggle_orientation()
-  local layout = vim.fn.winlayout()
-  if layout[1] == 'leaf' then
+  local api = vim.api
+  local cur = api.nvim_get_current_win()
+
+  local pinned = {}
+  for _, win in ipairs(pinnable()) do
+    pinned[win] = true
+  end
+  if pinned[cur] then
     return
   end
+
+  local neighbor, dir
+  for _, d in ipairs { 'l', 'h', 'j', 'k' } do
+    local target_nr = vim.fn.winnr(d)
+    if target_nr ~= vim.fn.winnr() then
+      local win = vim.fn.win_getid(target_nr)
+      if not pinned[win] and api.nvim_win_get_config(win).relative == '' then
+        neighbor, dir = win, d
+        break
+      end
+    end
+  end
+  if not neighbor then
+    return
+  end
+
+  local neighbor_buf = api.nvim_win_get_buf(neighbor)
+  -- `dir` is the direction from `cur` TO `neighbor`. Flip a left/right
+  -- neighbor to stacked, keeping its before/after order (left -> above,
+  -- right -> below); flip an up/down neighbor to side-by-side the same way
+  -- (above -> left, below -> right).
+  local place_cmd = ({
+    l = 'belowright split',
+    h = 'aboveleft split',
+    j = 'rightbelow vsplit',
+    k = 'leftabove vsplit',
+  })[dir]
+
   with_sidebars_pinned(function()
-    vim.cmd(layout[1] == 'row' and 'wincmd K' or 'wincmd H')
+    pcall(api.nvim_win_close, neighbor, false)
+    api.nvim_set_current_win(cur)
+    vim.cmd(place_cmd)
+    api.nvim_win_set_buf(api.nvim_get_current_win(), neighbor_buf)
+    api.nvim_set_current_win(cur)
     pcall(vim.cmd, 'wincmd =')
   end)
+
   vim.schedule(M.equalize)
 end
 

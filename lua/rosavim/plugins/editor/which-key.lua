@@ -53,6 +53,10 @@ local function swap(dir)
     end
     vim.api.nvim_win_set_buf(cur_win, target_buf)
     vim.api.nvim_win_set_buf(target_win, cur_buf)
+    local toggles = require 'rosavim.config.toggles'
+    if toggles.get_or('swap_follow_focus', true) then
+      vim.api.nvim_set_current_win(target_win)
+    end
   end
 end
 
@@ -141,6 +145,7 @@ return {
       { '<leader>lat', group = 'Rosatag', icon = '󰗀 ' },
       { '<leader>lar', group = 'Rosaterm', icon = '' },
       { '<leader>laa', group = 'RosaAI', icon = ' ' },
+      { '<leader>laf', desc = 'Swap: Follow Focus (toggle)', icon = '' },
 
       -- Rosakit
       { '<leader>k', group = 'Rosakit', icon = ' ' },
@@ -383,6 +388,10 @@ return {
         local other_buf = vim.api.nvim_win_get_buf(win)
         vim.api.nvim_win_set_buf(cur, other_buf)
         vim.api.nvim_win_set_buf(win, cur_buf)
+        local toggles = require 'rosavim.config.toggles'
+        if toggles.get_or('swap_follow_focus', true) then
+          vim.api.nvim_set_current_win(win)
+        end
       end,
       desc = 'Rosapick: Swap Buffer / Switch Panel',
     },

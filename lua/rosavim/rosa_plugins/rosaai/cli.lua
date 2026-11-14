@@ -744,8 +744,12 @@ end
 
 --- Swap the focused slot's session with whichever slot is open in `win`
 --- (Rosapick's <leader>cs), by layout position rather than screen direction.
---- Focus follows the session the user started in to its new window, same as
---- rosaterm's directional swap.
+--- Swap: Follow Focus (<leader>laf) decides which side the cursor ends up
+--- on: true (default) follows the session the user started in to its new
+--- window, same as rosaterm's directional swap; false leaves the cursor on
+--- the window it started in, which now shows the OTHER session instead —
+--- so `state.win`/`state.active` must track that session, not name_a, to
+--- stay in sync with where the cursor actually is (see `focus_win` above).
 function M.swap_win(win)
   local pos_a = focused_pos()
   local pos_b = state.pos_of_win(win)
@@ -756,9 +760,16 @@ function M.swap_win(win)
   if not exchange(pos_a, pos_b) then
     return false
   end
-  api.nvim_set_current_win(win)
-  state.win = win
-  state.active = name_a
+  local ok, toggles = pcall(require, 'rosavim.config.toggles')
+  local follow_focus = (not ok) or toggles.get_or('swap_follow_focus', true)
+  if follow_focus then
+    api.nvim_set_current_win(win)
+    state.win = win
+    state.active = name_a
+  else
+    state.win = state.slots[pos_a].win
+    state.active = state.slots[pos_a].name
+  end
   if bar.autoinsert_enabled() then
     vim.cmd 'startinsert'
   end

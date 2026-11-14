@@ -257,6 +257,19 @@ return function()
     end,
   }):map '<leader>laes'
 
+  -- Swap: Follow Focus — true (default) moves the cursor to the swapped-in
+  -- content (<leader>cs, <leader>ch/j/k/l, Rosaterm/RosaAI panel swap);
+  -- false keeps the cursor on the window it started in.
+  Snacks.toggle({
+    name = 'Swap: Follow Focus',
+    get = function()
+      return toggles.get_or('swap_follow_focus', true)
+    end,
+    set = function(state)
+      toggles.set('swap_follow_focus', state)
+    end,
+  }):map '<leader>laf'
+
   -- LSP
   Snacks.toggle({
     name = 'Custom LSP Reference Highlights',

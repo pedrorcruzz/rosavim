@@ -38,6 +38,11 @@ local defaults = {
   -- minimalist pair (M.folder_glyphs.mono in rosavim.config.min_icons).
   min_icons_dir = false,
   dropbar = true,
+  -- Swap: Follow Focus (<leader>laf) — true (default) moves the cursor to
+  -- where the swapped-in content landed (<leader>cs, <leader>ch/j/k/l, and
+  -- the Rosaterm/RosaAI panel swap); false keeps the cursor in the window
+  -- you started in, which now shows the other side's content instead.
+  swap_follow_focus = true,
   autosave = false,
   virtual_text_current_line = false,
   spell = false,

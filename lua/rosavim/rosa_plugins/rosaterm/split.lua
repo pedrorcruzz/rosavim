@@ -932,6 +932,16 @@ local function exchange(a, b)
   end
 end
 
+--- Swap: Follow Focus (<leader>laf). true (default) moves the cursor to the
+--- swapped-in panel below; false leaves it on the panel you started in.
+local function follow_focus_enabled()
+  local ok, toggles = pcall(require, 'rosavim.config.toggles')
+  if not ok then
+    return true
+  end
+  return toggles.get_or('swap_follow_focus', true)
+end
+
 --- Swap the focused rosaterm panel with the one on its `dir` side. Returns
 --- false when the focus isn't a rosaterm panel or nothing sits that way, which
 --- is what keeps `wincmd H/L/J/K` from tearing a pinned panel out of its band.
@@ -945,7 +955,9 @@ function M.swap(dir)
     return false
   end
   exchange(term, other)
-  pcall(api.nvim_set_current_win, other.win)
+  if follow_focus_enabled() then
+    pcall(api.nvim_set_current_win, other.win)
+  end
   return true
 end
 
@@ -960,7 +972,9 @@ function M.swap_win(win)
     return false
   end
   exchange(term, other)
-  pcall(api.nvim_set_current_win, other.win)
+  if follow_focus_enabled() then
+    pcall(api.nvim_set_current_win, other.win)
+  end
   return true
 end
 
