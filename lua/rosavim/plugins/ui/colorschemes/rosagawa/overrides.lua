@@ -259,6 +259,26 @@ local FLASH_BACKDROP_FG = {
   light = '#a8a7a1',
 }
 
+local WINBAR_FG = {
+  dark = '#9C9EA4',
+  light = '#707070',
+}
+
+local INCLINE_FG = {
+  dark = '#FAFAFA',
+  light = '#212121',
+}
+local INCLINE_BG = {
+  dark = '#1F1F1F',
+  light = '#FAFAFA',
+}
+
+-- fg from rosavintage's StatusLine (colors.border); bg stays rosagawa's own.
+local STATUSLINE_FG = {
+  dark = '#767676',
+  light = '#989387',
+}
+
 function M.get(mode, transparent_background)
   local border_fg = BORDER_FG[mode] or BORDER_FG.dark
   local cursor_fg = CURSOR_FG[mode] or CURSOR_FG.dark
@@ -326,6 +346,18 @@ function M.get(mode, transparent_background)
     -- float's bg. NonText has the same fg with no bg, so link there instead
     -- (every other rosa theme does the same for SnacksPickerTree).
     SnacksPickerTree = { link = 'NonText' },
+
+    InclineNormal = { fg = INCLINE_FG[mode] or INCLINE_FG.dark, bg = INCLINE_BG[mode] or INCLINE_BG.dark },
+    InclineNormalNC = { fg = INCLINE_FG[mode] or INCLINE_FG.dark, bg = INCLINE_BG[mode] or INCLINE_BG.dark },
+
+    StatusLine = {
+      fg = STATUSLINE_FG[mode] or STATUSLINE_FG.dark,
+      bg = mode == 'light' and '#EAEAEA' or (transparent_background and 'NONE' or '#1a1a1a'),
+    },
+    StatusLineNC = {
+      fg = STATUSLINE_FG[mode] or STATUSLINE_FG.dark,
+      bg = mode == 'light' and '#EAEAEA' or (transparent_background and 'NONE' or '#1a1a1a'),
+    },
 
     LineNr = { fg = linenr_fg },
     CursorLineNr = { fg = cursorlinenr_fg },
@@ -513,6 +545,14 @@ function M.get(mode, transparent_background)
     result.GitSignsChange = { bg = gutter_bg }
     result.GitSignsDelete = { bg = gutter_bg }
     result.TreesitterContextLineNumber = { bg = gutter_bg }
+  end
+
+  -- Light and dark-transparent only; opaque dark keeps theme.ui.fg_dim.
+  if mode == 'light' or transparent_background then
+    local winbar_fg = WINBAR_FG[mode] or WINBAR_FG.dark
+    local winbar_bg = mode == 'light' and '#F5F5F5' or 'NONE'
+    result.WinBar = { fg = winbar_fg, bg = winbar_bg }
+    result.WinBarNC = { fg = winbar_fg, bg = winbar_bg }
   end
 
   -- Min Icons: Files (<leader>lqh, all themes): see rosavim.config.min_icons.
