@@ -70,14 +70,19 @@ local function is_special_buf(buf)
   return vim.bo[buf].filetype == 'snacks_explorer' or vim.b[buf].rosaai_cli ~= nil
 end
 
---- Same as `is_special_buf`, plus any Rosaterm/RosaAI panel. Used by the
---- file-only maximize (<leader>cm): those panels are never captured, closed
---- or reopened — they just stay exactly where they are.
+--- Same as `is_special_buf`, plus any Rosaterm/RosaAI panel, sidebar or
+--- `rosa_spacer`. Used by the file-only maximize: those windows are never
+--- captured, closed or reopened — they just stay exactly where they are.
+--- A spacer left in the snapshot would be rebuilt as a second, unstyled
+--- window inside the editor area on restore.
 local function is_panel_buf(buf)
   if is_special_buf(buf) then
     return true
   end
   local ft = vim.bo[buf].filetype
+  if require('rosavim.helpers.win_equal').sidebar_filetypes[ft] then
+    return true
+  end
   return ft:sub(1, 8) == 'rosaterm' or ft:sub(1, 6) == 'rosaai'
 end
 
@@ -318,7 +323,7 @@ function M.maximize_files()
     for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
       if win ~= cur and vim.api.nvim_win_get_config(win).relative == '' then
         local buf = vim.api.nvim_win_get_buf(win)
-        if not is_panel_buf(buf) and vim.bo[buf].filetype ~= 'rosa_spacer' then
+        if not is_panel_buf(buf) then
           pcall(vim.api.nvim_win_close, win, false)
         end
       end
@@ -344,18 +349,17 @@ function M.restore_files()
   local wins
   win_equal.with_panels_pinned(function()
     wins = rebuild(s.tree, win)
+    for _, w in ipairs(wins) do
+      if vim.api.nvim_win_is_valid(w.win) then
+        vim.api.nvim_win_set_width(w.win, w.width)
+      end
+    end
+    for _, w in ipairs(wins) do
+      if vim.api.nvim_win_is_valid(w.win) then
+        vim.api.nvim_win_set_height(w.win, w.height)
+      end
+    end
   end)
-
-  for _, w in ipairs(wins) do
-    if vim.api.nvim_win_is_valid(w.win) then
-      vim.api.nvim_win_set_width(w.win, w.width)
-    end
-  end
-  for _, w in ipairs(wins) do
-    if vim.api.nvim_win_is_valid(w.win) then
-      vim.api.nvim_win_set_height(w.win, w.height)
-    end
-  end
 
   local focus_win = nil
   for _, w in ipairs(wins) do

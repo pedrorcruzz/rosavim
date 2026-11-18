@@ -209,7 +209,7 @@ Rosavim vem com seus próprios temas built-in, armazenados em `lua/rosavim/rosa_
 
 | Plugin | Descrição |
 |:-------|:----------|
-| [discord.nvim](https://github.com/vyfor/cord.nvim) | Discord Rich Presence |
+| [cord.nvim](https://github.com/vyfor/cord.nvim) | Discord Rich Presence |
 | [codesnap.nvim](https://github.com/mistricky/codesnap.nvim) | Screenshots bonitos de código |
 | [logger.nvim](https://github.com/Tastyep/structlog.nvim) | Utilitário de debug logging |
 | [neovim-project](https://github.com/coffebar/neovim-project) | Gerenciamento e descoberta de projetos |

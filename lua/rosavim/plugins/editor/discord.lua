@@ -1,7 +1,12 @@
 return {
-  'mistweaverco/discord.nvim',
+  'vyfor/cord.nvim',
   lazy = true,
   event = 'VeryLazy',
+  build = ':Cord update',
+  init = function()
+    -- Keep cord from auto-starting on load; setup runs only when Discord is up
+    vim.g.cord_defer_startup = true
+  end,
   config = function()
     -- Async check so startup never blocks on a process scan
     vim.system({ 'pgrep', 'Discord' }, {}, function(out)
@@ -9,32 +14,57 @@ return {
         return
       end
       vim.schedule(function()
-        require('discord').setup {
-          auto_connect = false,
-          logo = 'https://raw.githubusercontent.com/pedrorcruzz/rosavim/main/assets/logo/rosavim.png',
-          logo_tooltip = 'Rosavim',
-          main_image = 'language',
-          client_id = '1342537926969524325', -- Neovim: 1233867420330889286 || Rosavim: 1342537926969524325
-          log_level = nil,
-          debounce_timeout = 10,
-          blacklist = {},
-          file_assets = {},
-          show_time = true,
-          global_timer = true,
-
-          editing_text = 'Editing %s',
-          file_explorer_text = 'Browsing %s',
-          git_commit_text = 'Committing changes',
-          plugin_manager_text = 'Managing plugins',
-          reading_text = 'Reading %s',
-          workspace_text = 'Working on %s',
-          line_number_text = 'Line %s out of %s',
-          terminal_text = function()
-            if vim.bo.filetype == 'rosaai' then
-              return 'Using RosaAI'
-            end
-            return 'Using Terminal'
-          end,
+        require('cord').setup {
+          editor = {
+            client = '1342537926969524325', -- Rosavim
+            -- client = '1233867420330889286', -- Neovim
+            icon = 'https://raw.githubusercontent.com/pedrorcruzz/rosavim/main/assets/logo/rosavim.png',
+            tooltip = 'Rosavim',
+          },
+          display = {
+            theme = 'minecraft',
+            -- theme = 'default',
+            -- theme = 'atom',
+            -- theme = 'catppuccin',
+            -- theme = 'minecraft',
+            -- theme = 'void',
+            -- theme = 'classic',
+            flavor = 'accent', -- 'dark' | 'light' | 'accent'
+            view = 'full', -- 'full' | 'editor' | 'asset' | 'auto'
+          },
+          timestamp = {
+            enabled = true,
+            shared = true,
+          },
+          text = {
+            workspace = function(opts)
+              return opts.workspace and ('Working on ' .. opts.workspace) or nil
+            end,
+            editing = function(opts)
+              return 'Editing ' .. opts.filename
+            end,
+            viewing = function(opts)
+              return 'Reading ' .. opts.filename
+            end,
+            file_browser = function(opts)
+              return 'Browsing ' .. (opts.workspace or opts.name or 'files')
+            end,
+            plugin_manager = 'Managing plugins',
+            vcs = 'Committing changes',
+            terminal = function(opts)
+              if opts.filetype == 'rosaai' then
+                return 'Using RosaAI'
+              end
+              return 'Using Terminal'
+            end,
+          },
+          assets = {
+            rosaai = {
+              name = 'RosaAI',
+              tooltip = 'RosaAI',
+              type = 'terminal',
+            },
+          },
         }
       end)
     end)
